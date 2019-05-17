@@ -5,6 +5,7 @@ $route['login'] = 'Auth/login';
 $route['admin/logout'] = 'Auth/logout';
 
 $route['(:any)/(:any)/dashbord'] = 'Admin_ctrl/index';
+$route['(:any)/(:any)/test'] = 'Admin_ctrl/testing';
 
 $route['(:any)/(:any)/master-record/session-master'] = 'Admin_ctrl/session_master';
 $route['(:any)/(:any)/master-record/school-master'] = 'Admin_ctrl/school_master';

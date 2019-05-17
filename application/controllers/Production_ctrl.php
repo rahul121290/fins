@@ -216,6 +216,7 @@ class Production_ctrl extends CI_Controller{
     //------------------------****************---------------------------------------------------
     
     public function midMarksheetGenerate(){
+        $data = array();
         $data['session'] = $this->input->post('session');
         $data['school'] = $this->session->userdata('school_id');
         
@@ -229,6 +230,7 @@ class Production_ctrl extends CI_Controller{
         $mid_result = $this->Mid_marksheet_model->midResult($data);
         
         $co_scholistic = $this->Mid_marksheet_model->midCoScholistic($data);
+        $result = array();
         //---------9th,10th FOIT or Computer application--------------------
         if($data['class'] == 12 || $data['class'] == 13){
             $mid_extra_result = $this->Mid_marksheet_model->midExtra($data);

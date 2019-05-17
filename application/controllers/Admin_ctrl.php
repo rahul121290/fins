@@ -135,6 +135,12 @@ class Admin_ctrl extends CI_Controller {
         $this->data['main'] = 'dashbord/dashbord';
         $this->_load_view();
     }
+    
+    function testing(){
+        $db1 = $this->load->database('server',TRUE);
+        $result = $db1->get('class')->result_array();
+        print_r($result); 
+    }
 	
     function session_master(){
         if($this->ion_auth->is_admin()){
