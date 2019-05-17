@@ -332,29 +332,346 @@ class Production_ctrl extends CI_Controller{
         $data['section'] = $this->input->post('section');
         $data['std_id'] = $this->input->post('std_id');
         
-        //----------pre mid result-----------------------------------------
         $pre_result = $this->Mid_marksheet_model->preResult($data);
         $mid_result = $this->Mid_marksheet_model->midResult($data);
-        $mid_co_scholistic = $this->Mid_marksheet_model->midCoScholistic($data);
-        //-----------post final result---------------------------------------
-        $post_result = $this->Final_marksheet_model->postResult($data);
-        $final_result = $this->Final_marksheet_model->finalResult($data);
-        $final_co_scholistic = $this->Final_marksheet_model->finalCoScholistic($data);
-        print_r($final_co_scholistic);die;
+        
+        $co_scholistic = $this->Mid_marksheet_model->midCoScholistic($data);
         //---------9th,10th FOIT or Computer application--------------------
         if($data['class'] == 12 || $data['class'] == 13){
-            $mid_extra = $this->Mid_marksheet_model->midExtra($data);
-            $final_extra = $this->Final_marksheet_model->finalExtra($data);
-            $extra_sub = $mid_extra['subjects'];
+            $mid_extra_result = $this->Mid_marksheet_model->midExtra($data);
+            $final_extra_result = $this->Final_marksheet_model->finalExtra($data);
+            $result['extra_sub'] = $mid_extra_result['subjects'];
+        }
+        //--------------get scholistic and co-scholistic subjects-----------
+        $result['mid_sub'] = $mid_result['subjects'];
+        $result['co_scholistic_sub'] = $co_scholistic['subjects'];
+        
+        $pre_mid = array();
+        foreach($pre_result['pre'] as $pre){
+            foreach ($mid_result['mid'] as $mid){
+                foreach($co_scholistic['co_scholistc'] as $co_scholistc){
+                    if($pre['adm_no'] == $mid['adm_no'] && $pre['adm_no'] == $co_scholistc['adm_no']){
+                        $temp = array();
+                        $temp['elective_id'] = $pre['elective'];
+                        $temp['std_id'] = $pre['std_id'];
+                        $temp['adm_no'] = $pre['adm_no'];
+                        $temp['roll_no'] = $pre['roll_no'];
+                        $temp['name'] = ucwords($pre['name']);
+                        $temp['class_name'] = $pre['class_name'];
+                        $temp['section_name'] = $pre['section_name'];
+                        $temp['dob'] = $pre['dob'];
+                        $temp['m_name'] = ucwords($pre['m_name']);
+                        $temp['f_name'] = ucwords($pre['f_name']);
+                        $temp['contact_no'] = $pre['contact_no'];
+                        $temp['aadhar_no'] = $pre['aadhar_no'];
+                        $temp['address'] = ucwords($pre['address']);
+                        $temp['photo'] = $pre['photo'];
+                        
+                        //----get pre and mid subjects marks in temp--------------
+                        foreach($result['mid_sub'] as $subject){
+                            if($subject['st_id'] = 1){
+                                if($pre[$subject['sub_name']] == 'A'){
+                                    $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
+                                }else{
+                                    $temp['pre_'.$subject['sub_name']] = round($pre[$subject['sub_name']]/20*10, 2);
+                                }
+                                
+                                $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
+                                $temp['mid_'.$subject['sub_name'].'_notebook'] = $mid[$subject['sub_name'].'_notebook'];
+                                $temp['mid_'.$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
+                                
+                            }else if($subject['st_id'] = 3 && $subject['st_id'] == $pre['elective']){
+                                $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
+                                $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
+                                $temp['mid_'.$subject['sub_name'].'_notebook'] = $mid[$subject['sub_name'].'_notebook'];
+                                $temp['mid_'.$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
+                            }
+                            
+                            if($data['class'] > 13){
+                                $temp[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
+                            }
+                        }
+                        
+                        //-----------get co-scholistic subject in temp------------------
+                        foreach($co_scholistic['subjects'] as $co_sch_sub){
+                            $temp[$co_sch_sub['sub_name']] = $co_scholistc[$co_sch_sub['sub_name']];
+                        }
+                        
+                        //------------get attendance in temp------------------
+                        if($mid_result['attendance']){
+                            foreach($mid_result['attendance'] as $attendance){
+                                if($pre['adm_no'] == $attendance['adm_no']){
+                                    $temp['total_days'] = $attendance['total_days'];
+                                    $temp['present_days'] = $attendance['present_days'];
+                                }
+                            }
+                        }
+                        
+                        //------------get extra subject in temp------------------
+                        if(!empty($mid_extra_result['extra_sub'])){
+                            foreach($mid_extra_result['extra_sub'] as $extra_sub){
+                                if($pre['adm_no'] == $extra_sub['adm_no']){
+                                    foreach($mid_extra_result['subjects'] as $mid_extra_sub){
+                                        $temp['mid_'.$mid_extra_sub['sub_name']] = $extra_sub[$mid_extra_sub['sub_name']];
+                                        $temp['grade_'.$mid_extra_sub['sub_name']] = $extra_sub['grade_'.$mid_extra_sub['sub_name']];
+                                    }
+                                }
+                            }
+                        }
+                        $pre_mid[] = $temp;
+                    }
+                }
+            }
         }
         
-        //--------------get scholistic and co-scholistic subjects-----------
-        $result['pre_sub'] = $pre_result['subjects'];
-        $result['mid_sub'] = $mid_result['subjects'];
-        $result['co_scholistic_sub'] = $mid_co_scholistic['subjects']; 
+        $post_result = $this->Final_marksheet_model->postResult($data);
+        $final_exam = $this->Final_marksheet_model->finalResult($data);
+        $final_co_scholistic = $this->Final_marksheet_model->finalCoScholistic($data);
         
         
+        $final_result = array();
+        foreach($post_result['post'] as $post){
+            foreach ($final_exam['final'] as $final){
+                foreach($final_co_scholistic['co_scholistc'] as $final_co_scho){
+                    if($post['adm_no'] == $final['adm_no'] && $post['adm_no'] == $final_co_scho['adm_no']){
+                        $temp = array();
+                        $temp['elective_id'] = $post['elective'];
+                        $temp['std_id'] = $post['std_id'];
+                        
+                        //----get pre and mid subjects marks in temp--------------
+                        foreach($result['mid_sub'] as $subject){
+                            if($subject['st_id'] = 1){
+                                if($post[$subject['sub_name']] == 'A'){
+                                    $temp['post_'.$subject['sub_name']] = $post[$subject['sub_name']];
+                                }else{
+                                    $temp['post_'.$subject['sub_name']] = round($post[$subject['sub_name']]/20*10, 2);
+                                }
+                                
+                                $temp['final_'.$subject['sub_name']] = $final[$subject['sub_name']];
+                                $temp['final_'.$subject['sub_name'].'_notebook'] = $final[$subject['sub_name'].'_notebook'];
+                                $temp['final_'.$subject['sub_name'].'_enrichment'] = $final[$subject['sub_name'].'_enrichment'];
+                            }else if($subject['st_id'] = 3 && $subject['st_id'] == $pre['elective']){
+                                $temp['post_'.$subject['sub_name']] = $post[$subject['sub_name']];
+                                $temp['final_'.$subject['sub_name']] = $final[$subject['sub_name']];
+                                $temp['final_'.$subject['sub_name'].'_notebook'] = $final[$subject['sub_name'].'_notebook'];
+                                $temp['final_'.$subject['sub_name'].'_enrichment'] = $final[$subject['sub_name'].'_enrichment'];
+                            }
+                            
+                            if($data['class'] > 13){
+                                $temp[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
+                            }
+                        }
+                        
+                        //-----------get co-scholistic subject in temp------------------
+                        foreach($final_co_scholistic['subjects'] as $co_sch_sub){
+                            $temp[$co_sch_sub['sub_name']] = $final_co_scho[$co_sch_sub['sub_name']];
+                        }
+                        //------------get attendance in temp------------------
+                        if($final_exam['attendance']){
+                            foreach($final_exam['attendance'] as $attendance){
+                                if($post['adm_no'] == $attendance['adm_no']){
+                                    $temp['total_days'] = $attendance['total_days'];
+                                    $temp['present_days'] = $attendance['present_days'];
+                                }
+                            }
+                        }
+                        //------------get extra subject in temp------------------
+                        if(!empty($mid_extra_result['extra_sub'])){
+                            foreach($final_extra_result['extra_sub'] as $extra_sub){
+                                if($post['adm_no'] == $extra_sub['adm_no']){
+                                    foreach($final_extra_result['subjects'] as $final_extra_sub){
+                                        $temp['final_'.$final_extra_sub['sub_name']] = $extra_sub[$final_extra_sub['sub_name']];
+                                        $temp['practical'] = $extra_sub['practical'];
+                                        $temp['grade_'.$final_extra_sub['sub_name']] = $extra_sub['grade_'.$final_extra_sub['sub_name']];
+                                    }
+                                }
+                            }
+                        }
+                        $final_result[] = $temp;
+                    }
+                }
+            }
+        }
         
-        
+        //-----------murge pre and mid data------------------
+        if($data['class'] < 12){
+            $class_1_to_8_result = [];
+            foreach($pre_mid as $term1){
+                foreach($final_result as $term2){
+                    if($term1['std_id'] == $term2['std_id']){
+                        $temp = array();
+                        $temp['term1'] = $term1;
+                        $temp['term2'] = $term2;
+                        foreach($result['mid_sub'] as $subject){
+                            $sub_marks = [];
+                            
+                            $sub_marks['sub_id'] = $subject['sub_id'];
+                            if($term1['pre_'.$subject['sub_name']] == 'A'){
+                                $term1['pre_'.$subject['sub_name']] = 0;
+                            }
+                            if($term1['mid_'.$subject['sub_name']] == 'A'){
+                                $term1['mid_'.$subject['sub_name']] = 0;
+                            }
+                            if($term1['mid_'.$subject['sub_name'].'_notebook'] == 'A'){
+                                $term1['mid_'.$subject['sub_name'].'_notebook'] = 0;
+                            }
+                            if($term1['mid_'.$subject['sub_name'].'_enrichment'] == 'A'){
+                                $term1['mid_'.$subject['sub_name'].'_enrichment'] = 0;
+                            }
+                            $sub_marks['mid_'.$subject['sub_name'].'_obtain'] = round( $term1['pre_'.$subject['sub_name']] + $term1['mid_'.$subject['sub_name']] + $term1['mid_'.$subject['sub_name'].'_notebook'] + $term1['mid_'.$subject['sub_name'].'_enrichment'],2 );
+                            
+                            if($term2['post_'.$subject['sub_name']] == 'A'){
+                                $term2['post_'.$subject['sub_name']] = 0;
+                            }
+                            if($term2['final_'.$subject['sub_name']] == 'A'){
+                                $term2['final_'.$subject['sub_name']] = 0;
+                            }
+                            if($term2['final_'.$subject['sub_name'].'_notebook'] == 'A'){
+                                $term2['final_'.$subject['sub_name'].'_notebook'] = 0;
+                            }
+                            if($term2['final_'.$subject['sub_name'].'_enrichment'] == 'A'){
+                                $term2['final_'.$subject['sub_name'].'_enrichment'] = 0;
+                            }
+                            
+                            $sub_marks['final_'.$subject['sub_name'].'_obtain'] = round($term2['post_'.$subject['sub_name']] + $term2['final_'.$subject['sub_name']] + $term2['final_'.$subject['sub_name'].'_notebook'] + $term2['final_'.$subject['sub_name'].'_enrichment'] , 2);
+                            
+                            $sub_marks['star'] = '';
+                            
+                            if(($sub_marks['mid_'.$subject['sub_name'].'_obtain'] + $sub_marks['final_'.$subject['sub_name'].'_obtain'])  < 66 && ($sub_marks['final_'.$subject['sub_name'].'_obtain'] < 33)){
+                                $sub_marks['star'] = '*';
+                                $t1 = array();
+                                $t1['sub_id'] = $subject['sub_id'];
+                                $t1['name'] = $subject['sub_name'];
+                                $temp['back'][] = $t1;
+                            }
+                            
+                            $temp['marks_obtaint'][] = $sub_marks;
+                        }
+                        
+                        $pass_fail[] = $temp;
+                        $result['final'] = $class_1_to_8_result;
+                    }
+                }
+            }
+            
+        }elseif (($data['class'] > 11) && ($data['class'] < 14) ){ //for class 9th and 10th--------------
+            $class_9th_data = array();
+            foreach($pre_mid as $term1){
+                foreach($final_result as $term2){
+                    if($term1['std_id'] == $term2['std_id']){
+                        $temp = array();
+                        $aggregate = null;
+                        
+                        foreach($final_extra_result['subjects'] as $extra_subject){
+                            $extra = [];    
+                            $extra['final_marks'] = $term2['final_'.$extra_subject['sub_name']];
+                            $extra['practical_marks'] = $term2['practical'];
+                            $temp['extra_sub'][] = $extra;
+                        }
+                        
+                        foreach($final_co_scholistic['subjects'] as $co_sch_sub){
+                            $co_scho_temp = [];
+                            $co_scho_temp[$co_sch_sub['sub_name']] = $term2[$co_sch_sub['sub_name']];
+                            $temp['co_scholastic'][] = $co_scho_temp;
+                        }
+                        
+                        
+                        foreach($result['mid_sub'] as $subject){
+                            $sub_marks = [];
+                            //------------pre mid------------------------------
+                            if($term1['pre_'.$subject['sub_name']] == 'A' || $term1['pre_'.$subject['sub_name']] == ''){
+                                $term1['pre_'.$subject['sub_name']] = 0;
+                            }
+                            if($term1['mid_'.$subject['sub_name']] == 'A' || $term1['mid_'.$subject['sub_name']] == ''){
+                                $term1['mid_'.$subject['sub_name']] = 0;
+                            }
+                            if($term1['mid_'.$subject['sub_name'].'_notebook'] == 'A' || $term1['mid_'.$subject['sub_name'].'_notebook'] == ''){
+                                $term1['mid_'.$subject['sub_name'].'_notebook'] = 0;
+                            }
+                            if($term1['mid_'.$subject['sub_name'].'_enrichment'] == 'A' || $term1['mid_'.$subject['sub_name'].'_enrichment'] == ''){
+                                $term1['mid_'.$subject['sub_name'].'_enrichment'] = 0;
+                            }
+                            //------------post final-------------------------------
+                            if($term2['post_'.$subject['sub_name']] == 'A' || $term2['post_'.$subject['sub_name']] == ''){
+                                $term2['post_'.$subject['sub_name']] = 0;
+                            }
+                            if($term2['final_'.$subject['sub_name']] == 'A' || $term2['final_'.$subject['sub_name']] == ''){
+                                $term2['final_'.$subject['sub_name']] = 0;
+                            }
+                            if($term2['final_'.$subject['sub_name'].'_notebook'] == 'A' || $term2['final_'.$subject['sub_name'].'_notebook'] == ''){
+                                $term2['final_'.$subject['sub_name'].'_notebook'] = 0;
+                            }
+                            if($term2['final_'.$subject['sub_name'].'_enrichment'] == 'A' || $term2['final_'.$subject['sub_name'].'_enrichment'] == ''){
+                                $term2['final_'.$subject['sub_name'].'_enrichment'] = 0;
+                            }
+                            
+                            $pre = ((($term1['pre_'.$subject['sub_name']]*100)/20)/100)*10;
+                            $mid = ((($term1['mid_'.$subject['sub_name']]*100)/80)/100)*10;
+                            $post = ((($term2['post_'.$subject['sub_name']]*100)/80)/100)*10;
+                            
+                            $numbers=array($pre,$mid,$post);
+                            sort($numbers);
+                            $sub_marks['priodic_'.$subject['sub_name']] = round((($numbers[1] + $numbers[2])/2),2);
+                            
+                            $sub_marks['notebook_'.$subject['sub_name']] = (($term1['mid_'.$subject['sub_name'].'_notebook'] + $term2['final_'.$subject['sub_name'].'_notebook']) / 2);
+                            
+                            $sub_marks['enrichment_'.$subject['sub_name']] = (($term1['mid_'.$subject['sub_name'].'_enrichment'] + $term2['final_'.$subject['sub_name'].'_enrichment']) / 2);
+                            
+                            $sub_marks['session_ending_'.$subject['sub_name']] = $term2['final_'.$subject['sub_name']];
+                            
+                            $sub_marks['marks_obtained_'.$subject['sub_name']] = ( $sub_marks['priodic_'.$subject['sub_name']] + $sub_marks['notebook_'.$subject['sub_name']] + $sub_marks['enrichment_'.$subject['sub_name']] + $sub_marks['session_ending_'.$subject['sub_name']] );
+                            
+                            $min_marks = 33;
+                            $total_comp_sub = 2;
+                            $count = 0;
+                            $x = '';
+                            $extra_no = 5;
+                            $sub_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '';// first time star is blanck--------
+                            if($sub_marks['marks_obtained_'.$subject['sub_name']] < $min_marks){
+                                $passing_need = $min_marks - $sub_marks['marks_obtained_'.$subject['sub_name']]; //eg.27-20=7
+                                $x = $extra_no - $passing_need;
+                                if($x >= 0){  
+                                    $sub_marks['marks_obtained_'.$subject['sub_name']] = $sub_marks['marks_obtained_'.$subject['sub_name']] + $passing_need;
+                                    $sub_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '**';
+                                }else{
+                                    $sub_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '*';
+                                    $t1 = array();
+                                    $t1['sub_id'] = $subject['sub_id'];
+                                    $t1['name'] = $subject['sub_name'];
+                                    $temp['back'][] = $t1;
+                                }
+                                $count++;
+                                if($count > $total_comp_sub){ // not any changes-----------
+                                    $sub_marks['marks_obtained_'.$subject['sub_name']] = $sub_marks['marks_obtained_'.$subject['sub_name']];
+                                    $t1 = array();
+                                    $t1['sub_id'] = $subject['sub_id'];
+                                    $t1['name'] = $subject['sub_name'];
+                                    $temp['back'][] = $t1;
+                                }
+                            }
+                            
+                            $aggregate += (float)$sub_marks['marks_obtained_'.$subject['sub_name']];
+                            
+                            $temp['main_marks'][] = $sub_marks;
+                        }
+                        
+                        $temp['aggregate'] = $aggregate;
+                        $class_9th_data[] = $temp;
+                        $result['final'] = $class_9th_data;
+                    }
+                }
+            }
+         }
+            
+        // print_r($result);die;
+         
+        $result['org_details'] = $this->production_model->org_details($data);
+        //print_r($result);die;
+        if(count($result) > 0){
+            // print_r($result);die;
+            echo json_encode(array('result'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('feedback'=>'something getting wrong.','status'=>500));
+        }
     }
 }

@@ -358,7 +358,7 @@ class Mid_marksheet_model extends CI_Model{
         }
         
         //-----------------------------------***********----------------------------------------------------------------
-        $this->db->select('sa.sa_id,sa.sub_id,s.sub_name,t1.teacher_name,om.out_of,IFNULL(np.notappear,"0") as notappear');
+        $this->db->select('sa.sa_id,sa.sub_id,s.sub_name,t1.teacher_name,om.out_of,om.practical,IFNULL(np.notappear,"0") as notappear');
         if(!empty($sub_group)){
             $this->db->where('sa.sg_id',$sub_group);
             $this->db->where('sa.st_id IN(4)');
@@ -373,7 +373,7 @@ class Mid_marksheet_model extends CI_Model{
         $this->db->where('1=1'.$sub_allocation);
         $this->db->order_by('s.short_order','ASC');
         $result['subjects'] = $this->db->get_where('subject_allocation sa')->result_array();
-        
+        //print_r($this->db->last_query());die;
         $out_of = $result['subjects'][0]['out_of'];
         
         //-----------------------------------***********----------------------------------------------------------------

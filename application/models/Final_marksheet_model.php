@@ -117,7 +117,7 @@ class Final_marksheet_model extends CI_Model{
             if(!empty($data['std_id'])){
                 $this->db->where('s.std_id',$data['std_id']);
             }
-            $result['pre'] = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'s.class_id'=>$class_name,'s.sec_id'=>$section,'s.status'=>1))->result_array();
+            $result['post'] = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'s.class_id'=>$class_name,'s.sec_id'=>$section,'s.status'=>1))->result_array();
             return $result;
         }
         
@@ -216,7 +216,7 @@ class Final_marksheet_model extends CI_Model{
                 if(!empty($data['std_id'])){
                     $this->db->where('s.std_id',$data['std_id']);
                 }
-                $result['mid'] = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'s.class_id'=>$class_name,'s.sec_id'=>$section,'s.status'=>1))->result_array();
+                $result['final'] = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'s.class_id'=>$class_name,'s.sec_id'=>$section,'s.status'=>1))->result_array();
                 //print_r($this->db->last_query());die;
                 
                 return $result;
@@ -401,7 +401,7 @@ class Final_marksheet_model extends CI_Model{
             if(count($result['subjects'])>0){
                 $condition = '';
                 foreach($result['subjects'] as $subject){
-                    $condition.="t1.sub_marks as ".$subject['sub_name'].", MAX(IF(sub.sub_id ='".$subject['sub_id']."',CASE
+                    $condition.="t1.sub_marks as ".$subject['sub_name'].",t1.practical, MAX(IF(sub.sub_id ='".$subject['sub_id']."',CASE
                                     WHEN (((t1.sub_marks)/'$out_of')*100) > 90 THEN '".$grade[0]['grade']."'
                                     WHEN (((t1.sub_marks)/'$out_of')*100) > 80 THEN '".$grade[1]['grade']."'
                                     WHEN (((t1.sub_marks)/'$out_of')*100) > 70 THEN '".$grade[2]['grade']."'
@@ -423,6 +423,7 @@ class Final_marksheet_model extends CI_Model{
                     $this->db->where('s.std_id',$data['std_id']);
                 }
                 $result['extra_sub'] = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'s.class_id'=>$class_name,'s.sec_id'=>$section,'s.status'=>1))->result_array();
+                //print_r($this->db->last_query());die;
                 return $result;
             }
         }
