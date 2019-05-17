@@ -1,6 +1,7 @@
 <?php
 $user_permission = $this->my_function->check_permission();
 ?>
+
 <header class="main-header">
     <nav class="navbar navbar-static-top">
       <div class="container-fluid">

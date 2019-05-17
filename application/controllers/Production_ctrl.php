@@ -348,6 +348,8 @@ class Production_ctrl extends CI_Controller{
         $result['mid_sub'] = $mid_result['subjects'];
         $result['co_scholistic_sub'] = $co_scholistic['subjects'];
         
+        $grade = $this->db->select('min_no,max_no,grade,grade_point')->get_where('grade',array('status'=>1))->result_array();
+        
         $pre_mid = array();
         foreach($pre_result['pre'] as $pre){
             foreach ($mid_result['mid'] as $mid){
@@ -537,6 +539,10 @@ class Production_ctrl extends CI_Controller{
                             
                             $sub_marks['final_'.$subject['sub_name'].'_obtain'] = round($term2['post_'.$subject['sub_name']] + $term2['final_'.$subject['sub_name']] + $term2['final_'.$subject['sub_name'].'_notebook'] + $term2['final_'.$subject['sub_name'].'_enrichment'] , 2);
                             
+                            if($sub_marks['final_'.$subject['sub_name'].'_obtain'] == '32.5'){
+                                $sub_marks['final_'.$subject['sub_name'].'_obtain'] = 33;
+                            }
+                            
                             $sub_marks['star'] = '';
                             
                             if(($sub_marks['mid_'.$subject['sub_name'].'_obtain'] + $sub_marks['final_'.$subject['sub_name'].'_obtain'])  < 66 && ($sub_marks['final_'.$subject['sub_name'].'_obtain'] < 33)){
@@ -550,36 +556,71 @@ class Production_ctrl extends CI_Controller{
                             $temp['marks_obtaint'][] = $sub_marks;
                         }
                         
-                        $pass_fail[] = $temp;
+                        $class_1_to_8_result[] = $temp;
                         $result['final'] = $class_1_to_8_result;
+                        
                     }
                 }
             }
             
         }elseif (($data['class'] > 11) && ($data['class'] < 14) ){ //for class 9th and 10th--------------
             $class_9th_data = array();
+            $min_marks = 33; // minimum passing marks
+            $max_comp = 2;//how many subjects get compartment.
+            $extra_no = 0;
+            $extra_marks = 5;
+            $flag = 1;
             foreach($pre_mid as $term1){
                 foreach($final_result as $term2){
                     if($term1['std_id'] == $term2['std_id']){
-                        $temp = array();
                         $aggregate = null;
+                        $aggregate1 = null;
+                        $temp = array();
+                        $std_details = [];
+                        $std_details['std_id'] = $term1['std_id'];
+                        $std_details['adm_no'] = $term1['adm_no'];
+                        $std_details['roll_no'] = $term1['roll_no'];
+                        $std_details['name'] = $term1['name'];
+                        $std_details['class_name'] = $term1['class_name'];
+                        $std_details['section_name'] = $term1['section_name'];
+                        $std_details['dob'] = $term1['dob'];
+                        $std_details['m_name'] = $term1['m_name'];
+                        $std_details['f_name'] = $term1['f_name'];
+                        $std_details['contact_no'] = $term1['contact_no'];
+                        $std_details['aadhar_no'] = $term1['aadhar_no'];
+                        $std_details['address'] = $term1['address'];
+                        $std_details['photo'] = $term1['photo'];
+                        $temp['std_details'][] = $std_details;
                         
                         foreach($final_extra_result['subjects'] as $extra_subject){
                             $extra = [];    
                             $extra['final_marks'] = $term2['final_'.$extra_subject['sub_name']];
                             $extra['practical_marks'] = $term2['practical'];
+                            $extra['total'] = $extra['final_marks'] + $extra['practical_marks'];
+                            
+                            foreach($grade as $marks_grade){
+                                if($marks_grade['min_no'] <= $extra['total'] && $marks_grade['max_no'] >= $extra['total'] ){
+                                    $extra['grade'] = $marks_grade['grade'];
+                                }
+                            }
+                            
                             $temp['extra_sub'][] = $extra;
                         }
                         
                         foreach($final_co_scholistic['subjects'] as $co_sch_sub){
                             $co_scho_temp = [];
+                            $co_scho_temp['sub_id'] = $co_sch_sub['sub_id'];
                             $co_scho_temp[$co_sch_sub['sub_name']] = $term2[$co_sch_sub['sub_name']];
                             $temp['co_scholastic'][] = $co_scho_temp;
                         }
                         
-                        
+                        $real_marks = array();
+                        $comp_marks = array();
+                        $std_result = 'Pass';
                         foreach($result['mid_sub'] as $subject){
+                            $min_pass_marks = ceil($subject['out_of']/100*33);
                             $sub_marks = [];
+                            $compartment_marks = [];
                             //------------pre mid------------------------------
                             if($term1['pre_'.$subject['sub_name']] == 'A' || $term1['pre_'.$subject['sub_name']] == ''){
                                 $term1['pre_'.$subject['sub_name']] = 0;
@@ -613,38 +654,48 @@ class Production_ctrl extends CI_Controller{
                             
                             $numbers=array($pre,$mid,$post);
                             sort($numbers);
+                            
+                            $sub_marks['sub_id'] = $subject['sub_id'];
+                            $compartment_marks['sub_id'] = $subject['sub_id'];
+                            
+                            
                             $sub_marks['priodic_'.$subject['sub_name']] = round((($numbers[1] + $numbers[2])/2),2);
+                            $compartment_marks['priodic_'.$subject['sub_name']] = round((($numbers[1] + $numbers[2])/2),2);
                             
-                            $sub_marks['notebook_'.$subject['sub_name']] = (($term1['mid_'.$subject['sub_name'].'_notebook'] + $term2['final_'.$subject['sub_name'].'_notebook']) / 2);
+                            $sub_marks['notebook_'.$subject['sub_name']] = round(($term1['mid_'.$subject['sub_name'].'_notebook'] + $term2['final_'.$subject['sub_name'].'_notebook']) / 2, 2);
+                            $compartment_marks['notebook_'.$subject['sub_name']] = round(($term1['mid_'.$subject['sub_name'].'_notebook'] + $term2['final_'.$subject['sub_name'].'_notebook']) / 2, 2);
                             
-                            $sub_marks['enrichment_'.$subject['sub_name']] = (($term1['mid_'.$subject['sub_name'].'_enrichment'] + $term2['final_'.$subject['sub_name'].'_enrichment']) / 2);
+                            $sub_marks['enrichment_'.$subject['sub_name']] = round(($term1['mid_'.$subject['sub_name'].'_enrichment'] + $term2['final_'.$subject['sub_name'].'_enrichment']) / 2, 2);
+                            $compartment_marks['enrichment_'.$subject['sub_name']] = round(($term1['mid_'.$subject['sub_name'].'_enrichment'] + $term2['final_'.$subject['sub_name'].'_enrichment']) / 2, 2);
                             
                             $sub_marks['session_ending_'.$subject['sub_name']] = $term2['final_'.$subject['sub_name']];
+                            $compartment_marks['session_ending_'.$subject['sub_name']] = $term2['final_'.$subject['sub_name']];
                             
-                            $sub_marks['marks_obtained_'.$subject['sub_name']] = ( $sub_marks['priodic_'.$subject['sub_name']] + $sub_marks['notebook_'.$subject['sub_name']] + $sub_marks['enrichment_'.$subject['sub_name']] + $sub_marks['session_ending_'.$subject['sub_name']] );
+                            $sub_marks['marks_obtained_'.$subject['sub_name']] = round( $sub_marks['priodic_'.$subject['sub_name']] + $sub_marks['notebook_'.$subject['sub_name']] + $sub_marks['enrichment_'.$subject['sub_name']] + $sub_marks['session_ending_'.$subject['sub_name']],2 );
+                            $compartment_marks['marks_obtained_'.$subject['sub_name']] = round( $sub_marks['priodic_'.$subject['sub_name']] + $sub_marks['notebook_'.$subject['sub_name']] + $sub_marks['enrichment_'.$subject['sub_name']] + $sub_marks['session_ending_'.$subject['sub_name']],2 );
+                                
+                            if($sub_marks['marks_obtained_'.$subject['sub_name']] == '32.5'){ // increse 32.5 to 33--------
+                                $sub_marks['marks_obtained_'.$subject['sub_name']] = 33;
+                                $sub_marks['marks_obtained_'.$subject['sub_name']] = 33;
+                            }
                             
-                            $min_marks = 33;
-                            $total_comp_sub = 2;
-                            $count = 0;
-                            $x = '';
-                            $extra_no = 5;
                             $sub_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '';// first time star is blanck--------
+                            $compartment_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '';// first time star is blanck--------
+                          
                             if($sub_marks['marks_obtained_'.$subject['sub_name']] < $min_marks){
-                                $passing_need = $min_marks - $sub_marks['marks_obtained_'.$subject['sub_name']]; //eg.27-20=7
-                                $x = $extra_no - $passing_need;
-                                if($x >= 0){  
-                                    $sub_marks['marks_obtained_'.$subject['sub_name']] = $sub_marks['marks_obtained_'.$subject['sub_name']] + $passing_need;
-                                    $sub_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '**';
+                                $extra = $min_marks - $sub_marks['marks_obtained_'.$subject['sub_name']];
+                                $x = $extra_marks - $extra_no;//5-0=5
+                                $x  = $x - ceil($extra);
+                                if($x > 0){
+                                    $std_result = 'Promoted';
+                                    $extra_no = $extra_no + ceil($extra);
+                                    $compartment_marks['marks_obtained_'.$subject['sub_name']] = $sub_marks['marks_obtained_'.$subject['sub_name']] + $extra;
+                                    $compartment_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '**';
                                 }else{
+                                    $flag = 0;
+                                    $std_result = '';
                                     $sub_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '*';
-                                    $t1 = array();
-                                    $t1['sub_id'] = $subject['sub_id'];
-                                    $t1['name'] = $subject['sub_name'];
-                                    $temp['back'][] = $t1;
-                                }
-                                $count++;
-                                if($count > $total_comp_sub){ // not any changes-----------
-                                    $sub_marks['marks_obtained_'.$subject['sub_name']] = $sub_marks['marks_obtained_'.$subject['sub_name']];
+                                    $compartment_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '*';
                                     $t1 = array();
                                     $t1['sub_id'] = $subject['sub_id'];
                                     $t1['name'] = $subject['sub_name'];
@@ -652,12 +703,38 @@ class Production_ctrl extends CI_Controller{
                                 }
                             }
                             
-                            $aggregate += (float)$sub_marks['marks_obtained_'.$subject['sub_name']];
+                            foreach($grade as $marks_grade){
+                                if($marks_grade['min_no'] <= $sub_marks['marks_obtained_'.$subject['sub_name']] && $marks_grade['max_no'] >= $sub_marks['marks_obtained_'.$subject['sub_name']] ){
+                                    $sub_marks['grade_'.$subject['sub_name']] = $marks_grade['grade'];
+                                }
+                                if($marks_grade['min_no'] <= $compartment_marks['marks_obtained_'.$subject['sub_name']] && $marks_grade['max_no'] >= $compartment_marks['marks_obtained_'.$subject['sub_name']] ){
+                                    $compartment_marks['grade_'.$subject['sub_name']] = $marks_grade['grade'];
+                                }
+                            }
                             
-                            $temp['main_marks'][] = $sub_marks;
+                            
+                            $aggregate += (float)$sub_marks['marks_obtained_'.$subject['sub_name']];
+                            $aggregate1 += (float)$compartment_marks['marks_obtained_'.$subject['sub_name']];
+                            
+                            $real_marks[] = $sub_marks;
+                            $comp_marks[] = $compartment_marks;
+                            
+                        }
+                        //print_r($comp_marks);die;
+                        
+                        if(isset($temp['back']) ){
+                            if(count($temp['back']) <= $max_comp){
+                                $temp['main_marks'] = $comp_marks;
+                                $temp['aggregate'] = round($aggregate1,2);
+                            }else{
+                                $temp['main_marks'] = $real_marks;
+                                $temp['aggregate'] = '-';
+                            }
+                        }else{
+                            $temp['main_marks'] = $real_marks;
+                            $temp['aggregate'] = round($aggregate,2);
                         }
                         
-                        $temp['aggregate'] = $aggregate;
                         $class_9th_data[] = $temp;
                         $result['final'] = $class_9th_data;
                     }

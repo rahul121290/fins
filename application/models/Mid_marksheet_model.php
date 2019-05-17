@@ -110,7 +110,7 @@ class Mid_marksheet_model extends CI_Model{
             $this->db->join('class c','c.c_id=s.class_id');
             $this->db->join('section sec','sec.sec_id=s.sec_id');
             $this->db->group_by('s.std_id');
-            $this->db->order_by('s.adm_no','ASC');
+            $this->db->order_by('s.roll_no','ASC');
             if(!empty($sub_group)){
                 $this->db->where('s.sub_group',$sub_group);
             }

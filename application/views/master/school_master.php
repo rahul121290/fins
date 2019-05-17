@@ -64,7 +64,7 @@
 					    </div>
 					   
 					    <div class="form-group">
-							<label class="control-label col-md-2">Shool Logo</label>
+							<label class="control-label col-md-2">School Logo</label>
 							<div class="col-sm-8">
 							     <input type="hidden" name="old_image" id="old_image">
 							     <div id="edit_preview"></div>

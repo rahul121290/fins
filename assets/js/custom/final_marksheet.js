@@ -53,12 +53,10 @@ $(document).ready(function(){
 								class_9th_final(response);
 								return false;
 							}
-							
 							var win = window.open('', "myWindowName", "scrollbars=1,width=1200, height=600");
 							var x = '<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/bootstrap.min.css">'+
 	        						'<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/marksheet-result.css">'+
 	        						'<link rel="stylesheet" type="text/css" media="print" href="'+ base_url +'assets/css/marksheet-result-print.css">';
-									
 							$.each(response.result.final,function(mainkey,value){
 								x=x+'<div class="modal-content p-head-sec-f ms-full">'+
 								 '<img src="'+base_url+'assets/images/'+response.result.org_details.school[0].school_image+'" style="position:absolute;top:40%;left:30%;margin:0 auto; background-size:cover; background-position:center;opacity: 0.5;filter: alpha(opacity=50);">'+
@@ -134,7 +132,7 @@ $(document).ready(function(){
 													'</tr>'+
 													'<tr>'+
 														'<td>Class/Section</td>'+
-														'<td>:'+value.term1.class_name+'/'+value.term1.section_name+'</td>'+
+														'<td>:'+value.term1.class_name+' \''+value.term1.section_name+'\'</td>'+
 													'</tr>'+
 													'<tr>'+
 														'<td>Attnd. Mid.Term</td>'+
@@ -394,10 +392,280 @@ $(document).ready(function(){
 			}
 	});
 	//----------------****************----------------------
-	
 	function class_9th_final(response){
-		console.log('9nth page');	
+		var win = window.open('', "myWindowName", "scrollbars=1,width=1200, height=600");
+		var x = '<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/bootstrap.min.css">'+
+				'<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/marksheet-result.css">'+
+				'<link rel="stylesheet" type="text/css" media="print" href="'+ base_url +'assets/css/marksheet-result-print.css">';
+		$.each(response.result.final,function(mainkey,value){
+			x=x+'<div class="modal-content p-head-sec-f ms-full">'+
+			 '<img src="'+base_url+'assets/images/'+response.result.org_details.school[0].school_image+'" style="position:absolute;top:40%;left:30%;margin:0 auto; background-size:cover; background-position:center;opacity: 0.5;filter: alpha(opacity=50);">'+
+			 '<div class="modal-header p-header">'+
+	            '<div class="col-md-3 c-logo-section"><img class="c-logo" style="width:80px;" src="'+base_url+'assets/images/cbse-logo.png"></div>'+
+	            '<div class="col-md-6 p-logo-sec text-center">'+
+	               '<div class="p-school-name-sec">'+
+	                  '<h2>'+response.result.org_details.school[0].school_name+'</h2>'+
+	                  '<p>Affiliated to CBSE, New Delhi No. '+response.result.org_details.school[0].affiliation_no+' | School No.: '+response.result.org_details.school[0].school_no+'<br>English &amp; Hindi Medium Senior Secondary School, <br>'+response.result.org_details.school[0].address+'</p>'+
+	               '</div>'+
+	            '</div>'+
+	            '<div class="col-md-3 p-school-logo"><img class="p-logo pull-right" src="'+base_url+'assets/images/'+response.result.org_details.school[0].school_image+'"></div>'+
+	         '</div>'+
+			'<div class="modal-body p-student-body">'+
+			'<div class="student-Information">'+
+			'<div class="text-center">'+
+			'<h5><b>Academic Report Card: '+response.result.org_details.session[0].session_name+'<br></b></h5>'+
+			'</div>'+
+			'<div class="col-md-10 p-student-info">'+
+				'<div class="student-info-t">'+
+					'<b>STUDENT PARTICULARS</b>'+
+				'</div>'+
+	                    '<div class="student-per-info">'+
+	                        '<div class="student-per-info1">'+
+	                            '<table class="table">'+
+	                                '<tbody>'+
+	                                    '<tr>'+
+	                                        '<td style="width:35%;">Student\'s Name</td>'+
+	                                        '<td>:'+ 
+	                                        '<b>'+value.std_details[0].name+'</b>'+
+	                                        '</td>'+
+	                                    '</tr>'+
+	                                    '<tr></tr>'+
+	                                    '<tr>'+
+	                                        '<td>Mother\'s Name</td>'+
+	                                        '<td>: '+value.std_details[0].m_name+'</td>'+
+	                                    '</tr>'+
+	                                    '<tr></tr>'+
+	                                    '<tr>'+
+	                                        '<td>Father\'s Name</td>'+
+	                                        '<td>: '+value.std_details[0].f_name+'</td>'+
+	                                    '</tr>'+
+	                                    '<tr></tr>'+
+	                                    '<tr>'+
+	                                        '<td>Contact No.</td>'+
+	                                        '<td>:'+value.std_details[0].contact_no+'</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Aadhar No.</td>'+
+	                                        '<td>:'+value.std_details[0].aadhar_no+'</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Address</td>'+
+	                                        '<td class="address-sec">:'+value.std_details[0].address+'</td>'+
+	                                    '</tr>'+
+	                                '</tbody>'+
+	                            '</table>'+
+	                        '</div>'+
+	                        '<div class="student-per-info2">'+
+	                            '<table class="table">'+
+	                                '<tbody>'+
+	                                    '<tr>'+
+	                                        '<td>Date of Birth</td>'+
+	                                        '<td>:'+value.std_details[0].dob+'</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Adm. No.</td>'+
+	                                        '<td>:'+value.std_details[0].adm_no+'</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Roll No.</td>'+
+	                                        '<td>:'+value.std_details[0].roll_no+'</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Class/Section</td>'+
+	                                        '<td>:'+value.std_details[0].class_name+' \''+value.std_details[0].section_name+'\'</td>'+
+	                                    '</tr>'+
+	                                '</tbody>'+
+	                            '</table>'+
+	                        '</div>'+
+	                    '</div>'+
+	                '</div>'+
+	                '<div class="col-md-2 p-student-photo"><img class="student-photo" src="'+base_url+'assets/images/students/temp/'+value.std_details[0].photo+'?'+Math.random()+'"></div>'+
+	            '</div>'+
+	            '<div class="results-information p-results-information-f-a col-md-12">'+
+	                '<div class="academic-result-t"><b>ACADEMIC PERFORMANCE (Scholastic Areas)</b></div>'+
+	                '<table class="table">'+
+	                    '<thead>'+
+	                        '<tr>'+
+	                            '<th style="width:18%;text-align:left;">Subjects</th>'+
+	                            '<th>Periodic Test: 10</th>'+
+	                            '<th>Note Book: 05</th>'+
+	                            '<th>Sub Enrichment: 05</th>'+
+	                            '<th>Session Ending Exam: 80</th>'+
+	                            '<th>Marks Obtained: 100</th>'+
+	                            '<th>Grade</th>'+
+	                        '</tr>'+
+	                    '</thead>'+
+	                    '<tbody>';
+								
+						$.each(response.result.mid_sub,function(k,mid_sub){
+							$.each(value.main_marks,function(m,marks){
+								if(mid_sub.sub_id == marks.sub_id){
+									x=x+'<tr>'+
+										'<td style="text-align:left;">'+mid_sub.sub_name+'</td>'+
+										'<td>'+marks["priodic_"+mid_sub.sub_name]+'</td>'+
+										'<td>'+marks["notebook_"+mid_sub.sub_name]+'</td>'+
+										'<td>'+marks["enrichment_"+mid_sub.sub_name]+'</td>'+
+										'<td>'+marks["session_ending_"+mid_sub.sub_name]+'</td>'+
+										'<td>'+marks["marks_obtained_"+mid_sub.sub_name]+marks["marks_obtained_"+mid_sub.sub_name+'_star']+'</td>'+
+										'<td>'+marks["grade_"+mid_sub.sub_name]+'</td>'+
+	                            	'</tr>';
+								}
+							});
+						});
+	                    x=x+'</tbody>'+
+	                '</table>'+
+	            '</div>'+
+	            '<div class="results-information p-results-information-f-c col-md-6" style="margin-top:15px;padding-right:0px;">'+
+	                '<table class="table">'+
+	                    '<thead>'+
+	                        '<tr>'+
+	                            '<th rowspan="3" style="width:18%;">Subject</th>'+
+	                            '<th colspan="5">Session Ending Marks</th>'+
+	                            '<th rowspan="3">Grade</th>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<th colspan="2">Theory</th>'+
+	                            '<th colspan="2">Practical</th>'+
+	                            '<th>Total</th>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<th>MM</th>'+
+	                            '<th>Marks Obtained</th>'+
+	                            '<th>MM</th>'+
+	                            '<th>Marks Obtained</th>'+
+	                            '<th>100</th>'+
+	                        '</tr>'+
+	                    '</thead>'+
+	                    '<tbody>'+
+	                        '<tr>'+
+	                            '<td>Computer Application</td>'+
+	                            '<td>'+response.result.extra_sub[0].out_of+'</td>'+
+	                            '<td>'+value.extra_sub[0].final_marks+'</td>'+
+	                            '<td>'+response.result.extra_sub[0].practical+'</td>'+
+	                            '<td>'+value.extra_sub[0].practical_marks+'</td>'+
+	                            '<td>'+value.extra_sub[0].total+'</td>'+
+	                            '<td>'+value.extra_sub[0].grade+'</td>'+
+	                        '</tr>'+
+	                    '</tbody>'+
+	                '</table>'+
+	                
+	                '<div class="teacher-remark">'+
+	                    '<table class="table">'+
+	                        '<tbody>'+
+	                            '<tr>';
+					                    if(value.back){
+											if(value.back.length <= 2){
+												var c = 1;
+												x=x+'<td><b>Aggregate</b></td><td><b>'+value.aggregate+'/500</b></td><td><b>Result:</b></td>';
+												x = x + '<td><b>Compartment</b> in ';
+												$.each(value.back,function(bkey,bvalue){
+													x = x + '('+ c +'). <b>'+ bvalue.name +'</b> '; 
+													c++; 
+												});
+												x = x +  '</td>';
+											}else{
+												x=x+'<td><b>Aggregate</b></td><td><b>-</b></td><td><b>Result:</b></td>';
+												x=x+'<td><b>Detained</b></td>';
+											}
+										}else{
+											x=x+'<td><b>Aggregate</b></td><td><b>'+value.aggregate+'/500</b></td><td><b>Result:</b></td>';
+											x=x+'<td><b>Pass</b></td>';
+										}
+	                            x=x+'</tr>'+
+	                        '</tbody>'+
+	                    '</table>'+
+	                '</div>'+
+	            '</div>'+
+	            
+	            '<div class="results-information p-results-information-f-c col-md-6" style="margin-top:15px;margin-bottom:6px;">'+
+	                '<table class="table">'+
+	                    '<thead>'+
+	                        '<tr>'+
+	                            '<th style="text-align:left;">Co-Scholastic Areas [on a 5-point (A-E) grading scale]</th>'+
+	                            '<th>Grade</th>'+
+	                        '</tr>'+
+	                    '</thead>'+
+	                    '<tbody>';
+	                        $.each(response.result.co_scholistic_sub,function(co_key,co_sub){
+	                        	$.each(value.co_scholastic,function(ck,co_marks){
+	                        		if(co_sub.sub_id == co_marks.sub_id){
+	                        			x=x+'<tr>'+
+	    	                        	'<td style="text-align:left;">'+co_sub.sub_name+'</td>'+
+	    	                            '<td>'+co_marks[co_sub.sub_name]+'</td>'+
+	    	                        '</tr>';
+	                        		}
+	                        	});
+	                        	
+	                        });
+	                    x=x+'</tbody>'+
+	                '</table>'+
+	            '</div>'+
+	        '</div>'+
+	        '<div class="modal-footer p-footer-sec-f" style="padding-left:0px;margin-top:-15px;">'+
+	            '<div class="col-md-2 p-place-date" style="padding-left:5px;">Place: <b>Bhilai </b>'+
+	                '<br>Date: 17-05-2019</div>'+
+	            '<div class="col-md-2 col-md-offset-2 p-techer-sign">&nbsp;'+
+	                '<br><b>Signature of Class Teacher </b></div>'+
+	            '<div class="col-md-2 col-md-offset-1 p-school-seal">&nbsp;'+
+	                '<br><b>Seal of the School</b></div>'+
+	            '<div class="col-md-2 col-md-offset-1 text-center p-princi-sign" style="padding-right:0px;"><img class="principle-sign" src="'+base_url +'assets/images/'+response.result.org_details.school[0].principal_sign+'">'+
+	                '<br>'+response.result.org_details.school[0].principal_name+
+	                '<br><b>Principal</b></div>'+
+	            '<div class="instc-sec">'+
+	                '<h4>Instructions</h4>'+
+	                '<p><b>Grading scale for scholastic areas:</b> Grades are awarded on a 8- point grading scale as follows -</p>'+
+	                '<div class="col-md-4 col-md-offset-4 range-table" style="margin-left:25%;width:50%;">'+
+	                    '<table style="font-size:11px;" class="table table-bordered">'+
+	                        '<thead>'+
+	                            '<tr>'+
+	                                '<th style="width:40%;">Marks Range</th>'+
+	                                '<th style="width:60%;">Grade</th>'+
+	                            '</tr>'+
+	                        '</thead>'+
+	                        '<tbody>'+
+	                            '<tr>'+
+	                                '<td>91-100</td>'+
+	                                '<td>A 1</td>'+
+	                            '</tr>'+
+	                            '<tr>'+
+	                                '<td>81-90</td>'+
+	                                '<td>A 2</td>'+
+	                            '</tr>'+
+	                            '<tr>'+
+	                                '<td>71-80</td>'+
+	                                '<td>B 1</td>'+
+	                            '</tr>'+
+	                            '<tr>'+
+	                                '<td>61-70</td>'+
+	                                '<td>B 2</td>'+
+	                            '</tr>'+
+	                            '<tr>'+
+	                                '<td>51-60</td>'+
+	                                '<td>C 1</td>'+
+	                            '</tr>'+
+	                            '<tr>'+
+	                                '<td>41-50</td>'+
+	                                '<td>C 2</td>'+
+	                            '</tr>'+
+	                            '<tr>'+
+	                                '<td>33-40</td>'+
+	                                '<td>D</td>'+
+	                            '</tr>'+
+	                            '<tr>'+
+	                                '<td>32 &amp; Below</td>'+
+	                                '<td>E (Failed)</td>'+
+	                            '</tr>'+
+	                        '</tbody>'+
+	                    '</table>'+
+	                '</div>'+
+	            '</div>'+
+	            '<div style="float:left;text-align:left;"><span style="float:left;width:40px;"><b>Note:</b></span><span style="float:left;">* Compartment<br>** Promoted</span></div>'+
+	        '</div>'+
+	    '</div>';
+			
+		});
+		
+		with(win.document){open(); write(x);close();}
 	}
-	
 	
 });

@@ -16,9 +16,9 @@
       <p><?php //echo lang('login_subheading'); ?></p> 
     	<div class="text-center">
     	<?php if($this->uri->segment(1) == 'sharda'){?>
-    		<img alt="" src="<?php echo base_url();?>assets/images/sharda/sharda_logo.png" width="150">
+    		<img alt="" src="<?php echo base_url();?>assets/images/sharda/login-logo.png">
     	<?php }else{?>
-    		<img alt="" src="<?php echo base_url();?>assets/images/shakuntala/shakuntala.png" width="150">
+    		<img alt="" src="<?php echo base_url();?>assets/images/shakuntala/login-logo.png">
     	<?php } ?>
     	</div>
     	
@@ -43,7 +43,7 @@
           </div>
     
     	  <div class="form-group"> 
-    		<?php echo form_submit('submit', lang('login_submit_btn'),['class'=>'btn btn-success login-btn btn-block'],['style'=>'background-color: #882828;']);?>
+    		<?php echo form_submit('submit', lang('login_submit_btn'),['class'=>'btn btn-primary login-btn btn-block'],['style'=>'background-color: #882828;']);?>
     	  </div>
 			
     	<div class="clearfix">

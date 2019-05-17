@@ -98,7 +98,7 @@ $db['default'] = array(
 
 $db['server'] = array(
     'dsn'	=> '',
-    'hostname' => '23.229.155.65',
+    'hostname' => '182.70.228.113',
     'username' => 'v_school',
     'password' => 'v_school',
     'database' => 'v_school',
