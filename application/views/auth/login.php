@@ -24,7 +24,7 @@
     	
     	
     	<div id="infoMessage" style="text-align: center;"><?php echo $message;?></div>
-        <?php echo form_open("auth/login");?>
+    	<?php echo form_open("auth/login");?>
     
           <div class="form-group">
           	<div class="input-group">
@@ -48,8 +48,9 @@
 			
     	<div class="clearfix">
             <label class="pull-left checkbox-inline"><?php echo form_checkbox('remember', '1', FALSE, 'id="remember"');?> <?php echo lang('login_remember_label', 'remember');?></label>
-            <!-- <a href="forgot_password" class="pull-right"><?php //echo lang('login_forgot_password');?></a> -->
+            <a href="<?php echo base_url();?>auth/registration" class="pull-right">New Registration</a>
         </div>
+        
         <?php echo form_close();?>  
 	</div>
 	</div>
