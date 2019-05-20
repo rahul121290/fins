@@ -134,11 +134,17 @@ class Subject_allocation_ctrl extends CI_Controller{
     }
     
     public function outOfPracticalMarks(){
-        $this->form_validation->set_rules('practical','practical','required|trim');
+        $this->form_validation->set_rules('practical','practical','trim');
         if($this->form_validation->run()){
+            if(!empty($this->input->post('practical'))){
+                $data['practical'] = $this->input->post('practical');
+            }else{
+                $data['practical'] = null;
+            }
+            
             $data['sa_id'] = $this->input->post('sa_id');
             $data['et_id'] = $this->input->post('exam_type');
-            $data['practical'] = $this->input->post('practical');
+            
             $data['created_by'] = $this->session->userdata('user_id');
             $data['created_at'] = date('Y-m-d H:i:s');
             $this->_ShowMsgs(

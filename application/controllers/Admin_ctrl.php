@@ -279,6 +279,12 @@ class Admin_ctrl extends CI_Controller {
         $this->_admin_class_teacher_access();
     }
     
+    function daily_attendance(){
+        $this->data['page_name'] = 'Daily Attendance';
+        $this->data['main'] = 'transaction/daily_attendance';
+        $this->admin_teacher_class_teacher_access();
+    }
+    
     function marks_entry(){
         $this->data['page_name'] = 'Marks Entry';
         $this->data['main'] = 'transaction/marks_entry';

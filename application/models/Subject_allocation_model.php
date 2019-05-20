@@ -54,6 +54,7 @@ class Subject_allocation_model extends CI_Model{
                //----if data is already exist then update marks---------------------
                 $this->db->where('out_of_id', $result[0]['out_of_id']);
                 $this->db->update('out_of_marks',array('out_of'=>$data['out_of']));
+                
         }else{
             //-------data not in table then insert-----------------------
             $this->db->insert('out_of_marks',$data);

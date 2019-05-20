@@ -10,7 +10,7 @@ class Mid_marksheet_model extends CI_Model{
         $sub_group = $data['sub_group'];
         $section = $data['section'];
         
-        $sub_allocation = '';
+        $sub_allocation = ' AND sa.status=1';
         $marks_master = ' AND mm.status=1';
         
         if($session){
@@ -58,6 +58,7 @@ class Mid_marksheet_model extends CI_Model{
         $this->db->join('out_of_marks om','om.sa_id=sa.sa_id');
         $this->db->join('(SELECT mm.sub_id, COUNT(sub_marks) as notappear FROM student_marks sm JOIN marks_master mm ON mm.mm_id= sm.mm_id WHERE sm.sub_marks = "A" '.$marks_master.') np','np.sub_id=sa.sub_id','LEFT');
         $this->db->where('1=1'.$sub_allocation);
+        $this->db->order_by('sa.st_id','ASC');
         $this->db->order_by('s.short_order','ASC');
         $result['subjects'] = $this->db->get_where('subject_allocation sa')->result_array();
 
@@ -132,7 +133,7 @@ class Mid_marksheet_model extends CI_Model{
         $sub_group = $data['sub_group'];
         $section = $data['section'];
         
-        $sub_allocation = '';
+        $sub_allocation = ' AND sa.status=1';
         $con_att = ' AND am.status=1';
         if($session){
             $sub_allocation.=' AND sa.ses_id='.$session;
@@ -276,30 +277,12 @@ class Mid_marksheet_model extends CI_Model{
         $con_sg_st.=' AND mm.status=1';
         
         if(count($result['subjects'])>0){
-            $condition = '';
-            if($class_name < 12){ //--------less then class 9th----------
-                foreach($result['subjects'] as $subject){
-                    $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."',(CASE WHEN (t1.sub_marks) = 3 THEN 'A'
-                                                                               WHEN (t1.sub_marks) = 2 THEN 'B'
-                                                                               WHEN (t1.sub_marks) = 1 THEN 'C'
-                                                                               WHEN (t1.sub_marks) = 'A' THEN '-' END), '-')) as '". $subject['sub_name']."'," ;
-                }
-            }else if($class_name > 11){//----greter then class 8th--------
-                foreach($result['subjects'] as $subject){
-                    $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."',(CASE WHEN (t1.sub_marks) = 5 THEN 'A'
-                                                                               WHEN (t1.sub_marks) = 4 THEN 'B'
-                                                                               WHEN (t1.sub_marks) = 3 THEN 'C'
-                                                                               WHEN (t1.sub_marks) = 2 THEN 'D'
-                                                                               WHEN (t1.sub_marks) = 1 THEN 'E'
-                                                                               WHEN (t1.sub_marks) = 'A' THEN '-' END), '-')) as '". $subject['sub_name']."'," ;
-                }
-            }
-            
-            $this->db->select('s.std_id,s.adm_no,s.roll_no,'.$condition);
+          
+            $this->db->select('s.std_id,s.adm_no,s.roll_no,sub.sub_id,t1.sub_marks');
             $this->db->join('(SELECT sm.*,mm.sub_id FROM student_marks sm JOIN marks_master mm ON mm.mm_id=sm.mm_id  WHERE mm.et_id='.$exam_type.$con_sg_st.') t1','t1.std_id=s.std_id','LEFT');
             $this->db->join('subject sub','sub.sub_id=t1.sub_id','LEFT');
-            $this->db->group_by('s.std_id');
             $this->db->order_by('s.adm_no','ASC');
+            //$this->db->group_by('s.std_id');
             if(!empty($sub_group)){
                 $this->db->where('s.sub_group',$sub_group);
             }
@@ -321,7 +304,7 @@ class Mid_marksheet_model extends CI_Model{
         $sub_group = $data['sub_group'];
         $section = $data['section'];
         
-        $sub_allocation = '';
+        $sub_allocation = ' AND sa.status = 1';
         $marks_master = ' AND mm.status=1';
         
         if($session){
@@ -371,6 +354,7 @@ class Mid_marksheet_model extends CI_Model{
         $this->db->join('out_of_marks om','om.sa_id=sa.sa_id');
         $this->db->join('(SELECT mm.sub_id, COUNT(sub_marks) as notappear FROM student_marks sm JOIN marks_master mm ON mm.mm_id= sm.mm_id WHERE sm.sub_marks = "A" '.$marks_master.') np','np.sub_id=sa.sub_id','LEFT');
         $this->db->where('1=1'.$sub_allocation);
+        $this->db->order_by('sa.st_id','ASC');
         $this->db->order_by('s.short_order','ASC');
         $result['subjects'] = $this->db->get_where('subject_allocation sa')->result_array();
         //print_r($this->db->last_query());die;

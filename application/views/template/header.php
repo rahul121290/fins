@@ -46,6 +46,8 @@ $user_permission = $this->my_function->check_permission();
 						<?php } ?>
 							
 						<?php if($user_permission == 'admin' || $user_permission == 'class_teacher' || $user_permission == 'teacher'){ ?>
+							<li><a href="<?=base_url().$school.'/'.$user_permission;?>/transaction-record/marks-entry"><i class="fa fa-calculator text-blue" aria-hidden="true"></i>Daily Attendance</a></li>
+						
 							<li><a href="<?=base_url().$school.'/'.$user_permission;?>/transaction-record/marks-entry"><i class="fa fa-calculator text-blue" aria-hidden="true"></i>Marks Entry</a></li>
 						<?php } ?>
 						</ul>

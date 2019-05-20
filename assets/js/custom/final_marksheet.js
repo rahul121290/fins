@@ -53,6 +53,12 @@ $(document).ready(function(){
 								class_9th_final(response);
 								return false;
 							}
+							
+							if($('#class_name').val() == 14 || $('#class_name').val() == 15){
+								final_marksheet_XI_XII(response);
+								return false;
+							}
+							
 							var win = window.open('', "myWindowName", "scrollbars=1,width=1200, height=600");
 							var x = '<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/bootstrap.min.css">'+
 	        						'<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/marksheet-result.css">'+
@@ -662,10 +668,365 @@ $(document).ready(function(){
 	            '<div style="float:left;text-align:left;"><span style="float:left;width:40px;"><b>Note:</b></span><span style="float:left;">* Compartment<br>** Promoted</span></div>'+
 	        '</div>'+
 	    '</div>';
-			
 		});
-		
 		with(win.document){open(); write(x);close();}
+	}
+	
+	function final_marksheet_XI_XII(response){
+		var win = window.open('', "myWindowName", "scrollbars=1,width=1200, height=600");
+		var x = '<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/bootstrap.min.css">'+
+				'<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/marksheet-result.css">'+
+				'<link rel="stylesheet" type="text/css" media="print" href="'+ base_url +'assets/css/marksheet-result-print.css">';
+		
+	    x=x+'<div class="modal-content p-head-sec-f eleventh-r"><img src="../../assest/images/shakuntala/result_bg_logo-w.png" style="position:absolute;top:35%;left:34%;margin:0 auto; background-size:cover; background-position:center;">'+
+	        '<div class="modal-header p-header">'+
+	            '<div class="col-md-3 c-logo-section"><img class="c-logo" style="width:80px;" src="../../assest/images/sharda/cbse-logo.png"></div>'+
+	            '<div class="col-md-6 p-logo-sec text-center">'+
+	                '<div class="p-school-name-sec">'+
+	                    '<h2>SHAKUNTALA VIDYALAYA</h2>'+
+	                    '<p>Affiliated to CBSE, New Delhi No. 3330091 | School No.: 10240<br>English &amp; Hindi Medium Senior Secondary School,<br>Ram Nagar, Bhilai, Chhattisgarh</p>'+
+	                '</div>'+
+	            '</div>'+
+	            '<div class="col-md-3 p-school-logo"><img class="p-logo pull-right" src="../../assest/images/shakuntala/logo.png"></div>'+
+	        '</div>'+
+	        '<div class="modal-body p-student-body">'+
+	            '<div class="student-Information">'+
+	                '<div class="text-center">'+
+	                    '<h5><b>Session Ending Academic Report Card: 2018-19</b></h5></div>'+
+	                '<div class="col-md-10 p-student-info">'+
+	                    '<div class="student-info-t"><b><b>STUDENT PARTICULARS</b></b>'+
+	                    '</div>'+
+	                    '<div class="student-per-info">'+
+	                        '<div class="student-per-info1">'+
+	                            '<table class="table">'+
+	                                '<tbody>'+
+	                                    '<tr>'+
+	                                        '<td style="width:35%;">Student\'s Name</td>'+
+	                                        '<td>: <b>Chetna Patel</b></td>'+
+	                                    '</tr>'+
+	                                    '<tr></tr>'+
+	                                    '<tr>'+
+	                                        '<td>Mother\'s Name</td>'+
+	                                        '<td>: Chameli Patel</td>'+
+	                                    '</tr>'+
+	                                    '<tr></tr>'+
+	                                    '<tr>'+
+	                                        '<td>Father\'s Name</td>'+
+	                                        '<td>: Arun Kumar Patel</td>'+
+	                                    '</tr>'+
+	                                    '<tr></tr>'+
+	                                    '<tr>'+
+	                                        '<td>Contact No.</td>'+
+	                                        '<td>: 8878722716</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Aadhar No.</td>'+
+	                                        '<td>: 865597158260</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Address</td>'+
+	                                        '<td class="address-sec">: Po- Dhurkot Tehsil- Dabhra Dist- Janjgir, Champa</td>'+
+	                                    '</tr>'+
+	                                '</tbody>'+
+	                            '</table>'+
+	                        '</div>'+
+	                        '<div class="student-per-info2">'+
+	                            '<table class="table">'+
+	                                '<tbody>'+
+	                                    '<tr>'+
+	                                        '<td>Date of Birth</td>'+
+	                                        '<td>: 05-07-2002</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Adm. No.</td>'+
+	                                        '<td>: 4106</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Roll No.</td>'+
+	                                        '<td>: 11201</td>'+
+	                                    '</tr>'+
+	                                    '<tr>'+
+	                                        '<td>Class/Section</td>'+
+	                                        '<td>: XI \'B\'</td>'+
+	                                    '</tr>'+
+	                                '</tbody>'+
+	                            '</table>'+
+	                        '</div>'+
+	                    '</div>'+
+	                '</div>'+
+	                '<div class="col-md-2 p-student-photo"><b><img class="student-photo" src="http://localhost/smis/photos/students/shakuntala/4106.jpg"></b></div>'+
+	            '</div>'+
+	            '<div class="results-information p-results-information-f-a col-md-12">'+
+	                '<div class="academic-result-t"><b><b>ACADEMIC PERFORMANCE (Scholastic Areas)</b></b>'+
+	                '</div>'+
+	                '<table class="table">'+
+	                    '<thead>'+
+	                        '<tr>'+
+	                            '<th style="width:18%;text-align:center;" rowspan="4">Subjects</th>'+
+	                            '<th rowspan="4">Post Mid<br>(20 Marks)</th>'+
+	                            '<th colspan="5">Session Ending Exam</th>'+
+	                            '<th rowspan="4">Pre<br>(Out of 5)</th>'+
+	                            '<th rowspan="4">Mid<br>(Out of 20)</th>'+
+	                            '<th rowspan="4">Post Mid<br>(Out of 5)</th>'+
+	                            '<th colspan="3">Session Ending Exam<br>(Theory + Practical)<br>(Out of 60)</th>'+
+	                            '<th rowspan="4">Academic Attention<br>(Out of 10)</th>'+
+	                            '<th rowspan="4">Grand Total 100</th>'+
+	                            '<th rowspan="4">Over all Grade</th>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<th colspan="2">Theory</th>'+
+	                            '<th colspan="2">Practical</th>'+
+	                            '<th>Total</th>'+
+	                            '<th rowspan="3">Th</th>'+
+	                            '<th rowspan="3">Pr</th>'+
+	                            '<th rowspan="3">Total</th>'+
+	                        '</tr>'+
+	                        '<tr></tr>'+
+	                        '<tr>'+
+	                            '<th>MM</th>'+
+	                            '<th>Marks Obt.</th>'+
+	                            '<th>MM</th>'+
+	                            '<th>Marks Obt.</th>'+
+	                            '<th>&nbsp;</th>'+
+	                        '</tr>'+
+	                    '</thead>'+
+	                    '<tbody>'+
+							'<tr>'+
+	                            '<td style="text-align:left;">English</td>'+
+	                            '<td>16</td>'+
+	                            '<td>80</td>'+
+	                            '<td>67 </td>'+
+	                            '<td>20</td>'+
+	                            '<td>18</td>'+
+	                            '<td>85</td>'+
+	                            '<td>4.25</td>'+
+	                            '<td>15.5</td>'+
+	                            '<td>4</td>'+
+	                            '<td>40.2</td>'+
+	                            '<td>10.8</td>'+
+	                            '<td>51</td>'+
+	                            '<td>10</td>'+
+	                            '<td>84.75</td>'+
+	                            '<td>A2</td>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<td style="text-align:left;">CS</td>'+
+	                            '<td>15</td>'+
+	                            '<td>70</td>'+
+	                            '<td>61 </td>'+
+	                            '<td>30</td>'+
+	                            '<td>27</td>'+
+	                            '<td>88</td>'+
+	                            '<td>4.5</td>'+
+	                            '<td>13.71</td>'+
+	                            '<td>3.75</td>'+
+	                            '<td>36.6</td>'+
+	                            '<td>16.2</td>'+
+	                            '<td>52.8</td>'+
+	                            '<td>10</td>'+
+	                            '<td>84.76</td>'+
+	                            '<td>A2</td>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<td style="text-align:left;">Maths</td>'+
+	                            '<td>14</td>'+
+	                            '<td>100</td>'+
+	                            '<td>66 </td>'+
+	                            '<td>NA</td>'+
+	                            '<td>NA</td>'+
+	                            '<td>66</td>'+
+	                            '<td>4.5</td>'+
+	                            '<td>13.4</td>'+
+	                            '<td>3.5</td>'+
+	                            '<td>39.6</td>'+
+	                            '<td>NA</td>'+
+	                            '<td>39.6</td>'+
+	                            '<td>10</td>'+
+	                            '<td>71</td>'+
+	                            '<td>B1</td>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<td style="text-align:left;">Physics</td>'+
+	                            '<td>16</td>'+
+	                            '<td>70</td>'+
+	                            '<td>43 </td>'+
+	                            '<td>30</td>'+
+	                            '<td>24</td>'+
+	                            '<td>67</td>'+
+	                            '<td>2.75</td>'+
+	                            '<td>10.86</td>'+
+	                            '<td>4</td>'+
+	                            '<td>25.8</td>'+
+	                            '<td>14.4</td>'+
+	                            '<td>40.2</td>'+
+	                            '<td>9</td>'+
+	                            '<td>66.81</td>'+
+	                            '<td>B2</td>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<td style="text-align:left;">Chemistry</td>'+
+	                            '<td>15</td>'+
+	                            '<td>70</td>'+
+	                            '<td>42 </td>'+
+	                            '<td>30</td>'+
+	                            '<td>29</td>'+
+	                            '<td>71</td>'+
+	                            '<td>4.25</td>'+
+	                            '<td>11.71</td>'+
+	                            '<td>3.75</td>'+
+	                            '<td>25.2</td>'+
+	                            '<td>17.4</td>'+
+	                            '<td>42.6</td>'+
+	                            '<td>10</td>'+
+	                            '<td>72.31</td>'+
+	                            '<td>B1</td>'+
+	                        '</tr>'+
+	                    '</tbody>'+
+	                '</table>'+
+	            '</div>'+
+	            '<div class="results-information p-results-information-f-c col-md-6">'+
+	                '<div class="academic-result-t" style="background-color:rgba(241,241,241,0.2)!important;"><b><b>Co-Scholastic Areas:[on a 5 Point (A-E) Grading Scale]</b></b></div>'+
+	                '<table class="table">'+
+	                    '<thead>'+
+	                        '<tr>'+
+	                            '<th style="text-align:center;">Subjects</th>'+
+	                            '<th>Grade MT</th>'+
+	                            '<th>Grade SE</th>'+
+	                            '<th colspan="2">Over all Grade</th>'+
+	                        '</tr>'+
+	                    '</thead>'+
+	                    '<tbody>'+
+	                        '<tr>'+
+	                            '<td style="text-align:left;">General Studies</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<td style="text-align:left;">Work Experience</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<td style="text-align:left;">Health &amp; Physical Education</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<td style="text-align:left;">Discipline</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<td style="text-align:left;">Computer Awareness</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                            '<td>A</td>'+
+	                        '</tr>'+
+	                    '</tbody>'+
+	                '</table>'+
+	            '</div>'+
+	            '<div class="results-information p-results-information-f-c col-md-6">'+
+	                '<div class="academic-result-t" style="background-color:rgba(241,241,241,0.2)!important;"><b><b>Result</b></b></div>'+
+	                '<table class="table" width="50%">'+
+	                    '<tbody>'+
+	                        '<tr>'+
+	                            '<td>Aggregate</td>'+
+	                            '<td>Aggregate</td>'+
+	                            '<td>Percentage</td>'+
+	                            '<td>75.93</td>'+
+	                            '<td>Rank</td>'+
+	                            '<td>&nbsp;</td>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<td>Final Result</td>'+
+	                            '<td colspan="5"><b>Pass</b></td>'+
+	                        '</tr>'+
+	                    '</tbody>'+
+	                '</table>'+
+	            '</div>'+
+	            '<div class="results-information p-results-information-f-c col-md-12" style="margin-top:15px;display:none;">'+
+	                '<table class="table">'+
+	                    '<thead>'+
+	                        '<tr>'+
+	                            '<th colspan="3" style="text-align:left;">Compartment Result:</th>'+
+	                        '</tr>'+
+	                        '<tr>'+
+	                            '<th>S.No.</th>'+
+	                            '<th>Subject</th>'+
+	                            '<th>Mark OBT</th>'+
+	                        '</tr>'+
+	                    '</thead>'+
+	                    '<tbody>'+
+	                        '<tr>'+
+	                            '<td>1.</td>'+
+	                            '<td>Hindi</td>'+
+	                            '<td>25</td>'+
+							'</tr>'+
+	                    '</tbody>'+
+	                '</table>'+
+	            '</div>'+
+	            '<div class="modal-footer p-footer-sec-f" style="padding-left:0px;margin-top:-25px;">'+
+	                '<div class="col-md-2 p-place-date"><b>Place: <b>Bhilai </b><br>Date: 20-05-2019</b></div>'+
+	                '<div class="col-md-2 col-md-offset-2 p-techer-sign"><b>&nbsp;<br><b>Signature of Class Teacher </b></b></div>'+
+	                '<div class="col-md-2 col-md-offset-1 p-school-seal"><b>&nbsp;<br><b>Seal of the School</b></b></div>'+
+	                '<div class="col-md-2 col-md-offset-1 text-center p-princi-sign" style="padding-right:0px;"><b><img class="principle-sign" src="../../assest/images/shakuntala/PrinSign.png"><br>(Vipin Kumar) <br><b>Principal</b></b></div>'+
+	                '<div class="instc-sec" style="margin-bottom:0px;padding:0;">'+
+	                    '<h4><b>Instructions</b></h4>'+
+	                    '<p><b><b>Grading scale for scholastic areas:</b> Grades are awarded on a 8- point grading scale as follows -</b></p>'+
+	                    '<div class="col-md-4 col-md-offset-4 range-table" style="margin-left:25%;width:50%;">'+
+	                        '<table style="font-size:11px;" class="table table-bordered">'+
+	                            '<thead>'+
+	                                '<tr>'+
+	                                    '<th style="width:40%;">Marks Range</th>'+
+	                                    '<th style="width:60%;">Grade</th>'+
+	                                '</tr>'+
+	                            '</thead>'+
+	                            '<tbody>'+
+	                                '<tr>'+
+	                                    '<td>91-100</td>'+
+	                                    '<td>A 1</td>'+
+	                                '</tr>'+
+	                                '<tr>'+
+	                                    '<td>81-90</td>'+
+	                                    '<td>A 2</td>'+
+	                                '</tr>'+
+	                                '<tr>'+
+	                                    '<td>71-80</td>'+
+	                                    '<td>B 1</td>'+
+	                                '</tr>'+
+	                                '<tr>'+
+	                                    '<td>61-70</td>'+
+	                                    '<td>B 2</td>'+
+	                                '</tr>'+
+	                                '<tr>'+
+	                                    '<td>51-60</td>'+
+	                                    '<td>C 1</td>'+
+	                                '</tr>'+
+	                                '<tr>'+
+	                                    '<td>41-50</td>'+
+	                                    '<td>C 2</td>'+
+	                                '</tr>'+
+	                                '<tr>'+
+	                                    '<td>33-40</td>'+
+	                                    '<td>D</td>'+
+	                                '</tr>'+
+	                                '<tr>'+
+	                                    '<td>32 &amp; Below</td>'+
+	                                    '<td>E (Failed)</td>'+
+	                                '</tr>'+
+	                            '</tbody>'+
+	                        '</table>'+
+	                    '</div>'+
+	                '</div>'+
+	                '<div style="float:left;text-align:left;"><b><span style="float:left;width:40px;"><b>Note:</b></span><span style="float:left;">* Compartment<br>** Promoted</span></b></div>'+
+	            '</div>'+
+	        '</div>'+
+	    '</div>';
+	 with(win.document){open(); write(x);close();}                                       
 	}
 	
 });

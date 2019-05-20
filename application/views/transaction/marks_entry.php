@@ -107,7 +107,7 @@
 					    </div>
 					    
 					    <div class="form-group">
-							<label class="control-label col-md-2">Subject Type</label>
+							<label class="control-label col-md-2">Sub Type</label>
 							<div class="col-sm-9">
 								<select name="sub_type" id="sub_type" class="form-control">
 									<option value="">Select Subject Type</option>
@@ -128,7 +128,11 @@
 								<div id="subject_err" style="display:none; color:red;"></div>
 							</div>
 					    </div>
-		
+						<div class="box-footer">
+                  			<div class="col-sm-offset-8">
+                        		<button type="button" id="search" class="btn btn-info">Search Students</button>
+                    		</div>
+                		</div>	
         			</form>
         		</div><!-- end box body -->
      			</div>
@@ -136,7 +140,7 @@
        		<div class="col-md-7">	
               	<div class="box box-info">
                     <div class="box-header">
-                      <h3 class="box-title">Student Marks Entry List</h3>
+                      <h3 class="box-title">Marks Entry <span id="type_and_sub"></span></h3>
                       <div id="subject_msg"></div>
                       <div id="practical_msg"></div>
                       <div id="notebook_msg"></div>

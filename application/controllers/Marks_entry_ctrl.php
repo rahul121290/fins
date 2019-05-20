@@ -112,6 +112,7 @@ class Marks_entry_ctrl extends CI_Controller{
         $this->db->where('om.et_id',$exam_type);
         $max_marks = $this->db->get_where('subject_allocation sa',array('sa.ses_id'=>$session,'sa.sch_id'=>$school,'sa.med_id'=>$medium,'sa.class_id'=>$class_name,'sa.st_id'=>$sub_type,'sa.sub_id'=>$subject,'sa.status'=>1))->result_array();
        
+        
         if(count($max_marks) < 1){
             echo json_encode(array('feedback'=>'This Class/Subject MAX marks not define.','status'=>500));
             die;
@@ -139,64 +140,22 @@ class Marks_entry_ctrl extends CI_Controller{
         $data['sub_type'] = $this->input->post('sub_type');
         $data['subject'] = $this->input->post('subject');
         
-        $std_id = $this->input->post('std_id');
-        $roll_no = $this->input->post('roll_no');
-        $adm_no = $this->input->post('adm_no');
-        $sub_marks = $this->input->post('subject_marks');
-        $practical = $this->input->post('practical_marks');
-        $notebook = $this->input->post('notebook_marks');
-        $enrichment = $this->input->post('enrichment_marks');
-        $acadmic = $this->input->post('acadmic_marks');
+        $student_marks = json_decode($this->input->post('std_marks'),true);
         
         $final = array();
-        foreach($std_id as $std_id_key => $std_id_val){
-            foreach($roll_no as $roll_no_key => $roll_no_val){
-                foreach($adm_no as $adm_no_key => $adm_no_val){
-                    foreach($sub_marks as $std_marks_key => $std_marks_val){
-                        if($std_id_key == $roll_no_key && $std_id_key == $adm_no_key && $std_id_key == $std_marks_key){
-                            $temp = array();
-                            $temp['std_id'] = $std_id_val;
-                            $temp['roll_no'] = $roll_no_val;
-                            $temp['adm_no'] = $adm_no_val;
-                            $temp['sub_marks'] = $std_marks_val;
-                            
-                            if(count($practical) > 0){
-                                foreach($practical as $practical_key => $practical_val){
-                                    if($std_id_key == $practical_key){
-                                        $temp['practical'] = $practical_val;
-                                    }
-                                }
-                            }
-                            
-                            if(count($notebook) > 0){
-                                foreach($notebook as $notebook_key => $notebook_val){
-                                    if($std_id_key == $notebook_key){
-                                        $temp['notebook'] = $notebook_val;
-                                    }
-                                }
-                            }
-                            if(count($enrichment) > 0){
-                                foreach($enrichment as $enrichment_key => $enrichment_val){
-                                    if($std_id_key == $enrichment_key){
-                                        $temp['enrichment'] = $enrichment_val;
-                                    }
-                                }
-                            }
-                            if(count($acadmic) > 0){
-                                foreach($acadmic as $acadmic_key => $acadmic_val){
-                                    if($std_id_key == $acadmic_key){
-                                        $temp['acadmic'] = $acadmic_val;
-                                    }
-                                }
-                            }
-                           
-                            $final[] = $temp;//----------add all temp data in final array----------------
-                        }//---end of first if condition
-                    }
-                }
-            }
-        }//--------------end of all foreach loops---------------------------
-        
+        foreach($student_marks as $std_mark){
+            $temp = array();
+            $temp['std_id'] = $std_mark[0]['std_id'];
+            $temp['adm_no'] = $std_mark[1]['adm_no'];
+            $temp['roll_no'] = $std_mark[2]['roll_no'];
+            $temp['sub_marks'] = $std_mark[3]['subject_marks'];
+            $temp['notebook'] = $std_mark[4]['notebook'];
+            $temp['enrichment'] = $std_mark[5]['enrichment'];
+            $temp['practical'] = $std_mark[6]['practical'];
+            $temp['acadmic'] = $std_mark[7]['acadmic'];
+            $final[] = $temp;
+        }
+
         $this->_ShowMsgs(
             $this->marks_entry_model->marks_entry($data,$final),"Marks Entry Successfully.","Falied Proccess Marks Entry, Please try again."
             );       

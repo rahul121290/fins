@@ -66,7 +66,7 @@ $(document).ready(function(){
 
 
 	//-------------get student records---------------------------
-	$(document).on('change','#subject',function(){
+	$(document).on('click','#search',function(){
 		var form_validate = $('#marks_entry_form').valid();
 		var exam_type = $('#exam_type').val();
 		var medium = $('#medium').val();
@@ -107,7 +107,7 @@ $(document).ready(function(){
 						i=1;
 						if(response.status == 200){
 							$('#loader').modal('hide');
-
+							$('#type_and_sub').html($('#exam_type').children('option:selected').text()+':- '+ $('#subject').children('option:selected').text());
 							if(response.max_marks[0].sub_marks){
 								$('#subject_msg').html('Maximum Subject Marks: '+response.max_marks[0].sub_marks).css('display','block');
 							}else{
@@ -120,7 +120,7 @@ $(document).ready(function(){
 									   '<td>'+std.class_name+' / '+std.section_name+'</td>'+
 									   '<td>'+std.adm_no+'</td>'+
 									   '<td>'+std.roll_no+'</td>'+
-									   '<td><input type="text" data-std_id="'+std.std_id+'" data-roll_no="'+std.roll_no+'" data-adm_no="'+std.adm_no+'" data-max="'+response.max_marks[0].sub_marks+'" value="'+std.sub_marks+'" name="subject_marks[]" class="subject_marks" style="width:50px;"></td>';
+									   '<td><input type="text" id="subject_marks_'+std.std_id+'" data-std_id="'+std.std_id+'" data-roll_no="'+std.roll_no+'" data-adm_no="'+std.adm_no+'" data-max="'+response.max_marks[0].sub_marks+'" value="'+std.sub_marks+'" name="subject_marks[]" class="subject_marks" style="width:50px;"></td>';
 
 									 //---------------notebook marks & enrichment marks-----------------------
 									   if((class_name < 14 && exam_type == 2 && sub_type == 1) ||(class_name < 14 && exam_type == 2 && sub_type == 3) || (class_name < 14 && exam_type == 4 && sub_type == 1)|| (class_name < 14 && exam_type == 4 && sub_type == 3)){ 
@@ -128,8 +128,8 @@ $(document).ready(function(){
 										   $('#enrichment').css('display','block');
 										   $('#notebook_msg').html('Maximum Notebook Marks: 5').css('display','block');
 										   $('#enrichment_msg').html('Maximum Enrichment Marks: 5').css('display','block');
-										   x=x+'<td><input type="text" id="'+std.std_id+'" data-max="5" value="'+std.notebook+'" name="notebook_marks[]" class="notebook_marks" style="width:50px;"></td>';
-											x=x+'<td><input type="text" id="'+std.std_id+'" data-max="5" value="'+std.enrichment+'" name="enrichment_marks[]" class="enrichment_marks" style="width:50px;"></td>';
+										   x=x+'<td><input type="text" id="notebook_'+std.std_id+'" data-max="5" value="'+std.notebook+'" name="notebook_marks[]" class="notebook_marks" style="width:50px;"></td>';
+											x=x+'<td><input type="text" id="enrichment_'+std.std_id+'" data-max="5" value="'+std.enrichment+'" name="enrichment_marks[]" class="enrichment_marks" style="width:50px;"></td>';
 										}else{
 											$('#notebook').css('display','none');
 											$('#enrichment').css('display','none');
@@ -137,20 +137,22 @@ $(document).ready(function(){
 											$('#enrichment_msg').css('display','none');
 											}
 										//--------------------practical marks-----------------------------
-										if((class_name >= 14 && exam_type == 2 && sub_type != 2)||(class_name >= 14 && exam_type == 4 && sub_type != 2) || (class_name >= 12 && exam_type == 2) || (class_name >= 12 &&sub_type == 4)){
-											$('#practical').css('display','block');
-											$('#practical_msg').html('Maximum Practical Marks: '+response.max_marks[0].practical).css('display','block');
-											x=x+'<td><input type="text" id="'+std.std_id+'" data-max="'+response.max_marks[0].practical+'" value="'+std.practical+'" name="practical_marks[]" class="practical_marks" style="width:50px;"></td>';
-										}else{
-											$('#practical').css('display','none');
-											$('#practical_msg').css('display','none');
-											}
+									   if(response.max_marks[0].practical){
+										   if((class_name >= 14 && exam_type == 2 && sub_type != 2)||(class_name >= 14 && exam_type == 4 && sub_type != 2) || (class_name >= 12 && exam_type == 2 && sub_type == 4) || (class_name >= 12 && exam_type == 4 && sub_type == 4)){
+												$('#practical').css('display','block');
+												$('#practical_msg').html('Maximum Practical Marks: '+response.max_marks[0].practical).css('display','block');
+												x=x+'<td><input type="text" id="practical_'+std.std_id+'" data-max="'+response.max_marks[0].practical+'" value="'+std.practical+'" name="practical_marks[]" class="practical_marks" style="width:50px;"></td>';
+											}else{
+												$('#practical').css('display','none');
+												$('#practical_msg').css('display','none');
+												} 
+									   }
 										
 										//---------acadmic marks-----------------
 										if((class_name >= 14 && exam_type == 4)){ 
 											$('#academic').css('display','block');
 											$('#acadmic_msg').html('Maximum Practical Marks: 10').css('display','block');
-											x=x+'<td><input type="text" id="'+std.std_id+'" data-max="10" value="'+std.acadmic+'" name="acadmic_marks[]" class="acadmic_marks" style="width:50px;"></td>';
+											x=x+'<td><input type="text" id="acadmic_'+std.std_id+'" data-max="10" value="'+std.acadmic+'" name="acadmic_marks[]" class="acadmic_marks" style="width:50px;"></td>';
 										}else{
 											$('#academic').css('display','none');
 											$('#acadmic_msg').css('display','none');
@@ -185,6 +187,53 @@ $(document).ready(function(){
 		var subject = $('#subject').val();
 	 
 	    
+		 var std_marks = [];
+			$('.subject_marks').each(function (index, value) {
+				var temp = [];
+				var std_id = $(this).data('std_id');
+				
+				if($('#subject_marks_'+std_id).val()){
+					var sub_mark = $('#subject_marks_'+std_id).val();
+				}else{
+					var sub_mark = '';
+				}
+				
+				if($('#notebook_'+std_id).val()){
+					var notebook_mark = $('#notebook_'+std_id).val();
+				}else{
+					var notebook_mark = '';
+				}
+				
+				if($('#enrichment_'+std_id).val()){
+					var enrichment_marks = $('#enrichment_'+std_id).val();
+				}else{
+					var enrichment_marks = '';
+				}
+				
+				if($('#practical_'+std_id).val()){
+					var practical_marks = $('#practical_'+std_id).val();
+				}else{
+					var practical_marks = '';
+				}
+				
+				
+				if($('#acadmic_'+std_id).val()){
+					var acadmic_mark = $('#acadmic_'+std_id).val();
+				}else{
+					var acadmic_mark = '';
+				}
+				
+				temp.push({std_id : std_id});
+				temp.push({adm_no : $(this).data('adm_no')});
+				temp.push({roll_no : $(this).data('roll_no')}) ;
+				temp.push({subject_marks : sub_mark});
+				temp.push({notebook : notebook_mark});
+				temp.push({enrichment : enrichment_marks});
+				temp.push({practical : practical_marks});
+				temp.push({acadmic : acadmic_mark});
+				std_marks.push(temp);
+			});
+		
 		var formdata = new FormData();
 		formdata.append('exam_type',exam_type);
 		formdata.append('medium',medium);
@@ -193,44 +242,8 @@ $(document).ready(function(){
 		formdata.append('section',section);
 		formdata.append('sub_type',sub_type);
 		formdata.append('subject',subject);
-		
-		var numItems = $('.subject_marks').length;
-	    for(var i = 0; i < numItems; i++) {
-	    	var std_id = $("input[name='subject_marks[]']").map(function(){return $(this).data('std_id');}).get()[i];
-	    	var roll_no = $("input[name='subject_marks[]']").map(function(){return $(this).data('roll_no');}).get()[i];
-	    	var adm_no = $("input[name='subject_marks[]']").map(function(){return $(this).data('adm_no');}).get()[i];
-	    	var subject_marks = $("input[name='subject_marks[]']").map(function(){return $(this).val();}).get()[i];
-	    	
-	    	if((class_name < 14 && exam_type == 2 && sub_type == 1) || (class_name < 14 && exam_type == 4 && sub_type==1)){
-	    		var notebook_marks = $("input[name='notebook_marks[]']").map(function(){return $(this).val();}).get()[i];	
-	    		var enrichment_marks = $("input[name='enrichment_marks[]']").map(function(){return $(this).val();}).get()[i];	
-	        }else{
-	        	var notebook_marks = '';
-	        	var enrichment_marks = '';
-	            }
-	    	if((class_name >= 14 && exam_type == 2 && sub_type != 2)||(class_name >= 14 && exam_type == 4 && sub_type != 2) || (class_name >= 12 && exam_type == 2) || (class_name >= 12 &&sub_type == 4)){
-	    		var practical_marks = $("input[name='practical_marks[]']").map(function(){return $(this).val();}).get()[i];	 
-	        }else{
-	        	var practical_marks = '';
-	            }
+		formdata.append('std_marks',JSON.stringify(std_marks));
 
-	    	if((class_name >= 14 && exam_type == 4)){
-	    		var acadmic_marks = $("input[name='acadmic_marks[]']").map(function(){return $(this).val();}).get()[i];
-	     	}else{
-	     		var acadmic_marks='';
-	         	}
-	    
-	    	formdata.append("std_id[]", std_id);  //Use [] to add multiple.
-	    	formdata.append("roll_no[]", roll_no);  //Use [] to add multiple.
-	    	formdata.append("adm_no[]", adm_no);  //Use [] to add multiple.
-	    
-	    	formdata.append("subject_marks[]", subject_marks);  //Use [] to add multiple.
-	    	formdata.append("notebook_marks[]", notebook_marks);  //Use [] to add multiple.
-	    	formdata.append("enrichment_marks[]", enrichment_marks);  //Use [] to add multiple.
-	    	formdata.append("practical_marks[]", practical_marks);  //Use [] to add multiple.
-	    	formdata.append("acadmic_marks[]", acadmic_marks);  //Use [] to add multiple.
-	    }
-	    
 		$.ajax({
 				type:'POST',
 				url:base_url+'Marks_entry_ctrl/marksEntry',
@@ -270,14 +283,16 @@ $(document).ready(function(){
 		$(document).on('blur','.subject_marks,.notebook_marks,.enrichment_marks,.practical_marks,.acadmic_marks',function(){
 			var max = $(this).data('max');
 		  	var val = $(this).val();
+		  	if(max != ''){
 		  		if(val > max || val == ''){
-		  	  	$(this).css('box-shadow','0px 0px 10px red');
-			  	$(this).focus();
-			  	$('#marks_submit').attr('disabled','disabled');
-		  	}	
-		  	else{
-		  		$('#marks_submit').attr('disabled',false);
-		  	  	$(this).css('box-shadow','none');
+			  	  	$(this).css('box-shadow','0px 0px 10px red');
+				  	$(this).focus();
+				  	$('#marks_submit').attr('disabled','disabled');
+			  	}
+			  	else{
+			  		$('#marks_submit').attr('disabled',false);
+			  	  	$(this).css('box-shadow','none');
+			  	}
 		  	}
 		});	
 
@@ -298,7 +313,7 @@ $(document).ready(function(){
 	  	}
 	});
 
-	//------------press only A and number-------------------------
+	//------------press only A and number-----------------------------
 	$(document).on('keypress','.subject_marks,.notebook_marks,.enrichment_marks,.practical_marks,.acadmic_marks',function(e){
 	    var keyCode = e.which ? e.which : e.keyCode;
 	    var ret = ((keyCode >= 48 && keyCode <= 57) || (keyCode <= 65 || keyCode <= 8));

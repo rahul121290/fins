@@ -209,7 +209,7 @@ $(document).ready(function(){
 					                        if(class_name == '14' || class_name == '15'){
 					                        	x=x+'<tr>'+
 					                        		'<td></td>'+
-					                        		'<td>MM '+response.result.mid_sub[0].out_of+'</td>'+
+					                        		'<td>MM '+response.result.pre_sub[0].out_of+'</td>'+
 					                        		'<td></td>'+
 					                        		'<td>MM</td>'+
 					                        		'<td>Marks Opt.</td>'+
@@ -287,11 +287,12 @@ $(document).ready(function(){
 							                    	 	'<td>'+mid_sub.sub_name+'</td>';
 								                        
 								                        if(class_name < '14'){
-								                        	if(pre_marks == 'A'){var pre_marks1 = 'Abst.';}else{var pre_marks1 = (pre_marks/20*10).toFixed(2);}
-								                        	if(notebook == 'A'){var notebook1 = 'Abst.';}else{var notebook1 = notebook;}
-								                        	if(enrichment == 'A'){var enrichment1 = 'Abst.';}else{var enrichment1 = enrichment;}
-								                        	if(mid_marks == 'A'){var mid_marks1 = 'Abst.';}else{var mid_marks1 = mid_marks;}
-								                        	if(marks_obtained == 'A'){var marks_obtained1 = 'Abst.';}else{var marks_obtained1 = marks_obtained;}
+								                        	if(pre_marks == 'Abst.'){var pre_marks1 = pre_marks;}else{var pre_marks1 = (pre_marks/20*10).toFixed(2);}
+								                        	if(notebook == 'Abst.'){var notebook1 = notebook;}else{var notebook1 = notebook;}
+								                        	if(enrichment == 'Abst.'){var enrichment1 = enrichment;}else{var enrichment1 = enrichment;}
+								                        	if(mid_marks == 'Abst.'){var mid_marks1 = mid_marks;}else{var mid_marks1 = mid_marks;}
+								                        	if(marks_obtained == 'Abst.'){var marks_obtained1 = marks_obtained;}else{var marks_obtained1 = marks_obtained;}
+								                        	
 								                        	x=x+'<td align="center">'+pre_marks1+'</td>'+
 								                        	'<td align="center">'+notebook1+'</td>'+
 									                        '<td align="center">'+enrichment1+'</td>'+
@@ -300,14 +301,20 @@ $(document).ready(function(){
 									                        '<td align="center">'+grade+'</td>';
 									                    }						                        
 								                        if(class_name == '14' || class_name == '15'){
-								                        	if(pre_marks == 'A'){var pre_marks1 = 'Abst.';}else{var pre_marks1 = pre_marks;}
-								                        	if(pre_marks == 'A'){var pre_out_of_5 = 'Abst.';}else{var pre_out_of_5 = (pre_marks/20*5).toFixed(2);}
-								                        	if(mid_marks == 'A'){var mid_marks1 = 'Abst.';}else{var mid_marks1 = mid_marks;}
-								                        	if(mid_marks == 'A'){var mid_out_of_20 = 'Abst.';}else{var mid_out_of_20 = (mid_marks/mid_sub.out_of*20).toFixed(2);}
-								                        	x=x+'<td align="center">'+pre_marks1+'</td>'+
+								                        	if(pre_marks == 'Abst.'){
+								                        		var pre_out_of_5 = pre_marks;
+								                        	}else{
+								                        		var pre_out_of_5 = (pre_marks/20*5).toFixed(2);
+								                        	}
+								                        	if(mid_marks == 'Abst.'){
+								                        		var mid_out_of_20 = mid_marks;
+								                        	}else{
+								                        		mid_out_of_20 = (mid_marks/(mid_sub.out_of)*20).toFixed(2);
+								                        	}						                        	
+								                        	x=x+'<td align="center">'+pre_marks+'</td>'+
 								                        	'<td align="center">'+pre_out_of_5+'</td>'+
 								                        	'<td align="center">'+mid_sub.out_of+'</td>'+
-								                        	'<td align="center">'+mid_marks1+'</td>'+
+								                        	'<td align="center">'+mid_marks+'</td>'+
 								                        	'<td align="center">'+mid_out_of_20+'</td>';
 									                    }
 								                     '</tr>'; 
@@ -327,6 +334,7 @@ $(document).ready(function(){
 						                  '</thead>'+
 						                  '<tbody>';
 						                  $.each(response.result.co_scholistic_sub,function(key,so_sch){
+						                	  console.log(value[so_sch['sub_name']]);
 						                	  x=x+'<tr>'+
 						                        '<td>'+so_sch['sub_name']+'</td>'+
 						                        '<td align="center">'+value[so_sch['sub_name']]+'</td>'+

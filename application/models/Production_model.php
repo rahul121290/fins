@@ -144,7 +144,7 @@ class Production_model extends CI_Model {
         $sub_group = $data['sub_group'];
         $section = $data['section'];
         
-        $sub_allocation = '';
+        $sub_allocation = ' AND sa.status=1';
         $marks_master = ' AND mm.status=1';
         
         if($session){
@@ -196,7 +196,9 @@ class Production_model extends CI_Model {
         $this->db->where('1=1'.$sub_allocation);
         $this->db->order_by('s.short_order','ASC');
         $result['subjects'] = $this->db->get_where('subject_allocation sa')->result_array();
+        
         //print_r($this->db->last_query());die;
+        
         //-----------------------------------***********----------------------------------------------------------------
         $result['division'] = $this->db->select('min_no,max_no,division')->get_where('division',array('ses_id'=>$session,'sch_id'=>$school,'med_id'=>$medium,'status'=>1))->result_array();
         

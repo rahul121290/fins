@@ -244,8 +244,7 @@ class Production_ctrl extends CI_Controller{
         $final = array();
         foreach($pre_result['pre'] as $pre){
             foreach ($mid_result['mid'] as $mid){
-                foreach($co_scholistic['co_scholistc'] as $co_scholistc){
-                    if($pre['adm_no'] == $mid['adm_no'] && $pre['adm_no'] == $co_scholistc['adm_no']){
+                    if($pre['adm_no'] == $mid['adm_no']){
                         $temp = array();
                         $temp['elective_id'] = $pre['elective'];
                         $temp['std_id'] = $pre['std_id'];
@@ -280,11 +279,15 @@ class Production_ctrl extends CI_Controller{
                                 $temp[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
                             }
                         }
-                        
                         //-----------get co-scholistic subject in temp------------------
-                        foreach($co_scholistic['subjects'] as $co_sch_sub){
-                            $temp[$co_sch_sub['sub_name']] = $co_scholistc[$co_sch_sub['sub_name']];
+                        foreach($co_scholistic['co_scholistc'] as $co_scholistc){
+                            if($pre['adm_no'] == $co_scholistc['adm_no']){
+                                foreach($co_scholistic['subjects'] as $co_sch_sub){
+                                    $temp[$co_sch_sub['sub_name']] = $co_scholistc['sub_marks'];
+                                }
+                            }
                         }
+                        
                        
                         //------------get attendance in temp------------------
                         if($mid_result['attendance']){
@@ -312,12 +315,11 @@ class Production_ctrl extends CI_Controller{
                     }
                 }
             }
-        }
         
         $result['org_details'] = $this->production_model->org_details($data);
         
         if(count($result) > 0){
-           // print_r($result);die;
+            //print_r($result);die;
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
             echo json_encode(array('feedback'=>'something getting wrong.','status'=>500));
@@ -333,6 +335,12 @@ class Production_ctrl extends CI_Controller{
         $data['sub_group'] = $this->input->post('sub_group');
         $data['section'] = $this->input->post('section');
         $data['std_id'] = $this->input->post('std_id');
+        
+        if($data['class'] >13){ //generate marksheet for XI and XII------
+            $this->final_marksheet_XI_XII($data);
+            die;
+        }
+        
         
         $pre_result = $this->Mid_marksheet_model->preResult($data);
         $mid_result = $this->Mid_marksheet_model->midResult($data);
@@ -353,8 +361,7 @@ class Production_ctrl extends CI_Controller{
         $pre_mid = array();
         foreach($pre_result['pre'] as $pre){
             foreach ($mid_result['mid'] as $mid){
-                foreach($co_scholistic['co_scholistc'] as $co_scholistc){
-                    if($pre['adm_no'] == $mid['adm_no'] && $pre['adm_no'] == $co_scholistc['adm_no']){
+                    if($pre['adm_no'] == $mid['adm_no']){
                         $temp = array();
                         $temp['elective_id'] = $pre['elective'];
                         $temp['std_id'] = $pre['std_id'];
@@ -397,8 +404,12 @@ class Production_ctrl extends CI_Controller{
                         }
                         
                         //-----------get co-scholistic subject in temp------------------
-                        foreach($co_scholistic['subjects'] as $co_sch_sub){
-                            $temp[$co_sch_sub['sub_name']] = $co_scholistc[$co_sch_sub['sub_name']];
+                        foreach($co_scholistic['co_scholistc'] as $co_scholistc){
+                            if($pre['adm_no'] == $co_scholistc['adm_no']){
+                                foreach($co_scholistic['subjects'] as $co_sch_sub){
+                                    $temp[$co_sch_sub['sub_name']] = $co_scholistc['sub_marks'];
+                                }
+                            }
                         }
                         
                         //------------get attendance in temp------------------
@@ -426,7 +437,6 @@ class Production_ctrl extends CI_Controller{
                     }
                 }
             }
-        }
         
         $post_result = $this->Final_marksheet_model->postResult($data);
         $final_exam = $this->Final_marksheet_model->finalResult($data);
@@ -436,8 +446,7 @@ class Production_ctrl extends CI_Controller{
         $final_result = array();
         foreach($post_result['post'] as $post){
             foreach ($final_exam['final'] as $final){
-                foreach($final_co_scholistic['co_scholistc'] as $final_co_scho){
-                    if($post['adm_no'] == $final['adm_no'] && $post['adm_no'] == $final_co_scho['adm_no']){
+                    if($post['adm_no'] == $final['adm_no']){
                         $temp = array();
                         $temp['elective_id'] = $post['elective'];
                         $temp['std_id'] = $post['std_id'];
@@ -467,9 +476,14 @@ class Production_ctrl extends CI_Controller{
                         }
                         
                         //-----------get co-scholistic subject in temp------------------
-                        foreach($final_co_scholistic['subjects'] as $co_sch_sub){
-                            $temp[$co_sch_sub['sub_name']] = $final_co_scho[$co_sch_sub['sub_name']];
+                        foreach($final_co_scholistic['co_scholistc'] as $final_co_scho){
+                            if($post['adm_no'] == $final_co_scho['adm_no']){
+                                foreach($final_co_scholistic['subjects'] as $co_sch_sub){
+                                    $temp[$co_sch_sub['sub_name']] = $final_co_scho['sub_marks'];
+                                }
+                            }
                         }
+                        
                         //------------get attendance in temp------------------
                         if($final_exam['attendance']){
                             foreach($final_exam['attendance'] as $attendance){
@@ -495,7 +509,6 @@ class Production_ctrl extends CI_Controller{
                     }
                 }
             }
-        }
         
         //-----------murge pre and mid data------------------
         if($data['class'] < 12){
@@ -562,7 +575,6 @@ class Production_ctrl extends CI_Controller{
                     }
                 }
             }
-            
         }elseif (($data['class'] > 11) && ($data['class'] < 14) ){ //for class 9th and 10th--------------
             $class_9th_data = array();
             $min_marks = 33; // minimum passing marks
@@ -574,7 +586,7 @@ class Production_ctrl extends CI_Controller{
                 foreach($final_result as $term2){
                     if($term1['std_id'] == $term2['std_id']){
                         $aggregate = null;
-                        $aggregate1 = null;
+                        $aggregate_with_comp = null;
                         $temp = array();
                         $std_details = [];
                         $std_details['std_id'] = $term1['std_id'];
@@ -616,7 +628,6 @@ class Production_ctrl extends CI_Controller{
                         
                         $real_marks = array();
                         $comp_marks = array();
-                        $std_result = 'Pass';
                         foreach($result['mid_sub'] as $subject){
                             $min_pass_marks = ceil($subject['out_of']/100*33);
                             $sub_marks = [];
@@ -693,7 +704,6 @@ class Production_ctrl extends CI_Controller{
                                     $compartment_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '**';
                                 }else{
                                     $flag = 0;
-                                    $std_result = '';
                                     $sub_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '*';
                                     $compartment_marks['marks_obtained_'.$subject['sub_name'].'_star'] = '*';
                                     $t1 = array();
@@ -712,9 +722,8 @@ class Production_ctrl extends CI_Controller{
                                 }
                             }
                             
-                            
                             $aggregate += (float)$sub_marks['marks_obtained_'.$subject['sub_name']];
-                            $aggregate1 += (float)$compartment_marks['marks_obtained_'.$subject['sub_name']];
+                            $aggregate_with_comp += (float)$compartment_marks['marks_obtained_'.$subject['sub_name']];
                             
                             $real_marks[] = $sub_marks;
                             $comp_marks[] = $compartment_marks;
@@ -725,7 +734,7 @@ class Production_ctrl extends CI_Controller{
                         if(isset($temp['back']) ){
                             if(count($temp['back']) <= $max_comp){
                                 $temp['main_marks'] = $comp_marks;
-                                $temp['aggregate'] = round($aggregate1,2);
+                                $temp['aggregate'] = round($aggregate_with_comp,2);
                             }else{
                                 $temp['main_marks'] = $real_marks;
                                 $temp['aggregate'] = '-';
@@ -741,9 +750,7 @@ class Production_ctrl extends CI_Controller{
                 }
             }
          }
-            
-        // print_r($result);die;
-         
+        //print_r($result);die;
         $result['org_details'] = $this->production_model->org_details($data);
         //print_r($result);die;
         if(count($result) > 0){
@@ -753,4 +760,292 @@ class Production_ctrl extends CI_Controller{
             echo json_encode(array('feedback'=>'something getting wrong.','status'=>500));
         }
     }
+    
+    function final_marksheet_XI_XII($data){
+        $pre_result = $this->Mid_marksheet_model->preResult($data);
+        $mid_result = $this->Mid_marksheet_model->midResult($data);
+        $mid_co_scholistic = $this->Mid_marksheet_model->midCoScholistic($data);
+        $post_result = $this->Final_marksheet_model->postResult($data);
+        $final_result = $this->Final_marksheet_model->finalResult($data);
+        $final_co_scholistic = $this->Final_marksheet_model->finalCoScholistic($data);
+        $grade = $this->db->select('min_no,max_no,grade,grade_point')->get_where('grade',array('status'=>1))->result_array();
+        //print_r($final_result);die;
+        
+        $result['subjects'] = $mid_result['mid'];
+        
+        $extra_marks = 5;
+        $extra_no = null;
+        $x = null;
+        $extra = null;
+        
+        $final_data = array();
+        foreach($pre_result['pre'] as $pre){
+            $temp = array();
+            $temp['std_id'] = $pre['std_id'];
+            $temp['adm_no'] = $pre['adm_no'];
+            $temp['roll_no'] = $pre['roll_no'];
+            $temp['name'] = $pre['name'];
+            $temp['class_name'] = $pre['class_name'];
+            $temp['dob'] = $pre['dob'];
+            $temp['m_name'] = $pre['m_name'];
+            $temp['f_name'] = $pre['f_name'];
+            $temp['aadhar_no'] = $pre['aadhar_no'];
+            $temp['address'] = $pre['address'];
+            $temp['photo'] = $pre['photo'];
+            
+            foreach($pre_result['subjects'] as $subject){
+                if(($subject['st_id'] == 1) || ($subject['st_id'] == 3 && $subject['sub_id'] == $pre['elective']) ){
+                    $sub_marks = array();
+                    $sub_marks['sub_id'] = $subject['sub_id'];
+                    if(($pre[$subject['sub_name']] == 'A') || ($pre[$subject['sub_name']] == '')){
+                        $sub_marks[$subject['sub_name']] = 'Abst.';
+                    }else{
+                        $sub_marks[$subject['sub_name']] = round((($pre[$subject['sub_name']]/$subject['out_of'])*5),2);
+                    }
+                    
+                    $temp['pre_marks'][] = $sub_marks;
+                }
+            }
+            
+            foreach($mid_result['mid'] as $mid){
+                if($mid['std_id'] == $pre['std_id']){
+                    foreach($mid_result['subjects'] as $subject){
+                        if(($subject['st_id'] == 1) || ($subject['st_id'] == 3 && $subject['sub_id'] == $pre['elective']) ){
+                            $sub_marks = array();
+                            $sub_marks['sub_id'] = $subject['sub_id'];
+                            if(($mid[$subject['sub_name']] == 'A') || ($mid[$subject['sub_name']] == '')){
+                                $sub_marks[$subject['sub_name']] = 'Abst.';
+                                $sub_marks[$subject['sub_name'].'_out_of_20'] = 'Abst.';
+                            }else{
+                                $sub_marks[$subject['sub_name']] = $mid[$subject['sub_name']];
+                                $sub_marks[$subject['sub_name'].'_out_of_20'] = round((($mid[$subject['sub_name']]/$subject['out_of'])*20),2);
+                            }
+                            
+                            if(($mid[$subject['sub_name'].'_practical'] == 'A') || $mid[$subject['sub_name'].'_practical'] == ''){
+                                $sub_marks[$subject['sub_name'].'_practical'] = 'Abst.';
+                            }else{
+                                $sub_marks[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
+                            }
+                            
+                            $temp['mid_marks'][] = $sub_marks;
+                        }
+                    }
+                }
+            }
+            
+            foreach($post_result['post'] as $post){
+                if($post['std_id'] == $pre['std_id']){
+                    foreach($post_result['subjects'] as $subject){
+                        if(($subject['st_id'] == 1) || ($subject['st_id'] == 3 && $subject['sub_id'] == $pre['elective']) ){
+                            $sub_marks = array();
+                            $sub_marks['sub_id'] = $subject['sub_id'];
+                            if(($post[$subject['sub_name']] == 'A') || ($post[$subject['sub_name']] == '')){
+                                $sub_marks[$subject['sub_name']] = 'Abst.';
+                            }else{
+                                $sub_marks[$subject['sub_name']] = round((($post[$subject['sub_name']]/$subject['out_of'])*20),2);
+                            }
+                            
+                            $temp['post_marks'][] = $sub_marks;
+                        }
+                    }
+                }
+            }
+            
+            foreach($final_result['final'] as $final){
+                if($final['std_id'] == $pre['std_id']){
+                    foreach($final_result['subjects'] as $subject){
+                        if(($subject['st_id'] == 1) || ($subject['st_id'] == 3 && $subject['sub_id'] == $pre['elective']) ){
+                            $sub_marks = array();
+                            $sub_marks['sub_id'] = $subject['sub_id'];
+                            if(($final[$subject['sub_name']] == 'A') || ($final[$subject['sub_name']] == '')){
+                                $sub_marks[$subject['sub_name']] = 'Abst.';
+                                $main_marks = 0;
+                            }else{
+                                $sub_marks[$subject['sub_name']] = round((($final[$subject['sub_name']]/$subject['out_of'])*60),2);
+                                $main_marks = round((($final[$subject['sub_name']]/$subject['out_of'])*60),2);
+                            }
+                            
+                            if(($final[$subject['sub_name'].'_practical'] == 'A') || $final[$subject['sub_name'].'_practical'] == ''){
+                                $sub_marks[$subject['sub_name'].'_practical'] = 'Abst.';
+                                $practical_marks = 0;
+                            }else{
+                                $sub_marks[$subject['sub_name'].'_practical'] = round((($final[$subject['sub_name'].'_practical']/$subject['out_of'])*60),2);
+                                $practical_marks = round((($final[$subject['sub_name'].'_practical']/$subject['out_of'])*60),2);
+                            }
+                            
+                            if(($final[$subject['sub_name'].'_acadmic'] == 'A') || $final[$subject['sub_name'].'_acadmic'] == ''){
+                                $sub_marks[$subject['sub_name'].'_acadmic'] = 'Abst.';
+                            }else{
+                                $sub_marks[$subject['sub_name'].'_acadmic'] = $final[$subject['sub_name'].'_acadmic'];
+                            }
+                            $sub_marks['total'] = $main_marks + $practical_marks;
+                            $temp['final_marks'][] = $sub_marks;
+                        }
+                    }
+                }
+            }
+            
+            foreach($final_result['subjects'] as $subject){
+                if(($subject['st_id'] == 1) || ($subject['st_id'] == 3 && $subject['sub_id'] == $pre['elective']) ){
+                    $grand_total = array();
+                    $grand_total['sub_id'] = $subject['sub_id'];
+                    foreach($temp['pre_marks'] as $pre_marks){
+                        if($subject['sub_id'] == $pre_marks['sub_id']){
+                            if(($pre_marks[$subject['sub_name']] == 'Abst.') || ($pre_marks[$subject['sub_name']] == '')){
+                                $pre_mks = 0;
+                            }else{
+                                $pre_mks = $pre_marks[$subject['sub_name']];
+                            }
+                        }
+                    }
+                    
+                    foreach($temp['mid_marks'] as $mid_marks){
+                        if($subject['sub_id'] == $mid_marks['sub_id']){
+                            if(($mid_marks[$subject['sub_name'].'_out_of_20'] == 'Abst.') || ($mid_marks[$subject['sub_name'].'_out_of_20'] == '')){
+                                $mid_mks = 0;
+                            }else{
+                                $mid_mks = $mid_marks[$subject['sub_name'].'_out_of_20'];
+                            }
+                        }
+                    }
+                    
+                    foreach($temp['post_marks'] as $post_marks){
+                        if($subject['sub_id'] == $post_marks['sub_id']){
+                            if(($post_marks[$subject['sub_name']] == 'Abst.') || ($post_marks[$subject['sub_name']] == '')){
+                                $post_mks = 0;
+                            }else{
+                                $post_mks = $post_marks[$subject['sub_name']];
+                            }
+                        }
+                    }
+                    
+                    foreach($temp['final_marks'] as $final_marks){
+                        if($subject['sub_id'] == $final_marks['sub_id']){
+                            if(($final_marks[$subject['sub_name']] == 'Abst.') || ($final_marks[$subject['sub_name']] == '')){
+                                $final_mks = 0;
+                            }else{
+                                $final_mks = $final_marks[$subject['sub_name']];
+                            }
+                            if(($final_marks[$subject['sub_name'].'_practical'] == 'Abst.') || ($final_marks[$subject['sub_name'].'_practical'] == '')){
+                                $final_prac_mks = 0;
+                            }else{
+                                $final_prac_mks = $final_marks[$subject['sub_name'].'_practical'];
+                            }
+                            if(($final_marks[$subject['sub_name'].'_acadmic'] == 'Abst.') || ($final_marks[$subject['sub_name'].'_acadmic'] == '')){
+                                $acadmic = 0;
+                            }else{
+                                $acadmic = $final_marks[$subject['sub_name'].'_acadmic'];
+                            }
+                        }
+                    }
+                    
+                    $grand_total[$subject['sub_name']] = round(($pre_mks+$mid_mks+$post_mks+$final_mks+$final_prac_mks+$acadmic),2);
+                   
+                   //-------------compartment and promoted section-----------------------------------------------
+                    if($final_mks < round(($subject['out_of']/100)*33) ){
+                        $extra = round(($subject['out_of']/100)*33) - $final_mks;
+                        $x = $extra_marks - $extra_no;//5-0=5
+                        $x  = $x - ceil($extra);
+                        if($x > 0){
+                            $extra_no = $extra_no + ceil($extra);
+                            $t1 = array();
+                            $t1['star'] =  '**';
+                            $t1['extra'] = $extra;
+                            $t1['sub_id'] = $subject['sub_id'];
+                            $t1['subject_name'] = $subject['sub_name'];
+                            $temp['extra'][] = $t1;
+                        }else{
+                            $t1 = array();
+                            $t1['star'] = '*';
+                            $t1['sub_id'] = $subject['sub_id'];
+                            $t1['theory'] = $subject['sub_name'];
+                            $temp['back'][] = $t1;
+                        }
+                    }
+                    if($final_prac_mks < round(($subject['practical']/100)*33) ){
+                        $t1 = array();
+                        $t1['star'] = '*';
+                        $t1['sub_id'] = $subject['sub_id'];
+                        $t1['practical'] = $subject['sub_name'];
+                        $temp['back'][] = $t1;
+                    }
+                    
+                    if($grand_total[$subject['sub_name']] < 33){
+                        $t1 = array();
+                        $t1['star'] = '*';
+                        $t1['sub_id'] = $subject['sub_id'];
+                        $t1['grande_total'] = $subject['sub_name'];
+                        $temp['back'][] = $t1;
+                    }
+                    
+                    //---------------------------------------
+                    
+                    foreach($grade as $marks_grade){
+                        if($marks_grade['min_no'] <= $grand_total[$subject['sub_name']] && $marks_grade['max_no'] >= $grand_total[$subject['sub_name']] ){
+                            $grand_total['grade'] = $marks_grade['grade'];
+                        }
+                    }
+                    
+                    $temp['grand_total'][] = $grand_total;
+                }
+            }
+            
+            
+            $co_scholastic = array();
+            foreach($mid_co_scholistic['subjects'] as $co_subject){
+                foreach ($mid_co_scholistic['co_scholistc'] as $mid_co_mark){
+                    if(($mid_co_mark['sub_id'] == $co_subject['sub_id']) && ($mid_co_mark['std_id'] == $pre['std_id'])){
+                        $co_marks = array();
+                        $co_marks['sub_id'] = $mid_co_mark['sub_id'];
+                        $co_marks[$co_subject['sub_name']] = $mid_co_mark['sub_marks'];
+                        $co_scholastic['mid_co_scholastic'][] = $co_marks;
+                    }
+                }
+                
+                foreach ($final_co_scholistic['co_scholistc'] as $final_co_mark){
+                    if(($final_co_mark['sub_id'] == $co_subject['sub_id']) && ($final_co_mark['std_id'] == $pre['std_id'])){
+                        $co_marks = array();
+                        $co_marks['sub_id'] = $final_co_mark['sub_id'];
+                        $co_marks[$co_subject['sub_name']] = $mid_co_mark['sub_marks'];
+                        $co_scholastic['final_co_scholastic'][] = $co_marks;
+                    }
+                }
+            }
+            
+            foreach( $co_scholastic['mid_co_scholastic'] as $cal_mid_co){
+                foreach($co_scholastic['final_co_scholastic'] as $cal_final_co){
+                    if($cal_mid_co['sub_id'] == $cal_final_co['sub_id']){
+                        foreach($mid_co_scholistic['subjects'] as $co_subject){
+                            if(($co_subject['sub_id'] == $cal_mid_co['sub_id']) && ($co_subject['sub_id'] == $cal_final_co['sub_id'])){
+                                $total_co = array();
+                                $total_co['sub_id'] = $cal_mid_co['sub_id'];
+                                $total_co[$co_subject['sub_name']] = $cal_mid_co[$co_subject['sub_name']] + $cal_final_co[$co_subject['sub_name']];
+                                $co_scholastic['calculate_co'][] =  $total_co;
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            
+            $temp['co_scholastic'] = $co_scholastic;
+            
+            $final_data[] = $temp;
+        }
+        //print_r($final_data);die;
+        $result['final_result'] = $final_data;
+        
+//         $unique_arr = array_unique(array_column($temp['back'] , 'sub_id'));
+//         print_r(count($unique_arr));die;
+
+        $result['org_details'] = $this->production_model->org_details($data);
+        if(count($result) > 0){
+            // print_r($result);die;
+            echo json_encode(array('result'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('feedback'=>'something getting wrong.','status'=>500));
+        }
+        
+    }
+    
 }
