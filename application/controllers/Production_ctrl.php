@@ -771,7 +771,7 @@ class Production_ctrl extends CI_Controller{
         $grade = $this->db->select('min_no,max_no,grade,grade_point')->get_where('grade',array('status'=>1))->result_array();
         //print_r($final_result);die;
         
-        $result['subjects'] = $mid_result['mid'];
+        $result['subjects'] = $final_result['subjects'];
         
         $extra_marks = 5;
         $extra_no = null;
@@ -781,6 +781,7 @@ class Production_ctrl extends CI_Controller{
         $final_data = array();
         foreach($pre_result['pre'] as $pre){
             $temp = array();
+            $temp['elective'] = $pre['elective'];
             $temp['std_id'] = $pre['std_id'];
             $temp['adm_no'] = $pre['adm_no'];
             $temp['roll_no'] = $pre['roll_no'];
@@ -816,17 +817,21 @@ class Production_ctrl extends CI_Controller{
                             if(($mid[$subject['sub_name']] == 'A') || ($mid[$subject['sub_name']] == '')){
                                 $sub_marks[$subject['sub_name']] = 'Abst.';
                                 $sub_marks[$subject['sub_name'].'_out_of_20'] = 'Abst.';
+                                $mid_theory = 0;
                             }else{
                                 $sub_marks[$subject['sub_name']] = $mid[$subject['sub_name']];
                                 $sub_marks[$subject['sub_name'].'_out_of_20'] = round((($mid[$subject['sub_name']]/$subject['out_of'])*20),2);
+                                $mid_theory = $mid[$subject['sub_name']];;
                             }
                             
                             if(($mid[$subject['sub_name'].'_practical'] == 'A') || $mid[$subject['sub_name'].'_practical'] == ''){
                                 $sub_marks[$subject['sub_name'].'_practical'] = 'Abst.';
+                                $mid_practical = 0;
                             }else{
                                 $sub_marks[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
+                                $mid_practical = $mid[$subject['sub_name'].'_practical'];
                             }
-                            
+                            $sub_marks['total'] = $mid_theory + $mid_practical;
                             $temp['mid_marks'][] = $sub_marks;
                         }
                     }
@@ -841,8 +846,10 @@ class Production_ctrl extends CI_Controller{
                             $sub_marks['sub_id'] = $subject['sub_id'];
                             if(($post[$subject['sub_name']] == 'A') || ($post[$subject['sub_name']] == '')){
                                 $sub_marks[$subject['sub_name']] = 'Abst.';
+                                $sub_marks['out_of_5'] = 'Abst.';
                             }else{
-                                $sub_marks[$subject['sub_name']] = round((($post[$subject['sub_name']]/$subject['out_of'])*20),2);
+                                $sub_marks[$subject['sub_name']] = $post[$subject['sub_name']];
+                                $sub_marks['out_of_5'] = round((($post[$subject['sub_name']]/$subject['out_of'])*5),2);
                             }
                             
                             $temp['post_marks'][] = $sub_marks;
@@ -878,10 +885,43 @@ class Production_ctrl extends CI_Controller{
                             }else{
                                 $sub_marks[$subject['sub_name'].'_acadmic'] = $final[$subject['sub_name'].'_acadmic'];
                             }
+
+                            //-------------compartment and promoted section-----------------------------------------------
+                            if($main_marks < ceil(($subject['out_of']/100)*33 ) ){
+                                $extra = ceil(($subject['out_of']/100)*33) - $main_marks;
+                                $x = $extra_marks - $extra_no;//5-0=5
+                                $x  = $x - ceil($extra);
+                                if($x > 0){
+                                    $extra_no = $extra_no + ceil($extra);
+                                    $sub_marks[$subject['sub_name']] = $main_marks + $extra;
+                                    $main_marks = $main_marks + $extra;
+                                    $sub_marks['sub_star'] = '**';
+                                }else{
+                                    $sub_marks['sub_star'] = '*';
+                                    $t1 = array();
+                                    $t1['sub_id'] = $subject['sub_id'];
+                                    $t1['name'] = $subject['sub_name'];
+                                    $temp['back'][] = $t1;
+                                }
+                            }else{
+                                $sub_marks['sub_star'] = '';
+                                $sub_marks['sub_star'] = '';
+                            }
+
+                            if($practical_marks < ceil(($subject['out_of']/100)*33 ) ){
+                                $sub_marks['prac_star'] = '*';
+                                $t1 = array();
+                                $t1['sub_id'] = $subject['sub_id'];
+                                $t1['name'] = $subject['sub_name'];
+                                $temp['back'][] = $t1;
+                            }else{
+                                $sub_marks['prac_star'] = '';
+                            }
                             $sub_marks['total'] = $main_marks + $practical_marks;
                             $temp['final_marks'][] = $sub_marks;
                         }
                     }
+
                 }
             }
             
@@ -889,6 +929,7 @@ class Production_ctrl extends CI_Controller{
                 if(($subject['st_id'] == 1) || ($subject['st_id'] == 3 && $subject['sub_id'] == $pre['elective']) ){
                     $grand_total = array();
                     $grand_total['sub_id'] = $subject['sub_id'];
+
                     foreach($temp['pre_marks'] as $pre_marks){
                         if($subject['sub_id'] == $pre_marks['sub_id']){
                             if(($pre_marks[$subject['sub_name']] == 'Abst.') || ($pre_marks[$subject['sub_name']] == '')){
@@ -942,54 +983,24 @@ class Production_ctrl extends CI_Controller{
                     $grand_total[$subject['sub_name']] = round(($pre_mks+$mid_mks+$post_mks+$final_mks+$final_prac_mks+$acadmic),2);
                    
                    //-------------compartment and promoted section-----------------------------------------------
-                    if($final_mks < round(($subject['out_of']/100)*33) ){
-                        $extra = round(($subject['out_of']/100)*33) - $final_mks;
-                        $x = $extra_marks - $extra_no;//5-0=5
-                        $x  = $x - ceil($extra);
-                        if($x > 0){
-                            $extra_no = $extra_no + ceil($extra);
-                            $t1 = array();
-                            $t1['star'] =  '**';
-                            $t1['extra'] = $extra;
-                            $t1['sub_id'] = $subject['sub_id'];
-                            $t1['subject_name'] = $subject['sub_name'];
-                            $temp['extra'][] = $t1;
-                        }else{
-                            $t1 = array();
-                            $t1['star'] = '*';
-                            $t1['sub_id'] = $subject['sub_id'];
-                            $t1['theory'] = $subject['sub_name'];
-                            $temp['back'][] = $t1;
-                        }
-                    }
-                    if($final_prac_mks < round(($subject['practical']/100)*33) ){
+                   if($grand_total[$subject['sub_name']] < 33 ){
+                        $grand_total['total_star'] = '*';
                         $t1 = array();
-                        $t1['star'] = '*';
                         $t1['sub_id'] = $subject['sub_id'];
-                        $t1['practical'] = $subject['sub_name'];
+                        $t1['name'] = $subject['sub_name'];
                         $temp['back'][] = $t1;
+                    }else{
+                        $grand_total['total_star'] = '';
                     }
-                    
-                    if($grand_total[$subject['sub_name']] < 33){
-                        $t1 = array();
-                        $t1['star'] = '*';
-                        $t1['sub_id'] = $subject['sub_id'];
-                        $t1['grande_total'] = $subject['sub_name'];
-                        $temp['back'][] = $t1;
-                    }
-                    
                     //---------------------------------------
-                    
                     foreach($grade as $marks_grade){
                         if($marks_grade['min_no'] <= $grand_total[$subject['sub_name']] && $marks_grade['max_no'] >= $grand_total[$subject['sub_name']] ){
                             $grand_total['grade'] = $marks_grade['grade'];
                         }
                     }
-                    
                     $temp['grand_total'][] = $grand_total;
                 }
             }
-            
             
             $co_scholastic = array();
             foreach($mid_co_scholistic['subjects'] as $co_subject){
@@ -1027,20 +1038,24 @@ class Production_ctrl extends CI_Controller{
                     }
                 }
             }
-            
             $temp['co_scholastic'] = $co_scholastic;
-            
-            $final_data[] = $temp;
-        }
-        //print_r($final_data);die;
-        $result['final_result'] = $final_data;
-        
-//         $unique_arr = array_unique(array_column($temp['back'] , 'sub_id'));
-//         print_r(count($unique_arr));die;
 
+            $back_unique = array_unique(array_column($temp['back'] , 'sub_id'));
+            if(count($back_unique) > 0 && count($back_unique) < 3){
+                $temp['result'] = 'Compartment';
+            }else if(count($back_unique) > 2){
+                $temp['result'] = 'Detained';
+            }else{
+                $temp['result'] = 'Pass';
+            }
+
+            $final_data[] = $temp;
+            // 
+            // print_r(count($unique_arr));die;
+        }
+        $result['final_result'] = $final_data;
         $result['org_details'] = $this->production_model->org_details($data);
         if(count($result) > 0){
-            // print_r($result);die;
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
             echo json_encode(array('feedback'=>'something getting wrong.','status'=>500));

@@ -22,6 +22,8 @@ $route['(:any)/(:any)/master-record/student-records'] = 'Admin_ctrl/student_reco
 
 $route['(:any)/(:any)/transaction-record/attendance-entry'] = 'Admin_ctrl/attendance_entry';
 $route['(:any)/(:any)/transaction-record/student-attendance'] = 'Admin_ctrl/student_attendance';
+$route['(:any)/(:any)/transaction-record/daily-attendance'] = 'Admin_ctrl/daily_attendance';
+
 $route['(:any)/(:any)/transaction-record/marks-entry'] = 'Admin_ctrl/marks_entry';
 
 $route['(:any)/(:any)/production-report/marks-entry-check'] = 'Admin_ctrl/marks_entry_check';
