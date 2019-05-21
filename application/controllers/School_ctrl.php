@@ -86,6 +86,31 @@ class School_ctrl extends CI_Controller{
             "Session Update Successfully.","Session Failed to Update, Please Try Again."
             );
     }
+    ////////////////////////////////////////// vivartaa //////////////////////////////////////
     
-    
+    function school_create(){
+            $result = array();
+            $data['sch_id'] = $this->post('sch_id');
+            $data['school_name'] = $this->post('school_name');
+            $data['medium'] = $this->post('medium');
+            $data['website'] = $this->post('school_url');
+            $data['contact_no'] = $this->post('school_contact_no');
+            $data['alternet_no'] = $this->post('school_contact_no');
+            $data['state'] = $this->post('state');
+            $data['city'] = $this->post('city');
+            $data['address'] = $this->post('address');
+            
+            
+            
+            $data['uname'] = $this->post('uname');
+            $data['email'] = $this->post('email');
+            $data['password'] = $this->post('password');
+            $result = $this->ion_auth->school_create($data);
+            if($result){
+                $this->response(array('school_id'=>$result,'msg'=>'server done.'), 200);
+            }else {
+                $this->response(array('msg'=>'server error.'), 500);
+            }
+        
+    }
 }

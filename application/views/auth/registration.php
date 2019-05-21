@@ -44,6 +44,19 @@
     		<div id="error_school_name" style="display:none;"></div>
     		</div>
     		<div class="row">
+    		Affilation No*: <input name="school_affilation" id="school_affilation" type="textbox" required>
+    		<div id="error_school_affilation" style="display:none;"></div>
+    		</div>
+    		<div class="row">
+    		Medium*: <select name="medium" id="medium">
+    					<option value="0">Select medium</option>
+    					<?php foreach($mediums['data'] as $medium){ ?>
+    						<option value="<?php echo $medium['mid']; ?>"><?php echo $medium['name']; ?></option>
+    					<?php } ?>
+    				</select>
+    		<div id="error_school_affiliation" style="display:none;"></div>
+    		</div>
+    		<div class="row">
     		school Logo*: <input id="school_logo" name="school_logo" type="file" required>
     		<div id="error_school_logo" style="display:none;"></div>
     		</div>
@@ -134,6 +147,8 @@
     		fd.append( 'uname',$('#uname').val());
     		fd.append( 'email',$('#email').val());
     		fd.append( 'password',$('#password').val());
+    		fd.append( 'school_affiliation',$('#school_affiliation').val());
+    		fd.append( 'medium',$('#medium').val());
     		
     		promise1 = new Promise((resolve, reject) => {
     			$.ajax({
@@ -146,23 +161,62 @@
                     beforeSend: function(){},
                     complete: function(){},
                     success:function (response) {
-                        console.log('first');
-                    	resolve('Vivartaa server updated.');
+                    	resolve(response.school_id);
                     },
                     error: function() {
                     	reject('Vivartaa server NOT updated.');
-                     }
-                    
+                    }
             	});
     		})
 
+
+
     		promise1.then((message) => {
-    		     console.log(message);
-    		});
-    		 
-        	
+        		school(message);
+    		}).then((message) => {
+        		console.log(message);
+        	}).catch((message) => {
+        		console.log(message);
+        	});
         });
 
+
+    	function school(id){
+    		var baseUrl = $('#baseUrl').val();
+    		var fd = new FormData();    
+    		fd.append( 'school_name', $('#school_name').val());
+    		fd.append( 'school_logo', school_logo.files[0]);
+    		fd.append( 'school_url', $('#school_url').val());
+    		fd.append( 'school_contact_no', $('#school_contact_no').val());
+    		fd.append( 'state', $('#state').val());
+    		fd.append( 'city', $('#city').val());
+    		fd.append( 'address', $('#address').val());
+    		fd.append( 'uname',$('#uname').val());
+    		fd.append( 'email',$('#email').val());
+    		fd.append( 'password',$('#password').val());
+    		fd.append( 'school_affiliation',$('#school_affiliation').val());
+    		fd.append( 'medium',$('#medium').val());
+    		fd.append( 'sch_id',id);
+    		
+        	promise1 = new Promise((resolve, reject) => {
+    			$.ajax({
+                    type: 'POST',
+                    url: baseUrl + 'School_ctrl/school_create',
+                    dataType: "json",
+                    data:fd,
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function(){},
+                    complete: function(){},
+                    success:function (response) {
+                    	resolve('School created successfully.');
+                    },
+                    error: function() {
+                    	reject('Something went wrong.');
+                    }
+            	});
+    		})
+        }
 
     	$(document).on('change','#state',function(){
     		var apiUrl = $('#apiUrl').val();

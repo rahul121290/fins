@@ -2652,4 +2652,41 @@ class Ion_auth_model extends CI_Model
 			$this->session->sess_regenerate(FALSE);
 		}
 	}
+	
+	function school_create($data){
+	    $this->db->trans_begin();
+	    $school['school_name'] = $data['school_name'];
+	    $school['medium'] = $data['medium'];
+	    $school['created_by'] = 1;
+	    $school['created_at'] = date('Y-m-d h:i:s');
+	    $school['website'] = $data['website'];
+	    $school['contact_no'] = $data['contact_no'];
+	    $school['alternet_no'] = $data['contact_no'];
+	    $school['state'] = $data['state'];
+	    $school['city'] = $data['city'];
+	    $school['address'] = $data['address'];
+	    $this->db->insert('schools',$school);
+	    
+	    
+	    $value['username'] = $data['uname'];
+	    $value['contact'] = $data['contact_no'];
+	    $value['email'] = $data['email'];
+	    $value['password'] = $this->hash_password($data['password']);
+	    $value['designation'] = 'teacher';
+	    $value['active'] = '1';
+	    $value['permission'] = 0;
+	    $value['t_id'] = 0;
+	    $this->db->insert('users',$value);
+	    
+	    
+	    
+	    if ($this->db->trans_status() === FALSE){
+	        $this->db->trans_rollback();
+	        return false;
+	    }
+	    else{
+	        $this->db->trans_commit();
+	        return $x;
+	    }
+	}
 }

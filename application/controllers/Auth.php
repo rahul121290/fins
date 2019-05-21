@@ -779,6 +779,7 @@ class Auth extends CI_Controller{
 	 */
 	function registration(){
 	    $this->data['states'] = json_decode(file_get_contents($this->config->item('api_url').'Auth/get_states'),true);
+	    $this->data['mediums'] = json_decode(file_get_contents($this->config->item('api_url').'Auth/get_medium'),true);
 	    $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 	    $this->_render_page('auth' . DIRECTORY_SEPARATOR . 'registration', $this->data);
 	}

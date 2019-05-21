@@ -75,13 +75,13 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-// 	'hostname' => '192.168.1.4',
-// 	'username' => 'rahul',
-// 	'password' => 'password',
+	'hostname' => '192.168.1.3',
+	'username' => 'rahul',
+	'password' => 'password',
     
-    'hostname' => 'localhost',
-    'username' => 'root',
-    'password' => '',
+//     'hostname' => 'localhost',
+//     'username' => 'root',
+//     'password' => '',
     
 	'database' => 'school_new',
 	'dbdriver' => 'mysqli',
