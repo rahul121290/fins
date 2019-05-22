@@ -161,7 +161,8 @@
                     beforeSend: function(){},
                     complete: function(){},
                     success:function (response) {
-                    	resolve(response.school_id);
+						console.log(response);
+                    	resolve(response.output.school_id);
                     },
                     error: function() {
                     	reject('Vivartaa server NOT updated.');
@@ -176,7 +177,7 @@
     		}).then((message) => {
         		console.log(message);
         	}).catch((message) => {
-        		console.log(message);
+        		console.log('catch:'+ message);
         	});
         });
 

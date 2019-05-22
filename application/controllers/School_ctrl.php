@@ -5,6 +5,7 @@ class School_ctrl extends CI_Controller{
     
     public function __construct(){
         parent::__construct();
+        $this->load->library(array('ion_auth'));
         $this->load->model('school_model');
     }
     
@@ -90,24 +91,25 @@ class School_ctrl extends CI_Controller{
     
     function school_create(){
             $result = array();
-            $data['sch_id'] = $this->post('sch_id');
-            $data['school_name'] = $this->post('school_name');
-            $data['medium'] = $this->post('medium');
-            $data['website'] = $this->post('school_url');
-            $data['contact_no'] = $this->post('school_contact_no');
-            $data['alternet_no'] = $this->post('school_contact_no');
-            $data['state'] = $this->post('state');
-            $data['city'] = $this->post('city');
-            $data['address'] = $this->post('address');
+            $data['sch_id'] = $this->input->post('sch_id');
+            $data['school_name'] = $this->input->post('school_name');
+            $data['medium'] = $this->input->post('medium');
+            $data['affiliation_no'] = $this->input->post('school_affiliation');
+            $data['school_no'] = '123';
+            $data['principal_name'] = 'principal';
+            $data['principal_sign'] = 'principal_sign';
+            $data['school_image'] = 'dfd';
+            $data['created_at'] = date('Y-m-d h:i:s');
+            $data['created_by'] = 1;
+            $data['address'] = $this->input->post('address');
             
             
-            
-            $data['uname'] = $this->post('uname');
-            $data['email'] = $this->post('email');
-            $data['password'] = $this->post('password');
+            $data['uname'] = $this->input->post('uname');
+            $data['email'] = $this->input->post('email');
+            $data['password'] = $this->input->post('password');
             $result = $this->ion_auth->school_create($data);
             if($result){
-                $this->response(array('school_id'=>$result,'msg'=>'server done.'), 200);
+                echo json_encode(array('school_id'=>$result,'msg'=>'server done.','status'=>200));
             }else {
                 $this->response(array('msg'=>'server error.'), 500);
             }
