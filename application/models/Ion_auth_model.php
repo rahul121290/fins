@@ -2658,7 +2658,7 @@ class Ion_auth_model extends CI_Model
 		
 		$school['sch_id'] = $data['sch_id'];
 		$school['school_name'] = $data['school_name'];
-		//$school['medium'] = $data['medium'];
+		//$school['medium'] = $data['medium']; 
 		$school['affiliation_no'] = $data['affiliation_no'];
 		$school['school_no'] = $data['school_no'];
 		$school['principal_name'] = $data['principal_name'];
@@ -2670,17 +2670,24 @@ class Ion_auth_model extends CI_Model
 
 	    $this->db->insert('school',$school);
 	    
+	    $value['permission'] = '0';
+	    $value['t_id'] = 0;
+	    $value['school_id'] = $this->db->insert_id();
+	    $value['username'] = $data['uname'];
+	    $value['active'] = 1;
+	    $value['email'] = $data['email'];
+	    $value['password'] = $this->hash_password($data['password']);
+	    $value['created_on'] = date('Y-m-d h:i:s');
+	    $value['ip_address'] = $this->input->ip_address();
+	    $value['pass_hint'] = '1abc';
 	    
-	    // $value['username'] = $data['uname'];
-	    // $value['contact'] = $data['contact_no'];
-	    // $value['email'] = $data['email'];
-	    // $value['password'] = $this->hash_password($data['password']);
-	    // $value['designation'] = 'teacher';
-	    // $value['active'] = '1';
-	    // $value['permission'] = 0;
-	    // $value['t_id'] = 0;
-	    // $this->db->insert('users',$value);
+	    $this->db->insert('users',$value);
+	    $x = $this->db->insert_id();
 	    
+	    $this->db->insert('users_groups',array(
+	       'user_id' => $x,
+	        'group_id' => 1
+	    ));
 	    
 	    
 	    if ($this->db->trans_status() === FALSE){

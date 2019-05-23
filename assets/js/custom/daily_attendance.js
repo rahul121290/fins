@@ -164,7 +164,7 @@ $(document).ready(function() {
     });
     //------------------students marks entry----------------------------
     $(document).on('click', '#attendance_submit', function() {
-        var attendance_date = $('#attendance_date').val();
+    	var attendance_date = $('#attendance_date').val();
         var period = $('#period').val();
         var medium = $('#medium').val();
         var class_name = $('#class_name').val();
@@ -204,11 +204,12 @@ $(document).ready(function() {
         formdata.append('sub_type', sub_type);
         formdata.append('subject', subject);
         formdata.append('attendance', JSON.stringify(attendance));
+        
         $.ajax({
             type: 'POST',
             url: base_url + 'Daily_attend_ctrl/attendanceEntry',
             data: formdata,
-            async: false,
+            //async: false,
             dataType: 'json',
             beforeSend: function() {
                 $('#loader').modal('show');

@@ -31,6 +31,18 @@
     			<div id="error_uname" style="display:none;"></div>
     		</div>
     		<div class="row">
+    			First-Name*:<input type="text" name="f_name" id="f_name">
+    			<div id="error_f_name" style="display:none;"></div>
+    		</div>
+    		<div class="row">
+    			Last-Name*:<input type="text" name="l_name" id="l_name">
+    			<div id="error_l_name" style="display:none;"></div>
+    		</div>
+    		<div class="row">
+    			Contact No.*:<input type="text" name="u_contact" id="u_contact">
+    			<div id="error_u_contact" style="display:none;"></div>
+    		</div>
+    		<div class="row">
     			email_id*:<input type="email" name="email" id="email">
     			<div id="error_email" style="display:none;"></div>
     		</div>
@@ -149,6 +161,10 @@
     		fd.append( 'password',$('#password').val());
     		fd.append( 'school_affiliation',$('#school_affiliation').val());
     		fd.append( 'medium',$('#medium').val());
+    		fd.append( 'f_name',$('#f_name').val());
+    		fd.append( 'l_name',$('#l_name').val());
+    		fd.append( 'u_contact',$('#u_contact').val());
+    		
     		
     		promise1 = new Promise((resolve, reject) => {
     			$.ajax({
@@ -174,9 +190,7 @@
 
     		promise1.then((message) => {
         		school(message);
-    		}).then((message) => {
-        		console.log(message);
-        	}).catch((message) => {
+    		}).catch((message) => {
         		console.log('catch:'+ message);
         	});
         });
@@ -198,6 +212,9 @@
     		fd.append( 'school_affiliation',$('#school_affiliation').val());
     		fd.append( 'medium',$('#medium').val());
     		fd.append( 'sch_id',id);
+    		fd.append( 'f_name',$('#f_name').val());
+    		fd.append( 'l_name',$('#l_name').val());
+    		fd.append( 'u_contact',$('#u_contact').val());
     		
         	promise1 = new Promise((resolve, reject) => {
     			$.ajax({
@@ -217,6 +234,14 @@
                     }
             	});
     		})
+
+        	promise1.then((message) => {
+        		alert(message);
+        		window.location.replace(baseUrl+'auth/login');
+    		}).catch((message) => {
+        		alert(message);
+        		console.log('catch:'+ message);
+        	});
         }
 
     	$(document).on('change','#state',function(){
