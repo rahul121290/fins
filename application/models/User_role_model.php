@@ -9,7 +9,6 @@ class User_role_model extends CI_Model{
             $this->db->where('id',$id);
             $this->db->update('users',$data);
             
-            
             if($ug_id != ''){
                 //-----------update in user gruop table-----------
                 $this->db->where('id',$ug_id);

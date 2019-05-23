@@ -10,7 +10,21 @@ class My_function{
         $this->CI =& get_instance();
     }
     
-    public function check_permission(){
+    public function permission_link(){
+        $CI =& get_instance();
+        $CI->load->library('session');
+        $CI->load->database();
+        $user_id = $CI->session->userdata('user_id');
+        
+        $CI->db->select('g.name');
+        $CI->db->join('users u','u.id = ug.user_id');
+        $CI->db->join('groups g','g.id = ug.group_id');
+        $result = $CI->db->get_where('users_groups ug',array('u.id'=>$user_id))->result_array();
+        return $result[0]['name'];
+    }
+    
+    
+    public function user_permission(){
         $CI =& get_instance();
         $CI->load->library('session');
         $CI->load->database();
@@ -18,15 +32,11 @@ class My_function{
         
         $CI->db->select('permission');
         $result = $CI->db->get_where('users',array('id'=>$user_id))->result_array();
-        if(count($result)>0){
-            if($result[0]['permission'] == '0'){
-                return 'admin';
-            }else if($result[0]['permission'] == '1'){
-                return 'teacher';
-            }else{
-                return 'class_teacher';
-            }
-        }
+        
+        $data = $result[0]['permission'];
+        $data = explode(",",$data);
+        return $data;
+        //return $result;
     }
  
 }

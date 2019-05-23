@@ -769,14 +769,15 @@ class Production_ctrl extends CI_Controller{
         $final_result = $this->Final_marksheet_model->finalResult($data);
         $final_co_scholistic = $this->Final_marksheet_model->finalCoScholistic($data);
         $grade = $this->db->select('min_no,max_no,grade,grade_point')->get_where('grade',array('status'=>1))->result_array();
-        //print_r($final_result);die;
-        
+        //print_r($final_co_scholistic);die;
         $result['subjects'] = $final_result['subjects'];
-        
+        $result['co_Scholastic'] = $final_co_scholistic['subjects'];
         $extra_marks = 5;
         $extra_no = null;
         $x = null;
         $extra = null;
+        $aggregate = null;
+        $percentage = null;
         
         $final_data = array();
         foreach($pre_result['pre'] as $pre){
@@ -846,10 +847,10 @@ class Production_ctrl extends CI_Controller{
                             $sub_marks['sub_id'] = $subject['sub_id'];
                             if(($post[$subject['sub_name']] == 'A') || ($post[$subject['sub_name']] == '')){
                                 $sub_marks[$subject['sub_name']] = 'Abst.';
-                                $sub_marks['out_of_5'] = 'Abst.';
+                                $sub_marks[$subject['sub_name'].'_out_of_5'] = 'Abst.';
                             }else{
                                 $sub_marks[$subject['sub_name']] = $post[$subject['sub_name']];
-                                $sub_marks['out_of_5'] = round((($post[$subject['sub_name']]/$subject['out_of'])*5),2);
+                                $sub_marks[$subject['sub_name'].'_out_of_5'] = round((($post[$subject['sub_name']]/$subject['out_of'])*5),2);
                             }
                             
                             $temp['post_marks'][] = $sub_marks;
@@ -866,19 +867,29 @@ class Production_ctrl extends CI_Controller{
                             $sub_marks['sub_id'] = $subject['sub_id'];
                             if(($final[$subject['sub_name']] == 'A') || ($final[$subject['sub_name']] == '')){
                                 $sub_marks[$subject['sub_name']] = 'Abst.';
+                                $sub_marks[$subject['sub_name'].'_out_of_60'] = 'Abst.';
                                 $main_marks = 0;
                             }else{
-                                $sub_marks[$subject['sub_name']] = round((($final[$subject['sub_name']]/$subject['out_of'])*60),2);
-                                $main_marks = round((($final[$subject['sub_name']]/$subject['out_of'])*60),2);
+                                $sub_marks[$subject['sub_name']] = $final[$subject['sub_name']];
+                                $sub_marks[$subject['sub_name'].'_out_of_60'] = round((($final[$subject['sub_name']]/$subject['out_of'])*60),2);
+                                $main_marks = $final[$subject['sub_name']];
                             }
                             
                             if(($final[$subject['sub_name'].'_practical'] == 'A') || $final[$subject['sub_name'].'_practical'] == ''){
                                 $sub_marks[$subject['sub_name'].'_practical'] = 'Abst.';
+                                $sub_marks[$subject['sub_name'].'_practical_out_of_60'] = 'Abst.';
                                 $practical_marks = 0;
                             }else{
-                                $sub_marks[$subject['sub_name'].'_practical'] = round((($final[$subject['sub_name'].'_practical']/$subject['out_of'])*60),2);
-                                $practical_marks = round((($final[$subject['sub_name'].'_practical']/$subject['out_of'])*60),2);
+                                $sub_marks[$subject['sub_name'].'_practical'] = $final[$subject['sub_name'].'_practical'];
+                                $sub_marks[$subject['sub_name'].'_practical_out_of_60'] = round((($final[$subject['sub_name'].'_practical']/$subject['out_of'])*60),2);
+                                $practical_marks = $final[$subject['sub_name'].'_practical'];
                             }
+                            
+                            if($subject['sub_name'] == 'Maths'){
+                                $sub_marks[$subject['sub_name'].'_practical'] = 'NA';
+                                $sub_marks[$subject['sub_name'].'_practical_out_of_60'] = 'NA';
+                            }
+                            
                             
                             if(($final[$subject['sub_name'].'_acadmic'] == 'A') || $final[$subject['sub_name'].'_acadmic'] == ''){
                                 $sub_marks[$subject['sub_name'].'_acadmic'] = 'Abst.';
@@ -887,8 +898,8 @@ class Production_ctrl extends CI_Controller{
                             }
 
                             //-------------compartment and promoted section-----------------------------------------------
-                            if($main_marks < ceil(($subject['out_of']/100)*33 ) ){
-                                $extra = ceil(($subject['out_of']/100)*33) - $main_marks;
+                            if($sub_marks[$subject['sub_name']] < ceil(($subject['out_of']/100)*33 ) ){
+                                $extra = ceil(($subject['out_of']/100)*33) - $sub_marks[$subject['sub_name']];
                                 $x = $extra_marks - $extra_no;//5-0=5
                                 $x  = $x - ceil($extra);
                                 if($x > 0){
@@ -907,13 +918,15 @@ class Production_ctrl extends CI_Controller{
                                 $sub_marks['sub_star'] = '';
                                 $sub_marks['sub_star'] = '';
                             }
-
-                            if($practical_marks < ceil(($subject['out_of']/100)*33 ) ){
+                            
+                            if($practical_marks < ceil(($subject['practical']/100)*33 ) ){
                                 $sub_marks['prac_star'] = '*';
-                                $t1 = array();
-                                $t1['sub_id'] = $subject['sub_id'];
-                                $t1['name'] = $subject['sub_name'];
-                                $temp['back'][] = $t1;
+                                if($main_marks > ceil(($subject['practical']/100)*33 )){ // --------back entry not in main subjects
+                                    $t1 = array();
+                                    $t1['sub_id'] = $subject['sub_id'];
+                                    $t1['name'] = $subject['sub_name'];
+                                    $temp['back'][] = $t1;
+                                }
                             }else{
                                 $sub_marks['prac_star'] = '';
                             }
@@ -950,38 +963,46 @@ class Production_ctrl extends CI_Controller{
                         }
                     }
                     
+                    
                     foreach($temp['post_marks'] as $post_marks){
                         if($subject['sub_id'] == $post_marks['sub_id']){
-                            if(($post_marks[$subject['sub_name']] == 'Abst.') || ($post_marks[$subject['sub_name']] == '')){
+                            if(($post_marks[$subject['sub_name'].'_out_of_5'] == 'Abst.') || ($post_marks[$subject['sub_name'].'_out_of_5'] == '')){
                                 $post_mks = 0;
                             }else{
-                                $post_mks = $post_marks[$subject['sub_name']];
+                                $post_mks = $post_marks[$subject['sub_name'].'_out_of_5'];
                             }
                         }
                     }
+                    
                     
                     foreach($temp['final_marks'] as $final_marks){
                         if($subject['sub_id'] == $final_marks['sub_id']){
                             if(($final_marks[$subject['sub_name']] == 'Abst.') || ($final_marks[$subject['sub_name']] == '')){
                                 $final_mks = 0;
                             }else{
-                                $final_mks = $final_marks[$subject['sub_name']];
+                                $final_mks = $final_marks[$subject['sub_name'].'_out_of_60'];
                             }
-                            if(($final_marks[$subject['sub_name'].'_practical'] == 'Abst.') || ($final_marks[$subject['sub_name'].'_practical'] == '')){
+                            
+                            
+                            if(($final_marks[$subject['sub_name'].'_practical'] == 'Abst.') || ($final_marks[$subject['sub_name'].'_practical'] == '') || ($final_marks[$subject['sub_name'].'_practical'] == 'NA')){
                                 $final_prac_mks = 0;
                             }else{
-                                $final_prac_mks = $final_marks[$subject['sub_name'].'_practical'];
+                                $final_prac_mks = $final_marks[$subject['sub_name'].'_practical_out_of_60'];
                             }
+                            
+                            
                             if(($final_marks[$subject['sub_name'].'_acadmic'] == 'Abst.') || ($final_marks[$subject['sub_name'].'_acadmic'] == '')){
                                 $acadmic = 0;
                             }else{
                                 $acadmic = $final_marks[$subject['sub_name'].'_acadmic'];
                             }
+                            
                         }
                     }
                     
                     $grand_total[$subject['sub_name']] = round(($pre_mks+$mid_mks+$post_mks+$final_mks+$final_prac_mks+$acadmic),2);
-                   
+                    $aggregate += $grand_total[$subject['sub_name']];
+                    
                    //-------------compartment and promoted section-----------------------------------------------
                    if($grand_total[$subject['sub_name']] < 33 ){
                         $grand_total['total_star'] = '*';
@@ -1039,14 +1060,20 @@ class Production_ctrl extends CI_Controller{
                 }
             }
             $temp['co_scholastic'] = $co_scholastic;
-
+            
             $back_unique = array_unique(array_column($temp['back'] , 'sub_id'));
             if(count($back_unique) > 0 && count($back_unique) < 3){
                 $temp['result'] = 'Compartment';
+                $temp['aggregate'] = round($aggregate,2);
+                $temp['percentage'] = round((($aggregate*100)/500),2);
             }else if(count($back_unique) > 2){
                 $temp['result'] = 'Detained';
+                $temp['aggregate'] = '-';
+                $temp['percentage'] = '-';
             }else{
                 $temp['result'] = 'Pass';
+                $temp['aggregate'] = round($aggregate,2);
+                $temp['percentage'] = round((($aggregate*100)/500),2);
             }
 
             $final_data[] = $temp;
@@ -1056,6 +1083,7 @@ class Production_ctrl extends CI_Controller{
         $result['final_result'] = $final_data;
         $result['org_details'] = $this->production_model->org_details($data);
         if(count($result) > 0){
+           // print_r($result);die;
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
             echo json_encode(array('feedback'=>'something getting wrong.','status'=>500));

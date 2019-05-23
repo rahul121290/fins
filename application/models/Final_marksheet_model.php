@@ -202,7 +202,7 @@ class Final_marksheet_model extends CI_Model{
                     $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.enrichment, '')) as '". $subject['sub_name'].'_enrichment'."'," ;
                     if($class_name > 13){
                         $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.practical, '')) as '". $subject['sub_name'].'_practical'."'," ;
-                        $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.practical, '')) as '". $subject['sub_name'].'_acadmic'."'," ;
+                        $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.acadmic, '')) as '". $subject['sub_name'].'_acadmic'."'," ;
                     }
                 }
                 

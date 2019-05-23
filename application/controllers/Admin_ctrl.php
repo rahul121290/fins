@@ -2,9 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin_ctrl extends CI_Controller {
+    var $permission;
     function __construct(){
         parent :: __construct();
-        $this->load->library(array('ion_auth'));
+        $this->load->library(array('ion_auth','My_function'));
+        $this->permission = $this->my_function->user_permission();
     }
     
     function _load_view(){
@@ -148,7 +150,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'master/session_master';
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -158,7 +160,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'master/school_master';
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -168,7 +170,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'master/medium_master';
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -178,7 +180,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'master/class_master';
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -189,7 +191,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['sub_type'] = $this->db->select('st_id,st_name')->where('status',1)->get('sub_type')->result_array();
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -206,7 +208,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['sub_gorup'] = $this->db->select('sg_id,sg_name')->where('status',1)->get('sub_group')->result_array();
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -222,7 +224,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['sub_gorup'] = $this->db->select('sg_id,sg_name')->where('status',1)->get('sub_group')->result_array();
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -234,7 +236,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'master/subject_teacher';
             $this->_admin_class_teacher_access();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -249,34 +251,51 @@ class Admin_ctrl extends CI_Controller {
             $this->data['user_list'] = $this->db->select('id,username,email,pass_hint')->order_by('id','DESC')->where('id NOT IN (1,2)')->get_where('users',array('active'=>1,'status'=>1,'school_id'=>$school))->result_array();
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
     function add_student(){
-        $this->data['page_name'] = 'Add Student';
-        $this->data['main'] = 'master/add_student';
-        $this->_admin_class_teacher_access();
+        if(in_array("2", $this->permission)){
+            $this->data['page_name'] = 'Add Student';
+            $this->data['main'] = 'master/add_student';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->_load_view('error_page');
+        }
     }
     
     function student_records(){
-        $this->data['page_name'] = 'Student Records';
-        $this->data['main'] = 'report/student_records';
-        $this->_admin_class_teacher_access();
+        if(in_array("2", $this->permission)){
+            $this->data['page_name'] = 'Student Records';
+            $this->data['main'] = 'report/student_records';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->_load_view('error_page');
+        }
     }
     
     function attendance_entry(){
-        $session = $this->session->userdata('session_id');
-        $school = $this->session->userdata('school_id');
-        $this->data['page_name'] = 'Attendance Entry';
-        $this->data['main'] = 'transaction/attendance_entry';
-        $this->_admin_class_teacher_access();
+        if(in_array("2", $this->permission)){
+            $session = $this->session->userdata('session_id');
+            $school = $this->session->userdata('school_id');
+            $this->data['page_name'] = 'Attendance Entry';
+            $this->data['main'] = 'transaction/attendance_entry';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->_load_view('error_page');
+        }
     }
     
     function student_attendance(){
-        $this->data['page_name'] = 'Student Attendance';
-        $this->data['main'] = 'transaction/student_attendance';
-        $this->_admin_class_teacher_access();
+        if(in_array("2", $this->permission)){
+            $this->data['page_name'] = 'Student Attendance';
+            $this->data['main'] = 'transaction/student_attendance';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->_load_view('error_page');
+        }
+        
     }
     
     function daily_attendance(){
@@ -286,33 +305,54 @@ class Admin_ctrl extends CI_Controller {
     }
     
     function marks_entry(){
-        $this->data['page_name'] = 'Marks Entry';
-        $this->data['main'] = 'transaction/marks_entry';
-        $this->admin_teacher_class_teacher_access();
+        if(in_array("1", $this->permission)){
+            $this->data['page_name'] = 'Marks Entry';
+            $this->data['main'] = 'transaction/marks_entry';
+            $this->admin_teacher_class_teacher_access();
+        }else{
+            $this->_load_view('error_page');
+        }
     }
     
     function marks_entry_check(){
-        $this->data['page_name'] = 'Marks Entry Check';
-        $this->data['main'] = 'production/marks_entry_check';
-        $this->_admin_class_teacher_access();    
+        if(in_array("2", $this->permission)){
+            $this->data['page_name'] = 'Marks Entry Check';
+            $this->data['main'] = 'production/marks_entry_check';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->_load_view('error_page');
+        }
     }
     
     function furd_report(){
-        $this->data['page_name'] = 'Furd Report';
-        $this->data['main'] = 'production/furd_report';
-        $this->_admin_class_teacher_access();
+        if(in_array("2", $this->permission)){
+            $this->data['page_name'] = 'Furd Report';
+            $this->data['main'] = 'production/furd_report';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->_load_view('error_page');
+        }
+        
     }
     
     function teacher_abstract(){
-        $this->data['page_name'] = 'Teacher Abstract';
-        $this->data['main'] = 'production/teacher_abstract';
-        $this->_admin_class_teacher_access();
+        if(in_array("2", $this->permission)){
+            $this->data['page_name'] = 'Teacher Abstract';
+            $this->data['main'] = 'production/teacher_abstract';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->_load_view('error_page');
+        }
     }
     
     function generate_marksheet(){
-        $this->data['page_name'] = 'Generate Marksheet';
-        $this->data['main'] = 'production/generate_marksheet';
-        $this->_admin_class_teacher_access();
+        if(in_array("2", $this->permission)){
+            $this->data['page_name'] = 'Generate Marksheet';
+            $this->data['main'] = 'production/generate_marksheet';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->_load_view('error_page');
+        }
     }
     
     function add_division(){
@@ -322,7 +362,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'utilities_and_tools/add_division';
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -333,7 +373,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'utilities_and_tools/add_grade';
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->_load_view('error_page');
         }
     }
     
@@ -374,9 +414,11 @@ class Admin_ctrl extends CI_Controller {
     }
     
     function export_marksheet(){
-        $this->data['page_name'] = 'Furd Report';
-        $this->data['main'] = 'production/export_markssheet';
-        $this->_admin_class_teacher_access();
+        if(in_array("2", $this->permission)){
+            $this->data['page_name'] = 'Furd Report';
+            $this->data['main'] = 'production/export_markssheet';
+            $this->_admin_class_teacher_access();
+        }
     }
     
     function profile(){
@@ -390,6 +432,7 @@ class Admin_ctrl extends CI_Controller {
         $this->data['user_details'] = $result;
         $this->_load_view();
     }
+    
     function updateProfile(){
         $data['teacher_name'] = $this->input->post('teacher_name');
         $data['gender'] = $this->input->post('gender');
@@ -430,7 +473,6 @@ class Admin_ctrl extends CI_Controller {
        }else{
            echo json_encode(array('msg'=>'old password not match.','status'=>201));
        }
-        
     }
     
     

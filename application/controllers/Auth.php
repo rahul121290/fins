@@ -70,7 +70,7 @@ class Auth extends CI_Controller{
 				//redirect them back to the home page
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
 				
-				$permission = $this->my_function->check_permission();
+				$permission = $this->my_function->permission_link();
 				
 				$path ='';
 				if($this->session->userdata('school_id') == 1 && $this->ion_auth->is_admin()){
@@ -128,7 +128,6 @@ class Auth extends CI_Controller{
 		}else{
 		    $path = 'sharda/login';
 		}
-		
 		
 		// log the user out
 		$logout = $this->ion_auth->logout();

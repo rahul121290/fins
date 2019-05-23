@@ -792,26 +792,31 @@ $(document).ready(function() {
                 if ((subjects.st_id == 1) || (subjects.st_id == 3 && subjects.sub_id == value.elective)) {
                     x = x + '<tr>' +
                         '<td style="text-align:left;">' + subjects.sub_name + '</td>';
-                    $.each(value.post_marks, function(pk, pvalue) {
-                        if (subjects.sub_id == pvalue.sub_id) {
-                            x = x + '<td>' + pvalue[subjects['sub_name']] + '</td>';
+                   
+                    $.each(value.post_marks, function(pk, post) {
+                        if (subjects.sub_id == post.sub_id) {
+                            x = x + '<td>' + post[subjects['sub_name']+'_out_of_5'] + '</td>';
                         }
                     });
 
                     x = x + '<td>' + subjects.out_of + '</td>';
 
-                    $.each(value.mid_marks, function(mk, mvalue) {
-                        if (subjects.sub_id == mvalue.sub_id) {
-                            x = x + '<td>' + mvalue[subjects['sub_name']] + '</td>';
+                    $.each(value.final_marks, function(mk, final) {
+                        if (subjects.sub_id == final.sub_id) {
+                            x = x + '<td>' + final[subjects['sub_name']] + final.sub_star+'</td>';
                         }
                     });
+                    if(subjects.practical){
+                    	var practical_out_of = subjects.practical;
+                    	}else{
+                    		var practical_out_of = 'NA';
+                    	}
+                    x = x + '<td>' + practical_out_of + '</td>';
 
-                    x = x + '<td>' + subjects.practical + '</td>';
-
-                    $.each(value.mid_marks, function(mk, mvalue) {
-                        if (subjects.sub_id == mvalue.sub_id) {
-                            x = x + '<td>' + mvalue[subjects['sub_name'] + '_practical'] + '</td>';
-                            x = x + '<td>' + mvalue.total + '</td>';
+                    $.each(value.final_marks, function(mk, final_marks) {
+                        if (subjects.sub_id == final_marks.sub_id) {
+                            x = x + '<td>' + final_marks[subjects['sub_name'] + '_practical'] +final_marks.prac_star +'</td>';
+                            x = x + '<td>' + final_marks.total + '</td>';
                         }
                     });
 
@@ -829,17 +834,46 @@ $(document).ready(function() {
 
                     $.each(value.post_marks, function(po, povalue) {
                         if (subjects.sub_id == povalue.sub_id) {
-                            x = x + '<td>' + povalue.out_of_5 + '</td>';
+                            x = x + '<td>' + povalue[subjects['sub_name']] + '</td>';
                         }
                     });
-                    x = x + '<td>15.5</td>';
-                    x = x + '<td>4</td>';
-                    x = x + '<td>40.2</td>';
-                    x = x + '<td>10.8</td>';
-                    x = x + '<td>51</td>';
-                    x = x + '<td>10</td>';
-                    x = x + '<td>84.75</td>';
-                    x = x + '<td>A2</td>';
+                    
+                    $.each(value.final_marks, function(final, final_value) {
+                        if (subjects.sub_id == final_value.sub_id) {
+                            x = x + '<td>' + final_value[subjects['sub_name']+'_out_of_60'] + '</td>';
+                        }
+                    });
+                    
+                    $.each(value.final_marks, function(final, final_value) {
+                        if (subjects.sub_id == final_value.sub_id) {
+                            x = x + '<td>' + final_value[subjects['sub_name']+'_practical_out_of_60'] + '</td>';
+                        }
+                    });
+                    
+                    $.each(value.final_marks, function(final, final_value) {
+                        if (subjects.sub_id == final_value.sub_id) {
+                            x = x + '<td>' + final_value.total + '</td>';
+                        }
+                    });
+                    
+                    $.each(value.final_marks, function(final,acadmic) {
+                        if (subjects.sub_id == acadmic.sub_id) {
+                            x = x + '<td>' + acadmic[subjects['sub_name']+'_acadmic'] + '</td>';
+                        }
+                    });
+                    
+                    $.each(value.grand_total, function(final, grand_total) {
+                        if (subjects.sub_id == grand_total.sub_id) {
+                            x = x + '<td>' + grand_total[subjects['sub_name']] + grand_total.total_star +'</td>';
+                        }
+                    });
+                    
+                    $.each(value.grand_total, function(final, grand_total) {
+                        if (subjects.sub_id == grand_total.sub_id) {
+                            x = x + '<td>' + grand_total.grade +'</td>';
+                        }
+                    });
+                    
                     x = x + '</tr>';
                 }
 
@@ -858,38 +892,32 @@ $(document).ready(function() {
                 '<th colspan="2">Over all Grade</th>' +
                 '</tr>' +
                 '</thead>' +
-                '<tbody>' +
-                '<tr>' +
-                '<td style="text-align:left;">General Studies</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td style="text-align:left;">Work Experience</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td style="text-align:left;">Health &amp; Physical Education</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td style="text-align:left;">Discipline</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td style="text-align:left;">Computer Awareness</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '<td>A</td>' +
-                '</tr>' +
-                '</tbody>' +
+                '<tbody>';
+	            $.each(response.result.co_Scholastic,function(co_key,co_sub){
+					x=x+'<tr>';
+					x=x+'<td style="text-align:left;">'+co_sub['sub_name']+'</td>';
+					
+	        		$.each(value.co_scholastic.mid_co_scholastic,function(m,mid_mark){
+	        			if(co_sub.sub_id == mid_mark.sub_id){
+	        				x=x+'<td>'+mid_mark[co_sub['sub_name']]+'</td>';
+	        			}
+	        		});
+	        		
+	        		$.each(value.co_scholastic.final_co_scholastic,function(f,final_mark){
+	        			if(co_sub.sub_id == final_mark.sub_id){
+	        				x=x+'<td>'+final_mark[co_sub['sub_name']]+'</td>';
+	        			}
+	        		});
+	        		
+	        		$.each(value.co_scholastic.calculate_co,function(t,mid_final){
+	        			if(co_sub.sub_id == mid_final.sub_id){
+	        				x=x+'<td>'+mid_final[co_sub['sub_name']]+'</td>';
+	        			}
+	        		});
+	        		
+	        		x=x+'</tr>';
+	        	});
+                x=x+'</tbody>' +
                 '</table>' +
                 '</div>' +
                 '<div class="results-information p-results-information-f-c col-md-6">' +
@@ -898,15 +926,15 @@ $(document).ready(function() {
                 '<tbody>' +
                 '<tr>' +
                 '<td>Aggregate</td>' +
-                '<td>Aggregate</td>' +
+                '<td>'+value.aggregate+'</td>' +
                 '<td>Percentage</td>' +
-                '<td>75.93</td>' +
+                '<td>'+value.percentage+'</td>' +
                 '<td>Rank</td>' +
                 '<td>&nbsp;</td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>Final Result</td>' +
-                '<td colspan="5"><b>Pass</b></td>' +
+                '<td colspan="5"><b>'+value.result+'</b></td>' +
                 '</tr>' +
                 '</tbody>' +
                 '</table>' +
