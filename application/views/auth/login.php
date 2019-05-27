@@ -22,7 +22,6 @@
     	<?php } ?>
     	</div>
     	
-    	
     	<div id="infoMessage" style="text-align: center;"><?php echo $message;?></div>
     	<?php echo form_open("auth/login");?>
     

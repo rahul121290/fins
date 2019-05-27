@@ -75,7 +75,6 @@ class Student_ctrl extends CI_Controller{
         $data['created_at'] = date('Y-m-d H:i:s');
         
         if(!empty($std_id)){
-            
             $this->_ShowMsgs(
                 $this->student_model->add_student($std_id,$old_image,$data),"Student Update Successfully.","Student Failed to Update, Please try again."
                 );

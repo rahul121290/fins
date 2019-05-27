@@ -1101,9 +1101,6 @@ class Ion_auth_model extends CI_Model
 				$user = $this->ion_auth->user()->row();
 				$this->session->set_userdata('school_id',$user->school_id);
 				
-				
-				
-				
 				return TRUE;
 			}
 		}

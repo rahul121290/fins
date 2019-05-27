@@ -69,7 +69,7 @@ class Daily_attend_ctrl extends CI_Controller{
         
         $data['sec_id'] = $this->input->post('section');
         $data['st_id'] = $this->input->post('sub_type');
-        $data['sub_id'] = $this->input->post('subject');
+        //$data['sub_id'] = $this->input->post('subject');
         $data['status'] = 1;
         
         //------------master table---------------------------

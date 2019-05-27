@@ -111,15 +111,15 @@ $(document).ready(function() {
 
                         $.each(response.students, function(key, std) {
                             if (std.attendance == "A") {
-                                var class_is = "btn-danger";
+                                var class_is = "btn-danger apsent";
                                 var name = 'Absent';
                                 var disabled = '';
                             } else if (std.attendance == "L") {
-                                var class_is = "btn-info";
+                                var class_is = "btn-info leave";
                                 var name = 'Leave';
                                 var disabled = 'disabled';
                             } else {
-                                var class_is = "btn-success";
+                                var class_is = "btn-success present";
                                 var name = 'Presnet';
                                 var disabled = '';
                             }
@@ -152,13 +152,13 @@ $(document).ready(function() {
 
     $(document).on('click', '.attendance', function() {
         var btn_id = $(this).attr('id');
-        if ($('#' + btn_id).hasClass('btn-success')) {
-            $('#' + btn_id).removeClass('btn-success');
-            $('#' + btn_id).addClass('btn-danger');
+        if ($('#' + btn_id).hasClass('btn-success present')) {
+            $('#' + btn_id).removeClass('btn-success present');
+            $('#' + btn_id).addClass('btn-danger apsent');
             $('#' + btn_id).html('Absent');
         } else {
-            $('#' + btn_id).removeClass('btn-danger');
-            $('#' + btn_id).addClass('btn-success');
+            $('#' + btn_id).removeClass('btn-danger apsent');
+            $('#' + btn_id).addClass('btn-success present');
             $('#' + btn_id).html('Presnet');
         }
     });
@@ -174,7 +174,7 @@ $(document).ready(function() {
         var subject = $('#subject').val();
 
         var attendance = [];
-        $('.btn-success').each(function(index, value) {
+        $('.present').each(function(index, value) {
             var temp = [];
             var adm_no = $(this).data('adm_no');
             temp.push({ adm_no: adm_no });
@@ -184,7 +184,7 @@ $(document).ready(function() {
             attendance.push(temp);
         });
 
-        $('.btn-danger').each(function(index, value) {
+        $('.apsent').each(function(index, value) {
             var temp = [];
             var adm_no = $(this).data('adm_no');
             temp.push({ adm_no: adm_no });
@@ -193,7 +193,18 @@ $(document).ready(function() {
             temp.push({ attendance: 'A' });
             attendance.push(temp);
         });
+        
+        $('.leave').each(function(index, value) {
+            var temp = [];
+            var adm_no = $(this).data('adm_no');
+            temp.push({ adm_no: adm_no });
+            temp.push({ std_id: $(this).data('std_id') });
+            temp.push({ roll_no: $(this).data('roll_no') });
+            temp.push({ attendance: 'L' });
+            attendance.push(temp);
+        });
 
+        
         var formdata = new FormData();
         formdata.append('attendance_date', attendance_date);
         formdata.append('period', period);
@@ -227,6 +238,14 @@ $(document).ready(function() {
             processData: false
         });
     });
-
-
+    
+    //----------------------------------------
+    $(document).on('change','#class_name',function(){
+		var class_name = $(this).val();
+		if(class_name == 14 || class_name == 15){
+			$('#sub_group_row').css('display','block');		
+		}else{
+			$('#sub_group_row').css('display','none');
+			}
+	});
 });

@@ -51,7 +51,7 @@ class Admin_ctrl extends CI_Controller {
                 $this->data['section'] = $this->db->select('sec_id,section_name')->where($section)->get_where('section',array('status'=>1))->result_array();
                 $this->data['group'] = $this->db->select('sg_id,sg_name')->where($group)->get_where('sub_group',array('status'=>1))->result_array();
                 $this->data['elective'] = $this->db->select('sub_id,sub_name')->join('sub_type st','st.st_id=s.st_id')->where('st.st_name','elective')->get_where('subject s',array('s.status'=>1))->result_array();
-                $this->data['hostel'] = $this->db->select('hid,hostel_name')->get_where('hostel',array('ses_id'=>$session,'sch_id'=>$school,'status'=>1))->result_array();
+                $this->data['hostel'] = $this->db->select('hid,hostel_name')->get_where('hostel',array('sch_id'=>$school,'status'=>1))->result_array();
                 $this->load->view("template/temp", $this->data);
             }
         }else{

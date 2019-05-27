@@ -3,7 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Production_model extends CI_Model {
 
     function org_details($data){
+        
         $result['session'] = $this->db->select('session_name')->get_where('session',array('ses_id'=>$data['session'],'status'=>1))->result_array();
+        
         $result['school'] = $this->db->select('school_name,address,affiliation_no,school_no,school_image,principal_name,principal_sign')->get_where('school',array('sch_id'=>$data['school'],'status'=>1))->result_array();
         if(!empty($data['exam_type'])){
             $result['exam_type'] = $this->db->select('et_name')->get_where('exam_type',array('et_id'=>$data['exam_type'],'status'=>1))->result_array();

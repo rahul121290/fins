@@ -772,15 +772,16 @@ class Production_ctrl extends CI_Controller{
         //print_r($final_co_scholistic);die;
         $result['subjects'] = $final_result['subjects'];
         $result['co_Scholastic'] = $final_co_scholistic['subjects'];
-        $extra_marks = 5;
-        $extra_no = null;
-        $x = null;
-        $extra = null;
-        $aggregate = null;
-        $percentage = null;
         
         $final_data = array();
         foreach($pre_result['pre'] as $pre){
+            $extra_marks = 5;
+            $extra_no = null;
+            $x = null;
+            $extra = null;
+            $aggregate = null;
+            $percentage = null;
+            
             $temp = array();
             $temp['elective'] = $pre['elective'];
             $temp['std_id'] = $pre['std_id'];
@@ -898,8 +899,9 @@ class Production_ctrl extends CI_Controller{
                             }
 
                             //-------------compartment and promoted section-----------------------------------------------
-                            if($sub_marks[$subject['sub_name']] < ceil(($subject['out_of']/100)*33 ) ){
-                                $extra = ceil(($subject['out_of']/100)*33) - $sub_marks[$subject['sub_name']];
+                            
+                            if($main_marks < ceil(($subject['out_of']/100)*33 ) ){
+                                $extra = ceil(($subject['out_of']/100)*33) - $main_marks;
                                 $x = $extra_marks - $extra_no;//5-0=5
                                 $x  = $x - ceil($extra);
                                 if($x > 0){
@@ -1060,27 +1062,62 @@ class Production_ctrl extends CI_Controller{
                 }
             }
             $temp['co_scholastic'] = $co_scholastic;
-            
-            $back_unique = array_unique(array_column($temp['back'] , 'sub_id'));
-            if(count($back_unique) > 0 && count($back_unique) < 3){
-                $temp['result'] = 'Compartment';
-                $temp['aggregate'] = round($aggregate,2);
-                $temp['percentage'] = round((($aggregate*100)/500),2);
-            }else if(count($back_unique) > 2){
-                $temp['result'] = 'Detained';
-                $temp['aggregate'] = '-';
-                $temp['percentage'] = '-';
+            if(isset($temp['back'])){
+                if(count($temp['back']) > 0 && count($temp['back']) < 3){
+                    $temp['result'] = 'Compartment';
+                    $temp['aggregate'] = round($aggregate,2);
+                    $temp['percentage'] = '-';
+                }else if(count($temp['back']) > 2){
+                    $temp['result'] = 'Detained';
+                    $temp['aggregate'] = '-';
+                    $temp['percentage'] = '-';
+                }else{
+                    $temp['result'] = 'Pass';
+                    $temp['aggregate'] = round($aggregate,2);
+                    $temp['percentage'] = round((($aggregate*100)/500),2);
+                }
             }else{
                 $temp['result'] = 'Pass';
                 $temp['aggregate'] = round($aggregate,2);
                 $temp['percentage'] = round((($aggregate*100)/500),2);
             }
+            
 
             $final_data[] = $temp;
-            // 
-            // print_r(count($unique_arr));die;
         }
-        $result['final_result'] = $final_data;
+        
+        //------------decending order by percentage-----------
+        function cmpare_percentage($a, $b) {
+            return $a['percentage'] < $b['percentage']; // use "<" for decending order 
+        }
+        usort($final_data,"cmpare_percentage");
+        
+        $rank = 0;
+        $previousValue = null;
+        $final = array();
+        
+        foreach($final_data as $loop_data){
+            if($loop_data['result'] == 'Pass'){
+                if($loop_data['percentage'] == $previousValue){
+                    $loop_data['rank'] = $rank;
+                }else{
+                    $rank = $rank+1;
+                    $loop_data['rank'] = $rank;
+                }
+            }else{
+                $loop_data['rank'] = '-';
+            }
+            $previousValue = $loop_data['percentage'];
+            $final[] = $loop_data;
+        }
+        
+        //------------accending order by roll no-----------
+        function cmpare_roll_no($a, $b) {
+            return $a['roll_no'] > $b['roll_no']; // use ">" for accending order
+        }
+        usort($final,"cmpare_roll_no");
+        
+        $result['final_result'] = $final;
         $result['org_details'] = $this->production_model->org_details($data);
         if(count($result) > 0){
            // print_r($result);die;

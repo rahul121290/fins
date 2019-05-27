@@ -110,9 +110,10 @@ class Teacher_ctrl extends CI_Controller{
         $class_name = $this->input->post('class_name');
         $sub_group = $this->input->post('sub_group');
         $sub_type = $this->input->post('sub_type');
+        $section = $this->input->post('section');
         
         $this->db->select('st.st_id,sa.sa_id,s.sub_name,st.t_id, st.status');
-        $this->db->join('sub_teacher st','st.sa_id = sa.sa_id','LEFT');
+        $this->db->join('sub_teacher st','st.sa_id = sa.sa_id AND st.sec_id = '.$section.'','LEFT');
         $this->db->join('subject s','s.sub_id=sa.sub_id');
         $this->db->order_by('s.short_order','ASC');
         if(!empty($sub_group)){
@@ -120,7 +121,7 @@ class Teacher_ctrl extends CI_Controller{
         }
         $result = $this->db->get_where('subject_allocation sa',array('sa.ses_id'=>$session,'sa.sch_id'=>$school,'sa.med_id'=>$medium,'sa.class_id'=>$class_name,'sa.st_id'=>$sub_type,'sa.status'=>1))->result_array();
         
-        $teachers = $this->db->select('t_id,teacher_name')->get_where('teacher',array('status'=>1))->result_array();
+        $teachers = $this->db->select('t_id,teacher_name')->get_where('teacher',array('school_id'=>$school,'status'=>1))->result_array();
         
         if(count($result) > 0){
             echo json_encode(array('result'=>$result,'teachers'=>$teachers,'status'=>200));

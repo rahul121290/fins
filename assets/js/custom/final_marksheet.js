@@ -58,7 +58,6 @@ $(document).ready(function() {
                             final_marksheet_XI_XII(response);
                             return false;
                         }
-
                         var win = window.open('', "myWindowName", "scrollbars=1,width=1200, height=600");
                         var x = '<link rel="stylesheet" type="text/css" href="' + base_url + 'assets/css/bootstrap.min.css">' +
                             '<link rel="stylesheet" type="text/css" href="' + base_url + 'assets/css/marksheet-result.css">' +
@@ -324,7 +323,7 @@ $(document).ready(function() {
                                 '<div class="modal-footer p-footer-sec-f" style="padding-left:0px;margin-top:-15px;">' +
                                 '<div class="col-md-2 p-place-date" style="padding-left:5px;">Place: ' +
                                 '<b>Bhilai </b>' +
-                                '<br>Date: 15-05-2019' +
+                                '<br>Date: '+currentDate +
                                 '</div>' +
                                 '<div class="col-md-2 col-md-offset-2 p-techer-sign">&nbsp;' +
                                 '<br>' +
@@ -597,7 +596,7 @@ $(document).ready(function() {
                 '</div>' +
                 '<div class="modal-footer p-footer-sec-f" style="padding-left:0px;margin-top:-15px;">' +
                 '<div class="col-md-2 p-place-date" style="padding-left:5px;">Place: <b>Bhilai </b>' +
-                '<br>Date: 17-05-2019</div>' +
+                '<br>Date: '+currentDate+'</div>' +
                 '<div class="col-md-2 col-md-offset-2 p-techer-sign">&nbsp;' +
                 '<br><b>Signature of Class Teacher </b></div>' +
                 '<div class="col-md-2 col-md-offset-1 p-school-seal">&nbsp;' +
@@ -919,52 +918,45 @@ $(document).ready(function() {
 	        	});
                 x=x+'</tbody>' +
                 '</table>' +
-                '</div>' +
-                '<div class="results-information p-results-information-f-c col-md-6">' +
-                '<div class="academic-result-t" style="background-color:rgba(241,241,241,0.2)!important;"><b><b>Result</b></b></div>' +
-                '<table class="table" width="50%">' +
-                '<tbody>' +
-                '<tr>' +
-                '<td>Aggregate</td>' +
-                '<td>'+value.aggregate+'</td>' +
-                '<td>Percentage</td>' +
-                '<td>'+value.percentage+'</td>' +
-                '<td>Rank</td>' +
-                '<td>&nbsp;</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td>Final Result</td>' +
-                '<td colspan="5"><b>'+value.result+'</b></td>' +
-                '</tr>' +
-                '</tbody>' +
-                '</table>' +
-                '</div>' +
-                '<div class="results-information p-results-information-f-c col-md-12" style="margin-top:15px;display:none;">' +
-                '<table class="table">' +
-                '<thead>' +
-                '<tr>' +
-                '<th colspan="3" style="text-align:left;">Compartment Result:</th>' +
-                '</tr>' +
-                '<tr>' +
-                '<th>S.No.</th>' +
-                '<th>Subject</th>' +
-                '<th>Mark OBT</th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody>' +
-                '<tr>' +
-                '<td>1.</td>' +
-                '<td>Hindi</td>' +
-                '<td>25</td>' +
-                '</tr>' +
-                '</tbody>' +
-                '</table>' +
-                '</div>' +
-                '<div class="modal-footer p-footer-sec-f" style="padding-left:0px;margin-top:-25px;">' +
-                '<div class="col-md-2 p-place-date"><b>Place: <b>Bhilai </b><br>Date: 20-05-2019</b></div>' +
+                '</div>';
+                
+                	x=x+'<div class="results-information p-results-information-f-c col-md-6">' +
+                    '<div class="academic-result-t" style="background-color:rgba(241,241,241,0.2)!important;"><b><b>Result</b></b></div>' +
+                    '<table class="table" width="50%">' +
+                    '<tbody>' +
+                    '<tr>' +
+                    '<td>Aggregate</td>' +
+                    '<td>'+value.aggregate+'</td>' +
+                    '<td>Percentage</td>' +
+                    '<td>'+value.percentage+'</td>' +
+                    '<td>Rank</td>' +
+                    '<td>'+value.rank+'</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Final Result</td>';
+                	
+                    if(value.result != 'Compartment'){
+                    	x=x+'<td colspan="5"><b>'+value.result+'</b></td>';
+                    }else{
+                    	if(value.back.length > 0 && value.back.length < 3){
+    						var y = ''; 
+    						$.each(value.back,function(k,v){
+    							y = y + ' '+v.name + ',';
+    						});
+    						y = y.slice(0, -1);
+    						x=x+'<td><b>Compartment in</b></td><td colspan="4"><b>'+ y +'</b></td>';
+    					}
+                    }
+                    x=x+'</tr>' +
+                    '</tbody>' +
+                    '</table>' +
+                    '</div>'+
+                    '<div class="modal-footer p-footer-sec-f" style="padding-left:0px;margin-top:-25px;">' +
+                '<div class="col-md-2 p-place-date"><b>Place: <b>Bhilai </b><br>Date: '+currentDate+'</b></div>' +
                 '<div class="col-md-2 col-md-offset-2 p-techer-sign"><b>&nbsp;<br><b>Signature of Class Teacher </b></b></div>' +
                 '<div class="col-md-2 col-md-offset-1 p-school-seal"><b>&nbsp;<br><b>Seal of the School</b></b></div>' +
-                '<div class="col-md-2 col-md-offset-1 text-center p-princi-sign" style="padding-right:0px;"><b><img class="principle-sign" src="../../assest/images/shakuntala/PrinSign.png"><br>(Vipin Kumar) <br><b>Principal</b></b></div>' +
+                '<div class="col-md-2 col-md-offset-1 text-center p-princi-sign" style="padding-right:0px;"><b><img class="principle-sign" src="' + base_url + 'assets/images/' + response.result.org_details.school[0].principal_sign + '">' +
+                '<br>' + response.result.org_details.school[0].principal_name +'</div>' +
                 '<div class="instc-sec" style="margin-bottom:0px;padding:0;">' +
                 '<h4><b>Instructions</b></h4>' +
                 '<p><b><b>Grading scale for scholastic areas:</b> Grades are awarded on a 8- point grading scale as follows -</b></p>' +
