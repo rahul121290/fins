@@ -134,12 +134,12 @@ $(document).ready(function() {
                                 '</tr>';
                             i++;
                         });
-                        $('#list_of_students').html(x);
+                        $('#list_of_attendance').html(x);
                         $('#attendance_submit').css('display', 'block');
                     } else {
                         $('#loader').modal('hide');
                         alert(response.feedback);
-                        $('#list_of_students').html('<tr><td colspan="6">Record not found.</td></tr>');
+                        $('#list_of_attendance').html('<tr><td colspan="6">Record not found.</td></tr>');
                     }
                 },
                 cache: false,
@@ -164,7 +164,7 @@ $(document).ready(function() {
     });
     //------------------students marks entry----------------------------
     $(document).on('click', '#attendance_submit', function() {
-    	var attendance_date = $('#attendance_date').val();
+        var attendance_date = $('#attendance_date').val();
         var period = $('#period').val();
         var medium = $('#medium').val();
         var class_name = $('#class_name').val();
@@ -193,7 +193,7 @@ $(document).ready(function() {
             temp.push({ attendance: 'A' });
             attendance.push(temp);
         });
-        
+
         $('.leave').each(function(index, value) {
             var temp = [];
             var adm_no = $(this).data('adm_no');
@@ -204,7 +204,7 @@ $(document).ready(function() {
             attendance.push(temp);
         });
 
-        
+
         var formdata = new FormData();
         formdata.append('attendance_date', attendance_date);
         formdata.append('period', period);
@@ -215,7 +215,7 @@ $(document).ready(function() {
         formdata.append('sub_type', sub_type);
         formdata.append('subject', subject);
         formdata.append('attendance', JSON.stringify(attendance));
-        
+
         $.ajax({
             type: 'POST',
             url: base_url + 'Daily_attend_ctrl/attendanceEntry',
@@ -238,14 +238,14 @@ $(document).ready(function() {
             processData: false
         });
     });
-    
+
     //----------------------------------------
-    $(document).on('change','#class_name',function(){
-		var class_name = $(this).val();
-		if(class_name == 14 || class_name == 15){
-			$('#sub_group_row').css('display','block');		
-		}else{
-			$('#sub_group_row').css('display','none');
-			}
-	});
+    $(document).on('change', '#class_name', function() {
+        var class_name = $(this).val();
+        if (class_name == 14 || class_name == 15) {
+            $('#sub_group_row').css('display', 'block');
+        } else {
+            $('#sub_group_row').css('display', 'none');
+        }
+    });
 });

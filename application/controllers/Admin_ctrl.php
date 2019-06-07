@@ -65,16 +65,21 @@ class Admin_ctrl extends CI_Controller {
             $session = $this->session->userdata('session_id');
             $school = $this->session->userdata('school_id');
             
-            $this->db->select('t_id,email');
-            $this->db->where('email=(SELECT `email` FROM `users` WHERE `id` ='.$user_id.')');
-            $teacher = $this->db->get_where('teacher')->result_array();
+            // $this->db->select('t_id,email');
+            // $this->db->where('email=(SELECT `email` FROM `users` WHERE `id` ='.$user_id.')');
+            // $teacher = $this->db->get_where('teacher')->result_array();
+
+            $this->db->select('t.t_id,t.email');
+            $this->db->join('teacher t','t.t_id = u.t_id');
+            $teacher = $this->db->get_where('users u',array('u.active'=>1,'u.status'=>1,'u.id'=>$user_id))->result_array();
+
             if(count($teacher)>0){
                 $this->db->select('sa.med_id,sa.class_id,st.sec_id,sa.st_id,sa.sg_id,sa.sub_id');
                 $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
                 $this->db->join('class c','c.c_id = sa.class_id');
                 $this->db->join('section sec','sec.sec_id=st.sec_id');
                 $this->db->join('sub_type sub_t','sub_t.st_id=sa.st_id');
-                $this->db->join('sub_group sg','sg.sg_id=sa.sg_id');
+                $this->db->join('sub_group sg','sg.sg_id=sa.sg_id','LEFT');
                 $this->db->join('subject sub','sub.sub_id = sa.sub_id');
                 $this->db->join('teacher t1','t1.t_id=st.t_id');
                 $this->db->where('st.t_id',$teacher[0]['t_id']);
@@ -113,7 +118,11 @@ class Admin_ctrl extends CI_Controller {
                 $medium = 'med_id IN ('.$medium.')';
                 $class = 'c_id IN ('.$class.')';
                 $section = 'sec_id IN ('.$section.')';
-                $group = 'sg_id IN ('.$sub_group.')';
+                if($sub_group){
+                    $group = 'sg_id IN ('.$sub_group.')';
+                }else{
+                    $group = 'sg_id IN (0)';
+                }
                 $st = 'st_id IN ('.$sub_type.')';
             }
             
