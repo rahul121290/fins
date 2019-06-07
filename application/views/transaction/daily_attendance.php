@@ -149,7 +149,7 @@
                     				<th style="width: 50px;">Attendance</th>
             					</tr>
         					</thead>
-    						<tbody id="list_of_students"></tbody>
+    						<tbody id="list_of_attendance"></tbody>
     					</table>
               		</div>
                   	<div class="box-footer">
