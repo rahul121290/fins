@@ -173,8 +173,8 @@
 					<div class="col-sm-6">
 					<select class="form-control" id="gender" name="gender">
 						<option value="">Select Gender</option>
-						<option value="male">Male</option>
-						<option value="female">Female</option>
+						<option value="Male">Male</option>
+						<option value="Female">Female</option>
 					</select>
 					 <div id="gender_err" class="text-danger" style="display:none;"></div>
 					</div>

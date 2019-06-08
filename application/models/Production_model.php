@@ -202,7 +202,7 @@ class Production_model extends CI_Model {
         //print_r($this->db->last_query());die;
         
         //-----------------------------------***********----------------------------------------------------------------
-        $result['division'] = $this->db->select('min_no,max_no,division')->get_where('division',array('ses_id'=>$session,'sch_id'=>$school,'med_id'=>$medium,'status'=>1))->result_array();
+        $result['division'] = $this->db->select('min_no,max_no,division')->get_where('division',array('ses_id'=>$session,'status'=>1))->result_array();
         
         
         $con_sg_st = '';

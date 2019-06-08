@@ -74,6 +74,9 @@
                         	</div>
         				</div>
             			
+            			<div class="col-sm-3">
+							<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Admission Number">	
+						</div>
         		</div><!-- end box body -->
      			</div>
    			</div>
@@ -92,9 +95,9 @@
                                   <th>Admission No.</th>
                                   <th>Roll No.</th>
                                   <th>Class/ Section</th>
-                                  <th class="fit" style="display: none;">Fit</th>
-                                  <th class="sub_group" style="display:none;">Subject Group</th>
-                                  <th class="sub_group" style="display:none;">Elective Subject</th>
+                                  <th>Fit</th>
+                                  <th>Subject Group</th>
+                                  <th>Elective Subject</th>
                                   <th>Student Name</th>
                                   <th>DOB</th>
                                   <th>Aadhar No</th>
@@ -258,8 +261,8 @@
 					<div class="col-sm-6">
 					<select class="form-control" id="gender" name="gender">
 						<option value="">Select Gender</option>
-							<option value="male">Male</option>
-							<option value="female">Female</option>    
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>    
 					</select>
 					 <div id="gender_err" class="text-danger" style="display:none;"></div>
 					</div>

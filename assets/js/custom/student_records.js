@@ -106,6 +106,9 @@ $(document).ready(function(){
     								'<td>'+value.adm_no+'</td>'+
     								'<td>'+value.roll_no+'</td>'+
     								'<td>'+value.class_name+'/'+value.section_name+'</td>'+
+    								'<td>'+value.fit+'</td>'+
+    								'<td>'+value.sg_name+'</td>'+
+    								'<td>'+value.sub_name+'</td>'+
     								'<td>'+value.name+'</td>'+
     								'<td>'+value.dob+'</td>'+
     								'<td>'+value.aadhar_no+'</td>'+
@@ -130,6 +133,55 @@ $(document).ready(function(){
 		}
 			
 	});
+	
+//--------------search admission n0----------------------
+    $(document).on('keyup','#search_box',function(){
+		var adm_no = $(this).val();
+		$.ajax({
+			type:'POST',
+			url:base_url+'Student_ctrl/getAdmNoRecord',
+			data:{'adm_no':adm_no},
+			dataType:'json',
+			beforeSend:function(){},
+			success:function(response){
+				console.log(response.status);
+				if(response.status == 200){
+					x='';
+					i=1;
+					$.each(response.result,function(key,value){
+						x=x+'<tr>'+
+							'<td>'+i+'</td>'+
+							'<td><button type="button" id="'+value.std_id+'" class="btn btn-info btn-sm edit"><span class="glyphicon glyphicon-edit"></span></button>'+
+							'<button type="button" id="'+value.std_id+'" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span></button></td>'+
+							'<td><img src="'+path+value.photo+'?'+Math.random()+'" style="height:50px;" width="50px;"></td>'+
+							'<td>'+value.adm_no+'</td>'+
+							'<td>'+value.roll_no+'</td>'+
+							'<td>'+value.class_name+'/'+value.section_name+'</td>'+
+							'<td>'+value.fit+'</td>'+
+							'<td>'+value.sg_name+'</td>'+
+							'<td>'+value.sub_name+'</td>'+
+							'<td>'+value.name+'</td>'+
+							'<td>'+value.dob+'</td>'+
+							'<td>'+value.aadhar_no+'</td>'+
+							'<td>'+value.gender+'</td>'+
+							'<td>'+value.f_name+'</td>'+
+							'<td>'+value.m_name+'</td>'+
+							'<td>'+value.contact_no+'</td>'+
+							'<td>'+value.admission_date+'</td>'+
+							'<td>'+value.med_name+'</td>'+
+							'<td>'+value.tc+'</td>'+
+							'<tr>';
+						i++;
+					});
+					$('#student_list').html(x);
+				}else{
+					$('#student_list').html('<tr><td colspan="15" style="text-align:center;">Record not Found.</td></tr>');
+					}
+			},
+			
+		});
+	});
+	
 //-------------delete----------------------------------------
     $(document).on('click','.delete',function(){
         var delete_id = $(this).attr('id');
@@ -219,7 +271,7 @@ $(document).ready(function(){
     	});
 
     });
-
+    
 //----------------update student records-----------------------------
 $('#student_form').validate({
 	rules:{
@@ -337,7 +389,6 @@ $(document).on('click','#submit',function(){
 			type:'POST',
 			url:base_url+'Student_ctrl/add_student',
 			data:formdata,
-			async:false,
 			dataType:'json',
 			beforeSend:function(){
 				$('#loader').modal('show');	

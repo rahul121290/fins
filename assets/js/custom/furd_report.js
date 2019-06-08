@@ -162,7 +162,8 @@ $(document).ready(function(){
 										x=x+'<tbody><table></div></div>';		
 								with(win.document){open(); write(x);close();}
 						}else{
-							alert('something getting wrong!!!'); }
+								alert(response.feedback); 
+							}
 					},
 					cache:false,
 					contentType:false,

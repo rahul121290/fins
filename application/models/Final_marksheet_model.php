@@ -378,7 +378,7 @@ class Final_marksheet_model extends CI_Model{
             
             $this->db->select('grade');
             $this->db->order_by('g_id','ASC');
-            $grade = $this->db->get_where('grade',array('ses_id'=>$session,'sch_id'=>$school,'med_id'=>$medium))->result_array();
+            $grade = $this->db->get_where('grade',array('ses_id'=>$session,'status'=>1))->result_array();
             
             if(count($result['subjects'])>0){
                 $condition = '';

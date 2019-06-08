@@ -17,7 +17,8 @@ class Utilities_and_tool_ctrl extends CI_Controller{
     public function listOfDivision(){
         $session = $this->session->userdata('session_id');
         $school = $this->session->userdata('school_id');
-        $result = $this->db->select('div_id,med_id,min_no,max_no,division')->get_where('division',array('ses_id'=>$session,'sch_id'=>$school,'status'=>1))->result_array();
+        $result = $this->db->select('div_id,med_id,min_no,max_no,division')->get_where('division',array('ses_id'=>$session,'status'=>1))->result_array();
+        //print_r($this->db->last_query());die;
         if(count($result)>0){
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
@@ -53,7 +54,6 @@ class Utilities_and_tool_ctrl extends CI_Controller{
         if($this->form_validation->run()){
             $id = $this->input->post('id');
             $data['ses_id'] = $this->session->userdata('session_id');
-            $data['sch_id'] = $this->session->userdata('school_id');
             $data['med_id'] = $this->input->post('medium');
             $data['min_no'] = $this->input->post('min_no');
             $data['max_no'] = $this->input->post('max_no');
@@ -81,7 +81,7 @@ class Utilities_and_tool_ctrl extends CI_Controller{
     public function listOfGrade(){
         $session = $this->session->userdata('session_id');
         $school = $this->session->userdata('school_id');
-        $result = $this->db->select('g_id,med_id,min_no,max_no,grade,grade_point')->get_where('grade',array('ses_id'=>$session,'sch_id'=>$school,'status'=>1))->result_array();
+        $result = $this->db->select('g_id,med_id,min_no,max_no,grade,grade_point')->get_where('grade',array('ses_id'=>$session,'status'=>1))->result_array();
         if(count($result)>0){
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
@@ -116,7 +116,6 @@ class Utilities_and_tool_ctrl extends CI_Controller{
         if($this->form_validation->run()){
             $id = $this->input->post('id');
             $data['ses_id'] = $this->session->userdata('session_id');
-            $data['sch_id'] = $this->session->userdata('school_id');
             $data['med_id'] = $this->input->post('medium');
             $data['min_no'] = $this->input->post('min_no');
             $data['max_no'] = $this->input->post('max_no');

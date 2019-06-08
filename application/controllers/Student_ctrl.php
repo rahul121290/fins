@@ -86,6 +86,31 @@ class Student_ctrl extends CI_Controller{
         
     }
     
+    function getAdmNoRecord(){
+        $adm_no = $this->input->post('adm_no');
+        $this->db->select('s.std_id,s.photo,s.aadhar_no,s.name,s.roll_no,s.adm_no,
+                           DATE_FORMAT(s.admission_date, "%d-%M-%Y") as admission_date,
+                           s.f_name,s.m_name,
+                           DATE_FORMAT(s.dob, "%d-%M-%Y") as dob,
+                           s.gender,s.contact_no,s.tc,s.address,
+                           c.class_name,
+                           sec.section_name,
+                           m.med_name,sg.sg_name,s.fit,sb.sub_name
+                        ');
+        $this->db->join('class c','c.c_id=s.class_id');
+        $this->db->join('section sec','sec.sec_id=s.sec_id');
+        $this->db->join('medium m','m.med_id=s.medium');
+        $this->db->join('sub_group sg','sg.sg_id = s.sub_group');
+        $this->db->join('subject sb','sb.sub_id = s.elective','LEFT');
+        $result = $this->db->get_where('students s',array('s.status'=>1,'s.adm_no'=>$adm_no))->result_array();
+        if(count($result) > 0 ){
+            echo json_encode(array('result'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('feedback'=>'recrod not found.!','status'=>500));
+        }
+    }
+    
+    
     public function getStudentData(){
         $session = $this->session->userdata('session_id');
         $school = $this->session->userdata('school_id');
@@ -126,11 +151,13 @@ class Student_ctrl extends CI_Controller{
                            s.gender,s.contact_no,s.tc,s.address,
                            c.class_name,
                            sec.section_name,
-                           m.med_name
+                           m.med_name,sg.sg_name,s.fit,sb.sub_name
                         ');
         $this->db->join('class c','c.c_id=s.class_id');
         $this->db->join('section sec','sec.sec_id=s.sec_id');
         $this->db->join('medium m','m.med_id=s.medium');
+        $this->db->join('sub_group sg','sg.sg_id = s.sub_group');
+        $this->db->join('subject sb','sb.sub_id = s.elective','LEFT');
         $this->db->where('1=1 '.$condition);
         $result = $this->db->get_where('students s',array('s.status'=>1))->result_array();
         //print_r($this->db->last_query());die;
@@ -184,6 +211,7 @@ class Student_ctrl extends CI_Controller{
                     $f_name = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
                     $m_name = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
                     $dob = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    //$dob = date('Y-m-d',strtotime($dob));
                     $gender = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
                     $cast = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
                     $contact_no = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
@@ -201,7 +229,8 @@ class Student_ctrl extends CI_Controller{
                     $tc = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
                     $photo = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
                     $admission_date = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
-                    
+                    $admission_date  = date('Y-m-d', strtotime($admission_date));
+                    //$admission_date = date('Y-m-d',strtotime($admission_date));
                     $data[] = array(
                         'adm_no'=>$adm_no,
                         'roll_no'=>$roll_no,
@@ -239,7 +268,7 @@ class Student_ctrl extends CI_Controller{
                     );
                 }//end of for loop      
             }
-            
+            //print_r($data);die;
             $result = $this->db->insert_batch('students', $data);
             if($result){
                 echo  json_encode(array('feedback'=>'CSV Import Successfully.','status'=>200));
