@@ -38,6 +38,10 @@ $route['(:any)/(:any)/utilities-and-tools/add-grade'] = 'Admin_ctrl/add_grade';
 $route['(:any)/(:any)/fees-payment/pay-student-fees'] = 'Admin_ctrl/pay_student_fees';
 $route['(:any)/(:any)/fees-payment/generate-fees-csv'] = 'Admin_ctrl/generate_fees_csv';
 
+$route['(:any)/(:any)/helth/general-information'] = 'Admin_ctrl/helth_general_information';
+$route['(:any)/(:any)/helth/health-activity'] = 'Admin_ctrl/health_activity';
+
+
 $route['(:any)/(:any)/profile'] = 'Admin_ctrl/profile';
 
 $route['(:any)/login'] = 'Auth/login';

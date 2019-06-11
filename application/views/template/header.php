@@ -86,6 +86,16 @@ $permission = $this->my_function->user_permission();
 					</li>
 					<?php } ?>
 					
+					<?php if(in_array("3", $permission)){ ?>
+					<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">Health<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/helth/general-information"><i class="fa fa-genderless text-blue" aria-hidden="true"></i>General Information</a></li>
+							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/helth/health-activity"><i class="fa fa-eye-slash text-blue" aria-hidden="true"></i>Health Activitiy</a></li>
+						</ul>
+					</li>
+					<?php } ?>
+					
 					<?php if($permission_link == 'admin'){ ?>
 					<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">UTILITIES & TOOLS<span class="caret"></span></a>

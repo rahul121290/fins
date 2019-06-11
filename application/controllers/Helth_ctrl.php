@@ -3,11 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Helth_ctrl extends CI_Controller{
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('form', 'url'));
-        $this->load->library(array('form_validation','session'));
-        $this->load->database();
-        $this->load->model(array('Admin_model','helth_model'));
+        $this->load->model('helth_model');
+        $this->load->model('production_model');
     }
+
+    
 
     public function select_box_data(){
         $result = $this->helth_model->select_box_data();
@@ -100,24 +100,30 @@ class Helth_ctrl extends CI_Controller{
 	}
 	
 	public function health_record_fetch(){
-	    $data['school_id'] = (int)$this->session->userdata('school_id');
-	    $data['session_id'] = (int)$this->Admin_model->current_session();
+	    $data['session'] = $this->session->userdata('session_id');
+	    $data['school'] = $this->session->userdata('school_id');
 	    $data['student_id'] = $this->input->post('student_id');
 	    $data['medium'] = $this->input->post('medium');
 	    
-	    $this->db->select('*');
-	    $health_activity = $this->db->get_where('health_activity',array('school_id'=>$data['school_id'],'session_id'=>$data['session_id'],'medium'=>$data['medium'],'stu_id'=>$data['student_id'],'status'=>1))->result_array();
-	   
-	    if(count($health_activity) > 0){
-	        $this->db->select('s.*, sec.name as section_name, cs.name as class_name');
-	        $this->db->join('section sec','sec.id=s.section','innor');
-	        $this->db->join('class cs','cs.c_id=s.class_id','innor');
-	        $sutdent = $this->db->get_where('student s',array('s.s_id'=>$health_activity[0]['stu_id'],'s.status'=>1))->result_array();
-	       
+	    $result['org_details'] = $this->production_model->org_details($data);
+	    
+	    if($data['medium'] == 1){
+	        $data['medium'] = 'English';
+	    }else{
+	        $data['medium'] = 'Hindi';
 	    }
 	    
+	    $this->db->select('*');
+	    $health_activity = $this->db->get_where('health_activity',array('school_id'=>$data['school'],'session_id'=>$data['session'],'medium'=>$data['medium'],'stu_id'=>$data['student_id'],'status'=>1))->result_array();
+	    
+	    if(count($health_activity) > 0){
+	        $this->db->select('s.*, sec.section_name, cs.class_name');
+	        $this->db->join('section sec','sec.sec_id=s.sec_id','innor');
+	        $this->db->join('class cs','cs.c_id=s.class_id','innor');
+	        $sutdent = $this->db->get_where('students s',array('s.std_id'=>$health_activity[0]['stu_id'],'s.status'=>1))->result_array();
+	    }
 	    if(count($sutdent) > 0){
-	        echo json_encode(array('student'=>$sutdent,'health_activity'=>$health_activity,'status'=>200));
+	        echo json_encode(array('student'=>$sutdent,'health_activity'=>$health_activity,'result'=>$result,'status'=>200));
 	    }else{
 	        echo json_encode(array('msg'=>'record not submitted.!','status'=>500));
 	    }
@@ -128,11 +134,15 @@ class Helth_ctrl extends CI_Controller{
 	    $data['school_id'] = $this->input->post('school_id');
 	    $data['session'] = $this->input->post('session');
 	    $data['medium'] = $this->input->post('medium');
+	    if($data['medium'] == 1){
+	        $data['medium'] = 'English';
+	    }else{
+	        $data['medium'] = 'Hindi';
+	    }
 	    $data['class_id'] = $this->input->post('class_id');
-	    
 	    $this->db->select('*');
 	    $result  = $this->db->get_where('health_activity',array('stu_id'=>$data['student_id'],'school_id'=>$data['school_id'],'session_id'=>$data['session'],'medium'=>$data['medium'],'class_id'=>$data['class_id'],'status'=>1))->result_array();
-
+        //print_r($this->db->last_query());die;
 	    if(count($result) > 0){
 	        echo json_encode(array('result'=>$result,'status'=>200));
 	    }else{
@@ -146,23 +156,17 @@ class Helth_ctrl extends CI_Controller{
     public function editData(){
         $data = array();
         $data['school_id'] = (int)$this->session->userdata('school_id');
-        $data['session_id'] = (int)$this->Admin_model->current_session();
         $data['admission_no'] = (int)$this->input->post('admission_no');
-        $data['s_id'] = (int)$this->input->post('s_id');
         $data['medium'] = $this->input->post('medium');
         $data['class_id'] = (int)$this->input->post('class_id');
         $data['section'] = (int)$this->input->post('section');
         $data['sub_group'] = $this->input->post('subject_group');
-
+    
+        //print_r($data);die;
         
-        $this->db->select('
-                            gt.g_id as g_id,
-                            gt.session_id as session_id,
+        $this->db->select('gt.g_id as g_id,
                             gt.school_id as school_id,
-                            gt.medium as medium,
-                            gt.subject_group as subject_group,
                             gt.student_admission_no as admission_no,
-                           	gt.student_student_id as s_id,
                             gt.student_name as name,
                             gt.student_aadhar_card_no as adhar_no,
                             gt.student_dob as dob,
@@ -189,39 +193,38 @@ class Helth_ctrl extends CI_Controller{
         if($data['sub_group'] != NULL){
             $this->db->where('gt.subject_group',$data['sub_group']);
         }
-        $result = $this->db->get_where('general_table gt', array('gt.session_id'=>$data['session_id'],'gt.school_id'=>$data['school_id'],'gt.student_admission_no'=>$data['admission_no'],'gt.student_student_id'=>$data['s_id'],'gt.status'=>1))->result_array();
+        $result = $this->db->get_where('general_table gt', array('gt.school_id'=>$data['school_id'],'gt.student_admission_no'=>$data['admission_no'],'gt.status'=>1))->result_array();
         if(count($result) > 0){
             echo json_encode(array('result'=>$result, 'status'=>200));
         } 
         else{
-            
-            $this->db->select('s.s_id as s_id,
-                              s.session as session_id,
-                              s.school_id as school_id,
+            $this->db->select('s.std_id as s_id,
+                              s.ses_id as session_id,
+                              s.sch_id as school_id,
                               s.medium as medium,
-                              s.admission_no as admission_no,
-                              s.subject_group as subject_group,
+                              s.adm_no as admission_no,
+                              s.sub_group as subject_group,
                               s.name as name,
-                              s.aadhar as adhar_no,
+                              s.aadhar_no as adhar_no,
                               s.dob as dob,
                               s.gender as mft,
                               s.blood_group as blood_group,
-                              s.mother_name as m_name,
-                              s.father_name as f_name,
+                              s.m_name as m_name,
+                              s.f_name as f_name,
                               s.address as address,
                               s.contact_no as mobile');
-            
             if($data['sub_group'] != NULL){
-                $this->db->where('s.subject_group',$data['sub_group']);
+                $this->db->where('s.sub_group',$data['sub_group']);
             }
-            $student_table = $this->db->get_where('student s', array('s.s_id'=>$data['s_id'],'s.session'=>$data['session_id'],'s.school_id'=>$data['school_id'],'s.admission_no'=>$data['admission_no'],'s.status'=>1))->result_array();
+            $student_table = $this->db->get_where('students s', array('s.sch_id'=>$data['school_id'],'s.adm_no'=>$data['admission_no'],'s.status'=>1))->result_array();
+            //print_r($this->db->last_query());die;
             echo json_encode(array('result'=>$student_table,'status'=>200));
         }
     }
     
     public function general_activity(){
         $data = $this->input->post();
-        
+        //print_r($data);die;
         if($data['g_id'] != NULL){
            $this->db->where('g_id',$data['g_id']);
             unset($data['g_id']);
@@ -238,7 +241,7 @@ class Helth_ctrl extends CI_Controller{
     public function print_data(){
         $data = array();
         $data['school_id'] = (int)$this->session->userdata('school_id');
-        $data['session_id'] = (int)$this->Admin_model->current_session();
+        $data['session_id'] = (int)$this->session->userdata('session_id');
         $data['admission_no'] = (int)$this->input->post('admission_no');
         $data['s_id'] = (int)$this->input->post('s_id');
         $data['medium'] = $this->input->post('medium');
@@ -248,12 +251,8 @@ class Helth_ctrl extends CI_Controller{
         
         $this->db->select('
                             gt.g_id as g_id,
-                            gt.session_id as session_id,
                             gt.school_id as school_id,
-                            gt.medium as medium,
-                            gt.subject_group as subject_group,
                             gt.student_admission_no as admission_no,
-                           	gt.student_student_id as s_id,
                             gt.student_name as name,
                             gt.student_aadhar_card_no as adhar_no,
                             DATE_FORMAT(gt.student_dob, "%d-%m-%Y") as dob,
@@ -277,10 +276,7 @@ class Helth_ctrl extends CI_Controller{
                             gt.mobile_no as mobile,
                             gt.children_special_needs as cwsn_specify
                       ');
-        if($data['sub_group'] != NULL){
-            $this->db->where('gt.subject_group',$data['sub_group']);
-        }
-        $result = $this->db->get_where('general_table gt', array('gt.session_id'=>$data['session_id'],'gt.school_id'=>$data['school_id'],'gt.student_admission_no'=>$data['admission_no'],'gt.student_student_id'=>$data['s_id'],'gt.status'=>1))->result_array();
+        $result = $this->db->get_where('general_table gt', array('gt.school_id'=>$data['school_id'],'gt.student_admission_no'=>$data['admission_no']))->result_array();
         if(count($result) > 0){
             echo json_encode(array('result'=>$result, 'status'=>200));
         }else{
@@ -288,6 +284,24 @@ class Helth_ctrl extends CI_Controller{
         }
     }
        
+    function list_of_students(){
+        $data['school'] = $this->session->userdata('school_id');
+        $data['medium'] = $this->input->post('medium');
+        $data['class'] = $this->input->post('class');
+        $data['section'] = $this->input->post('section');
+        
+        $this->db->select('*');
+        $result = $this->db->get_where('students',array('status'=>1,'sch_id'=>$data['school'],'medium'=>$data['medium'],'class_id'=>$data['class'],'sec_id'=>$data['section']))->result_array();
+        //print_r();die;
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'record not found.','status'=>500));
+        }
+    }
+    
+    
+    
 }//end of class..........
 
 

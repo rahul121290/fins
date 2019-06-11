@@ -24,31 +24,28 @@
 			  </div>
 			</div>
 			<form role="form" class="form-horizontal">
-			<div class="box-body">
-                <div class="form-group col-sm-4">
-                    <label class="col-sm-2 control-label">Session</label>
+			<div class="box-body">	
+			<div class="form-group col-sm-4">
+                    <label class="col-sm-2 control-label">Medium</label>
 					<div class="col-sm-10">
-						<select class="form-control" id="session">
-							<option value="0">Select Session</option>
-							<?php foreach($sessions as $session){ ?>
-								<?php if($current_session == $session['session_id']){ ?>
-									<option value="<?php echo $session['session_id'];?>" selected><?php echo $session['name']; ?></option>
-								<?php } else { ?>
-									<option value="<?php echo $session['session_id'];?>"><?php echo $session['name']; ?></option>
-								<?php } ?>
-							<?php } ?>
+						<select class="form-control" id="session" name="session">
+							<option value="0">Select session</option>
+							<option value="2">2018-19</option>
+							<option value="3" selected>2019-20</option>
+							
 						</select>
 						<div class="text-danger" id="session_err" style="display:none;"></div>
 					</div>
 				</div>
-				
+							
 				<div class="form-group col-sm-4">
                     <label class="col-sm-2 control-label">Medium</label>
 					<div class="col-sm-10">
 						<select class="form-control" id="medium">
 							<option value="0">Select Medium</option>
-							<option value="Hindi">Hindi</option>
-							<option value="English">English</option>
+								<?php foreach ($medium as $med){?>
+								<option value="<?php echo $med['med_id'];?>"><?php echo $med['med_name'];?></option>
+								<?php }?>
 						</select>
 						<div class="text-danger" id="medium_err" style="display:none;"></div>
 					</div>
@@ -77,10 +74,9 @@
 					<div class="col-sm-10">
 					<select class="form-control" id="s_group">
 						<option value="0" selected>Select Subject Group</option>
-						<option value="Maths">Maths</option>
-						<option value="Boilogy">Boilogy</option>
-						<option value="Commerce">Commerce</option>
-						<option value="Arts">Arts</option>
+						<?php foreach($sub_group as $group){?>
+							<option value="<?php echo $group['sg_id'];?>"><?php echo $group['sg_name'];?></option>
+						<?php }?>
 					</select>
 					<div class="text-danger" id="s_group_err" style="display:none;"></div>
 					</div>
@@ -472,12 +468,12 @@
 			
 			if(response.status == 200){
 					$.each(response.result.class, function(key, value){
-						c = c + '<option value="'+value.c_id+'">'+value.name+'</option>';
+						c = c + '<option value="'+value.c_id+'">'+value.class_name+'</option>';
 					});
 					$('#class').html(c);
 
 					$.each(response.result.section, function(key, value){
-						s = s + '<option value="'+value.id+'">'+value.name+'</option>';
+						s = s + '<option value="'+value.sec_id+'">'+value.section_name+'</option>';
 					});
 					$('#section').html(s);
 				}
@@ -488,15 +484,13 @@
   $(document).on('click','.student_search',function(){
 	  $.ajax({
 			type: 'POST',
-			url: baseUrl+'Student_ctrl/student_list_marksheet',
+			url: baseUrl+'Helth_ctrl/list_of_students',
 			dataType: "json",
 			data: {
 				'medium' : $('#medium').val(),
 				'class' : $('#class').val(),
 				'section' : $('#section').val(),
-				'fit' : 0,
-				's_group' : $('s_group').val(),
-				'elective' : 0
+				's_group' : $('s_group').val()
 			},
 			beforeSend: function(){
 				
@@ -508,9 +502,9 @@
 						x = x + '<tr><td>'+ parseInt(key + 1) +'</td>'+
 									'<td>'+ value.name +'</td>'+
 									'<td>'+
-										'<input type="button" value="Print" data-sid="'+ value.s_id +'" data-admission_no="'+ value.admission_no +'" class="student_activity_print btn btn-info btn-md">'+
+										'<input type="button" value="Print" data-sid="'+ value.std_id +'" data-admission_no="'+ value.adm_no +'" class="student_activity_print btn btn-info btn-md">'+
 									'</td><td>'+
-										'<input type="button" value="Edit" data-school_id="'+value.school_id+'" data-class_id="'+value.class_id+'" data-session="'+value.session+'" data-medium="'+value.medium+'"  data-sid="'+ value.s_id +'" data-admission_no="'+ value.admission_no +'" class="student_activity_edit btn btn-info btn-md">'+
+										'<input type="button" value="Edit" data-school_id="'+value.sch_id+'" data-class_id="'+value.class_id+'" data-session="'+value.ses_id+'" data-medium="'+value.medium+'"  data-sid="'+ value.std_id +'" data-admission_no="'+ value.adm_no +'" class="student_activity_edit btn btn-info btn-md">'+
 									'</td>'+
 								'</tr>';
 					});
@@ -529,7 +523,7 @@
 	  var student_id = $(this).data('sid');
 	  var admission_no  = $(this).data('admission_no');
 	  var school_id  = $(this).data('school_id');
-	  var session  = $(this).data('session');
+	  var session  = $('#session').val();
 	  var medium  = $(this).data('medium');
 	  var class_id  = $(this).data('class_id');
 	  
@@ -622,7 +616,7 @@
 			dataType: "json",
 			data: {
 				'stu_id' : $('#student_id_popup').val(),
-				'session_id' : $('#session').val(),
+				'session_id' : 3,
 				'medium' : $('#medium').val(),
 				'class' : $('#class').val(),
 				'section_id' : $('#section').val(), 
@@ -683,9 +677,9 @@ $(document).on('click','.student_activity_print', function(){
 			  console.log(response);
 				if(response.status == 200){
 					  var win = window.open(baseUrl+'application/views/pages/production/mid_result', "myWindowName", "scrollbars=1,width=1200, height=600");
-					  var x = '<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assest/bootstrap/css/bootstrap.min.css">'+
-						'<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assest/css/marksheet-result.css">'+
-						'<link rel="stylesheet" type="text/css" media="print" href="'+ baseUrl +'assest/css/marksheet-result-print.css">'+
+					  var x = '<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css">'+
+						'<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/marksheet-result.css">'+
+						'<link rel="stylesheet" type="text/css" media="print" href="'+ baseUrl +'assets/css/marksheet-result-print.css">'+
 						'<style>.table tr td{border:1px solid #eee;}</style>'+
 						  '<div class="modal-content p-head-sec-f">';
 						if(response.health_activity[0].school_id == 2){
@@ -695,7 +689,7 @@ $(document).on('click','.student_activity_print', function(){
 								//  x = x +'<img src="'+ baseUrl +'assest/images/shakuntala/result_bg_logo-w.png" style="position:absolute;top:35%;left:30%;margin:0 auto; background-size:cover; background-position:center;">';
 						 		}
 					      				x = x +'<div class="modal-header p-header">'+
-												'<div class="col-md-3 c-logo-section"><img class="c-logo" style="width:80px;" src="'+ baseUrl +'assest/images/sharda/cbse-logo.png" /></div>'+
+												'<div class="col-md-3 c-logo-section"><img class="c-logo" style="width:80px;" src="'+ baseUrl +'assets/images/cbse-logo.png" /></div>'+
 												'<div class="col-md-6 p-logo-sec text-center">';
 													if(response.health_activity[0].school_id == 2){
 														x = x + '<div class="p-school-name-sec">'+
@@ -710,8 +704,8 @@ $(document).on('click','.student_activity_print', function(){
 													x = x +'</div>'+
 												'<div class="col-md-3 p-school-logo">';
 													if(response.health_activity[0].school_id == 2){
-															x = x + '<img class="p-logo pull-right" src="'+ baseUrl +'assest/images/sharda/logo.png" />'; }
-														else{ x = x + '<img class="p-logo pull-right" src="'+ baseUrl +'assest/images/shakuntala/logo.png" />'; }
+															x = x + '<img class="p-logo pull-right" src="'+ baseUrl +'assets/images/sharda/sharda_logo.png" />'; }
+														else{ x = x + '<img class="p-logo pull-right" src="'+ baseUrl +'assets/images/shakuntala/shakuntala.png" />'; }
 														x = x +
 												'</div>'+
 										'</div>'+

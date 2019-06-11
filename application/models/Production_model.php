@@ -11,9 +11,14 @@ class Production_model extends CI_Model {
             $result['exam_type'] = $this->db->select('et_name')->get_where('exam_type',array('et_id'=>$data['exam_type'],'status'=>1))->result_array();
         }
         $result['medium'] = $this->db->select('med_name')->get_where('medium',array('med_id'=>$data['medium'],'status'=>1))->result_array();
-        $result['class'] = $this->db->select('class_name')->get_where('class',array('c_id'=>$data['class'],'status'=>1))->result_array();
         
-        $result['section'] = $this->db->select('section_name')->get_where('section',array('sec_id'=>$data['section'],'status'=>1))->result_array();
+        if(!empty($data['class'])){
+            $result['class'] = $this->db->select('class_name')->get_where('class',array('c_id'=>$data['class'],'status'=>1))->result_array();
+        }
+        
+        if(!empty($data['section'])){
+            $result['section'] = $this->db->select('section_name')->get_where('section',array('sec_id'=>$data['section'],'status'=>1))->result_array();
+        }
         
         if(!empty($data['sub_group'])){
             $result['sub_group'] = $this->db->select('sg_name')->get_where('sub_group',array('sg_id'=>$data['sub_group'],'status'=>1))->result_array();
@@ -303,7 +308,7 @@ class Production_model extends CI_Model {
         $medium = $data['medium'];
         $teacher = $data['teacher'];
         
-        $result['division'] = $this->db->select('min_no,max_no,division')->get_where('division',array('ses_id'=>$session,'sch_id'=>$school,'med_id'=>$medium,'status'=>1))->result_array();
+        $result['division'] = $this->db->select('min_no,max_no,division')->get_where('division',array('ses_id'=>$session,'med_id'=>$medium,'status'=>1))->result_array();
         
         $this->db->select('c.class_name,sec.section_name,sub.sub_name,t.teacher_name,sa.class_id,st.sec_id,sa.st_id,sa.sg_id,sa.sub_id,IFNULL(sg.sg_name,"-") AS sg_name');
         $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');

@@ -40,8 +40,9 @@
 					<div class="col-sm-10">
 							<select class="form-control" id="medium" name="medium">
 								<option value="">Select Medium</option>
-								<option value="Hindi">Hindi</option>
-								<option value="English">English</option>
+								<?php foreach ($medium as $med){?>
+								<option value="<?php echo $med['med_id'];?>"><?php echo $med['med_name'];?></option>
+								<?php }?>
 							</select>
 						<div class="text-danger" id="medium_err" style="display:none;"></div>
 					</div>
@@ -55,6 +56,20 @@
 						<div class="text-danger" id="class_err" style="display:none;"></div>
 					</div>
 				</div>
+				
+				<div class="form-group col-sm-4" id="s_group" style="display:none;">
+                    <label class="col-sm-2 control-label">Sub Group</label>
+					<div class="col-sm-10">
+					<select class="form-control" id="sub_group" name="sub_group">
+						<option value="">Select Subject Group</option>
+						<?php foreach($sub_group as $group){?>
+							<option value="<?php echo $group['sg_id'];?>"><?php echo $group['sg_name'];?></option>
+						<?php }?>
+					</select>
+					<div class="text-danger" id="sub_group_err" style="display:none;"></div>
+					</div>
+				</div>	
+				
 				<div class="form-group col-sm-4">
                     <label class="col-sm-2 control-label">Section</label>
 					<div class="col-sm-10">
@@ -65,19 +80,7 @@
 					</div>
 				</div>	
 				
-				<div class="form-group col-sm-4" id="s_group" style="display:none;">
-                    <label class="col-sm-2 control-label">Sub Group</label>
-					<div class="col-sm-10">
-					<select class="form-control" id="sub_group" name="sub_group">
-						<option value="">Select Subject Group</option>
-						<option value="maths">Maths</option>
-						<option value="bio">Biology</option>
-						<option value="commer">Commerce</option>
-						<option value="art">Arts</option>
-					</select>
-					<div class="text-danger" id="sub_group_err" style="display:none;"></div>
-					</div>
-				</div>	
+				
 				<div class="box-footer">
 				<button type="button" id="search" name="search" class="btn pull-right btn-info btn-space">Search</button>
             	</div>
@@ -337,20 +340,19 @@ var baseUrl = $('#base_url').val();
 			var x = '<option value="">Select Session</option>';
 			var c = '<option value="">Select Class</option>';
 			var s = '<option value="">Select Section</option>';
-			
 			if(response.status == 200){
 					$.each(response.result.session, function(key, value){
-						x = x + '<option value="'+value.session_id+'" selected>'+value.name+'</option>';
+						x = x + '<option value="'+value.ses_id+'" selected>'+value.session_name+'</option>';
 					});
 					$('#session').html(x);
 
 					$.each(response.result.class, function(key, value){
-						c = c + '<option value="'+value.c_id+'">'+value.name+'</option>';
+						c = c + '<option value="'+value.c_id+'">'+value.class_name+'</option>';
 					});
 					$('#class').html(c);
 
 					$.each(response.result.section, function(key, value){
-						s = s + '<option value="'+value.id+'">'+value.name+'</option>';
+						s = s + '<option value="'+value.sec_id+'">'+value.section_name+'</option>';
 					});
 					$('#section').html(s);
 				}
@@ -448,8 +450,8 @@ if(formvalid){
 						        '<td>'+value.section_name+'</td>'+
 						        
 						        '<td>'+sub_group+'</td>'+
-						        '<td><button type="button" data-s_id="'+value.s_id+'" data-admiss_no="'+value.admission_no+'" data-medium="'+value.medium+'" data-class_id="'+value.class_id+'" data-section="'+value.section+'" data-subject_group="'+value.subject_group+'" class="btn btn-primary btn-sm editbtn"><span class="glyphicon glyphicon-edit"></span> Edit </button> &nbsp;'+
-		    					'<button type="button" data-s_id="'+value.s_id+'" data-admiss_no="'+value.admission_no+'" data-medium="'+value.medium+'" data-class_id="'+value.class_id+'" data-section="'+value.section+'" data-subject_group="'+value.subject_group+'" class="btn btn-success btn-sm print"><span class="glyphicon glyphicon-print"></span> Print </button></td>'+
+						        '<td><button type="button" data-s_id="'+value.std_id+'" data-admiss_no="'+value.adm_no+'" data-medium="'+value.medium+'" data-class_id="'+value.class_id+'" data-section="'+value.sec_id+'" data-subject_group="'+value.sub_group+'" class="btn btn-primary btn-sm editbtn"><span class="glyphicon glyphicon-edit"></span> Edit </button> &nbsp;'+
+		    					'<button type="button" data-s_id="'+value.std_id+'" data-admiss_no="'+value.adm_no+'" data-medium="'+value.medium+'" data-class_id="'+value.class_id+'" data-section="'+value.sec_id+'" data-subject_group="'+value.sub_group+'" class="btn btn-success btn-sm print"><span class="glyphicon glyphicon-print"></span> Print </button></td>'+
 						        '</tr>';
 				        i++;
 					});
@@ -501,9 +503,9 @@ $(document).on('click','.print', function(){
 					
 					
 					$.each(response.result, function(key, value){
-						x = x + '<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assest/bootstrap/css/bootstrap.min.css">'+
-						'<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assest/css/marksheet-result.css">'+
-						'<link rel="stylesheet" type="text/css" media="print" href="'+ baseUrl +'assest/css/marksheet-result-print.css">'+
+						x = x + '<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css">'+
+						'<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/marksheet-result.css">'+
+						'<link rel="stylesheet" type="text/css" media="print" href="'+ baseUrl +'assets/css/marksheet-result-print.css">'+
 						'<style>.table tr td{border:1px solid #eee;}</style>'+
 						  '<div class="modal-content p-head-sec-f">';
 						if(value.school_id == 2){
@@ -513,7 +515,7 @@ $(document).on('click','.print', function(){
 								//  x = x +'<img src="'+ baseUrl +'assest/images/shakuntala/result_bg_logo-w.png" style="position:absolute;top:35%;left:30%;margin:0 auto; background-size:cover; background-position:center;">';
 						 		}
 					      				x = x +'<div class="modal-header p-header">'+
-												'<div class="col-md-3 c-logo-section"><img class="c-logo" style="width:80px;" src="'+ baseUrl +'assest/images/sharda/cbse-logo.png" /></div>'+
+												'<div class="col-md-3 c-logo-section"><img class="c-logo" style="width:80px;" src="'+ baseUrl +'assets/images/cbse-logo.png" /></div>'+
 												'<div class="col-md-6 p-logo-sec text-center">'+
 													'<div class="p-school-name-sec">'+
 													'<h2>HEALTH & ACTIVITY CARD</h2>'+
@@ -521,8 +523,8 @@ $(document).on('click','.print', function(){
 													'</div></div>'+
 												'<div class="col-md-3 p-school-logo">';
 													if(value.school_id == 2){
-															x = x + '<img class="p-logo pull-right" src="'+ baseUrl +'assest/images/sharda/logo.png" />'; }
-														else{ x = x + '<img class="p-logo pull-right" src="'+baseUrl+'assest/images/shakuntala/logo.png" />'; }
+															x = x + '<img class="p-logo pull-right" src="'+ baseUrl +'assets/images/sharda/sharda_logo.png" />'; }
+														else{ x = x + '<img class="p-logo pull-right" src="'+baseUrl+'assets/images/shakuntala/shakuntala.png" />'; }
 													x = x +
 												'</div>'+
 										'</div>'+
@@ -629,11 +631,7 @@ $(document).on('click', '.editbtn', function(){
 $(document).on('click','#submit',function(){
 	var formdata = new FormData();
 	formdata.append('g_id',$('#g_id').val());
-	formdata.append('session_id',$('#session_id').val());
-	formdata.append('subject_group',$('#mod_sub_group').val());
 	formdata.append('school_id',$('#school_id').val());
-	formdata.append('medium',$('#medium').val());
-	formdata.append('student_student_id',$('#s_id').val());
 	formdata.append('student_admission_no',$('#admission_no').val());
 	formdata.append('student_name',$('#name').val());
 	formdata.append('student_aadhar_card_no',$('#adhar_no').val());

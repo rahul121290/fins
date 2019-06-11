@@ -8,7 +8,5 @@ class Dashbord_ctrl extends CI_Controller {
         $this->load->library(array('ion_auth'));
     }
   
-    function index(){
-        
-    }
+   
 }

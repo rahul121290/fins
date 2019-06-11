@@ -142,6 +142,12 @@ class Admin_ctrl extends CI_Controller {
     }
     
     function index(){
+        $session = $this->session->userdata('session_id');
+        $school = $this->session->userdata('school_id');
+        $this->data['students'] = $this->db->select('count(*) students')->get_where('students',array('status'=>1,'ses_id'=>$session,'sch_id'=>$school))->result_array();
+        $this->data['teachers'] = $this->db->select('count(*) teachers')->get_where('teacher',array('status'=>1,'school_id'=>$school))->result_array();
+        $this->data['users'] = $this->db->select('count(*) users')->get_where('users',array('status'=>1,'school_id'=>$school))->result_array();
+        $this->data['subjects'] = $this->db->select('count(*) subjects')->get_where('subject',array('status'=>1,'st_id'=>1))->result_array();
         $this->data['page_name'] = 'Dashbord';
         $this->data['main'] = 'dashbord/dashbord';
         $this->_load_view();
@@ -429,6 +435,32 @@ class Admin_ctrl extends CI_Controller {
             $this->_admin_class_teacher_access();
         }
     }
+    
+    function helth_general_information(){
+        if(in_array("3", $this->permission)){
+            $this->data['medium'] = $this->db->select('*')->get_where('medium',array('status'=>1))->result_array();
+            $this->data['sub_group'] = $this->db->select('*')->get_where('sub_group',array('status'=>1))->result_array();
+            $this->data['page_name'] = 'Furd Report';
+            $this->data['main'] = 'helth/general_info';
+            $this->_load_view();
+        }else{
+            print_r('You have not permission to access helth section');
+        }
+    }
+    
+    function health_activity(){
+        if(in_array("3", $this->permission)){
+            $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();
+            $this->data['medium'] = $this->db->select('*')->get_where('medium',array('status'=>1))->result_array();
+            $this->data['sub_group'] = $this->db->select('*')->get_where('sub_group',array('status'=>1))->result_array();
+            $this->data['page_name'] = 'Furd Report';
+            $this->data['main'] = 'helth/health_activity';
+            $this->_load_view();
+        }else{
+            print_r('You have not permission to access helth section');
+        }
+    }
+    
     
     function profile(){
         $user_id = $this->session->userdata('user_id');
