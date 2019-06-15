@@ -24,8 +24,8 @@
 							<div class="col-sm-8">
 							<select name="medium" id="medium" class="form-control">
 								<option value="">Select Medium</option>
-								<?php foreach($medium as $medium1){?>
-								<option value="<?php echo $medium1['med_id'];?>"><?php echo $medium1['med_name'];?></option>
+								<?php foreach($medium as $med){?>
+								<option value="<?php echo $med['med_id'];?>"><?php echo $med['med_name'];?></option>
 								<?php }?>
 							</select>
 								<div id="medium_err" style="display:none; color:red;"></div>
@@ -37,9 +37,9 @@
 							<div class="col-sm-8">
 							<select name="exam_type" id="exam_type" class="form-control">
 								<option value="">Select Exam Type</option>
-								<?php foreach($exam_type as $et){?>
+								<?php foreach($exam_type as $et){ if($et['et_id'] == 2 || $et['et_id'] == 4){?>
 								<option value="<?php echo $et['et_id'];?>"><?php echo $et['et_name'];?></option>
-								<?php }?>
+								<?php }}?>
 							</select>
 								<div id="exam_type_err" style="display:none; color:red;"></div>
 							</div>

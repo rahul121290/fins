@@ -98,6 +98,24 @@ $(document).ready(function(){
     						x='';
     						i=1;
     						$.each(response.result,function(key,value){
+    							if(value.sg_name == null || value.sg_name == ''){
+    								var sub_group = '-';
+    							}else{
+    								var sub_group = value.sg_name;
+    							}
+    							
+    							if(value.sub_name == null || value.sub_name == ''){
+    								var elective = '-';
+    							}else{
+    								var elective = value.sub_name;
+    							}
+    							
+    							if(value.fit == null || value.fit == ''){
+    								var fit = '-';
+    							}else{
+    								var fit = value.fit;
+    							}
+    							
     							x=x+'<tr>'+
     								'<td>'+i+'</td>'+
     								'<td><button type="button" id="'+value.std_id+'" class="btn btn-info btn-sm edit"><span class="glyphicon glyphicon-edit"></span></button>'+
@@ -106,9 +124,9 @@ $(document).ready(function(){
     								'<td>'+value.adm_no+'</td>'+
     								'<td>'+value.roll_no+'</td>'+
     								'<td>'+value.class_name+'/'+value.section_name+'</td>'+
-    								'<td>'+value.fit+'</td>'+
-    								'<td>'+value.sg_name+'</td>'+
-    								'<td>'+value.sub_name+'</td>'+
+    								'<td>'+fit+'</td>'+
+    								'<td>'+sub_group+'</td>'+
+    								'<td>'+elective+'</td>'+
     								'<td>'+value.name+'</td>'+
     								'<td>'+value.dob+'</td>'+
     								'<td>'+value.aadhar_no+'</td>'+

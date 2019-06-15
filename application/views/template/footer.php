@@ -6,7 +6,6 @@
     reserved.-->
   </footer>  
   <div class="control-sidebar-bg"></div>
-</div>
 <!-- ./wrapper -->
 
 <!-- Bootstrap 3.3.7 -->
@@ -52,15 +51,16 @@
     })
   })
 </script>
-<div class="modal fade" id="loader" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document" style="width:70px;top:40%">
-    <div class="modal-content" style="border-radius:10px;">
-      <div class="modal-body">
-		<img style="width:40px;" alt="" src="<?php echo base_url(); ?>assets/images/loader.gif" />
+    <div class="modal fade" id="loader" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document" style="width:70px;top:40%">
+        <div class="modal-content" style="border-radius:10px;">
+          <div class="modal-body">
+    		<img style="width:40px;" alt="" src="<?php echo base_url(); ?>assets/images/loader.gif" />
+          </div>
+          
+        </div>
       </div>
-      
     </div>
-  </div>
 </div>
 </body>
 </html>

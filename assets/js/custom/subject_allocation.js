@@ -137,22 +137,22 @@ $(document).ready(function(){
 	    				x=x+'<tr>'+
 	    					'<td>'+i+'</td>'+
 	    					'<td>'+value.sub_name+'</td>'+
-	    					'<td><input type="text" data-sa_id="'+value.sa_id+'" data-et_id="1" value="'+value.pre+'" name="pre" id="pre" class="master" style="width:50px;"></td>'+
-	    					'<td><input type="text" data-sa_id="'+value.sa_id+'" data-et_id="2" value="'+value.mid+'" name="mid" id="mid" class="master" style="width:50px;"></td>';
+	    					'<td><input class="only_int" type="text" data-sa_id="'+value.sa_id+'" data-et_id="1" value="'+value.pre+'" name="pre" id="pre" class="master" style="width:50px;"></td>'+
+	    					'<td><input class="only_int" type="text" data-sa_id="'+value.sa_id+'" data-et_id="2" value="'+value.mid+'" name="mid" id="mid" class="master" style="width:50px;"></td>';
 
 	    					if(($('#class').val() >= 14) || ($('#class').val() == 12 && sub_type == 4)){
 								$('#mid_pra').css('display','block');
-								x=x+'<td><input type="text" data-sa_id="'+value.sa_id+'" data-et_id="2" value="'+value.mid_practical+'" name="mid" id="mid_practical" class="practical" style="width:50px;"></td>';
+								x=x+'<td><input class="only_int" type="text" data-sa_id="'+value.sa_id+'" data-et_id="2" value="'+value.mid_practical+'" name="mid" id="mid_practical" class="practical" style="width:50px;"></td>';
 							}else{
 								$('#mid_pra').css('display','none');
 								}
 	    					
-	    					x=x+'<td><input type="text" data-sa_id="'+value.sa_id+'" data-et_id="3" value="'+value.post+'" name="post" id="post" class="master" style="width:50px;"></td>'+
-	    						'<td><input type="text" data-sa_id="'+value.sa_id+'" data-et_id="4" value="'+value.final+'" name="final" id="final" class="master" style="width:50px;"></td>';
+	    					x=x+'<td><input class="only_int" type="text" data-sa_id="'+value.sa_id+'" data-et_id="3" value="'+value.post+'" name="post" id="post" class="master" style="width:50px;"></td>'+
+	    						'<td><input class="only_int" type="text" data-sa_id="'+value.sa_id+'" data-et_id="4" value="'+value.final+'" name="final" id="final" class="master" style="width:50px;"></td>';
 	    						
 	    					if(($('#class').val() >= 14) || ($('#class').val() == 12 && sub_type == 4)){
 								$('#final_pra').css('display','block');
-								x=x+'<td><input type="text" data-sa_id="'+value.sa_id+'" data-et_id="4" value="'+value.final_practical+'" name="final" id="final_practical" class="practical" style="width:50px;"></td>';	
+								x=x+'<td><input class="only_int" type="text" data-sa_id="'+value.sa_id+'" data-et_id="4" value="'+value.final_practical+'" name="final" id="final_practical" class="practical" style="width:50px;"></td>';	
 							}else{
 								$('#final_pra').css('display','none');
 								}
@@ -162,8 +162,16 @@ $(document).ready(function(){
 	    			$('#out_of_marks').html(x);
 	    			}else{
 	    				$('#out_of_marks').html('<tr><td colspan="6" style="text-align:center">this class not allocated any subjects.</td></tr>');
-						}
+					}
 			},
+			complete:function(){
+				$(".only_int").on("keypress keyup blur",function (event) {
+					$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+					    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+					        event.preventDefault();
+					    }
+				});
+			}
 		
 		});
 	}
@@ -258,4 +266,5 @@ $(document).ready(function(){
 		$('#subjets').html('<div class="col-sm-12" style="text-align:center;">record not found.</div>');
 		$('#out_of_marks').html('<tr><td colspan="6" style="text-align:center">this class not allocated any subjects.</td></tr>');	
 	});
+	
 });

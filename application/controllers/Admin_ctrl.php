@@ -467,7 +467,7 @@ class Admin_ctrl extends CI_Controller {
         $this->db->select('*');
         $this->db->join('teacher t','t.t_id = u.t_id','LEFT');
         $result = $this->db->get_where('users u',array('u.status'=>1,'u.id'=>$user_id))->result_array();
-        
+        $this->data['is_admin'] = $this->ion_auth->is_admin();
         $this->data['page_name'] = 'Profile';
         $this->data['main'] = 'report/profile';
         $this->data['user_details'] = $result;

@@ -156,7 +156,7 @@ class Student_ctrl extends CI_Controller{
         $this->db->join('class c','c.c_id=s.class_id');
         $this->db->join('section sec','sec.sec_id=s.sec_id');
         $this->db->join('medium m','m.med_id=s.medium');
-        $this->db->join('sub_group sg','sg.sg_id = s.sub_group');
+        $this->db->join('sub_group sg','sg.sg_id = s.sub_group','LEFT');
         $this->db->join('subject sb','sb.sub_id = s.elective','LEFT');
         $this->db->where('1=1 '.$condition);
         $result = $this->db->get_where('students s',array('s.status'=>1))->result_array();

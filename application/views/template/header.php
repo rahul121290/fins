@@ -2,7 +2,6 @@
 $permission_link = $this->my_function->permission_link();
 $permission = $this->my_function->user_permission();
 ?>
-
 <header class="main-header">
     <nav class="navbar navbar-static-top">
       <div class="container-fluid">
@@ -15,7 +14,7 @@ $permission = $this->my_function->user_permission();
       	<?php } ?>
 			<li class="active"><a href="<?=base_url().$school.'/'.$permission_link;?>/dashbord">DASHBORD</a></li>
 				<li class="dropdown">
-				<?php if($permission_link == 'admin' || $permission_link == 'class-teacher'){ ?>
+				<?php if($permission_link == 'admin' && in_array("2", $permission) || $permission_link == 'class-teacher' && in_array("2", $permission)){ ?>
 				<a class="dropdown-toggle" data-toggle="dropdown"  href="#">MASTER RECORDS<span class="caret"></span></a>
 				<?php } ?>
 						<ul class="dropdown-menu">
@@ -49,7 +48,7 @@ $permission = $this->my_function->user_permission();
 						<?php } ?>
 							
 						<?php if($permission_link == 'admin' || $permission_link == 'class-teacher' || $permission_link == 'teacher'){ ?>
-							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/transaction-record/daily-attendance"><i class="fa fa-calculator text-blue" aria-hidden="true"></i>Daily Attendance</a></li>
+							<!-- <li><a href="<?php //base_url().$school.'/'.$permission_link;?>/transaction-record/daily-attendance"><i class="fa fa-calculator text-blue" aria-hidden="true"></i>Daily Attendance</a></li> -->
 						
 							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/transaction-record/marks-entry"><i class="fa fa-calculator text-blue" aria-hidden="true"></i>Marks Entry</a></li>
 						<?php } ?>
@@ -88,7 +87,7 @@ $permission = $this->my_function->user_permission();
 					
 					<?php if(in_array("3", $permission)){ ?>
 					<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">Health<span class="caret"></span></a>
+					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">HEALTH<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/helth/general-information"><i class="fa fa-genderless text-blue" aria-hidden="true"></i>General Information</a></li>
 							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/helth/health-activity"><i class="fa fa-eye-slash text-blue" aria-hidden="true"></i>Health Activitiy</a></li>

@@ -17,7 +17,9 @@ $(document).ready(function(){
 				x='<option value"">Select Exam Type</option>';
 				if(response.status == 200){
 					$.each(response.result,function(key,value){
-						x=x+'<option value="'+value.et_id+'">'+value.et_name+'</option>';	
+						if(value.et_id == 2 || value.et_id == 4){
+							x=x+'<option value="'+value.et_id+'">'+value.et_name+'</option>';
+						}
 					});		
 					$('#exam_type').html(x);
 				}	
@@ -99,6 +101,7 @@ $(document).ready(function(){
 					$('#total_days').val('');
 					$('#search').css('display','none');
 					$('#reset').css('display','none');
+					$('#section').prop('selectedIndex','');
 					}
 			}
 		});

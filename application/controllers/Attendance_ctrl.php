@@ -119,8 +119,11 @@ class Attendance_ctrl extends CI_Controller {
         
         $this->db->select('s.std_id,s.adm_no,s.roll_no,s.name,IFNULL(sa.present_days,"") as present_days,IFNULL(sa.absent_days,"") as absent_days');
         $this->db->join('std_attendance sa','s.std_id=sa.std_id','left');
+        if(!empty($sub_group)){
+            $this->db->where('sub_group',$sub_group);
+        }
         $this->db->group_by('s.std_id');
-        $result  = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'class_id'=>$class_name,'sub_group'=>$sub_group,'sec_id'=>$section,'s.status'=>1))->result_array();
+        $result  = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'class_id'=>$class_name,'sec_id'=>$section,'s.status'=>1))->result_array();
         
         $attendance =  $this->db->select('am_id,total_days')->get_where('attendance_master',array('ses_id'=>$session,'sch_id'=>$school,'med_id'=>$medium,'class_id'=>$class_name,'et_id'=>$exam_type,'status'=>1))->result_array();
         if(count($result)>0){

@@ -78,7 +78,7 @@
 					    <div class="form-group">
 					    	<label class="control-label col-md-2">Permission</label>
 					    	<?php foreach($permission as $prmis){?>
-							<div class="col-sm-8">
+							<div class="col-sm-2">
 								<input type="checkbox" name="permission[]" value="<?php echo $prmis['pid'];?>"><?php echo $prmis['p_name'];?>
 							</div>
 							<?php } ?>
@@ -92,7 +92,6 @@
                             </div>
             			</div>
             			</form>
-            			
         			</div><!-- end box body -->
      			</div>
    			</div>

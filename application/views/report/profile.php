@@ -7,6 +7,7 @@
   </ol>
 </section>
 <!-- main section -->
+<?php if(!$is_admin){?>
 			<div class="col-md-6">	
           	<div class="box box-danger">
                 <div class="box-header">
@@ -36,7 +37,7 @@
                             <div class="form-group">
                               <label class="col-sm-3 control-label">DOB</label>
                               <div class="col-sm-6">
-            					<input type="text" name="dob" id="dob" class="form-control" placeholder="Date of Birth" value="<?php echo $user_details[0]['dob'];?>">
+            					<input type="date" name="dob" id="dob" class="form-control" placeholder="Date of Birth" value="<?php echo $user_details[0]['dob'];?>">
             						<div id="dob_err" style="display:none;color:red;"></div>
             					</div>
                             </div>
@@ -100,7 +101,7 @@
                             
                             <div class="form-group">
                               <div class="col-sm-6">
-                              <input type="button" class="btn btn-success" id="update_profile" value="Update">
+                              <input type="button" class="btn btn-success pull-right" id="update_profile" value="Update Profile">
             					</div>
                             </div>
     					</div>
@@ -108,7 +109,7 @@
                 </div>
              </div>
              </div>
-             
+             <?php }?>
              <div class="col-md-6">	
           	<div class="box box-danger">
                 <div class="box-header">
@@ -141,7 +142,7 @@
                         
                     	<div class="form-group">
                           <div class="col-sm-6">
-        					 <input type="button" id="update_password" class="btn btn-success" value="Update Password">
+        					 <input type="button" id="update_password" class="btn btn-success pull-right" value="Update Password">
         					</div>
                         </div>
                             
