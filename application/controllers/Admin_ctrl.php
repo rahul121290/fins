@@ -152,66 +152,66 @@ class Admin_ctrl extends CI_Controller {
         $this->data['main'] = 'dashbord/dashbord';
         $this->_load_view();
     }
-    
-    function testing(){
-        $db1 = $this->load->database('server',TRUE);
-        $result = $db1->get('class')->result_array();
-        print_r($result); 
-    }
+
 	
     function session_master(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(1, $this->permission)){
             $this->data['page_name'] = 'Session Master';
             $this->data['main'] = 'master/session_master';
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function school_master(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(2, $this->permission)){
             $this->data['page_name'] = 'School Master';
             $this->data['main'] = 'master/school_master';
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function medium_master(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(3, $this->permission)){
             $this->data['page_name'] = 'Medium Master';
             $this->data['main'] = 'master/medium_master';
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function class_master(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(4, $this->permission)){
             $this->data['page_name'] = 'Class Master';
             $this->data['main'] = 'master/class_master';
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function subject_master(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(5, $this->permission)){
             $this->data['page_name'] = 'Subject Master';
             $this->data['main'] = 'master/subject_master';
             $this->data['sub_type'] = $this->db->select('st_id,st_name')->where('status',1)->get('sub_type')->result_array();
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function subject_allocation(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(6, $this->permission)){
             $this->data['page_name'] = 'Subject Allocation';
             $this->data['main'] = 'master/subject_allocation';
             
@@ -223,12 +223,24 @@ class Admin_ctrl extends CI_Controller {
             $this->data['sub_gorup'] = $this->db->select('sg_id,sg_name')->where('status',1)->get('sub_group')->result_array();
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
+    function add_student(){
+        if(in_array(7, $this->permission)){
+            $this->data['page_name'] = 'Add Student';
+            $this->data['main'] = 'master/add_student';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function add_teacher(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(8, $this->permission)){
             $this->data['page_name'] = 'Add Teacher';
             $this->data['main'] = 'master/add_teacher';
             $this->data['teachers'] = $this->db->select('*')->get_where('teacher',array('school_id'=>(int)$this->session->userdata('school_id'),'status'=>1))->result_array();
@@ -239,76 +251,74 @@ class Admin_ctrl extends CI_Controller {
             $this->data['sub_gorup'] = $this->db->select('sg_id,sg_name')->where('status',1)->get('sub_group')->result_array();
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function subject_teacher(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(9, $this->permission)){
             $this->data['sub_type'] = $this->db->select('st_id,st_name')->where('status',1)->get('sub_type')->result_array();
             $this->data['teachers'] = $this->db->select('t_id,teacher_name')->get_where('teacher',array('status'=>1))->result_array();
             $this->data['page_name'] = 'Subject Teacher';
             $this->data['main'] = 'master/subject_teacher';
             $this->_admin_class_teacher_access();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function define_user_role(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(10, $this->permission)){
             $school = $this->session->userdata('school_id');
             $this->data['page_name'] = 'Define User Role';
             $this->data['main'] = 'master/user_role';
             $this->data['teachers'] = $this->db->select('t_id,teacher_name')->get_where('teacher',array('status'=>1,'school_id'=>$school))->result_array();
-            $this->data['permission'] = $this->db->select('pid,p_name')->get_where('permission',array('status'=>1))->result_array();
+            $this->data['permission'] = $this->db->select('pid,p_name,category_name')->get_where('permission',array('status'=>1))->result_array();
             $this->data['groups'] = $this->db->select('id,name')->where('id > 1')->get_where('groups')->result_array();
-            $this->data['user_list'] = $this->db->select('id,username,email,pass_hint')->order_by('id','DESC')->where('id NOT IN (1,2)')->get_where('users',array('active'=>1,'status'=>1,'school_id'=>$school))->result_array();
+            $this->data['user_list'] = $this->db->select('u.id,u.username,u.email,u.pass_hint')->join('users_groups ug','ug.user_id = u.id')->order_by('u.id','DESC')->where('ug.group_id <> 1')->get_where('users u',array('u.active'=>1,'u.status'=>1,'u.school_id'=>$school))->result_array();
+            //print_r($this->db->last_query());die;
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
-    function add_student(){
-        if(in_array("2", $this->permission)){
-            $this->data['page_name'] = 'Add Student';
-            $this->data['main'] = 'master/add_student';
-            $this->_admin_class_teacher_access();
-        }else{
-            $this->_load_view('error_page');
-        }
-    }
     
     function student_records(){
-        if(in_array("2", $this->permission)){
+        if(in_array(19, $this->permission)){
             $this->data['page_name'] = 'Student Records';
             $this->data['main'] = 'report/student_records';
             $this->_admin_class_teacher_access();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function attendance_entry(){
-        if(in_array("2", $this->permission)){
+        if(in_array(11, $this->permission)){
             $session = $this->session->userdata('session_id');
             $school = $this->session->userdata('school_id');
             $this->data['page_name'] = 'Attendance Entry';
             $this->data['main'] = 'transaction/attendance_entry';
             $this->_admin_class_teacher_access();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function student_attendance(){
-        if(in_array("2", $this->permission)){
+        if(in_array(12, $this->permission)){
             $this->data['page_name'] = 'Student Attendance';
             $this->data['main'] = 'transaction/student_attendance';
             $this->_admin_class_teacher_access();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
         
     }
@@ -320,75 +330,82 @@ class Admin_ctrl extends CI_Controller {
     }
     
     function marks_entry(){
-        if(in_array("1", $this->permission)){
+        if(in_array(13, $this->permission)){
             $this->data['page_name'] = 'Marks Entry';
             $this->data['main'] = 'transaction/marks_entry';
             $this->admin_teacher_class_teacher_access();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function marks_entry_check(){
-        if(in_array("2", $this->permission)){
+        if(in_array(14, $this->permission)){
             $this->data['page_name'] = 'Marks Entry Check';
             $this->data['main'] = 'production/marks_entry_check';
             $this->_admin_class_teacher_access();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function furd_report(){
-        if(in_array("2", $this->permission)){
+        if(in_array(15, $this->permission)){
             $this->data['page_name'] = 'Furd Report';
             $this->data['main'] = 'production/furd_report';
             $this->_admin_class_teacher_access();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
         
     }
     
     function teacher_abstract(){
-        if(in_array("2", $this->permission)){
+        if(in_array(16, $this->permission)){
             $this->data['page_name'] = 'Teacher Abstract';
             $this->data['main'] = 'production/teacher_abstract';
             $this->_admin_class_teacher_access();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function generate_marksheet(){
-        if(in_array("2", $this->permission)){
+        if(in_array(17, $this->permission)){
             $this->data['page_name'] = 'Generate Marksheet';
             $this->data['main'] = 'production/generate_marksheet';
             $this->_admin_class_teacher_access();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function add_division(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(20, $this->permission)){
             $this->data['medium'] = $this->db->select('med_id,med_name')->get_where('medium',array('status'=>1))->result_array();
             $this->data['page_name'] = 'Add Division';
             $this->data['main'] = 'utilities_and_tools/add_division';
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function add_grade(){
-        if($this->ion_auth->is_admin()){
+        if(in_array(21, $this->permission)){
             $this->data['medium'] = $this->db->select('med_id,med_name')->get_where('medium',array('status'=>1))->result_array();
             $this->data['page_name'] = 'Add Grade';
             $this->data['main'] = 'utilities_and_tools/add_grade';
             $this->_load_view();
         }else{
-            $this->_load_view('error_page');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
@@ -408,7 +425,8 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'fees_payment/pay_student_fees';
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
@@ -424,32 +442,37 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'fees_payment/generate_fees_csv';
             $this->_load_view();
         }else{
-            print_r("You have not permission to access this page");
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function export_marksheet(){
-        if(in_array("2", $this->permission)){
+        if(in_array(18, $this->permission)){
             $this->data['page_name'] = 'Furd Report';
             $this->data['main'] = 'production/export_markssheet';
             $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function helth_general_information(){
-        if(in_array("3", $this->permission)){
+        if(in_array(22, $this->permission)){
             $this->data['medium'] = $this->db->select('*')->get_where('medium',array('status'=>1))->result_array();
             $this->data['sub_group'] = $this->db->select('*')->get_where('sub_group',array('status'=>1))->result_array();
             $this->data['page_name'] = 'Furd Report';
             $this->data['main'] = 'helth/general_info';
             $this->_load_view();
         }else{
-            print_r('You have not permission to access helth section');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     
     function health_activity(){
-        if(in_array("3", $this->permission)){
+        if(in_array(23, $this->permission)){
             $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();
             $this->data['medium'] = $this->db->select('*')->get_where('medium',array('status'=>1))->result_array();
             $this->data['sub_group'] = $this->db->select('*')->get_where('sub_group',array('status'=>1))->result_array();
@@ -457,7 +480,8 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'helth/health_activity';
             $this->_load_view();
         }else{
-            print_r('You have not permission to access helth section');
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
         }
     }
     

@@ -27,6 +27,7 @@ $(document).ready(function(){
 	});
 
 	$(document).on('click','#search',function(){
+		$('#search_box').val('');
 		var medium = $('#medium').val();
 	    var class_name = $('#class_name').val();
 	    var fit = $('#fit_value').val();
@@ -160,7 +161,8 @@ $(document).ready(function(){
 			url:base_url+'Student_ctrl/getAdmNoRecord',
 			data:{'adm_no':adm_no},
 			dataType:'json',
-			beforeSend:function(){},
+			beforeSend:function(){
+			},
 			success:function(response){
 				console.log(response.status);
 				if(response.status == 200){
@@ -193,6 +195,7 @@ $(document).ready(function(){
 					});
 					$('#student_list').html(x);
 				}else{
+					$('#loader').modal('hide');
 					$('#student_list').html('<tr><td colspan="15" style="text-align:center;">Record not Found.</td></tr>');
 					}
 			},
@@ -413,12 +416,22 @@ $(document).on('click','#submit',function(){
 			},
 			success:function(response){
 				if(response.status == 200){
+					$('#loader').modal('hide');
 					alert(response.feedback);
 					$('#myModal').modal('hide');
-					$('#search').trigger("click");
 				}else{
+					$('#loader').modal('hide');
 					alert(response.feedback);
 					}
+			},
+			complete:function(){
+				
+				var search_box_val = $('#search_box').val();
+				if(search_box_val == ''){
+					$('#search').trigger("click");
+				}else{
+					$('#search_box').trigger("keyup");
+				}
 			},
 			contentType:false,
 			processData:false

@@ -58,7 +58,7 @@ class Teacher_ctrl extends CI_Controller{
         $this->form_validation->set_rules('teacher_name','teacher_name','required');
         $this->form_validation->set_rules('gender','gender','required');
         $this->form_validation->set_rules('dob','dob','required');
-        $this->form_validation->set_rules('email','email','required');
+        //$this->form_validation->set_rules('email','email','required');
         $this->form_validation->set_rules('prmt_address','prmt_address','required');
         $this->form_validation->set_rules('alter_address','alter_address','required');
         $this->form_validation->set_rules('designation','designation','required');
@@ -79,14 +79,13 @@ class Teacher_ctrl extends CI_Controller{
             $tid = $this->input->post('t_id');
             $data['teacher_name'] = $this->input->post('teacher_name');
             $data['gender'] = $this->input->post('gender');
-            $data['dob'] = date('Y-m-d',strtotime($this->input->post('dob')));
+            $data['dob'] = $this->input->post('dob');
             $data['email'] = $this->input->post('email');
             $data['prmt_address'] = $this->input->post('prmt_address');
             $data['alter_address'] = $this->input->post('alter_address');
             $data['designation'] = $this->input->post('designation');
             $data['qualifications'] = $this->input->post('qualifications');
             $data['old_image'] = $this->input->post('old_image');
-            
             if($tid != ''){
                 $this->_ShowMsgs(
                     $this->teacher_model->submitTeacherData($tid,$data,$ct_id,$class_teacher),"Teacher Update Successfully","Teacher Data Failed to Update, Please try again."

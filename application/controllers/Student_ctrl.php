@@ -54,9 +54,9 @@ class Student_ctrl extends CI_Controller{
         $data['sub_group'] = $this->input->post('sub_group');
         $data['f_name'] = $this->input->post('f_name');
         $data['m_name'] = $this->input->post('m_name');
-        $data['dob'] = date('Y-m-d',strtotime($this->input->post('dob')));
+        $data['dob'] = $this->input->post('dob');
         $data['gender'] = $this->input->post('gender');
-        $data['admission_date'] = date('Y-m-d',strtotime($this->input->post('admission_date')));
+        $data['admission_date'] = $this->input->post('admission_date');
         $data['cast'] = $this->input->post('cast');
         $data['blood_group'] = $this->input->post('blood_group');
         $data['aadhar_no'] = $this->input->post('aadhar_no');

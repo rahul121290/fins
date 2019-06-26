@@ -2,14 +2,6 @@ $(document).ready(function(){
 	var base_url = $('#base_url').val();
 	var src = $('#path').val();
 
-	//----------data picker----------------
-	$( ".datepicker" ).datepicker({
-		changeMonth: true,
-		changeYear: true,
-		yearRange:"-50:+0",
-		dateFormat: 'dd-mm-yy'
-	});
-
 	//------------check unique email id------------------------
 	$(document).on('change','#email',function(){
 		var emailId = $(this).val();
@@ -41,7 +33,7 @@ $(document).ready(function(){
 			teacher_name:{required:true},
 			gender:{required:true},
 			dob:{required:true},
-			email:{required:true,email:true},
+			//email:{required:true,email:true},
 			prmt_address:{required:true},
 			alter_address:{required:true},
 			designation:{required:true},

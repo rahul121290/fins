@@ -163,6 +163,7 @@ $(document).ready(function(){
 							$('#list_of_students').html(x);
 							$('#marks_submit').css('display','block');
 							$('#file_import').css('display','block');
+							$('#list_of_students').removeAttr('style',true);
 						}else{
 							$('#loader').modal('hide');
 							alert(response.feedback);
@@ -322,6 +323,7 @@ $(document).ready(function(){
 	    }
 	});
 	$(document).on('change','#exam_type',function(){
+		$('#list_of_students').css('display','none');
 		$('#medium').prop('selectedIndex','');
 		$('#class_name').prop('selectedIndex','');
 		$('#sub_group').prop('selectedIndex','');
@@ -331,6 +333,7 @@ $(document).ready(function(){
 	});
 
 	$(document).on('change','#medium',function(){
+		$('#list_of_students').css('display','none');
 		$('#class_name').prop('selectedIndex','');
 		$('#sub_group').prop('selectedIndex','');
 		$('#section').prop('selectedIndex','');
@@ -338,17 +341,20 @@ $(document).ready(function(){
 		$('#subject').prop('selectedIndex','');
 	});
 	$(document).on('change','#class_name',function(){
+		$('#list_of_students').css('display','none');
 		$('#sub_group').prop('selectedIndex','');
 		$('#section').prop('selectedIndex','');
 		$('#sub_type').prop('selectedIndex','');
 		$('#subject').prop('selectedIndex','');
 	});
 	$(document).on('change','#sub_group',function(){
+		$('#list_of_students').css('display','none');
 		$('#section').prop('selectedIndex','');
 		$('#sub_type').prop('selectedIndex','');
 		$('#subject').prop('selectedIndex','');
 	});
 	$(document).on('change','#section',function(){
+		$('#list_of_students').css('display','none');
 		$('#loader').modal('show');
 		$('#sub_type').prop('selectedIndex','');
 		$('#subject').prop('selectedIndex','');
@@ -361,9 +367,17 @@ $(document).ready(function(){
 		$('#loader').modal('hide');
 	});
 	
+	$(document).on('change','#sub_type',function(){
+		$('#list_of_students').css('display','none');
+	});
+	$(document).on('change','#subject',function(){
+		$('#list_of_students').css('display','none');
+	});
+	
+	
 	//-------------csv import------------------------
-	$(document).on('click','#marks_csv_submit',function(){
-		
+	
+	$(document).on('click','#marks_csv_submit',function(){	
 		var marks_csv = $('#marks_csv').val();
 		var file_validation = true;
 		

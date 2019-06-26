@@ -27,7 +27,7 @@
 							<div class="col-sm-8">
 									<select id="teacher" name="teacher" class="form-control">
 										<option value="">Select Teacher</option>
-										<?php foreach($teachers as $teacher){?>
+										<?php foreach($teachers as $teacher){ ?>
 										<option value="<?php echo $teacher['t_id'];?>"><?php echo $teacher['teacher_name'];?></option>
 										<?php } ?>
 									</select> 
@@ -76,12 +76,60 @@
 					    </div>
 					    
 					    <div class="form-group">
-					    	<label class="control-label col-md-2">Permission</label>
-					    	<?php foreach($permission as $prmis){?>
+					    	<H4>MASTER RECORDS</H4>
+					    	<?php foreach($permission as $prmis){ 
+					    	    if($prmis['category_name'] == 'MASTER RECORDS'){?>
 							<div class="col-sm-2">
 								<input type="checkbox" name="permission[]" value="<?php echo $prmis['pid'];?>"><?php echo $prmis['p_name'];?>
 							</div>
-							<?php } ?>
+							<?php } } ?>
+						</div>
+						<div class="form-group">
+							<H4>PRODUCTION REPORTS</H4>
+					    	<?php foreach($permission as $prmis){ 
+					    	    if($prmis['category_name'] == 'PRODUCTION REPORTS'){?>
+							<div class="col-sm-2">
+								<input type="checkbox" name="permission[]" value="<?php echo $prmis['pid'];?>"><?php echo $prmis['p_name'];?>
+							</div>
+							<?php } } ?>
+						</div>
+						
+						<div class="form-group">
+							<H4>TRANSACTION RECORDS</H4>
+					    	<?php foreach($permission as $prmis){ 
+					    	    if($prmis['category_name'] == 'TRANSACTION RECORDS'){?>
+							<div class="col-sm-2">
+								<input type="checkbox" name="permission[]" value="<?php echo $prmis['pid'];?>"><?php echo $prmis['p_name'];?>
+							</div>
+							<?php } } ?>
+						</div>
+						
+						<div class="form-group">
+							<H4>REPORTS</H4>
+					    	<?php foreach($permission as $prmis){ 
+					    	    if($prmis['category_name'] == 'REPORTS'){?>
+							<div class="col-sm-2">
+								<input type="checkbox" name="permission[]" value="<?php echo $prmis['pid'];?>"><?php echo $prmis['p_name'];?>
+							</div>
+							<?php } } ?>
+						</div>	
+						<div class="form-group">
+							<H4>UTILITIES & TOOLS</H4>
+					    	<?php foreach($permission as $prmis){ 
+					    	    if($prmis['category_name'] == 'UTILITIES & TOOLS'){?>
+							<div class="col-sm-2">
+								<input type="checkbox" name="permission[]" value="<?php echo $prmis['pid'];?>"><?php echo $prmis['p_name'];?>
+							</div>
+							<?php } } ?>
+						</div>
+						<div class="form-group">	
+							<H4>HEALTH</H4>
+					    	<?php foreach($permission as $prmis){ 
+					    	    if($prmis['category_name'] == 'HEALTH'){?>
+							<div class="col-sm-2">
+								<input type="checkbox" name="permission[]" value="<?php echo $prmis['pid'];?>"><?php echo $prmis['p_name'];?>
+							</div>
+							<?php } } ?>
 					    </div>
 					    
     		  			<div class="box-footer">
