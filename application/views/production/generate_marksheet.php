@@ -95,7 +95,7 @@
                 				<th>Roll No</th>
                 				<th>Admission No.</th>
                 				<th>Mid Marksheet</th>
-                				<th>Final Marksheet</th>
+                				<th id="finalMS" style="display:none;">Final Marksheet</th>
         					</tr>
     					</thead>
 						<tbody id="list_of_marksheet"></tbody>

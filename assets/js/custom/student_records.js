@@ -91,10 +91,10 @@ $(document).ready(function(){
 					async:false,
 					dataType:'json',
 					beforeSend:function(){
-						$('#loader').modal('show');
+						//$('#loader').modal('show');
 					},
 					success:function(response){
-						$('#loader').modal('hide');
+						//$('#loader').modal('hide');
 						if(response.status == 200){
     						x='';
     						i=1;
@@ -425,7 +425,6 @@ $(document).on('click','#submit',function(){
 					}
 			},
 			complete:function(){
-				
 				var search_box_val = $('#search_box').val();
 				if(search_box_val == ''){
 					$('#search').trigger("click");

@@ -53,7 +53,7 @@ class Production_model extends CI_Model {
         $this->db->join('subject s','s.sub_id = t1.sub_id');
         $this->db->join('sub_type st','st.st_id = t1.st_id');
         if($data['exam_type'] == 1 || $data['exam_type'] == 3){
-            $this->db->where('st.st_id',1);
+            $this->db->where('st.st_id IN(1,3)'); //for scholistic and elective subjects
         }
         $result = $this->db->get_where('(SELECT * FROM subject_allocation WHERE 1=1'.$condition.' GROUP BY sub_id) as t1',array())->result_array();
         //print_r($this->db->last_query());die;

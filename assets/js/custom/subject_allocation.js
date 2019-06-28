@@ -116,7 +116,6 @@ $(document).ready(function() {
         var class_id = $('#class').val();
         var sub_group = $('#sub_group').val();
         var sub_type = $('#sub_type').val();
-
         $.ajax({
             type: 'POST',
             url: base_url + 'Subject_allocation_ctrl/list_of_exam_marks_entry',
@@ -129,7 +128,6 @@ $(document).ready(function() {
             dataType: 'json',
             beforeSend: function() {},
             success: function(response) {
-                console.log(response);
                 var x = '';
                 var i = 1;
                 if (response.status == 200) {
@@ -140,7 +138,7 @@ $(document).ready(function() {
                             '<td><input  type="text" data-sa_id="' + value.sa_id + '" data-et_id="1" value="' + value.pre + '" name="pre" id="pre" class="master only_int" style="width:50px;"></td>' +
                             '<td><input type="text" data-sa_id="' + value.sa_id + '" data-et_id="2" value="' + value.mid + '" name="mid" id="mid" class="master only_int" style="width:50px;"></td>';
 
-                        if (($('#class').val() >= 14) || ($('#class').val() == 12 && sub_type == 4)) {
+                        if (($('#class').val() >= 14 && sub_type != 2) || ($('#class').val() == 12 && sub_type == 4)) {
                             $('#mid_pra').css('display', 'block');
                             x = x + '<td><input type="text" data-sa_id="' + value.sa_id + '" data-et_id="2" value="' + value.mid_practical + '" name="mid" id="mid_practical" class="practical only_int" style="width:50px;"></td>';
                         } else {
@@ -150,7 +148,7 @@ $(document).ready(function() {
                         x = x + '<td><input type="text" data-sa_id="' + value.sa_id + '" data-et_id="3" value="' + value.post + '" name="post" id="post" class="master only_int" style="width:50px;"></td>' +
                             '<td><input type="text" data-sa_id="' + value.sa_id + '" data-et_id="4" value="' + value.final + '" name="final" id="final" class="master only_int" style="width:50px;"></td>';
 
-                        if (($('#class').val() >= 14) || ($('#class').val() == 12 && sub_type == 4)) {
+                        if (($('#class').val() >= 14 && sub_type != 2) || ($('#class').val() == 12 && sub_type == 4)) {
                             $('#final_pra').css('display', 'block');
                             x = x + '<td><input type="text" data-sa_id="' + value.sa_id + '" data-et_id="4" value="' + value.final_practical + '" name="final" id="final_practical" class="practical only_int" style="width:50px;"></td>';
                         } else {

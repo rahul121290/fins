@@ -52,6 +52,15 @@ $(document).ready(function(){
 									'</tr>';
 							});
 							$('#list_of_marksheet').html(x);
+							//---------hide 11th and 12 single result-----------------
+							if(class_name > 13){
+								$('#finalMS').css('display','none');
+	                        	$('.final_marksheet').css('display','none');
+							}else{
+								$('#finalMS').css('display','block');
+							}
+							//--------------------------------------------------------
+							
 						}else{
 							}
 					},

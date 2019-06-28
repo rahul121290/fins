@@ -146,6 +146,9 @@ $(document).ready(function(){
 												$('#practical').css('display','none');
 												$('#practical_msg').css('display','none');
 												} 
+									   }else{
+											$('#practical').css('display','none');
+											$('#practical_msg').css('display','none');
 									   }
 										
 										//---------acadmic marks-----------------
