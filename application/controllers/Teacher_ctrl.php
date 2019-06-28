@@ -170,18 +170,18 @@ class Teacher_ctrl extends CI_Controller{
         }else{
             $this->db->select('sec.section_name,c.class_name,sub_t.st_name,sub.sub_name,t1.teacher_name');
         }
-        $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
-        $this->db->join('class c','c.c_id = sa.class_id');
-        $this->db->join('sub_type sub_t','sub_t.st_id=sa.st_id');
-        $this->db->join('section sec','sec.sec_id = st.sec_id');
+        $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id AND sa.status = 1');
+        $this->db->join('class c','c.c_id = sa.class_id AND c.status = 1');
+        $this->db->join('sub_type sub_t','sub_t.st_id=sa.st_id AND sub_t.status = 1');
+        $this->db->join('section sec','sec.sec_id = st.sec_id AND sec.status = 1');
         if(!empty($sub_group)){
-            $this->db->join('sub_group sg','sg.sg_id=sa.sg_id');
+            $this->db->join('sub_group sg','sg.sg_id=sa.sg_id AND sg.status = 1');
         }
-        $this->db->join('subject sub','sub.sub_id = sa.sub_id');
-        $this->db->join('teacher t1','t1.t_id=st.t_id');
+        $this->db->join('subject sub','sub.sub_id = sa.sub_id AND sub.status = 1');
+        $this->db->join('teacher t1','t1.t_id=st.t_id AND t1.status = 1','LEFT');
         $this->db->where('1=1 '.$condition);
         $result = $this->db->get_where('sub_teacher st',array('st.status'=>1,'st.sec_id'=>$section))->result_array();
-        
+        print_r($this->db->last_query());die;
         if(count($result) > 0 ){
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{

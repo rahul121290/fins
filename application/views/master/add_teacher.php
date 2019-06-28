@@ -84,7 +84,7 @@
 					    <div class="form-group">
 							<label class="control-label col-md-2">Teacher Name</label>
 							<div class="col-sm-8">
-								<input type="text" name="teacher_name" id="teacher_name" class="form-control" placeholder="Enter Teacher Name">
+								<input type="text" name="teacher_name" id="teacher_name" class="form-control only_text" placeholder="Enter Teacher Name">
 								<div id="staff_name_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>
@@ -136,7 +136,7 @@
 				 		<div class="form-group">
 							<label class="control-label col-md-2">Designation</label>
 							<div class="col-sm-8">
-								<input type="text" name="designation" id="designation" placeholder="Enter Designation" class="form-control">
+								<input type="text" name="designation" id="designation" placeholder="Enter Designation" class="form-control only_text">
 								<div id="designation_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>

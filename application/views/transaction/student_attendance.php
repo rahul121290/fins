@@ -94,7 +94,6 @@
 		  			<div class="box-footer">
                       	<div class="col-sm-offset-8">
                             <button type="button" name="search" id="search" class="btn btn-info" style="display:none;">Search Students</button>
-                            <button type="reset" id="reset" class="btn btn-default" style="display:none;">Reset</button>
                         </div>
         			</div>
         		</div><!-- end box body -->

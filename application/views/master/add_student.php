@@ -45,7 +45,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Admission No.</label>
                   <div class="col-sm-6">
-					<input type="text" name="admission_no" id="admission_no" class="form-control" placeholder="Enter admission no.">
+					<input type="text" name="admission_no" id="admission_no" class="form-control only_int" placeholder="Enter admission no.">
 					<div id="admission_no_err" style="display:none;color:red;"></div>
 				</div>
                 </div>
@@ -53,7 +53,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Roll No.</label>
                   <div class="col-sm-6">
-					<input type="text" name="roll_no" id="roll_no" class="form-control" placeholder="Enter roll no.">
+					<input type="text" name="roll_no" id="roll_no" class="form-control only_int" placeholder="Enter roll no.">
 					<div id="roll_no_err"	 style="display:none;color:red;"></div>
 				  </div>
                 </div>
@@ -61,7 +61,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Student Name</label>
 						<div class="col-sm-6">
-							<input type="text" name="student_name" id="student_name" class="form-control" placeholder="Enter student name">
+							<input type="text" name="student_name" id="student_name" class="form-control only_text" placeholder="Enter student name">
 							<div id="student_name_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
@@ -146,7 +146,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Father's Name</label>
 					<div class="col-sm-6">
-						<input type="text" name="father_name" id="father_name" class="form-control" placeholder="Enter father's name">
+						<input type="text" name="father_name" id="father_name" class="form-control only_text" placeholder="Enter father's name">
 						<div id="father_name_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -154,7 +154,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Mother's Name</label>
 					<div class="col-sm-6">
-						<input type="text" name="mother_name" id="mother_name" class="form-control" placeholder="Enter mother's name">
+						<input type="text" name="mother_name" id="mother_name" class="form-control only_text" placeholder="Enter mother's name">
 						<div id="mother_name_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -224,7 +224,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Aadhaar Card Number</label>
 					<div class="col-sm-6">
-						<input type="text" name="aadhaar" id="aadhaar" class="form-control" placeholder="Enter aadhaar card no." maxlength="12">
+						<input type="text" name="aadhaar" id="aadhaar" class="form-control only_int" placeholder="Enter aadhaar card no." maxlength="12">
 						<div id="aadhaar_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -240,7 +240,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Guardian Name</label>
 					<div class="col-sm-6">
-						<input type="text" name="guardian" id="guardian" class="form-control" placeholder="Enter guardian name">
+						<input type="text" name="guardian" id="guardian" class="form-control only_text" placeholder="Enter guardian name">
 						<div id="guardian_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -256,7 +256,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Contact No.</label>
 					<div class="col-sm-6">
-						<input type="text" name="contact_no" id="contact_no" class="form-control" placeholder="Enter contact no.">
+						<input type="text" name="contact_no" id="contact_no" class="form-control only_int" placeholder="Enter contact no.">
 						<div id="contact_no_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>

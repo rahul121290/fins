@@ -26,7 +26,7 @@ class Production_model extends CI_Model {
         return $result;
     }
     
-    public function marks_entry_check($data){
+    function marks_entry_check($data){
         $condition = '';
         $condition.=' AND status=1';
         if(!empty($data['session'])){
@@ -56,6 +56,7 @@ class Production_model extends CI_Model {
             $this->db->where('st.st_id',1);
         }
         $result = $this->db->get_where('(SELECT * FROM subject_allocation WHERE 1=1'.$condition.' GROUP BY sub_id) as t1',array())->result_array();
+        //print_r($this->db->last_query());die;
         return $result;
     }
     

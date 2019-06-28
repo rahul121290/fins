@@ -121,9 +121,12 @@ class Helth_ctrl extends CI_Controller{
 	        $this->db->join('section sec','sec.sec_id=s.sec_id','innor');
 	        $this->db->join('class cs','cs.c_id=s.class_id','innor');
 	        $sutdent = $this->db->get_where('students s',array('s.std_id'=>$health_activity[0]['stu_id'],'s.status'=>1))->result_array();
-	    }
+	    
 	    if(count($sutdent) > 0){
 	        echo json_encode(array('student'=>$sutdent,'health_activity'=>$health_activity,'result'=>$result,'status'=>200));
+	    }else{
+	        echo json_encode(array('msg'=>'record not submitted.!','status'=>500));
+	    }
 	    }else{
 	        echo json_encode(array('msg'=>'record not submitted.!','status'=>500));
 	    }

@@ -21,7 +21,13 @@ $(document).ready(function(){
 			}
 		});
 	});
-
+//----------------------------------------------------------------------------
+	$( ".only_text" ).keypress(function(e) {
+        var key = e.keyCode;
+        if (key >= 48 && key <= 57) {
+            e.preventDefault();
+        }
+    });
 	//----------------teacher insert and update-----------------
 	var class_teacher = $('input[name="is_class_teacher"]:checked').val();
 	$('#teacher_form').validate({
@@ -35,7 +41,7 @@ $(document).ready(function(){
 			dob:{required:true},
 			//email:{required:true,email:true},
 			prmt_address:{required:true},
-			alter_address:{required:true},
+			//alter_address:{required:true},
 			designation:{required:true},
 			qualifications:{required:true}
 			},
@@ -61,7 +67,7 @@ $(document).ready(function(){
 				var img_ext=img.split('.').pop().toUpperCase();
 				var img_size=$('#image')[0].files[0].size;
 
-				if(img_ext!='JPG' && img_ext!='PNG' && img_ext!='GIF'){
+				if(img_ext!='JPG' && img_ext!='JPEG' && img_ext!='PNG' && img_ext!='GIF'){
 					$('#image_err').hide();
 					$('#image_err').text('');
 					$('#image_err').show();

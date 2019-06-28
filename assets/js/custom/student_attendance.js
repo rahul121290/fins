@@ -182,7 +182,7 @@ $(document).ready(function(){
 								'<td>'+value.name+'</td>'+
 								'<td>'+value.adm_no+'</td>'+
 								'<td>'+value.roll_no+'</td>'+
-								'<td><input type="text" name="attendance_entry" data-max="'+response.class_attendance[0]['total_days']+'" data-id="'+value.std_id+'" data-adm_no="'+value.adm_no+'" data-roll_no="'+value.roll_no+'" class="attendance" value="'+value.present_days+'"></td>'+
+								'<td><input type="text" name="attendance_entry" data-max="'+response.class_attendance[0]['total_days']+'" data-id="'+value.std_id+'" data-adm_no="'+value.adm_no+'" data-roll_no="'+value.roll_no+'" class="attendance" value="'+value.present_days+'" style="width:50px;"></td>'+
 							i++;
 						});
 						$('#std_list').html(x);

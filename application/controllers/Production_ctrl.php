@@ -52,7 +52,6 @@ class Production_ctrl extends CI_Controller{
         $data['sub_group'] = $this->input->post('sub_group');
         $data['section'] = $this->input->post('section');
         $furd_report = $this->production_model->students_report($data);
-        
         if(empty($furd_report)){
             echo json_encode(array('feedback'=>'Please check Entry','status'=>500));
             die;
@@ -123,7 +122,6 @@ class Production_ctrl extends CI_Controller{
                 }elseif($max_marks_get == $sub_marks && $sub_marks != 'A'){
                     $max_marks_std = $max_marks_std+1;
                 }
-                
                 //----------greter then 32-----------------------------------
                 if($sub_marks_per > $division[3]['max_no']){
                     $pass = $pass+1;
@@ -150,6 +148,7 @@ class Production_ctrl extends CI_Controller{
                 
                 $temp['total_appear'] = $total_std- $subject['notappear'];
                 $temp['total_pass'] = $pass;
+                
                 $temp['pass_percent'] = round(($pass * 100)/($total_std - $subject['notappear']) );//--pass in percentage--
                 $temp['first_div'] = $first_div;
                 if($pass > 0){
@@ -260,6 +259,14 @@ class Production_ctrl extends CI_Controller{
                         $temp['aadhar_no'] = $pre['aadhar_no'];
                         $temp['address'] = ucwords($pre['address']);
                         $temp['photo'] = $pre['photo'];
+                        
+                        //------------------attendance in temp file----------------------
+                        foreach($mid_result['attendance'] as $attendance){
+                            if($mid['adm_no'] == $attendance['adm_no']){
+                                $temp['total_days'] = $attendance['total_days'];
+                                $temp['present_days'] = $attendance['present_days'];
+                            }
+                        }
                         
                         //----get pre and mid subjects marks in temp--------------
                         foreach($result['mid_sub'] as $subject){

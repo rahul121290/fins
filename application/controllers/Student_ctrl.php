@@ -229,8 +229,8 @@ class Student_ctrl extends CI_Controller{
                     $tc = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
                     $photo = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
                     $admission_date = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
-                    $admission_date  = date('Y-m-d', strtotime($admission_date));
-                    //$admission_date = date('Y-m-d',strtotime($admission_date));
+                   // $admission_date  = date('Y-m-d', strtotime($admission_date));
+                   
                     $data[] = array(
                         'adm_no'=>$adm_no,
                         'roll_no'=>$roll_no,

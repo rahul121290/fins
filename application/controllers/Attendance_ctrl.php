@@ -117,14 +117,20 @@ class Attendance_ctrl extends CI_Controller {
         $section = $this->input->post('section');
         $sub_group = $this->input->post('sub_group');
         
+        if($sub_group){
+            $sg_con = ' AND sg_id ='.$sub_group;
+        }else{
+            $sg_con = '';
+        }
+        
+        
         $this->db->select('s.std_id,s.adm_no,s.roll_no,s.name,IFNULL(sa.present_days,"") as present_days,IFNULL(sa.absent_days,"") as absent_days');
-        $this->db->join('std_attendance sa','s.std_id=sa.std_id','left');
+        $this->db->join('std_attendance sa','s.std_id=sa.std_id AND sa.am_id = (Select am_id FROM attendance_master WHERE ses_id = '.$session.' AND sch_id = '.$school.' AND med_id = '.$medium.' AND class_id = '.$class_name.' AND et_id = '.$exam_type.$sg_con.')','left');
         if(!empty($sub_group)){
             $this->db->where('sub_group',$sub_group);
         }
-        $this->db->group_by('s.std_id');
         $result  = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'class_id'=>$class_name,'sec_id'=>$section,'s.status'=>1))->result_array();
-        
+        //print_r($this->db->last_query());die;
         $attendance =  $this->db->select('am_id,total_days')->get_where('attendance_master',array('ses_id'=>$session,'sch_id'=>$school,'med_id'=>$medium,'class_id'=>$class_name,'et_id'=>$exam_type,'status'=>1))->result_array();
         if(count($result)>0){
             echo json_encode(array('result'=>$result,'class_attendance'=>$attendance,'status'=>200));

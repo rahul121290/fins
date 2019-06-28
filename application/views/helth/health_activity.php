@@ -546,9 +546,13 @@
 				success:function(response){
 					if(response.status == 200){
 						var values = response.result[0].question_8_2;
-						$.each(values.split(","), function(key,value){
-							$('#question_8_2 option[value='+ value + ']').prop('selected', true);
+
+						if(values != null){
+							$.each(values.split(","), function(key,value){
+								$('#question_8_2 option[value='+ value + ']').prop('selected', true);
 							});
+						}
+						
 						$.each(response.result, function(key, value){
     						$('#question_1').val(value.question_1);
     						$('#question_2').val(value.question_2);

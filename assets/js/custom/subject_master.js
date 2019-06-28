@@ -17,7 +17,7 @@ $(document).ready(function(){
 	        					   '<td>'+i+'</td>'+
 	        					   '<td>'+value.sg_name+'</td>'+
 	        					   '<td><button type="button" id="'+value.sg_id +'" class="btn btn-primary btn-sm edit_sub_group"><span class="glyphicon glyphicon-edit"></span> Edit </button> &nbsp;'+
-	   	   					 	'<button type="button" id="'+value.sg_id +'" class="btn btn-danger btn-sm delete_sub_group"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
+	   	   					 	//'<button type="button" id="'+value.sg_id +'" class="btn btn-danger btn-sm delete_sub_group"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
 	        					   '</tr>';
 	 					   		i++;	
 						});
@@ -126,7 +126,7 @@ $(document).ready(function(){
 								'<td>'+i+'</td>'+
 								'<td>'+value.st_name+'</td>'+
 								'<td><button type="button" id="'+value.st_id +'" class="btn btn-primary btn-sm edit_sub_type"><span class="glyphicon glyphicon-edit"></span> Edit </button> &nbsp;'+
-		   					 	'<button type="button" id="'+value.st_id +'" class="btn btn-danger btn-sm delete_sub_type"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
+		   					 	//'<button type="button" id="'+value.st_id +'" class="btn btn-danger btn-sm delete_sub_type"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
 								'</tr>';
 							i++;
 						});

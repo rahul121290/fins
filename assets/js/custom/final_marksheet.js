@@ -37,7 +37,6 @@ $(document).ready(function() {
             formdata.append('sub_group', $('#sub_group').val());
             formdata.append('section', $('#section').val());
             formdata.append('std_id', $(this).data('std_id'));
-
             $.ajax({
                 type: 'POST',
                 url: base_url + 'Production_ctrl/finalMarkSheetGenerate',
@@ -90,7 +89,7 @@ $(document).ready(function() {
                                 '<tbody>' +
                                 '<tr>' +
                                 '<td style="width:35%;">Student\'s Name</td>' +
-                                '<td>:' +
+                                '<td>: ' +
                                 '<b>' + value.term1.name + '</b>' +
                                 '</td>' +
                                 '</tr>' +
@@ -107,15 +106,15 @@ $(document).ready(function() {
                                 '<tr></tr>' +
                                 '<tr>' +
                                 '<td>Contact No.</td>' +
-                                '<td>:' + value.term1.contact_no + '</td>' +
+                                '<td>: ' + value.term1.contact_no + '</td>' +
                                 '</tr>' +
                                 '<tr>' +
                                 '<td>Aadhar No.</td>' +
-                                '<td>:' + value.term1.aadhar_no + '</td>' +
+                                '<td>: ' + value.term1.aadhar_no + '</td>' +
                                 '</tr>' +
                                 '<tr>' +
                                 '<td>Address</td>' +
-                                '<td class="address-sec">:' + value.term1.address + '</td>' +
+                                '<td class="address-sec">: ' + value.term1.address + '</td>' +
                                 '</tr>' +
                                 '</tbody>' +
                                 '</table>' +
@@ -125,27 +124,27 @@ $(document).ready(function() {
                                 '<tbody>' +
                                 '<tr>' +
                                 '<td>Date of Birth</td>' +
-                                '<td>:' + value.term1.dob + '</td>' +
+                                '<td>: ' + value.term1.dob + '</td>' +
                                 '</tr>' +
                                 '<tr>' +
                                 '<td>Adm. No.</td>' +
-                                '<td>:' + value.term1.adm_no + '</td>' +
+                                '<td>: ' + value.term1.adm_no + '</td>' +
                                 '</tr>' +
                                 '<tr>' +
                                 '<td>Roll No.</td>' +
-                                '<td>:' + value.term1.roll_no + '</td>' +
+                                '<td>: ' + value.term1.roll_no + '</td>' +
                                 '</tr>' +
                                 '<tr>' +
                                 '<td>Class/Section</td>' +
-                                '<td>:' + value.term1.class_name + ' \'' + value.term1.section_name + '\'</td>' +
+                                '<td>: ' + value.term1.class_name + ' \'' + value.term1.section_name + '\'</td>' +
                                 '</tr>' +
                                 '<tr>' +
                                 '<td>Attnd. Mid.Term</td>' +
-                                '<td>:' + value.term1.total_days + '/' + value.term1.present_days + '</td>' +
+                                '<td>: ' + value.term1.total_days + '/' + value.term1.present_days + '</td>' +
                                 '</tr>' +
                                 '<tr>' +
                                 '<td>Attnd. Session End</td>' +
-                                '<td>:' + value.term2.total_days + '/' + value.term2.present_days + '</td>' +
+                                '<td>: ' + value.term2.total_days + '/' + value.term2.present_days + '</td>' +
                                 '</tr>' +
                                 '</tbody>' +
                                 '</table>' +
@@ -269,9 +268,18 @@ $(document).ready(function() {
                                 '</thead>' +
                                 '<tbody>';
                             $.each(response.result.co_scholistic_sub, function(key, so_sch) {
+                            	if(value.term1[so_sch['sub_name']] == 5){
+                            		var co_grade = 'A';
+                            	}else if(value.term1[so_sch['sub_name']] == 4){
+                            		var co_grade = 'B';
+                            	}else if((value.term1[so_sch['sub_name']] < 4) && (value.term1[so_sch['sub_name']] > 0)){
+                            		var co_grade = 'C';
+                            	}else{
+                            		var co_grade = '-';
+                            	}
                                 x = x + '<tr>' +
                                     '<td style="text-align:left;">' + so_sch['sub_name'] + '</td>' +
-                                    '<td align="center">' + value.term1[so_sch['sub_name']] + '</td>' +
+                                    '<td align="center">' + co_grade + '</td>' +
                                     '</tr>';
                             });
                             x = x + '</tbody>' +
@@ -280,9 +288,18 @@ $(document).ready(function() {
                                 '<thead><tr><th>Term 2 [on a 3-point (A-C) grading scale]</th><th>Grade</th></tr></thead>' +
                                 '<tbody>';
                             $.each(response.result.co_scholistic_sub, function(key, so_sch) {
+                            	if(value.term2[so_sch['sub_name']] == 5){
+                            		var cosch_grade = 'A';
+                            	}else if(value.term2[so_sch['sub_name']] == 4){
+                            		var cosch_grade = 'B';
+                            	}else if((value.term2[so_sch['sub_name']] < 4) && (value.term2[so_sch['sub_name']] > 0)){
+                            		var cosch_grade = 'C';
+                            	}else{
+                            		var cosch_grade = '-';
+                            	}
                                 x = x + '<tr>' +
                                     '<td style="text-align:left;">' + so_sch['sub_name'] + '</td>' +
-                                    '<td align="center">' + value.term2[so_sch['sub_name']] + '</td>' +
+                                    '<td align="center">' + cosch_grade + '</td>' +
                                     '</tr>';
                             });
                             x = x + '</tbody>' +
@@ -418,7 +435,7 @@ $(document).ready(function() {
                 '<tbody>' +
                 '<tr>' +
                 '<td style="width:35%;">Student\'s Name</td>' +
-                '<td>:' +
+                '<td>: ' +
                 '<b>' + value.std_details[0].name + '</b>' +
                 '</td>' +
                 '</tr>' +
@@ -435,15 +452,15 @@ $(document).ready(function() {
                 '<tr></tr>' +
                 '<tr>' +
                 '<td>Contact No.</td>' +
-                '<td>:' + value.std_details[0].contact_no + '</td>' +
+                '<td>: ' + value.std_details[0].contact_no + '</td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>Aadhar No.</td>' +
-                '<td>:' + value.std_details[0].aadhar_no + '</td>' +
+                '<td>: ' + value.std_details[0].aadhar_no + '</td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>Address</td>' +
-                '<td class="address-sec">:' + value.std_details[0].address + '</td>' +
+                '<td class="address-sec">: ' + value.std_details[0].address + '</td>' +
                 '</tr>' +
                 '</tbody>' +
                 '</table>' +
@@ -453,19 +470,19 @@ $(document).ready(function() {
                 '<tbody>' +
                 '<tr>' +
                 '<td>Date of Birth</td>' +
-                '<td>:' + value.std_details[0].dob + '</td>' +
+                '<td>: ' + value.std_details[0].dob + '</td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>Adm. No.</td>' +
-                '<td>:' + value.std_details[0].adm_no + '</td>' +
+                '<td>: ' + value.std_details[0].adm_no + '</td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>Roll No.</td>' +
-                '<td>:' + value.std_details[0].roll_no + '</td>' +
+                '<td>: ' + value.std_details[0].roll_no + '</td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>Class/Section</td>' +
-                '<td>:' + value.std_details[0].class_name + ' \'' + value.std_details[0].section_name + '\'</td>' +
+                '<td>: ' + value.std_details[0].class_name + ' \'' + value.std_details[0].section_name + '\'</td>' +
                 '</tr>' +
                 '</tbody>' +
                 '</table>' +
@@ -582,9 +599,23 @@ $(document).ready(function() {
             $.each(response.result.co_scholistic_sub, function(co_key, co_sub) {
                 $.each(value.co_scholastic, function(ck, co_marks) {
                     if (co_sub.sub_id == co_marks.sub_id) {
+                    	if(co_marks[co_sub.sub_name] == 5){
+                    		var co_grade = 'A';
+                    	}else if(co_marks[co_sub.sub_name] == 4){
+                    		var co_grade = 'B';
+                    	}else if(co_marks[co_sub.sub_name] == 3){
+                    		var co_grade = 'C';
+                    	}else if(co_marks[co_sub.sub_name] == 2){
+                    		var co_grade = 'D';
+                    	}else if(co_marks[co_sub.sub_name] == 1){
+                    		var co_grade = 'E';
+                    	}else{
+                    		var co_grade = '-';
+                    	}
+                    	
                         x = x + '<tr>' +
                             '<td style="text-align:left;">' + co_sub.sub_name + '</td>' +
-                            '<td>' + co_marks[co_sub.sub_name] + '</td>' +
+                            '<td>' + co_grade + '</td>' +
                             '</tr>';
                     }
                 });

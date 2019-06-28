@@ -128,7 +128,7 @@ $(document).ready(function(){
 							'<td>'+i+'</td>'+
 							'<td>'+value.section_name+'</td>'+
 							'<td><button type="button" id="'+value.sec_id +'" class="btn btn-primary btn-sm sec_edit"><span class="glyphicon glyphicon-edit"></span> Edit </button> &nbsp;'+
-	   					 	'<button type="button" id="'+value.sec_id +'" class="btn btn-danger btn-sm sec_delete"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
+	   					 	//'<button type="button" id="'+value.sec_id +'" class="btn btn-danger btn-sm sec_delete"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
 							'</tr>';
 						i++;
 					});

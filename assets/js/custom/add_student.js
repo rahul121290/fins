@@ -60,10 +60,24 @@ $(document).ready(function(){
 			$('#elective_section').css('display','none');		
 		  }
 	});
+	
+	
+	$(".only_int").on("keypress keyup blur", function(event) {
+        $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+	$( ".only_text" ).keypress(function(e) {
+        var key = e.keyCode;
+        if (key >= 48 && key <= 57) {
+            e.preventDefault();
+        }
+    });
 //--------------------add student---------------------------------
 	$('#student_form').validate({
 		rules:{
-			admission_no:{required:true},
+			admission_no:{required:true,number:true},
 			roll_no:{required:true},
 			student_name:{required:true},
 			medium:{required:true},
@@ -126,7 +140,7 @@ $(document).ready(function(){
 	    	if(img){
 	    		var img_ext=img.split('.').pop().toUpperCase();
 	    		var img_size=$('#std_image')[0].files[0].size;
-	    		if(img_ext!='JPG' && img_ext!='PNG' && img_ext!='GIF'){
+	    		if(img_ext!='JPG' && img_ext!='JPEG' && img_ext!='PNG' && img_ext!='GIF'){
 	    			$('#std_image_err').hide();
 	    			$('#std_image_err').text('');
 	    			$('#std_image_err').show();

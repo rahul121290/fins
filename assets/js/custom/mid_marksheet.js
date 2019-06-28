@@ -38,7 +38,6 @@ $(document).ready(function(){
 						$('#loader').modal('show');
 					},	
 					success:function(response){
-						console.log(response);
 						if(response.status == 200){
 							$('#loader').modal('hide');
 							var x='';
@@ -94,10 +93,9 @@ $(document).ready(function(){
 						$('#loader').modal('show');
 					},	
 					success:function(response){
-						console.log(response);
 						if(response.status == 200){
 							$('#loader').modal('hide');
-							var win = window.open('', "myWindowName", "scrollbars=1,width=1200, height=600");
+							var win = window.open('mid mark-sheet', "myWindowName", "scrollbars=1,width=1200, height=600");
 							var x = '<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/bootstrap.min.css">'+
 	        						'<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/marksheet-result.css">'+
 	        						'<link rel="stylesheet" type="text/css" media="print" href="'+ base_url +'assets/css/marksheet-result-print.css">'+
@@ -130,25 +128,25 @@ $(document).ready(function(){
 						                              '<tr></tr>'+
 						                              '<tr>'+
 						                                 '<td>Mother\'s Name</td>'+
-						                                 '<td>:'+value.m_name+'</td>'+
+						                                 '<td>: '+value.m_name+'</td>'+
 						                              '</tr>'+
 						                              '<tr></tr>'+
 						                              '<tr>'+
 						                                 '<td>Father\'s Name</td>'+
-						                                 '<td>:'+value.f_name+'</td>'+
+						                                 '<td>: '+value.f_name+'</td>'+
 						                              '</tr>'+
 						                              '<tr></tr>'+
 						                              '<tr>'+
 						                                 '<td>Contact No.</td>'+
-						                                 '<td>:'+value.contact_no+'</td>'+
+						                                 '<td>: '+value.contact_no+'</td>'+
 						                              '</tr>'+
 						                              '<tr>'+
 						                                 '<td>Aadhar No.</td>'+
-						                                 '<td>:'+value.aadhar_no+'</td>'+
+						                                 '<td>: '+value.aadhar_no+'</td>'+
 						                              '</tr>'+
 						                              '<tr>'+
 						                                 '<td>Address</td>'+
-						                                 '<td class="address-sec">:'+value.address+'</td>'+
+						                                 '<td class="address-sec">: '+value.address+'</td>'+
 						                              '</tr>'+
 						                           '</tbody>'+
 						                        '</table>'+
@@ -158,23 +156,23 @@ $(document).ready(function(){
 						                           '<tbody>'+
 						                              '<tr>'+
 						                                 '<td>Date of Birth</td>'+
-						                                 '<td>:'+value.dob+'</td>'+
+						                                 '<td>: '+value.dob+'</td>'+
 						                              '</tr>'+
 						                              '<tr>'+
 						                                 '<td>Adm. No.</td>'+
-						                                 '<td>:'+value.adm_no+'</td>'+
+						                                 '<td>: '+value.adm_no+'</td>'+
 						                              '</tr>'+
 						                              '<tr>'+
 						                                 '<td>Roll No.</td>'+
-						                                 '<td>:'+value.roll_no+'</td>'+
+						                                 '<td>: '+value.roll_no+'</td>'+
 						                              '</tr>'+
 						                              '<tr>'+
 						                                 '<td>Class</td>'+
-						                                 '<td>:'+value.class_name+'/'+value.section_name+'</td>'+
+						                                 '<td>: '+value.class_name+'/'+value.section_name+'</td>'+
 						                              '</tr>'+
 						                              '<tr>'+
 						                                 '<td>Attnd. Mid.Term</td>'+
-						                                 '<td>:'+value.total_days+'/'+value.present_days+'</td>'+
+						                                 '<td>: '+value.total_days+'/'+value.present_days+'</td>'+
 						                              '</tr>'+
 						                           '</tbody>'+
 						                        '</table>'+
@@ -189,7 +187,7 @@ $(document).ready(function(){
 						                  '<thead>'+
 						                     '<tr>'+
 						                        '<th style="width:18%;">Subjects</th>';
-						                        if(class_name < '14'){
+						                        if(class_name < 14){
 						                        	x=x+'<th>Pre Mid MM:10</th>'+
 								      				'<th>Note Book: 05</th>'+
 							                        '<th>Sub Enrichment: 05</th>'+
@@ -197,7 +195,7 @@ $(document).ready(function(){
 							                        '<th>Marks Obtained: 100</th>'+
 							                        '<th>Grade</th>';
 							      				}
-							      				if(class_name == '14' || class_name == '15'){
+							      				if(class_name == 14 || class_name == 15){
 							      					x=x+'<th>Pre Mid</th>'+
 							      						'<th>Out of 5 (Pre Mid)</th>'+
 							      						'<th colspan="2">Mid</th>'+
@@ -206,7 +204,7 @@ $(document).ready(function(){
 						                     x=x+'</tr>'+
 						                  '</thead>'+
 						                  '<tbody>';
-					                        if(class_name == '14' || class_name == '15'){
+					                        if(class_name == 14 || class_name == 15){
 					                        	x=x+'<tr>'+
 					                        		'<td></td>'+
 					                        		'<td>MM '+response.result.pre_sub[0].out_of+'</td>'+
@@ -286,7 +284,7 @@ $(document).ready(function(){
 							                    	x=x+'<tr>'+
 							                    	 	'<td>'+mid_sub.sub_name+'</td>';
 								                        
-								                        if(class_name < '14'){
+								                        if(class_name < 14){
 								                        	if(pre_marks == 'Abst.'){var pre_marks1 = pre_marks;}else{var pre_marks1 = (pre_marks/20*10).toFixed(2);}
 								                        	if(notebook == 'Abst.'){var notebook1 = notebook;}else{var notebook1 = notebook;}
 								                        	if(enrichment == 'Abst.'){var enrichment1 = enrichment;}else{var enrichment1 = enrichment;}
@@ -300,7 +298,7 @@ $(document).ready(function(){
 									                        '<td align"center"="">'+marks_obtained1+'</td>'+
 									                        '<td align="center">'+grade+'</td>';
 									                    }						                        
-								                        if(class_name == '14' || class_name == '15'){
+								                        if(class_name == 14 || class_name == 15){
 								                        	if(pre_marks == 'Abst.'){
 								                        		var pre_out_of_5 = pre_marks;
 								                        	}else{
@@ -333,17 +331,31 @@ $(document).ready(function(){
 						                     '</tr>'+
 						                  '</thead>'+
 						                  '<tbody>';
-						                  $.each(response.result.co_scholistic_sub,function(key,so_sch){
-						                	  console.log(value[so_sch['sub_name']]);
+						                  $.each(response.result.co_scholistic_sub,function(key,co_sch){
+						                	  if(value[co_sch['sub_name']] == 5){
+						                		  var co_marks = 'A';
+						                	  }else if(value[co_sch['sub_name']] == 4){
+						                		  var co_marks = 'B';
+						                	  }else if(value[co_sch['sub_name']] == 3){
+						                		  var co_marks = 'C';
+						                	  }else if(value[co_sch['sub_name']] == 2){
+						                		  var co_marks = 'C';
+						                	  }else if(value[co_sch['sub_name']] == 1){
+						                		  var co_marks = 'C';
+						                	  }else{
+						                		  var co_marks = '-';
+						                	  }
 						                	  x=x+'<tr>'+
-						                        '<td>'+so_sch['sub_name']+'</td>'+
-						                        '<td align="center">'+value[so_sch['sub_name']]+'</td>'+
+						                        '<td>'+co_sch['sub_name']+'</td>'+
+						                        '<td align="center">'+co_marks+'</td>'+
 						                     '</tr>'; 
 							              });
 						                  x=x+'</tbody>'+
 						               '</table>'+
 						            '</div>'+
 						         '</div>';
+						                  
+						         //----------class 9th and 10th extra subjects--------------------------
 								if(class_name == 12 || class_name == 13){
 	    							x=x+'<div class="results-information p-results-information-a col-md-8">'+
 	    					            '<div class="academic-result-t"><b>Computer Application</b></div>'+
@@ -367,6 +379,8 @@ $(document).ready(function(){
 	    					            '</table>'+
 	    					         '</div>';	
 								}
+								//---------------end of extra subjects show--------------------------
+								
 						         x=x+'<div class="modal-footer p-footer-sec">'+
 						            '<div class="col-md-2 p-place-date"><b>Bhilai </b>'+currentDate+'</div>'+
 						            '<div class="col-md-2 col-md-offset-4 p-techer-sign"><b>Class Teacher </b></div>'+

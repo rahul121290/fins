@@ -13,7 +13,7 @@ $(document).ready(function(){
 							'<td>'+i+'</td>'+
 						    '<td>'+value.med_name+'</td>'+
 						    '<td><button type="button" id="'+value.med_id +'" class="btn btn-primary btn-sm edit"><span class="glyphicon glyphicon-edit"></span> Edit </button> &nbsp;'+
-	   					    '<button type="button" id="'+value.med_id +'" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
+	   					   // '<button type="button" id="'+value.med_id +'" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
 						    '</tr>';
 					    i++;
 					});

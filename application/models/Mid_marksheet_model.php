@@ -168,6 +168,9 @@ class Mid_marksheet_model extends CI_Model{
         $this->db->select('sa.std_id,sa.adm_no,sa.roll_no,am.total_days,sa.present_days,sa.absent_days');
         $this->db->join('attendance_master am','am.am_id=sa.am_id');
         $this->db->where('1=1'.$con_att);
+        if(!empty($data['std_id'])){
+            $this->db->where('sa.std_id',$data['std_id']);
+        }
         $result['attendance'] = $this->db->get_where('std_attendance sa',array('sa.status'=>1))->result_array();
         
         //-------------------------------****************************------------------------------------------
@@ -341,7 +344,7 @@ class Mid_marksheet_model extends CI_Model{
         }
         
         //-----------------------------------***********----------------------------------------------------------------
-        $this->db->select('sa.sa_id,sa.sub_id,s.sub_name,t1.teacher_name,om.out_of,om.practical,IFNULL(np.notappear,"0") as notappear');
+        $this->db->select('sa.sa_id,sa.sub_id,s.sub_name,IFNULL(t1.teacher_name,"Teacher not assign") as teacher_name,om.out_of,om.practical,IFNULL(np.notappear,"0") as notappear');
         if(!empty($sub_group)){
             $this->db->where('sa.sg_id',$sub_group);
             $this->db->where('sa.st_id IN(4)');
@@ -349,8 +352,8 @@ class Mid_marksheet_model extends CI_Model{
             $this->db->where('sa.st_id IN(4)');
         }
         $this->db->join('subject s','s.sub_id=sa.sub_id');
-        $this->db->join('sub_teacher st','st.sa_id=sa.sa_id');
-        $this->db->join('teacher t1','t1.t_id=st.t_id');
+        $this->db->join('sub_teacher st','st.sa_id=sa.sa_id','LEFT');
+        $this->db->join('teacher t1','t1.t_id=st.t_id','LEFT');
         $this->db->join('out_of_marks om','om.sa_id=sa.sa_id');
         $this->db->join('(SELECT mm.sub_id, COUNT(sub_marks) as notappear FROM student_marks sm JOIN marks_master mm ON mm.mm_id= sm.mm_id WHERE sm.sub_marks = "A" '.$marks_master.') np','np.sub_id=sa.sub_id','LEFT');
         $this->db->where('1=1'.$sub_allocation);
@@ -358,7 +361,11 @@ class Mid_marksheet_model extends CI_Model{
         $this->db->order_by('s.short_order','ASC');
         $result['subjects'] = $this->db->get_where('subject_allocation sa')->result_array();
         //print_r($this->db->last_query());die;
-        $out_of = $result['subjects'][0]['out_of'];
+        if(count($result['subjects']) >0 ){
+            $out_of = $result['subjects'][0]['out_of'];
+        }else{
+            print_r("Some subject not assign teacher");die;
+        }
         
         //-----------------------------------***********----------------------------------------------------------------
         $con_sg_st = '';

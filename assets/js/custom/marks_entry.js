@@ -249,7 +249,6 @@ $(document).ready(function(){
 				type:'POST',
 				url:base_url+'Marks_entry_ctrl/marksEntry',
 				data:formdata,
-				async: false,
 				dataType:'json',
 				beforeSend:function(){
 					$('#loader').modal('show');
