@@ -46,25 +46,25 @@ class Teacher_ctrl extends CI_Controller{
     }
     
     public function submitTeacherData(){
-        if($this->input->post('class_teacher') == 'yes'){
-            $this->form_validation->set_rules('medium','medium','required');
-            $this->form_validation->set_rules('class','class','required');
-            if($this->input->post('class') >= '14'){
-                $this->form_validation->set_rules('sub_group','sub_group','required');
-            }
-            $this->form_validation->set_rules('section','section','required');
-        }
+      //  if($this->input->post('class_teacher') == 'yes'){
+        //    $this->form_validation->set_rules('medium','medium','required');
+          //  $this->form_validation->set_rules('class','class','required');
+      //      if($this->input->post('class') >= '14'){
+       //         $this->form_validation->set_rules('sub_group','sub_group','required');
+      //      }
+      //      $this->form_validation->set_rules('section','section','required');
+     //   }
         
-        $this->form_validation->set_rules('teacher_name','teacher_name','required');
-        $this->form_validation->set_rules('gender','gender','required');
-        $this->form_validation->set_rules('dob','dob','required');
+        //$this->form_validation->set_rules('teacher_name','teacher_name','required');
+        //$this->form_validation->set_rules('gender','gender','required');
+        //$this->form_validation->set_rules('dob','dob','required');
         //$this->form_validation->set_rules('email','email','required');
-        $this->form_validation->set_rules('prmt_address','prmt_address','required');
-        $this->form_validation->set_rules('alter_address','alter_address','required');
-        $this->form_validation->set_rules('designation','designation','required');
-        $this->form_validation->set_rules('qualifications','qualifications','required');
+        //$this->form_validation->set_rules('prmt_address','prmt_address','required');
+        //$this->form_validation->set_rules('alter_address','alter_address','required');
+        //$this->form_validation->set_rules('designation','designation','required');
+        //$this->form_validation->set_rules('qualifications','qualifications','required');
         
-        if($this->form_validation->run()){
+      //  if($this->form_validation->run()){
             
             $ct_id = $this->input->post('ct_id');
             $class_teacher['class_teacher'] = $this->input->post('class_teacher');
@@ -96,9 +96,9 @@ class Teacher_ctrl extends CI_Controller{
                     );    
             }
             
-        }else{
-            echo json_encode(array('validation_errors'=>validation_errors(),'status'=>400));
-        }
+       // }else{
+        //    echo json_encode(array('validation_errors'=>validation_errors(),'status'=>400));
+        //}
         
     }
     
