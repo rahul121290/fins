@@ -10,7 +10,6 @@ class Student_model extends CI_Model{
             $path = 'assets/images/sharda/students/';
         }
         
-        $path = 'assets/images/students/';
         //$path1 = 'assets/images/students/temp/';
         
         $this->db->trans_begin();
