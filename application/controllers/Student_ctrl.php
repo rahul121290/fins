@@ -82,11 +82,11 @@ class Student_ctrl extends CI_Controller{
             $this->_ShowMsgs(
                 $this->student_model->add_student($std_id,$old_image,$data),"Student Insert Successfully.","Student Failed to Insert, Please try again."
                 );
-        }
+            }
         
-    }
+        }
     
-    function getAdmNoRecord(){
+       function getAdmNoRecord(){
         $adm_no = $this->input->post('adm_no');
         $this->db->select('s.std_id,s.photo,s.aadhar_no,s.name,s.roll_no,s.adm_no,
                            DATE_FORMAT(s.admission_date, "%d-%M-%Y") as admission_date,
@@ -100,7 +100,7 @@ class Student_ctrl extends CI_Controller{
         $this->db->join('class c','c.c_id=s.class_id');
         $this->db->join('section sec','sec.sec_id=s.sec_id');
         $this->db->join('medium m','m.med_id=s.medium');
-        $this->db->join('sub_group sg','sg.sg_id = s.sub_group');
+        $this->db->join('sub_group sg','sg.sg_id = s.sub_group','LEFT');
         $this->db->join('subject sb','sb.sub_id = s.elective','LEFT');
         $result = $this->db->get_where('students s',array('s.status'=>1,'s.adm_no'=>$adm_no))->result_array();
         if(count($result) > 0 ){
