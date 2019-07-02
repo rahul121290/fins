@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-    'hostname' => 'localhost',
-    'username' => 'root',
-    'password' => '',
+    'hostname' => '192.168.1.4',
+    'username' => 'rahul',
+    'password' => 'password',
 	'database' => 'smis_2019',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
@@ -98,7 +98,7 @@ $db['default'] = array(
 
 $db['server'] = array(
     'dsn'	=> '',
-    'hostname' => '192.168.1.5',
+    'hostname' => '192.168.1.3',
     'username' => 'rahul',
     'password' => 'password',
     'database' => 'vivartaa',
