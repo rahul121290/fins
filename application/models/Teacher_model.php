@@ -138,9 +138,8 @@ class Teacher_model extends CI_Model{
     
     public function allocateSubjectTeacher($data){
         $this->db->trans_begin();
-        $result = $this->db->select('st_id,status')->get_where('sub_teacher',array('sa_id'=>$data['sa_id']))->result_array();
-        
-        if(count($result) > 0 ){
+        $result = $this->db->select('st_id,status')->get_where('sub_teacher',array('sa_id'=>(int)$data['sa_id'],'sec_id'=>$data['sec_id']))->result_array();
+		if(count($result) > 0 ){
             if($data['t_id']){
                 //---------------update-------------------
                 $this->db->where('st_id',$result[0]['st_id']);
@@ -150,7 +149,6 @@ class Teacher_model extends CI_Model{
                 $this->db->where('st_id',$result[0]['st_id']);
                 $this->db->update('sub_teacher',array('status'=>0));
             }
-            
         }else{
             //--------insert--------------------
             $this->db->insert('sub_teacher',$data);

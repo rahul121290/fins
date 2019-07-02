@@ -119,7 +119,8 @@ class Teacher_ctrl extends CI_Controller{
             $this->db->where('sa.sg_id',$sub_group);
         }
         $result = $this->db->get_where('subject_allocation sa',array('sa.ses_id'=>$session,'sa.sch_id'=>$school,'sa.med_id'=>$medium,'sa.class_id'=>$class_name,'sa.st_id'=>$sub_type,'sa.status'=>1))->result_array();
-        
+        //print_r($this->db->last_query());die;
+		
         $teachers = $this->db->select('t_id,teacher_name')->order_by('teacher_name','ASC')->get_where('teacher',array('school_id'=>$school,'status'=>1))->result_array();
         
         if(count($result) > 0){
