@@ -114,13 +114,13 @@ class Teacher_model extends CI_Model{
     
     public function deleteRecord($delete_id){
         $path = 'assets/images/teacher/';
-        $path1 = 'assets/images/teacher/temp/';
+        //$path1 = 'assets/images/teacher/temp/';
         $this->db->trans_begin();
         $result = $this->db->select('image')->get_where('teacher',array('t_id'=>$delete_id))->result_array();
        
-        if(count($result) > 0 && file_exists("$path".$result[0]['image'])){
-            unlink($path.$result[0]['image']);
-            unlink($path1.$result[0]['image']); 
+        if(count($result) > 0 && file_exists($path.$result[0]['image'])){
+           // unlink($path.$result[0]['image']);
+            //unlink($path1.$result[0]['image']); 
         }
         $this->db->where('t_id',$delete_id);
         $this->db->update('teacher',array('status'=>0));

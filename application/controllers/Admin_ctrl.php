@@ -243,8 +243,9 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(8, $this->permission)){
             $this->data['page_name'] = 'Add Teacher';
             $this->data['main'] = 'master/add_teacher';
-            $this->data['teachers'] = $this->db->select('*')->get_where('teacher',array('school_id'=>(int)$this->session->userdata('school_id'),'status'=>1))->result_array();
-            $this->data['medium'] = $this->db->select('med_id,med_name')->where('status',1)->get('medium')->result_array();
+            $this->data['teachers'] = $this->db->select('*')->order_by('teacher_name','ASC')->get_where('teacher',array('school_id'=>(int)$this->session->userdata('school_id'),'status'=>1))->result_array();
+            
+			$this->data['medium'] = $this->db->select('med_id,med_name')->where('status',1)->get('medium')->result_array();
             $this->data['class'] = $this->db->select('c_id,class_name')->where('status',1)->get('class')->result_array();
             $this->data['section'] = $this->db->select('sec_id,section_name')->where('status',1)->get('section')->result_array();
             $this->data['sub_type'] = $this->db->select('st_id,st_name')->where('status',1)->get('sub_type')->result_array();
@@ -274,7 +275,7 @@ class Admin_ctrl extends CI_Controller {
             $school = $this->session->userdata('school_id');
             $this->data['page_name'] = 'Define User Role';
             $this->data['main'] = 'master/user_role';
-            $this->data['teachers'] = $this->db->select('t_id,teacher_name')->get_where('teacher',array('status'=>1,'school_id'=>$school))->result_array();
+            $this->data['teachers'] = $this->db->select('t_id,teacher_name')->order_by('teacher_name','ASC')->get_where('teacher',array('status'=>1,'school_id'=>$school))->result_array();
             $this->data['permission'] = $this->db->select('pid,p_name,category_name')->get_where('permission',array('status'=>1))->result_array();
             $this->data['groups'] = $this->db->select('id,name')->where('id > 1')->get_where('groups')->result_array();
             $this->data['user_list'] = $this->db->select('u.id,u.username,u.email,u.pass_hint')->join('users_groups ug','ug.user_id = u.id')->order_by('u.id','DESC')->where('ug.group_id <> 1')->get_where('users u',array('u.active'=>1,'u.status'=>1,'u.school_id'=>$school))->result_array();

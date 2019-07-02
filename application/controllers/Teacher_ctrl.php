@@ -120,7 +120,7 @@ class Teacher_ctrl extends CI_Controller{
         }
         $result = $this->db->get_where('subject_allocation sa',array('sa.ses_id'=>$session,'sa.sch_id'=>$school,'sa.med_id'=>$medium,'sa.class_id'=>$class_name,'sa.st_id'=>$sub_type,'sa.status'=>1))->result_array();
         
-        $teachers = $this->db->select('t_id,teacher_name')->get_where('teacher',array('school_id'=>$school,'status'=>1))->result_array();
+        $teachers = $this->db->select('t_id,teacher_name')->order_by('teacher_name','ASC')->get_where('teacher',array('school_id'=>$school,'status'=>1))->result_array();
         
         if(count($result) > 0){
             echo json_encode(array('result'=>$result,'teachers'=>$teachers,'status'=>200));
@@ -181,7 +181,7 @@ class Teacher_ctrl extends CI_Controller{
         $this->db->join('teacher t1','t1.t_id=st.t_id AND t1.status = 1','LEFT');
         $this->db->where('1=1 '.$condition);
         $result = $this->db->get_where('sub_teacher st',array('st.status'=>1,'st.sec_id'=>$section))->result_array();
-        print_r($this->db->last_query());die;
+       // print_r($this->db->last_query());die;
         if(count($result) > 0 ){
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
