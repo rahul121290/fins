@@ -48,7 +48,7 @@ class Subject_allocation_ctrl extends CI_Controller{
         }
         
         $this->db->select('s1.sub_id,s1.sub_name,IF(IsNULL(t1.sub_id),"NO","checked") as active');
-        $this->db->join('subject s1','s1.sub_id = t1.sub_id','RIGHT');
+        $this->db->join('subject s1','s1.sub_id = t1.sub_id AND s1.status = 1','RIGHT');
         $this->db->where('s1.st_id',$data['sub_type']);
         $result = $this->db->get_where('(SELECT * FROM subject s WHERE s.sub_id = ANY (SELECT sub_id FROM subject_allocation sa WHERE sa.sub_id = s.sub_id'.$condition.' AND sa.status=1)) as t1')->result_array();
         
