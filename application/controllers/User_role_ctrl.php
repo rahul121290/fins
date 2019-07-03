@@ -35,10 +35,11 @@ class User_role_ctrl extends CI_Controller{
     
     public function getEditData(){
         $id = $this->input->post('editId');
-        $users = $this->db->select('id,permission,email,username,pass_hint')->get_where('users',array('id'=>$id))->result_array();
+        $users = $this->db->select('id,t_id,permission,email,username,pass_hint')->get_where('users',array('id'=>$id))->result_array();
         if(count($users) > 0){
-            $teacher = $this->db->select('t_id,teacher_name')->get_where('teacher',array('email'=>$users[0]['email']))->result_array();
-            $this->db->select('ug.id as ug_id,g.id,g.name');
+            $teacher = $this->db->select('t_id,teacher_name')->get_where('teacher',array('t_id'=>$users[0]['t_id'],'email'=>$users[0]['email']))->result_array();
+            
+			$this->db->select('ug.id as ug_id,g.id,g.name');
             $this->db->join('users u','u.id = ug.user_id');
             $this->db->join('groups g','g.id = ug.group_id');
             $groups = $this->db->get_where('users_groups ug',array('u.id'=>$id))->result_array();

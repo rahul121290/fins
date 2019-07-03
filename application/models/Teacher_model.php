@@ -37,7 +37,7 @@ class Teacher_model extends CI_Model{
         elseif(empty($_FILES['image']['name'])){
             $var_img_name = $data['old_image'];
         }
-        
+        $submitdata['school_id'] = $this->session->userdata('school_id');
         $submitdata['school_id'] = $this->session->userdata('school_id');
         $submitdata['teacher_name'] = $data['teacher_name'];
         $submitdata['gender'] = $data['gender'];
