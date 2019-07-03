@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$route['login'] = 'Auth/login';
-$route['admin/logout'] = 'Auth/logout';
 
 $route['(:any)/(:any)/dashbord'] = 'Admin_ctrl/index';
 $route['(:any)/(:any)/test'] = 'Admin_ctrl/testing';
@@ -45,7 +43,8 @@ $route['(:any)/(:any)/helth/health-activity'] = 'Admin_ctrl/health_activity';
 $route['(:any)/(:any)/profile'] = 'Admin_ctrl/profile';
 
 $route['(:any)/login'] = 'Auth/login';
+$route['admin/logout'] = 'Auth/logout';
 
-$route['default_controller'] = 'Auth/login';
+$route['default_controller'] = 'Auth/home_page';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

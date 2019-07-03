@@ -33,21 +33,18 @@ top: 25px;}
 </head>
 <body>
 <div style="position:relative;height:360px;">
-	<img alt="" src="<?php echo base_url();?>assets/images/sv-school.jpg" />
+	<img alt="" src="<?php echo base_url();?>assets/images/sv-school.jpg" style="width: 100%;"/>
 	<div class="logo-section">
-		<center><img  alt="shakuntala vidyalaya" src="<?php echo base_url();?>assets/images/sv-group.png" /><br/>
-			
-		</center>
+		<center><img  alt="shakuntala vidyalaya" src="<?php echo base_url();?>assets/images/sv-group.png" /><br/></center>
 	</div>
 </div>
-	
 	
 	<div class="container">
 		<div class="row" style="background-color: #fff;z-index: 0;position: relative;padding-top:40px">
 		<div class="col col-md-4 text-center col-md-offset-1">
 			<img style="margin-bottom:30px;" alt="" src="<?php echo base_url();?>assets/images/shakuntala/login-logo.png" />
 			<br/>
-			<a class="visit-btn" href="">Visit</a>
+			<a class="visit-btn" href="<?php echo base_url();?>shakuntala/login">Visit</a>
 		</div>
 		<div class="col-md-2" style="padding:0 100px;">
 			<div class="" style="border-right:1px solid #ddd;height:200px;"></div>
@@ -55,7 +52,7 @@ top: 25px;}
 		<div class="col col-md-4 text-center">
 			<img style="margin-bottom:30px;" alt="" src="<?php echo base_url();?>assets/images/sharda/login-logo.png" />
 			<br/>
-			<a class="visit-btn" href="">Visit</a>
+			<a class="visit-btn" href="<?php echo base_url();?>sharda/login">Visit</a>
 		</div>
 		</div>
 	</div>

@@ -16,6 +16,11 @@ class Auth extends CI_Controller{
 		$this->lang->load('auth');
 	}
 
+
+	function home_page(){
+		$this->load->view('index');
+    }
+
 	/**
 	 * Redirect if needed, otherwise display the user list
 	 */

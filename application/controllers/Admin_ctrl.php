@@ -18,10 +18,6 @@ class Admin_ctrl extends CI_Controller {
             redirect('auth/login');
         }
     }
-	
-	function main_page(){
-		$this->load->view('index');
-    }
     
     function _admin_class_teacher_access(){
         if ($this->ion_auth->logged_in()){
