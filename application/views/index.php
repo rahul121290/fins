@@ -40,7 +40,7 @@ top: 25px;}
 </div>
 	
 	<div class="container">
-		<div class="row" style="background-color: #fff;z-index: 0;position: relative;padding-top:40px">
+		<div class="row" style="background-color: #fff;z-index: 0;position: relative;padding-top:40px;padding-bottom:40px;">
 		<div class="col col-md-4 text-center col-md-offset-1">
 			<img style="margin-bottom:30px;" alt="" src="<?php echo base_url();?>assets/images/shakuntala/login-logo.png" />
 			<br/>
