@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/font-awesome.min.css">
 <style>
+.school-bg{background-image:url('assets/images/sv-school.jpg');background-repeat: no-repeat;
+    background-size: cover;}
 .logo-section {
     position: absolute;
     width: 650px;
@@ -31,16 +33,15 @@ top: 25px;}
 .visit-btn:hover{background-color: #7d1111;color:#fff;}
 </style>
 </head>
-<body>
+<body class="school-bg">
 <div style="position:relative;height:360px;">
-	<img alt="" src="<?php echo base_url();?>assets/images/sv-school.jpg" style="width: 100%;"/>
 	<div class="logo-section">
 		<center><img  alt="shakuntala vidyalaya" src="<?php echo base_url();?>assets/images/sv-group.png" /><br/></center>
 	</div>
 </div>
 	
 	<div class="container">
-		<div class="row" style="background-color: #fff;z-index: 0;position: relative;padding-top:40px;padding-bottom:40px;">
+		<div class="row" style="background-color: #fff;z-index: 0;position: relative;padding-top:40px;padding-bottom:40px;border-radius:15px;">
 		<div class="col col-md-4 text-center col-md-offset-1">
 			<img style="margin-bottom:30px;" alt="" src="<?php echo base_url();?>assets/images/shakuntala/login-logo.png" />
 			<br/>
