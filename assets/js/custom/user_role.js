@@ -34,9 +34,12 @@ $(document).ready(function(){
 					if(response.status == 200){
 						$('#loader').modal('hide');
 						var values = response.data.permission;
-						$.each(values.split(","), function(key,value){
-							$(":checkbox[value="+ value +"]").prop("checked",true);
+						if(values != '' && values != null){
+							$.each(values.split(","), function(key,value){
+								$(":checkbox[value="+ value +"]").prop("checked",true);
 							});				
+						}
+						
 						$('#id').val(response.data.id);
 						$('#ug_id').val(response.data.ug_id);
 						$('#teacher').val(response.data.teacher);
