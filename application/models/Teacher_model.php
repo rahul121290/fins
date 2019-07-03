@@ -38,9 +38,11 @@ class Teacher_model extends CI_Model{
             $var_img_name = $data['old_image'];
         }
         
+        $submitdata['school_id'] = $this->session->userdata('school_id');
         $submitdata['teacher_name'] = $data['teacher_name'];
         $submitdata['gender'] = $data['gender'];
         $submitdata['dob'] = $data['dob'];
+        $submitdata['phone'] = $data['phone'];
         $submitdata['email'] = $data['email'];
         $submitdata['prmt_address'] = $data['prmt_address'];
         $submitdata['alter_address'] = $data['alter_address'];

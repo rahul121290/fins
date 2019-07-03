@@ -110,6 +110,14 @@
 					    </div>
 					    
 					    <div class="form-group">
+							<label class="control-label col-md-2">Phone</label>
+							<div class="col-sm-8">
+								<input type="text" name="phone" id="phone" class="form-control" placeholder="Contact Number">
+								<div id="phone_err" style="display: none; color:red;"></div>
+							</div>
+					    </div>
+					    
+					    <div class="form-group">
 							<label class="control-label col-md-2">Email</label>
 							<div class="col-sm-8">
 								<input type="text" name="email" id="email" class="form-control" placeholder="Enter Email Id">
@@ -182,8 +190,9 @@
                 			<tr>
                 				<th>Sr No.</th>
                 				<th>Teacher Name</th>
+                				<th>Phone</th>
                 				<th>Designation</th>
-                				<th>Image</th>
+                				<!-- <th>Image</th> -->
                 				<th>Action</th>
                 			</tr>
                 			</thead>
@@ -193,6 +202,7 @@
                     				<tr>
                     				<td><?php echo $i++;?></td>
                     				<td><?php echo $teacher['teacher_name'];?></td>
+                    				<td><?php echo $teacher['phone'];?></td>
                     				<td><?php echo $teacher['designation'];?></td>
                     				
                     				<?php 
@@ -202,9 +212,9 @@
                     				}
                     				?>
                     				
-                    				<td><?php if(!empty($teacher['image'])&& file_exists("$path".$teacher['image'])){?>
+                    				<!-- <td><?php if(!empty($teacher['image'])&& file_exists("$path".$teacher['image'])){?>
                                      <img src="<?php echo $path;?><?php echo $teacher['image'];?>" style="height:50px;" width="50px;">
-                                	<?php }else{ echo "NULL"; } ?></td>
+                                	<?php }else{ echo "NULL"; } ?></td> -->
                     				<td><button type="button" id="<?php echo $teacher['t_id']?>" class="btn btn-primary btn-sm edit"><span class="glyphicon glyphicon-edit"></span> Edit </button> &nbsp;
 		    					        <button type="button" id="<?php echo $teacher['t_id']?>" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>
                     				</tr>

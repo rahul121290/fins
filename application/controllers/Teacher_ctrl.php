@@ -80,6 +80,7 @@ class Teacher_ctrl extends CI_Controller{
             $data['teacher_name'] = $this->input->post('teacher_name');
             $data['gender'] = $this->input->post('gender');
             $data['dob'] = $this->input->post('dob');
+            $data['phone'] = $this->input->post('phone');
             $data['email'] = $this->input->post('email');
             $data['prmt_address'] = $this->input->post('prmt_address');
             $data['alter_address'] = $this->input->post('alter_address');

@@ -40,6 +40,7 @@ $(document).ready(function(){
 			gender:{required:true},
 			dob:{required:true},
 			//email:{required:true,email:true},
+			phone:{required:true},
 			prmt_address:{required:true},
 			//alter_address:{required:true},
 			designation:{required:true},
@@ -97,6 +98,7 @@ $(document).ready(function(){
 			formdata.append('teacher_name',$('#teacher_name').val());
 			formdata.append('gender',$('#gender').val());
 			formdata.append('dob',$('#dob').val());
+			formdata.append('phone',$('#phone').val());
 			formdata.append('email',$('#email').val());
 			formdata.append('prmt_address',$('#prmt_address').val());
 			formdata.append('alter_address',$('#alter_address').val());
