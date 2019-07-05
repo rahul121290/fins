@@ -63,8 +63,128 @@ $(document).ready(function(){
 			});
 		}	
 	});
-
-
+	//--------------------get section and subject_group----------------------------
+	$(document).on('change','#class_name',function(){
+		var exam_type = $('#exam_type').val();
+		var medium = $('#medium').val();
+		var class_id = $(this).val();
+		if(class_id < 14){
+			$.ajax({
+				type:'post',
+				url:base_url+'Marks_entry_ctrl/get_section',
+				data:{'exam_type':exam_type,'medium':medium,'class_id':class_id,'sub_group':''},
+				dataType:'json',
+				beforeSend:function(){
+					$('#loader').modal('show');
+				},
+				success:function(response){
+					if(response.status == 200){
+						$('#loader').modal('hide');
+						var x='<option value="">Select Section</option>';
+						$.each(response.data,function(key,value){
+							x=x+'<option value="'+value.sec_id+'">'+value.section_name+'</option>';
+						});
+						$('#section').html(x);
+					}else{
+						alert(response.msg);
+					}
+				},
+			});
+		}else{
+			$.ajax({
+				type:'post',
+				url:base_url+'Marks_entry_ctrl/getSubGroup',
+				data:{'exam_type':exam_type,'medium':medium,'class_id':class_id},
+				dataType:'json',
+				beforeSend:function(){
+					$('#loader').modal('show');
+				},
+				success:function(response){
+					if(response.status == 200){
+						$('#loader').modal('hide');
+						var x='<option value="">Select Subject Group</option>';
+						$.each(response.data,function(key,value){
+							x=x+'<option value="'+value.sg_id+'">'+value.sg_name+'</option>';
+						});
+						$('#sub_group').html(x);
+					}else{
+						alert(response.msg);
+					}
+				},
+			});
+			
+			$('#section').prop('selectedIndex','');
+		}
+		
+	});
+	//----------get section of class 11-12----------------------
+	$(document).on('change','#sub_group',function(){
+		var exam_type = $('#exam_type').val();
+		var medium = $('#medium').val();
+		var class_id = $('#class_name').val();
+		var sub_group = $(this).val();
+		$.ajax({
+			type:'post',
+			url:base_url+'Marks_entry_ctrl/get_section',
+			data:{'exam_type':exam_type,'medium':medium,'class_id':class_id,'sub_group':sub_group},
+			dataType:'json',
+			beforeSend:function(){
+				$('#loader').modal('show');
+			},
+			success:function(response){
+				if(response.status == 200){
+					$('#loader').modal('hide');
+					var x='<option value="">Select Section</option>';
+					$.each(response.data,function(key,value){
+						x=x+'<option value="'+value.sec_id+'">'+value.section_name+'</option>';
+					});
+					$('#section').html(x);
+				}else{
+					alert(response.msg);
+				}
+			},
+		});
+	});
+	
+	
+	//--------------------get subject type----------------------
+	
+	$(document).on('change','#section',function(){
+		$('#list_of_students').css('display','none');
+		$('#sub_type').prop('selectedIndex','');
+		$('#subject').prop('selectedIndex','');
+		
+		if($('#exam_type').val() == 1 || $('#exam_type').val() == 3){
+			$('#sub_type option[value="2"]').hide();
+		}else{
+			$('#sub_type option[value="2"]').show();
+			}
+		
+		var exam_type = $('#exam_type').val();
+		var medium = $('#medium').val();
+		var class_id = $('#class_name').val();
+		var section = $(this).val();
+		$.ajax({
+			type:'post',
+			url:base_url+'Marks_entry_ctrl/getSubjectType',
+			data:{'exam_type':exam_type,'medium':medium,'class_id':class_id,'section':section},
+			dataType:'json',
+			beforeSend:function(){$('#loader').modal('show');},
+			success:function(response){
+				if(response.status == 200){
+					$('#loader').modal('hide');
+					var x='<option value="">Select Subject Type</option>';
+					$.each(response.data,function(key,value){
+						x=x+'<option value="'+value.st_id+'">'+value.st_name+'</option>';
+					});
+					$('#sub_type').html(x);
+				}else{
+					alert(response.msg);
+				}
+			},
+		});
+	});
+	
 	//-------------get student records---------------------------
 	$(document).on('click','#search',function(){
 		var form_validate = $('#marks_entry_form').valid();
@@ -355,19 +475,7 @@ $(document).ready(function(){
 		$('#sub_type').prop('selectedIndex','');
 		$('#subject').prop('selectedIndex','');
 	});
-	$(document).on('change','#section',function(){
-		$('#list_of_students').css('display','none');
-		$('#loader').modal('show');
-		$('#sub_type').prop('selectedIndex','');
-		$('#subject').prop('selectedIndex','');
-		
-		if($('#exam_type').val() == 1 || $('#exam_type').val() == 3){
-			$('#sub_type option[value="2"]').hide();
-		}else{
-			$('#sub_type option[value="2"]').show();
-			}
-		$('#loader').modal('hide');
-	});
+	
 	
 	$(document).on('change','#sub_type',function(){
 		$('#list_of_students').css('display','none');
