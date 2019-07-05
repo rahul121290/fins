@@ -250,28 +250,33 @@ class Marks_entry_ctrl extends CI_Controller{
         $data['class_id'] = $this->input->post('class_id');
         $data['sub_group'] = $this->input->post('sub_group');
         
-        $this->db->select('t_id');
-        $teacher = $this->db->get_where('users',array('id'=>$data['user_id']))->result_array();
-        if(count($teacher) > 0){
-            $this->db->select('st.sec_id,sec.section_name');
-            $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
-            $this->db->join('section sec','sec.sec_id=st.sec_id');
-            $this->db->join('teacher t1','t1.t_id=st.t_id');
-            $this->db->where('st.t_id',$teacher[0]['t_id']);
-            $this->db->where('sa.class_id',$data['class_id']);
-            $this->db->where('sa.med_id',$data['medium']);
-            if(!empty($data['sub_group'])){
-                $this->db->where('sa.sg_id',$data['medium']);
-            }
-            $this->db->group_by('st.sec_id');
-            $section = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
-            if(count($section) > 0){
-                echo json_encode(array('data'=>$section,'status'=>200));
-            }else{
-                echo json_encode(array('msg'=>'Teacher not allocate subjects.','status'=>500));
-            }
+        if($this->ion_auth->is_admin()){
+            $this->db->select('*');
+            $section = $this->db->get_where('section',array('status'=>1))->result_array();
         }else{
-            echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
+            $this->db->select('t_id');
+            $teacher = $this->db->get_where('users',array('id'=>$data['user_id']))->result_array();
+            if(count($teacher) > 0){
+                $this->db->select('st.sec_id,sec.section_name');
+                $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
+                $this->db->join('section sec','sec.sec_id=st.sec_id');
+                $this->db->join('teacher t1','t1.t_id=st.t_id');
+                $this->db->where('st.t_id',$teacher[0]['t_id']);
+                $this->db->where('sa.class_id',$data['class_id']);
+                $this->db->where('sa.med_id',$data['medium']);
+                if(!empty($data['sub_group'])){
+                    $this->db->where('sa.sg_id',$data['medium']);
+                }
+                $this->db->group_by('st.sec_id');
+                $section = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
+            }else{
+                echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
+            }
+        }
+        if(count($section) > 0){
+            echo json_encode(array('data'=>$section,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Teacher not allocate subjects.','status'=>500));
         }
     }
     
@@ -284,24 +289,29 @@ class Marks_entry_ctrl extends CI_Controller{
         $data['medium'] = $this->input->post('medium');
         $data['class_id'] = $this->input->post('class_id');
         
-        $this->db->select('t_id');
-        $teacher = $this->db->get_where('users',array('id'=>$data['user_id']))->result_array();
-        if(count($teacher) > 0){
-            $this->db->select('sa.sg_id,sg.sg_name');
-            $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
-            $this->db->join('sub_group sg','sg.sg_id = sa.sg_id');
-            $this->db->where('st.t_id',$teacher[0]['t_id']);
-            $this->db->where('sa.class_id',$data['class_id']);
-            $this->db->where('sa.med_id',$data['medium']);
-            $this->db->group_by('sa.sg_id');
-            $subgroup = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
-            if(count($subgroup) > 0){
-                echo json_encode(array('data'=>$subgroup,'status'=>200));
-            }else{
-                echo json_encode(array('msg'=>'Teacher not allocate subjects.','status'=>500));
-            }
+        if($this->ion_auth->is_admin()){
+            $this->db->select('*');
+            $subgroup = $this->db->get_where('sub_group',array('status'=>1))->result_array();
         }else{
-            echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
+            $this->db->select('t_id');
+            $teacher = $this->db->get_where('users',array('id'=>$data['user_id']))->result_array();
+            if(count($teacher) > 0){
+                $this->db->select('sa.sg_id,sg.sg_name');
+                $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
+                $this->db->join('sub_group sg','sg.sg_id = sa.sg_id');
+                $this->db->where('st.t_id',$teacher[0]['t_id']);
+                $this->db->where('sa.class_id',$data['class_id']);
+                $this->db->where('sa.med_id',$data['medium']);
+                $this->db->group_by('sa.sg_id');
+                $subgroup = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
+            }else{
+                echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
+            }
+        }
+        if(count($subgroup) > 0){
+            echo json_encode(array('data'=>$subgroup,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Teacher not allocate subjects.','status'=>500));
         }
     }
     
@@ -314,29 +324,32 @@ class Marks_entry_ctrl extends CI_Controller{
         $data['medium'] = $this->input->post('medium');
         $data['class_id'] = $this->input->post('class_id');
         $data['section'] = $this->input->post('section');
-        
-        $this->db->select('t_id');
-        $teacher = $this->db->get_where('users',array('id'=>$data['user_id']))->result_array();
-        if(count($teacher) > 0){
-            $this->db->select('sa.st_id,sub_t.st_name');
-            $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
-            $this->db->join('sub_type sub_t','sub_t.st_id=sa.st_id');
-            $this->db->join('sub_group sg','sg.sg_id=sa.sg_id','LEFT');
-            $this->db->join('teacher t1','t1.t_id=st.t_id');
-            $this->db->where('st.t_id',$teacher[0]['t_id']);
-            $this->db->where('sa.class_id',$data['class_id']);
-            $this->db->where('sa.med_id',$data['medium']);
-            $this->db->where('st.sec_id',$data['section']);
-            $this->db->group_by('sa.st_id');
-            $subject_type = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
-            
-            if(count($subject_type) > 0){
-                echo json_encode(array('data'=>$subject_type,'status'=>200));
-            }else{
-                echo json_encode(array('msg'=>'Teacher not allocate subjects.','status'=>500));
-            }
+        if($this->ion_auth->is_admin()){
+            $this->db->select('*');
+            $subject_type = $this->db->get_where('sub_type',array('status'=>1))->result_array();
         }else{
-            echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
+            $this->db->select('t_id');
+            $teacher = $this->db->get_where('users',array('id'=>$data['user_id']))->result_array();
+            if(count($teacher) > 0){
+                $this->db->select('sa.st_id,sub_t.st_name');
+                $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
+                $this->db->join('sub_type sub_t','sub_t.st_id=sa.st_id');
+                $this->db->join('sub_group sg','sg.sg_id=sa.sg_id','LEFT');
+                $this->db->join('teacher t1','t1.t_id=st.t_id');
+                $this->db->where('st.t_id',$teacher[0]['t_id']);
+                $this->db->where('sa.class_id',$data['class_id']);
+                $this->db->where('sa.med_id',$data['medium']);
+                $this->db->where('st.sec_id',$data['section']);
+                $this->db->group_by('sa.st_id');
+                $subject_type = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
+            }else{
+                echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
+            }
+        }
+        if(count($subject_type) > 0){
+            echo json_encode(array('data'=>$subject_type,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Teacher not allocate subjects.','status'=>500));
         }
     }
     

@@ -73,76 +73,76 @@ class Admin_ctrl extends CI_Controller {
             // $this->db->where('email=(SELECT `email` FROM `users` WHERE `id` ='.$user_id.')');
             // $teacher = $this->db->get_where('teacher')->result_array();
 
-            $this->db->select('t.t_id,t.email');
-            $this->db->join('teacher t','t.t_id = u.t_id');
-            $teacher = $this->db->get_where('users u',array('u.active'=>1,'u.status'=>1,'u.id'=>$user_id))->result_array();
+            $medium = array();
+            $class = array();
+            $sub_group = array();
+            $section = array();
+            $sub_type = array();
+            $subject = array();
 
-            if(count($teacher)>0){
-                $this->db->select('sa.med_id,sa.class_id,st.sec_id,sa.st_id,sa.sg_id,sa.sub_id');
-                $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
-                $this->db->join('class c','c.c_id = sa.class_id');
-                $this->db->join('section sec','sec.sec_id=st.sec_id');
-                $this->db->join('sub_type sub_t','sub_t.st_id=sa.st_id');
-                $this->db->join('sub_group sg','sg.sg_id=sa.sg_id','LEFT');
-                $this->db->join('subject sub','sub.sub_id = sa.sub_id');
-                $this->db->join('teacher t1','t1.t_id=st.t_id');
-                $this->db->where('st.t_id',$teacher[0]['t_id']);
-                $subject_teacher = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
-                
-                $medium = array();
-                $class = array();
-                $sub_group = array();
-                $section = array();
-                $sub_type = array();
-                $subject = array();
-                foreach($subject_teacher as $sub_teacher){
-                    $medium[] = $sub_teacher['med_id'];
-                    $class[] = $sub_teacher['class_id'];
-                    if($sub_teacher['sg_id']){
-                        $sub_group[] = $sub_teacher['sg_id'];
-                    }
-                    $section[] = $sub_teacher['sec_id'];
-                    $sub_type[] = $sub_teacher['st_id'];
-                    $subject[] = $sub_teacher['sub_id'];
-                }
-                $medium =  implode(',', array_unique($medium));
-                $class= implode(',', array_unique($class));
-                
-                $sub_group = implode(',', array_unique($sub_group));
-                
-                $section= implode(',', array_unique($section));
-                $sub_type= implode(',', array_unique($sub_type));
-                $subject= implode(',', array_unique($subject));
-            }else {
-                $subject_teacher ='';
-            }
-          
             if($this->ion_auth->is_admin()){
                 $medium = '1=1';
                 $class = '1=1';
                 $section = '1=1';
                 $group = '1=1';
                 $st = '1=1';
-            }elseif(count($subject_teacher) > 0){
-                $medium = 'med_id IN ('.$medium.')';
-                $class = 'c_id IN ('.$class.')';
-                $section = 'sec_id IN ('.$section.')';
-                
-                if($sub_group){
-                    $group = 'sg_id IN ('.$sub_group.')';
+            }else{
+                $this->db->select('t.t_id,t.email');
+                $this->db->join('teacher t','t.t_id = u.t_id');
+                $teacher = $this->db->get_where('users u',array('u.active'=>1,'u.status'=>1,'u.id'=>$user_id))->result_array();
+                if(count($teacher) > 0 ){
+                    $this->db->select('sa.med_id,sa.class_id,st.sec_id,sa.st_id,sa.sg_id,sa.sub_id');
+                    $this->db->join('subject_allocation sa','sa.sa_id=st.sa_id');
+                    $this->db->join('class c','c.c_id = sa.class_id');
+                    $this->db->join('section sec','sec.sec_id=st.sec_id');
+                    $this->db->join('sub_type sub_t','sub_t.st_id=sa.st_id');
+                    $this->db->join('sub_group sg','sg.sg_id=sa.sg_id','LEFT');
+                    $this->db->join('subject sub','sub.sub_id = sa.sub_id');
+                    $this->db->join('teacher t1','t1.t_id=st.t_id');
+                    $this->db->where('st.t_id',$teacher[0]['t_id']);
+                    $subject_teacher = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
+                    
+                    if(count($subject_teacher) > 0){
+                        foreach($subject_teacher as $sub_teacher){
+                            $medium[] = $sub_teacher['med_id'];
+                            $class[] = $sub_teacher['class_id'];
+                            if($sub_teacher['sg_id']){
+                                $sub_group[] = $sub_teacher['sg_id'];
+                            }
+                            $section[] = $sub_teacher['sec_id'];
+                            $sub_type[] = $sub_teacher['st_id'];
+                            $subject[] = $sub_teacher['sub_id'];
+                        }
+                        $medium =  implode(',', array_unique($medium));
+                        $class= implode(',', array_unique($class));
+                        
+                        $sub_group = implode(',', array_unique($sub_group));
+                        
+                        $section= implode(',', array_unique($section));
+                        $sub_type= implode(',', array_unique($sub_type));
+                        $subject= implode(',', array_unique($subject));
+                        
+                        $medium = 'med_id IN ('.$medium.')';
+                        $class = 'c_id IN ('.$class.')';
+                        $section = 'sec_id IN ('.$section.')';
+                        
+                        if($sub_group){
+                            $group = 'sg_id IN ('.$sub_group.')';
+                        }else{
+                            $group = 'sg_id IN (0)';
+                        }
+                        $st = 'st_id IN ('.$sub_type.')';
+                        
+                    }else{
+                        print_r("Your have not assign any subjects for marks entry.");die;
+                    }
                 }else{
-                    $group = 'sg_id IN (0)';
+                    print_r("Your are not a teacher or admin");die;
                 }
-                $st = 'st_id IN ('.$sub_type.')';
             }
-            
             $this->data['medium'] = $this->db->select('med_id,med_name')->where($medium)->get_where('medium',array('status'=>1))->result_array();
             $this->data['exam_type'] = $this->db->select('et_id,et_name')->get_where('exam_type',array('status'=>1))->result_array();
             $this->data['class'] = $this->db->select('c_id,class_name')->where($class)->get_where('class',array('status'=>1))->result_array();
-            $this->data['section'] = $this->db->select('sec_id,section_name')->where($section)->get_where('section',array('status'=>1))->result_array();
-            $this->data['group'] = $this->db->select('sg_id,sg_name')->where($group)->get_where('sub_group',array('status'=>1))->result_array();
-            $this->data['sub_type'] = $this->db->select('st_id,st_name')->where($st)->get_where('sub_type',array('status'=>1))->result_array();
-            
             $this->data['site_name'] = 'Vivartha';
             $this->data['site_title'] = 'Multi Users';
             $this->load->view("template/temp", $this->data);
@@ -163,7 +163,6 @@ class Admin_ctrl extends CI_Controller {
         $this->_load_view();
     }
 
-	
     function session_master(){
         if(in_array(1, $this->permission)){
             $this->data['page_name'] = 'Session Master';

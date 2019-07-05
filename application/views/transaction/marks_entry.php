@@ -85,9 +85,6 @@
 							<div class="col-sm-9">
 								<select name="sub_group" id="sub_group" class="form-control">
 									<option value="">Select Subject Group</option>
-									<?php foreach($group as $sub_group){?>
-										<option value="<?php echo $sub_group['sg_id'];?>"><?php echo $sub_group['sg_name'];?></option>
-									<?php } ?>
 								</select>
 								<div id="sub_group_err" style="display:none; color:red;"></div>
 							</div>
@@ -98,9 +95,6 @@
 							<div class="col-sm-9">
 								<select name="section" id="section" class="form-control">
 									<option value="">Select Section</option>
-									<?php foreach($section as $sec){?>
-									<option value="<?php echo $sec['sec_id'];?>"><?php echo $sec['section_name'];?></option>
-									<?php } ?>
 								</select>
 								<div id="section_err" style="display:none; color:red;"></div>
 							</div>
@@ -111,9 +105,6 @@
 							<div class="col-sm-9">
 								<select name="sub_type" id="sub_type" class="form-control">
 									<option value="">Select Subject Type</option>
-									<?php foreach($sub_type as $subtype){?>
-									<option value="<?php echo $subtype['st_id'];?>"><?php echo $subtype['st_name'];?></option>
-									<?php } ?>
 								</select>
 								<div id="sub_type_err" style="display:none; color:red;"></div>
 							</div>
