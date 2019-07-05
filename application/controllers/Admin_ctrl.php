@@ -25,9 +25,13 @@ class Admin_ctrl extends CI_Controller {
             $session = $this->session->userdata('session_id');
             $school = $this->session->userdata('school_id');
             
-            $this->db->select('ct.med_id,ct.class_id,ct.sec_id,ct.sg_id,t.email');
-            $this->db->join('teacher t','t.t_id=ct.t_id');
-            $this->db->where('t.email=(SELECT `email` FROM `users` WHERE `id` ='.$user_id.')');
+//             $this->db->select('ct.med_id,ct.class_id,ct.sec_id,ct.sg_id,t.email');
+//             $this->db->join('teacher t','t.t_id=ct.t_id');
+//             $this->db->where('t.email=(SELECT `email` FROM `users` WHERE `id` ='.$user_id.')');
+//             $is_class_teacher = $this->db->get_where('class_teacher ct',array('ct.ses_id'=>$session,'sch_id'=>$school,'ct.status'=>1))->result_array();
+           
+            $this->db->select('ct.med_id,ct.class_id,ct.sec_id,ct.sg_id');
+            $this->db->join('users u','u.t_id = ct.t_id AND u.id = '.$user_id);
             $is_class_teacher = $this->db->get_where('class_teacher ct',array('ct.ses_id'=>$session,'sch_id'=>$school,'ct.status'=>1))->result_array();
             
             if(count($is_class_teacher) > 0){

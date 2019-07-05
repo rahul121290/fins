@@ -59,15 +59,15 @@ $(document).ready(function(){
  	    }
 
         //------------for subject groups-------------------------
-	    if(class_name == 14 || class_name == 15){
-		    fit = '';
-	        if(sub_group == ''){
-	            $('#sub_group_err').html('This field is required..!').css('display','block');
-	            formvalid = false;
-	        }else{
-	        	$('#sub_group_err').css('display','none');
-	            }
-	    }
+//	    if(class_name == 14 || class_name == 15){
+//		    fit = '';
+//	        if(sub_group == ''){
+//	            $('#sub_group_err').html('This field is required..!').css('display','block');
+//	            formvalid = false;
+//	        }else{
+//	        	$('#sub_group_err').css('display','none');
+//	            }
+//	    }
 
 		if(section == ''){
 			$('#section_err').html('This field is required..!').css('display','block');
