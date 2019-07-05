@@ -88,6 +88,7 @@ class Admin_ctrl extends CI_Controller {
                 $this->db->join('teacher t1','t1.t_id=st.t_id');
                 $this->db->where('st.t_id',$teacher[0]['t_id']);
                 $subject_teacher = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
+                
                 $medium = array();
                 $class = array();
                 $sub_group = array();
@@ -97,14 +98,18 @@ class Admin_ctrl extends CI_Controller {
                 foreach($subject_teacher as $sub_teacher){
                     $medium[] = $sub_teacher['med_id'];
                     $class[] = $sub_teacher['class_id'];
-                    $sub_group[] = $sub_teacher['sg_id'];
+                    if($sub_teacher['sg_id']){
+                        $sub_group[] = $sub_teacher['sg_id'];
+                    }
                     $section[] = $sub_teacher['sec_id'];
                     $sub_type[] = $sub_teacher['st_id'];
                     $subject[] = $sub_teacher['sub_id'];
                 }
                 $medium =  implode(',', array_unique($medium));
                 $class= implode(',', array_unique($class));
-                $sub_group= implode(',', array_unique($sub_group));
+                
+                $sub_group = implode(',', array_unique($sub_group));
+                
                 $section= implode(',', array_unique($section));
                 $sub_type= implode(',', array_unique($sub_type));
                 $subject= implode(',', array_unique($subject));
@@ -122,6 +127,7 @@ class Admin_ctrl extends CI_Controller {
                 $medium = 'med_id IN ('.$medium.')';
                 $class = 'c_id IN ('.$class.')';
                 $section = 'sec_id IN ('.$section.')';
+                
                 if($sub_group){
                     $group = 'sg_id IN ('.$sub_group.')';
                 }else{
