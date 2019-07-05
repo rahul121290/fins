@@ -184,6 +184,7 @@ $(document).ready(function(){
 					$('#teacher_name').val(response.result[0].teacher_name);
 					$('#gender').val(response.result[0].gender);
 					$('#dob').val(response.result[0].dob);
+					$('#phone').val(response.result[0].phone);
 					$('#email').val(response.result[0].email);
 					$('#prmt_address').val(response.result[0].prmt_address);
 					$('#alter_address').val(response.result[0].alter_address);
