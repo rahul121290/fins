@@ -37,8 +37,12 @@ class Admin_ctrl extends CI_Controller {
             if(count($is_class_teacher) > 0){
                 $medium = 'med_id='.$is_class_teacher[0]['med_id'];
                 $class = 'c_id='.$is_class_teacher[0]['class_id'];
-                $section = 'sec_id='.$is_class_teacher[0]['sec_id'];
-                $group = 'sg_id='.$is_class_teacher[0]['sg_id'];
+                //$section = 'sec_id='.$is_class_teacher[0]['sec_id'];
+               // $group = 'sg_id='.$is_class_teacher[0]['sg_id'];
+			   //$medium = '1=1';
+                //$class = '1=1';
+                $section = '1=1';
+                $group = '1=1';
             }else{
                 $medium = '1=1';
                 $class = '1=1';

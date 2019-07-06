@@ -1,13 +1,6 @@
 $(document).ready(function(){
 	var base_url = $('#base_url').val();
 	var path = $('#path').val();
-  //----------datepicker-------------------------------------------
-    $( ".datepicker" ).datepicker({
-    	changeMonth: true,
-    	changeYear: true,
-    	yearRange:"-50:+0",
-    	dateFormat: 'dd-mm-yy'
-    });
 
 	$(document).on('change','#class_name',function(){
 		var class_id = $(this).val();
@@ -217,11 +210,19 @@ $(document).ready(function(){
 				},
 				success:function(response){
 					if(response.status == 200){
-						$('#search').trigger("click");
+						$('#loader').modal('hide');
 					}else{
 						alert(response.feedback);
 						}	
+				},
+				complete:function(){
+				var search_box_val = $('#search_box').val();
+				if(search_box_val == ''){
+					$('#search').trigger("click");
+				}else{
+					$('#search_box').trigger("keyup");
 				}
+			},
 			});
 		}
     });
