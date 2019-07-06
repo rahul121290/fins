@@ -250,7 +250,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Date Of Birth</label>
 					<div class="col-sm-6">
-					  <input type="date" class="form-control datepicker" id="dob" name="dob"> 
+					  <input type="date" class="form-control" id="dob" name="dob"> 
 					<div id="dob_err" class="text-danger" style="display:none;"></div> 
 					</div>
 					<!-- /.input group -->
@@ -271,7 +271,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Date of Admission</label>
 					<div class="col-sm-6">
-					  <input type="date" class="form-control datepicker" id="admission_date" name="admission_date">
+					  <input type="date" class="form-control" id="admission_date" name="admission_date">
 					<div id="admission_date_err" style="display:none; color:red;"></div>
 					</div>
 					<!-- /.input group -->
