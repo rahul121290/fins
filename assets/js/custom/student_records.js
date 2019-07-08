@@ -131,6 +131,18 @@ $(document).ready(function(){
     								'<td>'+value.admission_date+'</td>'+
     								'<td>'+value.med_name+'</td>'+
     								'<td>'+value.tc+'</td>'+
+    								'<td>'+value.blood_group+'</td>'+
+    								'<td>'+value.guardian+'</td>'+
+    								'<td>'+value.address+'</td>'+
+    								'<td>'+value.local_address+'</td>'+
+    								'<td>'+value.medical+'</td>'+
+    								'<td>'+value.cast+'</td>'+
+    								'<td>'+value.height+'</td>'+
+    								'<td>'+value.weight+'</td>'+
+    								'<td>'+value.hostler+'</td>'+
+    								'<td>'+value.hostel_name+'</td>'+
+    								'<td>'+value.bus_stoppage+'</td>'+
+    								'<td>'+value.bus+'</td>'+
     								'<tr>';
     							i++;
     						});
@@ -278,6 +290,10 @@ $(document).ready(function(){
             		   $('#transfer').val(response.result[0].tc);
             		   $('#hostel').val(response.result[0].hostel_id);
             		   $('#hostler').val(response.result[0].hostler);
+            		   
+            		   $('#bus_stoppage').val(response.result[0].bus_id);
+            		   $('#bus').val(response.result[0].bus);
+            		   
             		   $('#old_image').val(response.result[0].photo);
             		   $('#image_preview').hide();
        				   $('#image_preview').text('');
@@ -405,6 +421,11 @@ $(document).on('click','#submit',function(){
 		formdata.append('tc',$('#transfer').val());
 		formdata.append('hostel',$('#hostel').val());
 		formdata.append('hostler',$('#hostler').val());
+		
+		formdata.append('bus_stoppage',$('#bus_stoppage').val());
+		formdata.append('bus',$('#bus').val());
+		
+		
 		formdata.append('old_image',$('#old_image').val());
 		formdata.append('std_image',$('#std_image')[0].files[0]);
 		$.ajax({

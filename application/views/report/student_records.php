@@ -59,7 +59,7 @@
 							<div class="col-sm-3">
 								<select name="section" id="section" class="form-control">
 									<option value="">Select Section</option>
-									<?php foreach($section as $sec){?>
+									<?php foreach($section1 as $sec){?>
             							<option value="<?php echo $sec['sec_id'];?>"><?php echo $sec['section_name'];?></option>
             						<?php }?>
 								</select>
@@ -73,10 +73,12 @@
                             	<button type="button" name="search" id="search" class="btn btn-info pull-right">Search</button>
                         	</div>
         				</div>
-            			
+        				
+        				<?php if($this->uri->segment(1) == 'admin'){?>
             			<div class="col-sm-3">
 							<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Admission Number">	
 						</div>
+						<?php } ?>
         		</div><!-- end box body -->
      			</div>
    			</div>
@@ -86,8 +88,8 @@
                     <div class="box-header">
                       <h3 class="box-title">Session List</h3>
                     </div>
-              		     <div class="box-body">
-          					<table class="table table-responsive">
+              		     <div class="box-body table-responsive" style="    overflow: scroll;height: 500px;">
+          					<table class="table " style="height:500px;">
     							<thead><tr>
                                   <th>S.No.</th>
                                   <th>Edit/Del.</th>
@@ -108,6 +110,18 @@
                                   <th>Admission Date</th>
                                   <th>Medium</th>
                                   <th>Tc</th>
+                                  <th>Blood Group</th>
+                                  <th>Guardian</th>
+                                  <th>address</th>
+                                  <th>Local Address</th>
+                                  <th>Medical</th>
+                                  <th>Cast</th>
+                                  <th>Height</th>
+                                  <th>Weight</th>
+                                  <th>Hostler</th>
+                                  <th>Hostel Name</th>
+                                  <th>Bus Stoppage</th>
+                                  <th>Bus</th>
                                 </tr>
                             </thead>
     						<tbody id="student_list"></tbody>
@@ -116,7 +130,6 @@
          		</div>
    			</div>   			
 		</div>
-
 <!------------------------------------- Edit Section ----------------------------------------------- -->		
     <div id="myModal" class="modal fade" role="dialog">
           <div class="modal-dialog">
@@ -418,6 +431,34 @@
 					<div id="hostler_err" class="text-danger" style="display:none;"></div>
 					</div>
 				</div>
+				
+				<div class="form-group">
+                    <label class="col-sm-3 control-label">Bus Stoppage</label>
+					<div class="col-sm-6">
+					<select class="form-control" name="bus_stoppage" id="bus_stoppage">
+						<option value="">Select Bus Stoppage</option>
+						<?php foreach($bus as $bus){?>
+							<option value="<?php echo $bus['bs_id'];?>"><?php echo $bus['bus_stoppage'];?></option>
+						<?php }?>
+					</select>
+					<div id="house_err" class="text-danger" style="display:none;"></div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+                    <label class="col-sm-3 control-label">Bus</label>
+					<div class="col-sm-6">
+					<select class="form-control" name="bus" id="bus">
+						<option value="">Select Bus</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+					</select>
+					<div id="bus_err" class="text-danger" style="display:none;"></div>
+					</div>
+				</div>
+				
+				
+				
 				
 				<div class="form-group">
                   <label class="col-sm-3 control-label" for="exampleInputFile">Profile Image</label>

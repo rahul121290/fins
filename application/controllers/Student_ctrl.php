@@ -71,6 +71,10 @@ class Student_ctrl extends CI_Controller{
         $data['tc'] = $this->input->post('tc');
         $data['hostel_id'] = $this->input->post('hostel');
         $data['hostler'] = $this->input->post('hostler');
+        
+        $data['bus_id'] = $this->input->post('bus_stoppage');
+        $data['bus'] = $this->input->post('bus');
+        
         $data['created_by'] = $this->session->userdata('user_id');
         $data['created_at'] = date('Y-m-d H:i:s');
         
@@ -123,10 +127,10 @@ class Student_ctrl extends CI_Controller{
         $condition = '';
         
         if(!empty($session)){
-            $condition  .=" AND ses_id =".$session;
+            $condition  .=" AND s.ses_id =".$session;
         }
         if(!empty($school)){
-            $condition  .=" AND sch_id =".$school;
+            $condition  .=" AND s.sch_id =".$school;
         }
         if(!empty($medium)){
             $condition  .=" AND s.medium =".$medium;
@@ -151,13 +155,15 @@ class Student_ctrl extends CI_Controller{
                            s.gender,s.contact_no,s.tc,s.address,
                            c.class_name,
                            sec.section_name,
-                           m.med_name,sg.sg_name,s.fit,sb.sub_name
+                           m.med_name,sg.sg_name,s.fit,sb.sub_name,s.blood_group,s.guardian,s.address,s.local_address,s.medical,s.cast,s.height,s.weight,s.hostler,h.hostel_name,bs.bus_stoppage,s.bus
                         ');
         $this->db->join('class c','c.c_id=s.class_id');
         $this->db->join('section sec','sec.sec_id=s.sec_id');
         $this->db->join('medium m','m.med_id=s.medium');
         $this->db->join('sub_group sg','sg.sg_id = s.sub_group','LEFT');
         $this->db->join('subject sb','sb.sub_id = s.elective','LEFT');
+        $this->db->join('hostel h','h.hid = s.hostel_id','LEFT');
+        $this->db->join('bus_structure bs','bs.bs_id = s.bus_id','LEFT');
         $this->db->where('1=1 '.$condition);
         $result = $this->db->get_where('students s',array('s.status'=>1))->result_array();
         //print_r($this->db->last_query());die;

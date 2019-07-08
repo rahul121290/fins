@@ -58,6 +58,7 @@ class Auth extends CI_Controller{
 	 */
 	public function login()
 	{
+	    $uri = $this->uri->segment(1);
 		$this->data['title'] = $this->lang->line('login_heading');
 		// validate form input
 		$this->form_validation->set_rules('identity', str_replace(':', '', $this->lang->line('login_identity_label')), 'required');
@@ -65,11 +66,11 @@ class Auth extends CI_Controller{
 
 		if ($this->form_validation->run() === TRUE)
 		{
+		    
 			// check to see if the user is logging in
 			// check for "remember me"
 			$remember = (bool)$this->input->post('remember');
-
-			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
+			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember,$this->input->post('school_id')))
 			{
 				//if the login is successful
 				//redirect them back to the home page
@@ -78,22 +79,21 @@ class Auth extends CI_Controller{
 				$permission = $this->my_function->permission_link();
 				
 				$path ='';
-				if($this->session->userdata('school_id') == 1 && $this->ion_auth->is_admin()){
+				if($this->session->userdata('school_id') == 1){
 				    $path = 'shakuntala/'.$permission.'/dashbord';
 				    redirect($path);
 				}else{
 				    $path = 'sharda/'.$permission.'/dashbord';
-				    
 				    redirect($path);
 				}
 				
 			}
-			else
-			{
+			else {
 				// if the login was un-successful
 				// redirect them back to the login page
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect('auth/login'); // use redirects instead of loading views for compatibility with MY_Controller libraries
+				//print_r(get_cookie('school_id'));die;
+				redirect($uri.'/login'); // use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
 		}
 		else

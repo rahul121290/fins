@@ -306,6 +306,18 @@
 				</div>
 				
 				<div class="form-group">
+                    <label class="col-sm-3 control-label">Hostler</label>
+					<div class="col-sm-6">
+					<select class="form-control" name="hostler" id="hostler">
+						<option value="">Select Hostler</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+					</select>
+					<div id="hostler_err" class="text-danger" style="display:none;"></div>
+					</div>
+				</div>
+				
+				<div class="form-group">
                     <label class="col-sm-3 control-label">Hostel</label>
 					<div class="col-sm-6">
 					<select class="form-control" name="hostel" id="hostel">
@@ -319,14 +331,27 @@
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">Hostler</label>
+                    <label class="col-sm-3 control-label">Bus</label>
 					<div class="col-sm-6">
-					<select class="form-control" name="hostler" id="hostler">
-						<option value="">Select Hostler</option>
+					<select class="form-control" name="bus" id="bus">
+						<option value="">Select Bus</option>
 						<option value="Yes">Yes</option>
 						<option value="No">No</option>
 					</select>
-					<div id="hostler_err" class="text-danger" style="display:none;"></div>
+					<div id="bus_err" class="text-danger" style="display:none;"></div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+                    <label class="col-sm-3 control-label">Bus Stoppage</label>
+					<div class="col-sm-6">
+					<select class="form-control" name="bus_stoppage" id="bus_stoppage">
+						<option value="">Select Bus Stoppage</option>
+						<?php foreach($bus as $bus){?>
+							<option value="<?php echo $bus['bs_id'];?>"><?php echo $bus['bus_stoppage'];?></option>
+						<?php }?>
+					</select>
+					<div id="house_err" class="text-danger" style="display:none;"></div>
 					</div>
 				</div>
 				

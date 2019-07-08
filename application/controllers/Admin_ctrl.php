@@ -37,7 +37,7 @@ class Admin_ctrl extends CI_Controller {
             if(count($is_class_teacher) > 0){
                 $medium = 'med_id='.$is_class_teacher[0]['med_id'];
                 $class = 'c_id='.$is_class_teacher[0]['class_id'];
-                //$section = 'sec_id='.$is_class_teacher[0]['sec_id'];
+                $section1 = 'sec_id='.$is_class_teacher[0]['sec_id'];
                // $group = 'sg_id='.$is_class_teacher[0]['sg_id'];
 			   //$medium = '1=1';
                 //$class = '1=1';
@@ -57,9 +57,11 @@ class Admin_ctrl extends CI_Controller {
                 $this->data['medium'] = $this->db->select('med_id,med_name')->where($medium)->get_where('medium',array('status'=>1))->result_array();
                 $this->data['class'] = $this->db->select('c_id,class_name')->where($class)->get_where('class',array('status'=>1))->result_array();
                 $this->data['section'] = $this->db->select('sec_id,section_name')->where($section)->get_where('section',array('status'=>1))->result_array();
+                $this->data['section1'] = $this->db->select('sec_id,section_name')->where($section1)->get_where('section',array('status'=>1))->result_array();
                 $this->data['group'] = $this->db->select('sg_id,sg_name')->where($group)->get_where('sub_group',array('status'=>1))->result_array();
                 $this->data['elective'] = $this->db->select('sub_id,sub_name')->join('sub_type st','st.st_id=s.st_id')->where('st.st_name','elective')->get_where('subject s',array('s.status'=>1))->result_array();
                 $this->data['hostel'] = $this->db->select('hid,hostel_name')->get_where('hostel',array('sch_id'=>$school,'status'=>1))->result_array();
+                $this->data['bus'] = $this->db->select('bs_id,bus_stoppage')->get_where('bus_structure',array('status'=>1,'school_id'=>$school))->result_array();
                 $this->load->view("template/temp", $this->data);
             }
         }else{
@@ -305,6 +307,7 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(19, $this->permission)){
             $this->data['page_name'] = 'Student Records';
             $this->data['main'] = 'report/student_records';
+            
             $this->_admin_class_teacher_access();
         }else{
             $this->data['page_name'] = 'Error';

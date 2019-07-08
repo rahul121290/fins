@@ -1030,7 +1030,7 @@ class Ion_auth_model extends CI_Model
 	 * @return    bool
 	 * @author    Mathew
 	 */
-	public function login($identity, $password, $remember=FALSE)
+	public function login($identity, $password, $remember=FALSE,$school_id)
 	{
 		$this->trigger_events('pre_login');
 
@@ -1041,14 +1041,14 @@ class Ion_auth_model extends CI_Model
 		}
 
 		$this->trigger_events('extra_where');
-
 		$query = $this->db->select($this->identity_column . ', email, id, password, active, last_login')
-						  ->where($this->identity_column, $identity)
+						  //->where($this->identity_column, $identity)
 						  ->or_where('username',$identity)
+						  ->where('school_id',(int)$school_id)
 						  ->limit(1)
 						  ->order_by('id', 'desc')
 						  ->get($this->tables['users']);
-           
+          //print_r($this->db->last_query());die;
 		if ($this->is_max_login_attempts_exceeded($identity))
 		{
 			// Hash something anyway, just to take up time

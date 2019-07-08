@@ -10,21 +10,25 @@
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/login.css">
 </head>
 <body>
+
 <div class="container" style="center">
 	<div class="login-form">
         <h1><?php //echo lang('login_heading'); ?></h1>
       <p><?php //echo lang('login_subheading'); ?></p> 
     	<div class="text-center">
-    	<?php if($this->uri->segment(1) == 'sharda'){?>
+    	<?php if($this->uri->segment(1) == 'sharda'){ $school_id = 2;?>
     		<img alt="" src="<?php echo base_url();?>assets/images/sharda/login-logo.png">
-    	<?php }else{?>
+    	<?php }else{ $school_id = 1;?>
     		<img alt="" src="<?php echo base_url();?>assets/images/shakuntala/login-logo.png">
     	<?php } ?>
     	</div>
     	
     	<div id="infoMessage" style="text-align: center;"><?php echo $message;?></div>
-    	<?php echo form_open("auth/login");?>
-    
+    	<?php echo form_open($this->uri->segment(1)."/login");?>
+    	
+    	
+    	<input type="hidden" name="school_id" value="<?php echo $school_id;?>">	
+    		
           <div class="form-group">
           	<div class="input-group">
                 <?php //echo lang('login_identity_label', 'identity');?>

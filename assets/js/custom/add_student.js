@@ -185,6 +185,10 @@ $(document).ready(function(){
 				formdata.append('tc',$('#transfer').val());
 				formdata.append('hostel',$('#hostel').val());
 				formdata.append('hostler',$('#hostler').val());
+				
+				formdata.append('bus_stoppage',$('#bus_stoppage').val());
+				formdata.append('bus',$('#bus').val());
+				
 				formdata.append('std_image',$('#std_image')[0].files[0]);
 				$.ajax({
 					type:'POST',
