@@ -47,6 +47,7 @@ class Admin_ctrl extends CI_Controller {
                 $medium = '1=1';
                 $class = '1=1';
                 $section = '1=1';
+				$section1 = '1=1';
                 $group = '1=1';
             }
             if($this->ion_auth->is_admin() || count($is_class_teacher) > 0 ){
