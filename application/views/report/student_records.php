@@ -74,7 +74,7 @@
                         	</div>
         				</div>
         				
-        				<?php if($this->uri->segment(1) == 'admin'){?>
+        				<?php if($this->uri->segment(2) == 'admin'){?>
             			<div class="col-sm-3">
 							<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Admission Number">	
 						</div>
