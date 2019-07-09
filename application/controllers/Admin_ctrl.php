@@ -6,7 +6,11 @@ class Admin_ctrl extends CI_Controller {
     function __construct(){
         parent :: __construct();
         $this->load->library(array('ion_auth','My_function'));
-        $this->permission = $this->my_function->user_permission();
+        if ($this->ion_auth->logged_in()){
+            $this->permission = $this->my_function->user_permission();
+        }else{
+            redirect('auth/login');
+        }
     }
     
     function _load_view(){
