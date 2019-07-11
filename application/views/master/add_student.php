@@ -318,10 +318,10 @@
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">Hostel</label>
+                    <label class="col-sm-3 control-label">House</label>
 					<div class="col-sm-6">
 					<select class="form-control" name="hostel" id="hostel">
-						<option value="">Select Hostel</option>
+						<option value="">Select House</option>
 						<?php foreach($hostel as $hostels){?>
 							<option value="<?php echo $hostels['hid'];?>"><?php echo $hostels['hostel_name'];?></option>
 						<?php }?>
