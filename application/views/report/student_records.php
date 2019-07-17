@@ -68,9 +68,9 @@
 					    </div>
 					    
 					    <div class="box-footer">
-                      		<div class="col-sm-12">
-                      			<button type="reset" class="btn btn-default pull-right">Reset</button>
-                            	<button type="button" name="search" id="search" class="btn btn-info pull-right">Search</button>
+                      		<div class="col-sm-offset-9">
+								<button type="button" name="search" id="search" class="btn btn-info">Search</button>
+								<button type="button" style="" id="export_records" class="btn btn-primary">Export Records</button>
                         	</div>
         				</div>
         				

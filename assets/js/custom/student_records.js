@@ -459,4 +459,73 @@ $(document).on('click','#submit',function(){
 			});
 		}
 	});
+	
+	$(document).on('click','#export_records',function(){
+		var medium = $('#medium').val();
+	    var class_name = $('#class_name').val();
+	    var fit = $('#fit_value').val();
+	    var sub_group = $('#sub_group').val();
+	    var section = $('#section').val();
+	    
+	    var formvalid = true;
+		if(medium == ''){
+			$('#medium_err').html('This field is required..!').css('display','block');
+			formvalid = false;
+		}else{
+			$('#medium_err').css('display','none');
+			}
+	    if(class_name == ''){
+	    	$('#class_name_err').html('This field is required..!').css('display','block');
+	    	formvalid = false;
+	    }else{
+	    	$('#class_name_err').css('display','none');
+	        }
+        //---------------for fit subjects-----------------------------
+ 	    if(class_name == 12 || class_name == 13){
+ 	    	sub_group = '';
+// 	        if(sub_group == ''){
+// 	            $('#fit_err').html('This field is required..!').css('display','block');
+// 	            formvalid = false;
+// 	        }else{
+// 	        	$('#fit_err').css('display','none');
+// 	            }
+ 	    }
+
+        //------------for subject groups-------------------------
+//	    if(class_name == 14 || class_name == 15){
+//		    fit = '';
+//	        if(sub_group == ''){
+//	            $('#sub_group_err').html('This field is required..!').css('display','block');
+//	            formvalid = false;
+//	        }else{
+//	        	$('#sub_group_err').css('display','none');
+//	            }
+//	    }
+
+		if(section == ''){
+			$('#section_err').html('This field is required..!').css('display','block');
+			formvalid = false;
+		}else{
+			$('#section_err').css('display','none');
+			}
+
+
+		if(formvalid == true){
+			$.ajax({
+				type:'POST',
+				url:base_url+'Student_ctrl/export_records',
+				data:{'medium':medium,'class_name':class_name,'sub_group':sub_group,'section':section},
+				dataType:'json',
+				beforeSend:function(){},
+				success:function(response){
+					if(response.status == 200){
+						window.location.href = base_url+response.path;
+					}else{
+						alert(response.msg);
+					}
+				},
+			});
+		}
+	});
+	
 });

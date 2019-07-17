@@ -166,7 +166,7 @@ class Admin_ctrl extends CI_Controller {
         $session = $this->session->userdata('session_id');
         $school = $this->session->userdata('school_id');
         $this->data['students'] = $this->db->select('count(*) students')->get_where('students',array('status'=>1,'ses_id'=>$session,'sch_id'=>$school))->result_array();
-        $this->data['teachers'] = $this->db->select('count(*) teachers')->get_where('teacher',array('status'=>1,'school_id'=>$school))->result_array();
+		$this->data['teachers'] = $this->db->select('count(*) teachers')->get_where('teacher',array('status'=>1,'school_id'=>$school))->result_array();
         $this->data['users'] = $this->db->select('count(*) users')->get_where('users',array('status'=>1,'school_id'=>$school))->result_array();
         $this->data['subjects'] = $this->db->select('count(*) subjects')->get_where('subject',array('status'=>1,'st_id'=>1))->result_array();
         $this->data['page_name'] = 'Dashbord';

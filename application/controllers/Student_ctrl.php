@@ -285,5 +285,145 @@ class Student_ctrl extends CI_Controller{
             }
         }
     }
+	
+	function export_records(){
+		$data['ses_id'] = $this->session->userdata('session_id');
+		$data['sch_id'] = $this->session->userdata('school_id');
+		$data['medium'] = $this->input->post('medium');
+		$data['class_id'] = $this->input->post('class_name');
+		$data['sub_group'] = $this->input->post('sub_group');
+		$data['sec_id'] = $this->input->post('section');
+		
+		$condition = 's.status = 1';
+		if(!empty($data['ses_id'])){
+			$condition .= ' AND s.ses_id = '.$data['ses_id'];	
+		}
+		if(!empty($data['sch_id'])){
+			$condition .= ' AND s.sch_id = '.$data['sch_id'];	
+		}
+		if(!empty($data['medium'])){
+			$condition .= ' AND s.medium = '.$data['medium'];	
+		}
+		if(!empty($data['class_id'])){
+			$condition .= ' AND s.class_id = '.$data['class_id'];	
+		}
+		if(!empty($data['sub_group'])){
+			$condition .= ' AND s.sub_group = '.$data['sub_group'];	
+		}
+		if(!empty($data['sec_id'])){
+			$condition .= ' AND s.sec_id = '.$data['sec_id'];	
+		}
+		
+		$this->db->select('s.*,ses.session_name,m.med_name,c.class_name,sec.section_name,sg.sg_name');
+		$this->db->join('session ses','ses.ses_id = s.ses_id');
+		$this->db->join('medium m','m.med_id = s.medium');
+		$this->db->join('class c','c.c_id = s.class_id');
+		$this->db->join('section sec','sec.sec_id = s.sec_id');
+		$this->db->join('sub_group sg','sg.sg_id = s.sub_group','LEFT');
+		$this->db->where($condition);
+		$result = $this->db->get_where('students s')->result_array();
+		//print_r($this->db->last_query());die;
+		if(count($result) > 0){
+			//-------------generate excel file------------------------
+			$phpExcel = new PHPExcel();
+			$prestasi = $phpExcel->setActiveSheetIndex(0);
+			
+			//----------put index name-------------------
+			$prestasi->setCellValue('A1', 'adm_no');
+			$prestasi->setCellValue('B1', 'roll_no');
+			$prestasi->setCellValue('C1', 'session_name');
+			$prestasi->setCellValue('D1', 'sch_id');
+			$prestasi->setCellValue('E1', 'medium');
+			$prestasi->setCellValue('F1', 'class');
+			$prestasi->setCellValue('G1', 'section');
+			$prestasi->setCellValue('H1', 'sub_group');
+			$prestasi->setCellValue('I1', 'fit');
+			$prestasi->setCellValue('J1', 'elective');
+			$prestasi->setCellValue('K1', 'name');
+			$prestasi->setCellValue('L1', 'f_name');
+			$prestasi->setCellValue('M1', 'm_name');
+			$prestasi->setCellValue('N1', 'dob');
+			$prestasi->setCellValue('O1', 'gender');
+			$prestasi->setCellValue('P1', 'cast');
+			$prestasi->setCellValue('Q1', 'contact_no');
+			$prestasi->setCellValue('R1', 'email_id');
+			$prestasi->setCellValue('S1', 'aadhar_no');
+			$prestasi->setCellValue('T1', 'height');
+			$prestasi->setCellValue('U1', 'weight');
+			$prestasi->setCellValue('V1', 'address');
+			$prestasi->setCellValue('W1', 'hostel_id');
+			$prestasi->setCellValue('X1', 'hostler');
+			$prestasi->setCellValue('Y1', 'bus_id');
+			$prestasi->setCellValue('Z1', 'bus');
+			$prestasi->setCellValue('AA1', 'blood_group');
+			$prestasi->setCellValue('AB1', 'guardian');
+			$prestasi->setCellValue('AC1', 'local_address');
+			$prestasi->setCellValue('AD1', 'medical');
+			$prestasi->setCellValue('AE1', 'tc');
+			$prestasi->setCellValue('AF1', 'photo');
+			$prestasi->setCellValue('AG1', 'admission_date');
+					
+			//---------------------put data in excel----------------------------
+			$no=0;
+			$rowexcel = 1;
+			foreach($result as $row){
+				$no++;
+				$rowexcel++;
+				$prestasi->setCellValue('A'.$rowexcel, $row["adm_no"]);
+				$prestasi->setCellValue('B'.$rowexcel, $row["roll_no"]);
+				$prestasi->setCellValue('C'.$rowexcel, $row["session_name"]);
+				$prestasi->setCellValue('D'.$rowexcel, $row["sch_id"]);
+				$prestasi->setCellValue('E'.$rowexcel, $row["med_name"]);
+				$prestasi->setCellValue('F'.$rowexcel, $row["class_name"]);
+				$prestasi->setCellValue('G'.$rowexcel, $row["section_name"]);
+				$prestasi->setCellValue('H'.$rowexcel, $row["sg_name"]);
+				$prestasi->setCellValue('I'.$rowexcel, $row["fit"]);
+				$prestasi->setCellValue('J'.$rowexcel, $row["elective"]);
+				$prestasi->setCellValue('K'.$rowexcel, $row["name"]);
+				$prestasi->setCellValue('L'.$rowexcel, $row["f_name"]);
+				$prestasi->setCellValue('M'.$rowexcel, $row["m_name"]);
+				$prestasi->setCellValue('N'.$rowexcel, $row["dob"]);
+				$prestasi->setCellValue('O'.$rowexcel, $row["gender"]);
+				$prestasi->setCellValue('P'.$rowexcel, $row["cast"]);
+				$prestasi->setCellValue('Q'.$rowexcel, $row["contact_no"]);
+				$prestasi->setCellValue('R'.$rowexcel, $row["email_id"]);
+				$prestasi->setCellValue('S'.$rowexcel, $row["aadhar_no"]);
+				$prestasi->setCellValue('T'.$rowexcel, $row["height"]);
+				$prestasi->setCellValue('U'.$rowexcel, $row["weight"]);
+				$prestasi->setCellValue('V'.$rowexcel, $row["address"]);
+				$prestasi->setCellValue('W'.$rowexcel, $row["hostel_id"]);
+				$prestasi->setCellValue('X'.$rowexcel, $row["hostler"]);
+				$prestasi->setCellValue('Y'.$rowexcel, $row["bus_id"]);
+				$prestasi->setCellValue('Z'.$rowexcel, $row["bus"]);
+				$prestasi->setCellValue('AA'.$rowexcel, $row["blood_group"]);
+				$prestasi->setCellValue('AB'.$rowexcel, $row["guardian"]);
+				$prestasi->setCellValue('AC'.$rowexcel, $row["local_address"]);
+				$prestasi->setCellValue('AD'.$rowexcel, $row["medical"]);
+				$prestasi->setCellValue('AE'.$rowexcel, $row["tc"]);
+				$prestasi->setCellValue('AF'.$rowexcel, $row["photo"]);
+				$prestasi->setCellValue('AG'.$rowexcel, $row["admission_date"]);
+			}
+			
+			$date =date('U');
+			$objWriter = PHPExcel_IOFactory::createWriter($phpExcel, 'Excel2007');
+			
+			if(!is_dir('./student_records')){
+				mkdir('./student_records');
+			}
+			$sg_name= '';
+			if(!empty($result[0]['sg_name'])){
+				$sg_name= '_Group_'.$result[0]['sg_name'];
+			}
+			$filename = "student_records/Class_".$result[0]['class_name']."_Sec_".$result[0]['section_name']."_".$sg_name."_".$date.".xlsx";
+			//----------save excel file----------------------------
+			//print_r($filename);die;
+			$objWriter->save($filename);
+			echo json_encode(array('path'=>$filename,'status'=>200));
+		}else{
+			echo json_encode(array('msg'=>'record not found.','status'=>500));
+		}
+		
+	}
+	
     
 }

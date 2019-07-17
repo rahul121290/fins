@@ -56,7 +56,7 @@ class Marks_entry_model extends CI_Model{
             $marks[] = $temp;
         }
         
-        //-------------generate csv file------------------------
+        //-------------generate excel file------------------------
         $phpExcel = new PHPExcel();
         $prestasi = $phpExcel->setActiveSheetIndex(0);
         
