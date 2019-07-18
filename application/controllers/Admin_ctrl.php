@@ -54,6 +54,7 @@ class Admin_ctrl extends CI_Controller {
 				$section1 = '1=1';
                 $group = '1=1';
             }
+			
             if($this->ion_auth->is_admin() || count($is_class_teacher) > 0 ){
                 $this->data['site_name'] = 'SMIS';
                 $this->data['site_title'] = 'smis';
@@ -68,7 +69,9 @@ class Admin_ctrl extends CI_Controller {
                 $this->data['hostel'] = $this->db->select('hid,hostel_name')->get_where('hostel',array('sch_id'=>$school,'status'=>1))->result_array();
                 $this->data['bus'] = $this->db->select('bs_id,bus_stoppage')->get_where('bus_structure',array('status'=>1,'school_id'=>$school))->result_array();
                 $this->load->view("template/temp", $this->data);
-            }
+            }else{
+				print_r('Your are not a class teacher or admin.');die;
+			}
         }else{
             redirect('auth/login');
         }

@@ -17,9 +17,9 @@ class Teacher_ctrl extends CI_Controller{
     
     public function eidtData(){
         $id = $this->input->post('id');
-        $result = $this->db->select('*')->get_where('teacher',array('t_id'=>$id))->result_array();
+        $result = $this->db->select('*')->get_where('teacher',array('t_id'=>$id,'status'=>1))->result_array();
         
-        $ct_data = $this->db->select('*')->get_where('class_teacher',array('t_id'=>$id))->result_array();
+        $ct_data = $this->db->select('*')->get_where('class_teacher',array('t_id'=>$id,'status'=>1))->result_array();
         if(count($result) > 0){
             echo json_encode(array('result'=>$result,'ct_data'=>$ct_data,'status'=>200));
         }else{
