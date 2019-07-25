@@ -51,6 +51,20 @@ class Production_ctrl extends CI_Controller{
         $data['class'] = $this->input->post('class');
         $data['sub_group'] = $this->input->post('sub_group');
         $data['section'] = $this->input->post('section');
+        
+//         $not_entry_sub_name = '';
+//         $enty_check = $this->production_model->marks_entry_check($data);
+//         foreach($enty_check as $check){
+//             if($check['entry'] == 'no'){
+//                 $not_entry_sub_name .=$check['sub_name'].',';
+//             }
+//         }
+        
+//         if($not_entry_sub_name != ''){
+//             echo json_encode(array('feedback'=>'Marks Entry pending on this subjects '.$not_entry_sub_name,'status'=>500));
+//             die;
+//         }
+        
         $furd_report = $this->production_model->students_report($data);
         if(empty($furd_report)){
             echo json_encode(array('feedback'=>'Please check Entry','status'=>500));
@@ -149,7 +163,12 @@ class Production_ctrl extends CI_Controller{
                 $temp['total_appear'] = $total_std- $subject['notappear'];
                 $temp['total_pass'] = $pass;
                 
-                $temp['pass_percent'] = round(($pass * 100)/($total_std - $subject['notappear']) );//--pass in percentage--
+                if($pass > 0){
+                    $temp['pass_percent'] = round(($pass * 100)/($total_std - $subject['notappear']) );//--pass in percentage--
+                }else{
+                    $temp['pass_percent'] = 0;
+                }
+                
                 $temp['first_div'] = $first_div;
                 if($pass > 0){
                     $temp['first_percent'] = round(($first_div * 100)/$pass);	////--first div in percentage--
@@ -163,7 +182,11 @@ class Production_ctrl extends CI_Controller{
                 $temp['notapper'] = $subject['notappear'];
                 $temp['max_marks'] = $max_marks_get;
                 $temp['max_marks_std'] = $max_marks_std;
-                $temp['pi'] = round(($total_marks / (($total_std - $subject['notappear']) * $subject['out_of']))*100,2);
+                if($pass > 0){
+                    $temp['pi'] = round(($total_marks / (($total_std - $subject['notappear']) * $subject['out_of']))*100,2);
+                }else{
+                    $temp['pi'] = 0;
+                }
                 $class_abstract[] = $temp;
                 $result['class_abstract'] = $class_abstract;    
                 
@@ -241,6 +264,7 @@ class Production_ctrl extends CI_Controller{
            $result['co_scholistic_sub'] = $co_scholistic['subjects'];     
         
         $final = array();
+        
         foreach($pre_result['pre'] as $pre){
             foreach ($mid_result['mid'] as $mid){
                     if($pre['adm_no'] == $mid['adm_no']){

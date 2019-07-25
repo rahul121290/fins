@@ -10,7 +10,7 @@
     <script src="<?php echo base_url();?>assets/js/custom/marks_entry.js"></script>
     <!-- Main content -->
     <section class="content">
-    	<div class="box box-primary" style="position: relative; left: 0px; top: 0px; display: none;" id="file_import">
+    	<!-- <div class="box box-primary" style="position: relative; left: 0px; top: 0px; display: none;" id="file_import">
 			<div class="box-header with-border ui-sortable-handle" style="cursor: move;">
 			  <h3 class="box-title">Csv Import</h3><input type="button" id="download_format" value="Download Sample File" class="btn btn-sm pull-right">
 			  <div class="box-tools pull-right">
@@ -29,7 +29,7 @@
                     <button type="reset" class="btn btn-default">Reset</button>
                 </div>
     		</div><br>
-    	</div>
+    	</div> -->
     
     	<div class="row">
         <div class="col-md-5">	

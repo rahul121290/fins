@@ -349,10 +349,10 @@ class Final_marksheet_model extends CI_Model{
             }else{
                 $this->db->where('sa.st_id IN(4)');
             }
-            $this->db->join('subject s','s.sub_id=sa.sub_id');
-            $this->db->join('sub_teacher st','st.sa_id=sa.sa_id','LEFT');
-            $this->db->join('teacher t1','t1.t_id=st.t_id','LEFT');
-            $this->db->join('out_of_marks om','om.sa_id=sa.sa_id');
+            $this->db->join('subject s','s.sub_id=sa.sub_id AND s.status = 1');
+            $this->db->join('sub_teacher st','st.sa_id=sa.sa_id AND st.sec_id = '.$section.' AND st.status = 1');
+            $this->db->join('teacher t1','t1.t_id=st.t_id AND t1.status = 1','LEFT');
+            $this->db->join('out_of_marks om','om.sa_id=sa.sa_id AND om.status = 1');
             $this->db->join('(SELECT mm.sub_id, COUNT(sub_marks) as notappear FROM student_marks sm JOIN marks_master mm ON mm.mm_id= sm.mm_id WHERE sm.sub_marks = "A" '.$marks_master.') np','np.sub_id=sa.sub_id','LEFT');
             $this->db->where('1=1'.$sub_allocation);
             $this->db->order_by('sa.st_id','ASC');

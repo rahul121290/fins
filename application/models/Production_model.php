@@ -52,9 +52,11 @@ class Production_model extends CI_Model {
         $this->db->join('(SELECT * FROM marks_master WHERE 1=1 AND sec_id='.$data['section'].$condition.$exam_type.' GROUP BY sub_id) as t2','t2.sub_id = t1.sub_id','LEFT');
         $this->db->join('subject s','s.sub_id = t1.sub_id');
         $this->db->join('sub_type st','st.st_id = t1.st_id');
+       
         if($data['exam_type'] == 1 || $data['exam_type'] == 3){
             $this->db->where('st.st_id IN(1,3)'); //for scholistic and elective subjects
         }
+        
         $result = $this->db->get_where('(SELECT * FROM subject_allocation WHERE 1=1'.$condition.' GROUP BY sub_id) as t1',array())->result_array();
         //print_r($this->db->last_query());die;
         return $result;
@@ -196,15 +198,14 @@ class Production_model extends CI_Model {
         }else{
             $this->db->where('sa.st_id',1);
         }
-        $this->db->join('subject s','s.sub_id=sa.sub_id');
-        $this->db->join('sub_teacher st','st.sa_id=sa.sa_id','LEFT');
-        $this->db->join('teacher t1','t1.t_id=st.t_id','LEFT');
-        $this->db->join('out_of_marks om','om.sa_id=sa.sa_id');
+        $this->db->join('subject s','s.sub_id=sa.sub_id AND s.status = 1');
+        $this->db->join('sub_teacher st','st.sa_id=sa.sa_id AND st.sec_id = '.$section.' AND st.status = 1','LEFT');
+        $this->db->join('teacher t1','t1.t_id=st.t_id AND t1.status = 1','LEFT');
+        $this->db->join('out_of_marks om','om.sa_id=sa.sa_id AND om.status = 1');
         $this->db->join('(SELECT mm.sub_id, COUNT(sub_marks) as notappear FROM student_marks sm JOIN marks_master mm ON mm.mm_id= sm.mm_id WHERE sm.sub_marks = "A" '.$marks_master.' GROUP BY mm.sub_id) np','np.sub_id=sa.sub_id','LEFT');
         $this->db->where('1=1'.$sub_allocation);
         $this->db->order_by('s.short_order','ASC');
         $result['subjects'] = $this->db->get_where('subject_allocation sa')->result_array();
-        
         //print_r($this->db->last_query());die;
         
         //-----------------------------------***********----------------------------------------------------------------
@@ -291,16 +292,16 @@ class Production_model extends CI_Model {
                 $previousValue = $percent_order['percentage'];
                 $final[] = $percent_order;
             }
-            
-            function cmpare_adm_no($a, $b) {
-                return $a['adm_no'] - $b['adm_no'];
+            function cmpare_roll_no($a, $b) {
+                return $a['roll_no'] - $b['roll_no'];
             }
-            usort($final,"cmpare_adm_no");
+            usort($final,"cmpare_roll_no");
            
             $result['furd'] = $final;
             return $result;
         }
     }
+    
     
     public function TeacherAbstract($data){
         $session = $data['session'];

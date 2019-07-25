@@ -52,10 +52,10 @@ class Mid_marksheet_model extends CI_Model{
         }else{
             $this->db->where('sa.st_id',1);
         }
-        $this->db->join('subject s','s.sub_id=sa.sub_id');
-        $this->db->join('sub_teacher st','st.sa_id=sa.sa_id','LEFT');
-        $this->db->join('teacher t1','t1.t_id=st.t_id','LEFT');
-        $this->db->join('out_of_marks om','om.sa_id=sa.sa_id');
+        $this->db->join('subject s','s.sub_id=sa.sub_id AND s.status = 1');
+        $this->db->join('sub_teacher st','st.sa_id=sa.sa_id AND st.sec_id = '.$section.' AND st.status = 1');
+        $this->db->join('teacher t1','t1.t_id=st.t_id AND t1.status = 1','LEFT');
+        $this->db->join('out_of_marks om','om.sa_id=sa.sa_id AND om.status = 1');
         $this->db->join('(SELECT mm.sub_id, COUNT(sub_marks) as notappear FROM student_marks sm JOIN marks_master mm ON mm.mm_id= sm.mm_id WHERE sm.sub_marks = "A" '.$marks_master.') np','np.sub_id=sa.sub_id','LEFT');
         $this->db->where('1=1'.$sub_allocation);
         $this->db->order_by('sa.st_id','ASC');
@@ -107,7 +107,7 @@ class Mid_marksheet_model extends CI_Model{
             }
             $this->db->select('s.elective,s.std_id,s.adm_no,s.roll_no,s.name,c.class_name,sec.section_name,DATE_FORMAT(dob, "%d-%m-%Y") as dob,m_name,f_name,contact_no,aadhar_no,address,photo,'.$condition);
             $this->db->join('(SELECT sm.*,mm.sub_id FROM student_marks sm JOIN marks_master mm ON mm.mm_id=sm.mm_id  WHERE mm.et_id='.$exam_type.$con_sg_st.') t1','t1.std_id=s.std_id','LEFT');
-            $this->db->join('subject sub','sub.sub_id=t1.sub_id','LEFT');
+            $this->db->join('subject sub','sub.sub_id=t1.sub_id');
             $this->db->join('class c','c.c_id=s.class_id');
             $this->db->join('section sec','sec.sec_id=s.sec_id');
             $this->db->group_by('s.std_id');
@@ -119,9 +119,9 @@ class Mid_marksheet_model extends CI_Model{
                 $this->db->where('s.std_id',$data['std_id']);
             }
             $result['pre'] = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'s.class_id'=>$class_name,'s.sec_id'=>$section,'s.status'=>1))->result_array();
+            //print_r($this->db->last_query());die;
             return $result;
         }
-        
     }
     
     public function midResult($data){
@@ -351,10 +351,10 @@ class Mid_marksheet_model extends CI_Model{
         }else{
             $this->db->where('sa.st_id IN(4)');
         }
-        $this->db->join('subject s','s.sub_id=sa.sub_id');
-        $this->db->join('sub_teacher st','st.sa_id=sa.sa_id','LEFT');
-        $this->db->join('teacher t1','t1.t_id=st.t_id','LEFT');
-        $this->db->join('out_of_marks om','om.sa_id=sa.sa_id');
+        $this->db->join('subject s','s.sub_id=sa.sub_id AND s.status = 1');
+        $this->db->join('sub_teacher st','st.sa_id=sa.sa_id AND st.sec_id = '.$section.' AND st.status = 1');
+        $this->db->join('teacher t1','t1.t_id=st.t_id AND t1.status = 1','LEFT');
+        $this->db->join('out_of_marks om','om.sa_id=sa.sa_id AND om.status = 1');
         $this->db->join('(SELECT mm.sub_id, COUNT(sub_marks) as notappear FROM student_marks sm JOIN marks_master mm ON mm.mm_id= sm.mm_id WHERE sm.sub_marks = "A" '.$marks_master.') np','np.sub_id=sa.sub_id','LEFT');
         $this->db->where('1=1'.$sub_allocation);
         $this->db->order_by('sa.st_id','ASC');

@@ -167,6 +167,7 @@ class Student_ctrl extends CI_Controller{
         $this->db->join('hostel h','h.hid = s.hostel_id','LEFT');
         $this->db->join('bus_structure bs','bs.bs_id = s.bus_id','LEFT');
         $this->db->where('1=1 '.$condition);
+        $this->db->order_by('s.roll_no','ASC');
         $result = $this->db->get_where('students s',array('s.status'=>1))->result_array();
         //print_r($this->db->last_query());die;
         if(count($result) > 0 ){

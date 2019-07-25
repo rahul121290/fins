@@ -77,30 +77,24 @@ class Marks_entry_ctrl extends CI_Controller{
         $sub_type = $this->input->post('sub_type');
         $subject = $this->input->post('subject'); 
        
-        $this->db->select('mm_id,status');
-        $this->db->order_by('mm_id','DESC')->limit(1);
+        $sg_id = '';
         if(!empty($sub_group)){
-            $this->db->where('sg_id',$sub_group);
-        }
-        $mark_master = $this->db->get_where('marks_master',array('ses_id'=>$session,'sch_id'=>$school,'et_id' =>$exam_type,'med_id' =>$medium,'class_id'=>$class_name,'sec_id'=>$section,'st_id'=>$sub_type,'sub_id'=>$subject,'status'=> 1))->result_array(); 
-        
-        $mm_id = 'mm_id=0';
-        if(count($mark_master) > 0){
-           $mm_id = 'mm_id='.$mark_master[0]['mm_id'];
+            $sg_id = ' AND sg_id = '.$sub_group;
         }
         //--------------get studdet records with marks--------------------------------------
-        $this->db->select('sd.std_id,sd.name,sd.adm_no,sd.roll_no,c.class_name, sec.section_name, IFNULL(sm.sub_marks,"") as sub_marks,IFNULL(sm.practical,"") as practical,IFNULL(sm.notebook,"") as notebook,IFNULL(sm.enrichment,"") as enrichment,IFNULL(sm.acadmic,"") as acadmic');
-        $this->db->join('class c','c.c_id=sd.class_id');
-        $this->db->join('section sec','sec.sec_id=sd.sec_id');
-        $this->db->join('(SELECT * FROM student_marks WHERE '.$mm_id.') sm','sm.std_id=sd.std_id','LEFT');
+        $this->db->select('s.std_id,s.name,s.adm_no,s.roll_no,c.class_name, sec.section_name, IFNULL(sm.sub_marks,"") as sub_marks,IFNULL(sm.practical,"") as practical,IFNULL(sm.notebook,"") as notebook,IFNULL(sm.enrichment,"") as enrichment,IFNULL(sm.acadmic,"") as acadmic');
+        $this->db->join('class c','c.c_id=s.class_id');
+        $this->db->join('section sec','sec.sec_id=s.sec_id');
+        $this->db->join('student_marks sm','sm.adm_no = s.adm_no AND sm.mm_id = (SELECT mm_id FROM marks_master WHERE ses_id = '.$session.' AND sch_id = '.$school.' AND et_id = '.$exam_type.' AND med_id = '.$medium.' AND class_id = '.$class_name.' AND sec_id = '.$section.' AND st_id = '.$sub_type.' AND sub_id = '.$subject.$sg_id.' AND status = 1 ORDER BY mm_id DESC LIMIT 1)','LEFT');
+        //$this->db->join('(SELECT * FROM student_marks WHERE '.$mm_id.') sm','sm.std_id=sd.std_id','LEFT');
         if(!empty($sub_group)){
-           $this->db->where('sd.sub_group',$sub_group);
+           $this->db->where('s.sub_group',$sub_group);
         }
         if($class_name >= 14 && $sub_type == 3){
-            $this->db->where('sd.elective',$subject);
+            $this->db->where('s.elective',$subject);
         }
-        $this->db->group_by('sd.std_id');
-        $students = $this->db->get_where('students sd',array('sd.ses_id'=>$session,'sd.sch_id'=>$school,'sd.medium'=>$medium,'sd.class_id'=>$class_name,'sd.sec_id'=>$section,'sd.status'=>1))->result_array();
+        $this->db->order_by('s.roll_no','ASC');
+        $students = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'s.class_id'=>$class_name,'s.sec_id'=>$section,'s.status'=>1))->result_array();
         //print_r($this->db->last_query());die;
         
         //------------get max marks------------------------------------------------------
