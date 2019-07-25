@@ -119,7 +119,7 @@
                                   <th>Height</th>
                                   <th>Weight</th>
                                   <th>Hostler</th>
-                                  <th>Hostel Name</th>
+                                  <th>House Name</th>
                                   <th>Bus Stoppage</th>
                                   <th>Bus</th>
                                 </tr>
@@ -408,10 +408,10 @@
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">hostel</label>
+                    <label class="col-sm-3 control-label">House</label>
 					<div class="col-sm-6">
 					<select class="form-control" name="hostel" id="hostel">
-						<option value="">Select hostel</option>
+						<option value="">Select house</option>
 						<?php foreach($hostel as $hostels){?>
 							<option value="<?php echo $hostels['hid'];?>"><?php echo $hostels['hostel_name'];?></option>
 						<?php }?>
