@@ -55,7 +55,7 @@ class Admin_ctrl extends CI_Controller {
                 $group = '1=1';
             }
 			
-            if($this->ion_auth->is_admin() || count($is_class_teacher) > 0 ){
+            if($this->ion_auth->is_admin() || count($is_class_teacher) > 0  || $this->uri->segment(2) == 'reception'){
                 $this->data['site_name'] = 'SMIS';
                 $this->data['site_title'] = 'smis';
                 $this->data['session'] = $this->db->select('ses_id,session_name')->get_where('session',array('status'=>1))->result_array();
@@ -68,6 +68,7 @@ class Admin_ctrl extends CI_Controller {
                 $this->data['elective'] = $this->db->select('sub_id,sub_name')->join('sub_type st','st.st_id=s.st_id')->where('st.st_name','elective')->get_where('subject s',array('s.status'=>1))->result_array();
                 $this->data['hostel'] = $this->db->select('hid,hostel_name')->get_where('hostel',array('sch_id'=>$school,'status'=>1))->result_array();
                 $this->data['bus'] = $this->db->select('bs_id,bus_stoppage')->get_where('bus_structure',array('status'=>1,'school_id'=>$school))->result_array();
+                $this->data['month'] = $this->db->select('m_id,m_name')->get_where('month',array('status'=>1))->result_array();
                 $this->load->view("template/temp", $this->data);
             }else{
 				print_r('Your are not a class teacher or admin.');die;
@@ -83,10 +84,6 @@ class Admin_ctrl extends CI_Controller {
             $session = $this->session->userdata('session_id');
             $school = $this->session->userdata('school_id');
             
-            // $this->db->select('t_id,email');
-            // $this->db->where('email=(SELECT `email` FROM `users` WHERE `id` ='.$user_id.')');
-            // $teacher = $this->db->get_where('teacher')->result_array();
-
             $medium = array();
             $class = array();
             $sub_group = array();
@@ -563,6 +560,81 @@ class Admin_ctrl extends CI_Controller {
        }else{
            echo json_encode(array('msg'=>'old password not match.','status'=>201));
        }
+    }
+    
+    
+    function student_fee(){
+        if(in_array(25, $this->permission)){
+            $school = $this->session->userdata('school_id');
+            
+            $this->data['school'] = $this->db->select('*')->get_where('school',array('status'=>1,'sch_id'=>$school))->result_array();
+            $this->data['page_name'] = 'Student Fee';
+            $this->data['main'] = 'student_fee/student_fee';
+            
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
+    function fee_receipt($schoolname,$group_name,$receipt_no){
+        if(in_array(25, $this->permission)){
+            $session = $this->session->userdata('session_id');
+            $school = $this->session->userdata('school_id');
+            
+            $this->db->select('s.adm_no,s.name,s.f_name,c.class_name,sec.section_name,sf.receipt_no,
+                           GROUP_CONCAT(m.m_name) month,
+                           SUM(sf.bus_fee) bus_fee,
+                           SUM(sf.paid_amount) paid_amount,
+                           SUM(sf.let_fee) let_fee,
+                           IFNULL(fw.amount,0) fee_waiver_amount,
+                           IFNULL(hfs.pay_amount,0) hostel_fee,
+                           ((SUM(sf.bus_fee) + SUM(sf.paid_amount) + SUM(sf.let_fee) + IFNULL(hfs.pay_amount,0)) - IFNULL(fw.amount,0)) grand_total
+                           ');
+            $this->db->join('students s','s.adm_no = sf.adm_no AND s.status = 1 AND s.ses_id = '.$session.' AND s.sch_id = '.$school.'');
+            $this->db->join('month m','m.m_id = sf.month_id AND m.status = 1');
+            $this->db->join('class c','c.c_id = s.class_id AND c.status = 1');
+            $this->db->join('section sec','sec.sec_id = s.sec_id AND sec.status = 1');
+            $this->db->join('hostel_fee_status hfs','hfs.hfs_id = sf.hfs_id','LEFT');
+            $this->db->join('fee_waiver fw','fw.admission_no = sf.adm_no AND fw.session = sf.ses_id AND fw.school_id = sf.sch_id AND fw.month_id = sf.month_id','LEFT');
+            $this->data['result'] = $this->db->get_where('student_fee sf',array('sf.ses_id'=>$session,'sf.sch_id'=>$school,'sf.receipt_no'=>$receipt_no,'sf.status'=>1,'sf.pay_status'=>1))->result_array();
+            
+            //print_r($this->db->last_query());die;
+            $this->data['word_amount'] = ucwords($this->my_function->number_to_word($this->data['result'][0]['grand_total']));
+            
+            $this->data['page_name'] = 'Fee Receipt';
+            $this->data['main'] = 'student_fee/fee_receipt';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
+    function fee_history(){
+        if(in_array(25, $this->permission)){
+            $school = $this->session->userdata('school_id');
+            $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();
+            $this->data['school'] = $this->db->select('*')->get_where('school',array('status'=>1,'sch_id'=>$school))->result_array();
+            $this->data['medium'] = $this->db->select('*')->get_where('medium',array('status'=>1))->result_array();
+            $this->data['class'] = $this->db->select('*')->get_where('class',array('status'=>1))->result_array();
+            $this->data['sub_group'] = $this->db->select('*')->get_where('sub_group',array('status'=>1))->result_array();
+            $this->data['section'] = $this->db->select('*')->get_where('section',array('status'=>1))->result_array();
+            $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
+            
+            $this->data['page_name'] = 'Fee Receipt';
+            $this->data['main'] = 'student_fee/fee_history';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function error_page(){
+        $this->data['page_name'] = 'Error';
+        $this->load->view("error_page", $this->data);
     }
     
     

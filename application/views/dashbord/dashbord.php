@@ -4,6 +4,7 @@
     <section class="content-header">
       <h1> Dashbord </h1>
     </section>
+    
      <?php if($this->ion_auth->is_admin()){?>
     <div class="col-lg-3 col-xs-6">
           <!-- small box -->

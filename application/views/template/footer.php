@@ -1,10 +1,10 @@
-  <footer class="main-footer">
-  <!--  <div class="pull-right hidden-xs">
+  <!-- <footer class="main-footer">
+   <div class="pull-right hidden-xs">
       <b>Version</b> 2.0
     </div>
     <strong>Copyright &copy; 2019-20 <a href="http://krimtel.com"> Krimtel Gensease Technologies Pvt. Ltd.</a>.</strong> All rights
-    reserved.-->
-  </footer>  
+    reserved.
+  </footer>  -->
   <div class="control-sidebar-bg"></div>
 <!-- ./wrapper -->
 

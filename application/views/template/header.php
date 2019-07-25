@@ -141,9 +141,24 @@ $permission = $this->my_function->user_permission();
     						</ul>
     					</li>
 					<?php } ?>
+					
+					
+					<?php if(in_array(25, $permission)){ ?>
+						<li class="dropdown">
+    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">RECEPTION<span class="caret"></span></a>
+    						<ul class="dropdown-menu">
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/payment"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Student Fee</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/history"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Fee History</a></li>
+    						</ul>
+    					</li>
+					<?php } ?>
+					
 					<?php if(in_array(24, $permission)){ ?>
 						<li class="dropdown"><a href="<?php echo base_url();?>Backup_ctrl">BackUp</a></li>
 					<?php } ?>
+					
+					
+					
 					
 					<?php /*?>
 					<li class="dropdown">

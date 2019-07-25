@@ -39,6 +39,13 @@ $route['(:any)/(:any)/fees-payment/generate-fees-csv'] = 'Admin_ctrl/generate_fe
 $route['(:any)/(:any)/helth/general-information'] = 'Admin_ctrl/helth_general_information';
 $route['(:any)/(:any)/helth/health-activity'] = 'Admin_ctrl/health_activity';
 
+//----------------fee modules-------------------------------------
+$route['(:any)/(:any)/student-fee/payment'] = 'Admin_ctrl/student_fee';
+$route['(:any)/(:any)/student-fee/history'] = 'Admin_ctrl/fee_history';
+$route['(:any)/(:any)/student-fee/receipt/(:any)'] = 'Admin_ctrl/fee_receipt/$1/$2/$3';
+
+
+
 
 $route['(:any)/(:any)/profile'] = 'Admin_ctrl/profile';
 
@@ -46,5 +53,5 @@ $route['(:any)/login'] = 'Auth/login';
 $route['admin/logout'] = 'Auth/logout';
 
 $route['default_controller'] = 'Auth/home_page';
-$route['404_override'] = '';
+$route['404_override'] = 'Admin_ctrl/error_page';
 $route['translate_uri_dashes'] = FALSE;
