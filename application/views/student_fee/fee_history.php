@@ -99,7 +99,7 @@
 			
 			<div class="col-md-9 student-fee-record">
 				<h3 class="text-center desk-hide">Shakuntala Vidyalaya Session 2019-20</h3>
-				<div class="box box-info desk-hide">
+				<!-- <div class="box box-info desk-hide">
                  		     <div class="box-body">
 					<table class="table">
 						<tbody>
@@ -109,7 +109,7 @@
 						</tbody>
 					</table>
 					</div>
-				</div>
+				</div> -->
 				<div class="box box-info">
                     <div class="box-header">
                       <h3 class="box-title">Fee Details</h3>
