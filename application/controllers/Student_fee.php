@@ -8,6 +8,95 @@ class Student_fee extends CI_Controller {
         $this->load->library('My_function');
     }
     
+    
+    function fee_genrate($medium,$class_id,$fee_month){
+        $session_id = $this->session->userdata('session_id');
+        $school_id = $this->session->userdata('school_id');
+        
+        $this->db->select('s.adm_no,fs.*,IFNULL(b.price,"0") bus_fee,');
+        $this->db->join('fees_structure fs','fs.sch_id = s.sch_id AND fs.ses_id = s.ses_id AND fs.class_id = '.$class_id.' AND fs.status = 1');
+        $this->db->join('hostel h','h.hid = s.hostel_id AND h.ses_id = '.$session_id.' AND h.sch_id = '.$school_id.' AND h.status = 1','LEFT');
+        $this->db->join('bus_structure b','b.bs_id = s.bus_id AND b.school_id = '.$school_id.' AND b.ses_id = '.$session_id.' AND b.status = 1','LEFT');
+        $result = $this->db->get_where('students s',array('s.ses_id'=>$session_id,'s.sch_id'=>$school_id,'s.class_id'=>$class_id,'s.status'=> 1))->result_array();
+        
+        $final_array = array();
+        foreach($result as $student_fee){
+            
+            $temp = array();
+            $temp['ses_id'] = (int)$session_id;
+            $temp['sch_id'] = (int)$school_id;
+            // $temp['std_id'] = (int)$student_fee['std_id'];
+            $temp['adm_no'] = $student_fee['adm_no'];
+            $temp['month_id'] = $fee_month;
+            if($temp['month_id'] == $student_fee['admission_month']){
+                $temp['amalgamated_fee'] = $student_fee['amalgam_fee'];
+                $temp['admission_fee'] = $student_fee['admission_fee'];
+            } else {
+                $temp['amalgamated_fee'] = 0;
+                $temp['admission_fee'] = 0;
+            }
+            $temp['tution_fee'] = $student_fee['tuition_fee'];
+            $temp['lab_fee'] = $student_fee['lab_fee'];
+            $temp['bus_fee'] = $student_fee['bus_fee'];
+            $temp['hostel_fee'] = 0;
+            $temp['let_fee'] = 0;
+            $temp['other_fee'] = 0;
+            $temp['exam_fee'] = 0;
+            $temp['library_fee'] = $student_fee['library_fee'];
+            $temp['optional_sub_fee'] = $student_fee['optional_sub_fee'];
+            $temp['previous_balance'] = 0;
+            $temp['fee_waiver_amount'] = 0;
+            $temp['total'] = $temp['amalgamated_fee'] +
+            $temp['admission_fee'] +
+            $temp['tution_fee'] +
+            $temp['lab_fee'] +
+            $temp['bus_fee'] +
+            $temp['hostel_fee'] +
+            $temp['let_fee'] +
+            $temp['other_fee'] +
+            $temp['exam_fee'] +
+            $temp['library_fee'] +
+            $temp['optional_sub_fee'] +
+            $temp['previous_balance'];
+            $temp['created_at'] = date('Y-m-d h:i:s');
+            $final_array[] = $temp;
+        }
+        
+        $this->db->insert_batch('student_fee',$final_array);
+    }
+    
+    
+    function generate_hostel_fee($class,$month){
+        $ses = $this->session->userdata('session_id');
+        $sch = $this->session->userdata('school_id');
+        
+        $this->db->select('*');
+        $this->db->join('hostel h','h.hid = s.hostel_id AND h.status = 1');
+        $result = $this->db->get_where('students s',array('s.ses_id'=>$ses,'s.sch_id'=>$sch,'s.class_id'=>$class,'s.hostler'=>"Yes",'s.status'=>1))->result_array();
+        $final_arr = [];
+        if(count($result) > 0){
+            foreach($result as $std_details){
+                $temp = [];
+                $temp['ses_id'] = $ses;
+                $temp['sch_id'] = $sch;
+                $temp['adm_no'] = $std_details['adm_no'];
+                $temp['hostel_id'] = $std_details['hid'];
+                $temp['hostel_id'] = $std_details['hid'];
+                $temp['year_amount'] = $std_details['price'];
+                $temp['created_at'] = date('Y-m-d H:i:s');
+                $temp['created_by'] = 1;
+                $final_arr[] = $temp;
+            }
+            $insert = $this->db->insert_batch('hostel_fee',$final_arr);
+            if($insert){
+                echo "hostel fee generated successfully";
+            }else{
+                echo "hostel fee generation failed";
+            }
+        }
+    }
+    
+    
     function getAdmNoRecord(){
         $session = $this->input->post('session');
         $school = $this->input->post('school');
