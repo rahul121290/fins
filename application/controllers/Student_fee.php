@@ -112,8 +112,6 @@ class Student_fee extends CI_Controller {
         }
     }
     
-    
-    
     function student_fee_detail(){
         $data = array();
         $data['adm_no'] = $this->input->post('adm_no');
@@ -232,8 +230,6 @@ class Student_fee extends CI_Controller {
         
         $otp = $this->my_function->generateNumericOTP();
         
-        //$txt = sprintf("There are %u million bicycles in %s.",$number,$str);
-        //sms
         if(count($result)>0){
             $fee_waiver = array();
             $fee_waiver['session'] = $data['session'];
@@ -267,8 +263,8 @@ class Student_fee extends CI_Controller {
         else {
             $this->db->trans_commit();
             $mobile = '8817721954';
-            $msg = 'Fee waiver request OTP is '.$otp.' for '.$result[0]['name'].', Admn No. '.$data['adm_no'].'. Amt: '.$data['amount'].' - Operator Name';
-            //$this->my_function->send_sms($mobile,$msg);
+            $msg = 'Fee waiver request OTP is '.$otp.' for '.$result[0]['name'].', Admn No. '.$data['adm_no'].'. Amt: '.$data['amount'].' - '.$this->session->userdata('username');
+            $this->my_function->send_sms($mobile,$msg);
             echo json_encode(array('msg'=>'Apply fee waiver successfully.','status'=>200));
         }
     }
