@@ -1,5 +1,12 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/custom/fee_history.js"></script>
 <div class="content-wrapper fee-print">
+	<section class="content-header">
+      <h1>Reception</h1>
+      <ol class="breadcrumb">
+        <li><a href="<?=base_url();?>shakuntala/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">fee history</li>
+      </ol>
+    </section>
     <section class="content-header "></section>
     	<!-- main section -->
         <div class="col-md-3 no-print">	
@@ -98,7 +105,7 @@
 			</div>
 			
 			<div class="col-md-9 student-fee-record">
-				<h3 class="text-center desk-hide">Shakuntala Vidyalaya Session 2019-20</h3>
+				<h3 style="margin-top:0px;" class="text-center desk-hide">Shakuntala Vidyalaya Session 2019-20</h3>
 				<!-- <div class="box box-info desk-hide">
                  		     <div class="box-body">
 					<table class="table">

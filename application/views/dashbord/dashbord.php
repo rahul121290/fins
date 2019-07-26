@@ -1,11 +1,12 @@
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1> Dashbord </h1>
-    </section>
+    
     
      <?php if($this->ion_auth->is_admin()){?>
+	 <section class="content-header">
+      <h1> Dashboard </h1>
+    </section>
     <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -58,12 +59,33 @@
           </div>
         </div>
     <?php }else{ ?>
-    <div class="text-center" style="opacity: 0.5;margin-top: 110px;">
+	<div class="container">
+		
+		<div class="col-md-12" style="background-color:#fff;padding:20px 0px;margin-top:30px;">
+		<section class="content-header">
+      <h1> Dashboard </h1>
+    </section>
+	<hr>
+		
+		<div class="col-md-2 text-center"><a title="Add Students" href="<?php echo base_url()?>shakuntala/reception/master-record/add-student"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/student-add.png"><br> <h4 style="font-weight:600;color:#524d4d;font-size:16px;">Add Students</h4></a></div>
+		
+		<div class="col-md-2 text-center"><a title="Student Fee" href="<?php echo base_url()?>shakuntala/reception/student-fee/payment"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/student-fee.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Student Fee</h4></a></div>
+		
+		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url()?>shakuntala/reception/student-fee/history"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/fee-history.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Fee History</h4></a></div>
+		<div class="col-md-2"></div>
+		</div>
+	</div>
+	
+	
+    <div class="text-center" style="opacity: 0.5;margin-top: 110px;display:none;">
     <?php if($this->session->userdata('school_id') == 1){?>
     	<img alt="shakuntala" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" width="200">
     <?php }else{?>
     <img alt="shakuntala" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" width="200">
     <?php }?>
     </div>
+	
+	
+	
     <?php }?>
   </div>

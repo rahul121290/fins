@@ -2,7 +2,7 @@
     <section class="content-header">
       <h1>Export Excel<small></small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashbord</a></li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="">production-reports</li>
         <li class="active">export-excel</li>
       </ol>

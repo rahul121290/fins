@@ -2,7 +2,7 @@
     <section class="content-header">
       <h1>Student Attendance<small>Entry</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashbord</a></li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li>transaction-record</li>
         <li class="active">attendance-entry</li>
       </ol>
