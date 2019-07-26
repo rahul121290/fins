@@ -30,11 +30,11 @@
 </style>
 <link src="<?php echo base_url();?>assets/css/printcss.css" />
 
-<div class="content-wrapper">
+<div class="content-wrapper" style="background-color:#fff;">
     <section class="content-header"></section>
     	<!-- main section -->
         <div class="col-md-7 col-md-offset-3">	
-          	<div class="box box-danger" style="border-top:0px solid #fff;">
+          	<div class="box box-danger" style="border-top:0px solid #fff;background-color:#fff;">
 
             	<div class="box-body form-horizontal">
               			<div class="form-group" id="print_div" style="margin-bottom:0px;">

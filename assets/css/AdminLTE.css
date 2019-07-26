@@ -4753,7 +4753,20 @@ table.text-center th {
   .table-responsive > .table tr td {
     white-space: normal !important;
   }
+   .r-table-print{width:50%;}
+   .r-table-print tr td{padding:3px !important;}
+   .r-table-print-dis tr td{padding:4px 10px !important;}
+   .box-title-r{background-color:#eee !important;border:1px solid #ddd !important; color:#000 !important;}
+   .r-table-print-dis tr td.b-space{padding-bottom:30px !important;}
+   
+		 .thead-light{background-color:#f2f2f2 !important;}
+		 .table tr td{padding:0px;}
+		.noprint{ display:none !important;}
+		.box.box-danger {border-top-color: #fff !important;}
+	
+	/*fee-print*/
+	.fee-print table.student-fee-list tr td{padding:3px 6px !important;}
+	.student-fee-record table tr td{padding:3px 6px !important;}
+	footer.main-footer{border-top:0px;}
+	.desk-hide{display:block;}
 }
-.nav>li>a{padding:10px;}
-.navbar-nav{padding:10px;}
-.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side{background-color:#ecf0f5 !important;}
