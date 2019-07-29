@@ -12,13 +12,7 @@ $permission = $this->my_function->user_permission();
       	<?php } else{ $school = 'sharda';?>
       	<li><img alt="" src="<?php echo base_url()?>assets/images/sharda/header-logo.png" height="50"></li>
       	<?php } ?>
-		</ul>
-      
-      	<?php $user = $this->ion_auth->user()->row();?>
-        <ul class="nav navbar-nav navbar-right"> 
-		
-		
-			<li class="active"><a href="<?=base_url().$school.'/'.$permission_link;?>/dashbord">DASHBOARD</a></li>
+			<li class="active"><a href="<?=base_url().$school.'/'.$permission_link;?>/dashbord">DASHBORD</a></li>
 			<?php if(in_array(1, $permission) || in_array(2, $permission) || in_array(3, $permission) || in_array(4, $permission) || in_array("5", $permission) || in_array(6, $permission) || in_array(7, $permission) || in_array(8, $permission) || in_array(9, $permission) || in_array(10, $permission)){ ?>
 				<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown"  href="#">MASTER RECORDS<span class="caret"></span></a>
@@ -153,8 +147,9 @@ $permission = $this->my_function->user_permission();
 						<li class="dropdown">
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">RECEPTION<span class="caret"></span></a>
     						<ul class="dropdown-menu">
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/payment"><i class="fa fa-check-circle-o text-blue" aria-hidden="true"></i>Student Fee</a></li>
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/history"><i class="fa fa-history text-blue" aria-hidden="true"></i>Fee History</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/new-admission"><i class="fa fa-percent text-blue" aria-hidden="true"></i>New Admission</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/payment"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Student Fee</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/history"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Fee History</a></li>
     						</ul>
     					</li>
 					<?php } ?>
@@ -174,7 +169,10 @@ $permission = $this->my_function->user_permission();
 							<li><a href="<?=base_url();?>admin/fees-payment/generate-fees-csv"><i class="fa fa-snowflake-o text-blue" aria-hidden="true"></i>Generate Fees CSV</a></li>
 						</ul>
 					</li> <?php */?>
-				
+				</ul>
+      
+      	<?php $user = $this->ion_auth->user()->row();?>
+        <ul class="nav navbar-nav navbar-right"> 
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?php echo base_url();?>assets/images/user.png" class="user-image" alt="User Image">

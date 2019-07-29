@@ -117,6 +117,7 @@
 					</table>
 					</div>
 				</div> -->
+				
 				<div class="box box-info">
                     <div class="box-header">
                       <h3 class="box-title">Fee Details</h3>
@@ -167,6 +168,7 @@
     					</table>
               		</div>
          		</div>
+         		
    			</div>   			
 		</div>
 		

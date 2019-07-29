@@ -273,17 +273,26 @@ $(document).ready(function(){
 											x=x+'</select>'+
 											'<div id="form_month_err" class="error" style="display:none;"></div>'+
 										'</td>'+
-									'</tr>'+ 
-									'<tr>'+
+									'</tr>'; 
+									
+									if(response.data[0]['admission_fee']  > 0){
+										x = x + '<tr>'+
+											'<td><b>Admission Fee</b></td>'+
+											'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['admission_fee'] +'" id="admission_fee" value="'+ response.data[0]['admission_fee'] +'" disabled /></td>'+
+										'</tr>';
+									}
+									
+									if(response.data[0]['amalgamated_fee']  > 0){
+										x = x + '<tr>'+
+											'<td><b>Amalgamated Fee</b></td>'+
+											'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['amalgamated_fee'] +'" id="amalgamated_fee" value="'+ response.data[0]['amalgamated_fee'] +'" disabled /></td>'+
+										'</tr>';
+									}
+									
+									x=x+'<tr>'+
 										'<td><b>Tution Fee</b></td>'+
 										'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['tution_fee'] +'" id="form_tution_fee" value="'+ response.data[0]['tution_fee'] +'" disabled /></td>'+
 									'</tr>';
-									if(response.data[0]['sibling'] == '1'){
-									x = x + '<tr>'+
-										'<td><b>Sibling Rebate</b></td>'+
-										'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['sibling_rebate'] +'" id="" value="'+ response.data[0]['sibling_rebate'] +'" disabled /></td>'+
-									'</tr>';
-									}
 									
 									if(response.data[0]['hostel_fee'] != ''){
 									x= x +'<tr>'+
@@ -324,6 +333,14 @@ $(document).ready(function(){
 											'<td colspan="3"><input class="form-control" type="text" id="let_fee" value="'+ response.data[0]['let_fee']  +'" disabled /></td>'+
 										'</tr>';
 									}	
+									
+									if(response.data[0]['sibling'] == 'Yes'){
+										x = x + '<tr>'+
+											'<td><b>Sibling Rebate</b></td>'+
+											'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['sibling_rebate'] +'" id="sibling_rebate" value="'+ response.data[0]['sibling_rebate'] +'" disabled /></td>'+
+										'</tr>';
+									}
+									
 									x=x+'<tr>'+
 											'<tr>'+
 												'<td><b>Fee Waiver</b></td>'+
@@ -787,6 +804,11 @@ $(document).ready(function(){
 });//--------end of ready function-------------------
 
 function total_fee(x){
+	admission_fee = $('#admission_fee').val();
+	amalgamated_fee = $('#amalgamated_fee').val();
+	sibling_rebate = $('#sibling_rebate').val();
+	var sibling = $('#sibling_rebate').val();
+	
 	tution_fee = $('#form_tution_fee').val();
 	hostel_fee = $('#form_hostel_fee').val();
 	bus_fee = $('#form_bus_fee').val();
@@ -795,6 +817,9 @@ function total_fee(x){
 	optional_sub_fee = $('#form_optional_sub_fee').val();
 	let_fee = $('#let_fee').val();
 	
+	admission_fee = parseFloat(admission_fee);
+	amalgamated_fee = parseFloat(amalgamated_fee);
+	
 	tution = parseFloat(tution_fee);
 	hostel = parseFloat(hostel_fee);
 	lab  = parseFloat(lab_fee);
@@ -802,6 +827,13 @@ function total_fee(x){
 	library = parseFloat(library_fee);
 	optional = parseFloat(optional_sub_fee);
 	let_fee = parseFloat(let_fee);
+	
+	if(isNaN(admission_fee)){
+		admission_fee = 0;
+	}
+	if(isNaN(amalgamated_fee)){
+		amalgamated_fee = 0;
+	}
 	
 	if(isNaN(tution)){
 		tution = 0;
@@ -824,13 +856,22 @@ function total_fee(x){
 	if(isNaN(let_fee)){
 		let_fee = 0;
 	}
+	console.log(admission_fee);
+	console.log(amalgamated_fee);
+	console.log(tution);
+	console.log(hostel);
+	console.log(lab);
+	console.log(bus);
+	console.log(library);
+	console.log(optional);
+	console.log(let_fee);
 	
 	if( x == 'fee'){
-		total = tution + hostel + lab + bus + library + optional + let_fee;
+		total = admission_fee + amalgamated_fee + tution + hostel + lab + bus + library + optional + let_fee;
 		$('#fee_collect').text('Submit '+total);
 		return total;
 	}else{
-		total = tution + lab + bus + library + optional + let_fee;
+		total = admission_fee + amalgamated_fee + tution + lab + bus + library + optional + let_fee;
 		$('#fee_collect').text('Submit '+total);
 		return total;
 	}

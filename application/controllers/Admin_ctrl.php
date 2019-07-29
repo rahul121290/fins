@@ -632,6 +632,28 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
+    function new_admission(){
+        if(in_array(25, $this->permission)){
+            $this->data['page_name'] = 'New Admission';
+            $this->data['main'] = 'student_fee/new_admission';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
+    function admission_fee($sch_id,$adm_no){
+        if(in_array(25, $this->permission)){
+            $this->data['page_name'] = 'Admission Fee';
+            $this->data['main'] = 'student_fee/admission_fee';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
     function error_page(){
         $this->data['page_name'] = 'Error';
         $this->load->view("error_page", $this->data);

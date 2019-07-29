@@ -88,7 +88,6 @@ class Student_ctrl extends CI_Controller{
                 $this->student_model->add_student($std_id,$old_image,$data),"Student Insert Successfully.","Student Failed to Insert, Please try again."
                 );
             }
-        
         }
     
        function getAdmNoRecord(){

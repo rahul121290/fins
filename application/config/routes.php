@@ -42,10 +42,9 @@ $route['(:any)/(:any)/helth/health-activity'] = 'Admin_ctrl/health_activity';
 //----------------fee modules-------------------------------------
 $route['(:any)/(:any)/student-fee/payment'] = 'Admin_ctrl/student_fee';
 $route['(:any)/(:any)/student-fee/history'] = 'Admin_ctrl/fee_history';
+$route['(:any)/(:any)/student-fee/new-admission'] = 'Admin_ctrl/new_admission';
+$route['(:any)/(:any)/student-fee/admission/(:num)/(:any)'] = 'Admin_ctrl/admission_fee/$1/$2';
 $route['(:any)/(:any)/student-fee/receipt/(:any)'] = 'Admin_ctrl/fee_receipt/$1/$2/$3';
-
-
-
 
 $route['(:any)/(:any)/profile'] = 'Admin_ctrl/profile';
 

@@ -122,7 +122,7 @@ class Student_fee extends CI_Controller {
         }
 
         $this->db->join('class c','c.c_id=s.class_id AND c.status = 1');
-        $this->db->join('section sec','sec.sec_id=s.sec_id');
+        $this->db->join('section sec','sec.sec_id=s.sec_id','LEFT');
         $this->db->join('medium m','m.med_id=s.medium');
         $this->db->join('sub_group sg','sg.sg_id = s.sub_group','LEFT');
         $this->db->join('subject sb','sb.sub_id = s.elective','LEFT');
@@ -215,7 +215,7 @@ class Student_fee extends CI_Controller {
         $this->db->select('*');
         $month_list = $this->db->get_where('month',array('status'=>1,'m_id >='=>$data['month']))->result_array();
         
-        $this->db->select('s.std_id,s.adm_no,s.roll_no,s.name,s.f_name,s.contact_no,s.email_id,s.aadhar_no,s.photo,c.class_name,sec.section_name as section_name,s.sub_group as subgroup,
+        $this->db->select('s.sibling,s.std_id,s.adm_no,s.roll_no,s.name,s.f_name,s.contact_no,s.email_id,s.aadhar_no,s.photo,c.class_name,sec.section_name as section_name,s.sub_group as subgroup,
                             sf.*,
                             sf.created_at,
                             IFNULL(fw.amount,"") apply_amount,
