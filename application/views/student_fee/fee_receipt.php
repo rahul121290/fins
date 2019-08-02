@@ -96,7 +96,7 @@
 										<tr>
 											<td>Tuition Fee <?php echo $result[0]['month']; ?></td>
 											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['total_fee']; ?></td>
+											<td align="right"><?php echo $result[0]['tution_fee']; ?></td>
 										</tr>
 										
 										<?php if($result[0]['admission_fee'] > 0){?>
@@ -131,11 +131,11 @@
 										</tr>
 										<?php } ?>
 										
-										<?php if($result[0]['let_fee'] > 0){?>
+										<?php if($result[0]['late_fee'] > 0){?>
 										<tr>
 											<td>Late Fee</td>
 											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['let_fee']; ?></td>
+											<td align="right"><?php echo $result[0]['late_fee']; ?></td>
 										</tr>
 										<?php } ?>
 										

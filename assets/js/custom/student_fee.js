@@ -229,13 +229,12 @@ $(document).ready(function(){
 				if(response.status == 200){
 					var x = '<table class="table table-responsive">'+
 								'<tbody>'+
-									'<tr style="display:none;">'+
+									'<tr style="">'+
 										'<td></td>'+
 										'<td>'+
-											'<input type="text" id="form_fee_id" value="'+ response.data[0]['sf_id'] +'">'+
-											'<input type="text" id="form_admin_no" value="'+ response.data[0]['adm_no'] +'">'+
-											'<input type="text" id="form_student_id" value="'+ response.data[0]['std_id'] +'">'+
-											'<input type="text" id="month_fee" value="'+ response.data[0]['tution_fee'] +'">'+
+											'<input type="hidden" id="form_admin_no" value="'+ response.data[0]['adm_no'] +'">'+
+											'<input type="hidden" id="form_student_id" value="'+ response.data[0]['std_id'] +'">'+
+											'<input type="hidden" id="month_fee" value="'+ response.data[0]['month_total_fee'] +'">'+
 											
 										'</td>'+
 									'</tr>'+
@@ -253,12 +252,17 @@ $(document).ready(function(){
 										'<td>: '+ response.data[0]['f_name'] +'</td>'+
 									'</tr>';
 									
-									if(response.data[0]['subgroup'] != null){
+									if(response.data[0]['subgroup'] != ''){
 									x = x + '<tr>'+
 												'<td>Subject Group</td>'+
 												'<td>: '+ response.data[0]['subgroup'] +'</td>'+
 											'</tr>';
 									}
+									x = x + '<tr>'+
+											'<td>Fee Type</td>'+
+											'<td>: <b>'+ response.data[0]['fee_type'] +'</b></td>'+
+										'</tr>';
+									
 									x = x + '<tr>'+
 										'<td>Contact No.</td>'+
 										'<td>: '+ response.data[0]['contact_no'] +'</td>'+
@@ -267,8 +271,20 @@ $(document).ready(function(){
 										'<td>Fee Months</td>'+
 										'<td colspan="3">'+
 											'<select id="form_month" class="form-control form_month" multiple>';
+												var months = response.data[0].month;
+												var res = months.split(",");
+												var flag = 1;
 												$.each(response.month,function(mkey,mvalue){
-													x=x+'<option value="'+mvalue.m_id+'">'+mvalue.m_name+'</option>';
+													flag = 0;
+													$.each(res,function(k,v){
+														if(mvalue.m_id == v){
+															flag = 1;
+															x=x+'<option value="'+mvalue.m_id+'" selected>'+mvalue.m_name+'</option>';
+														}
+													});
+													if(flag == 0){
+														x=x+'<option value="'+mvalue.m_id+'">'+mvalue.m_name+'</option>';
+													}
 												});
 											x=x+'</select>'+
 											'<div id="form_month_err" class="error" style="display:none;"></div>'+
@@ -291,7 +307,7 @@ $(document).ready(function(){
 									
 									x=x+'<tr>'+
 										'<td><b>Tution Fee</b></td>'+
-										'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['tution_fee'] +'" id="form_tution_fee" value="'+ response.data[0]['tution_fee'] +'" disabled /></td>'+
+										'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['month_tution_fee'] +'" id="form_tution_fee" value="'+ response.data[0]['tution_fee'] +'" disabled /></td>'+
 									'</tr>';
 									
 									if(response.data[0]['hostel_fee'] != ''){
@@ -305,7 +321,7 @@ $(document).ready(function(){
 									if(response.data[0]['bus_fee'] > 0){
 									x= x +'<tr>'+
 										'<td><b>Bus Fee</b></td>'+
-										'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['bus_fee'] +'" id="form_bus_fee" value="'+ response.data[0]['bus_fee']  +'" disabled></td>'+
+										'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['month_bus_fee'] +'" id="form_bus_fee" value="'+ response.data[0]['bus_fee']  +'" disabled></td>'+
 									'</tr>';
 									}
 									if(response.data[0]['lab_fee'] > 0){
@@ -314,23 +330,11 @@ $(document).ready(function(){
 											'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['lab_fee'] +'" id="form_lab_fee" value="'+ response.data[0]['lab_fee']  +'" disabled></td>'+
 										'</tr>';
 									}
-									if(response.data[0]['library_fee'] > 0){
-										x= x +'<tr>'+
-											'<td><b>Library Fee</b></td>'+
-											'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['library_fee'] +'" id="form_library_fee" value="'+ response.data[0]['library_fee']  +'" disabled></td>'+
-										'</tr>';
-									}
-									if(response.data[0]['optional_sub_fee'] > 0){
-										x= x +'<tr>'+
-											'<td><b>Optional Sub Fee</b></td>'+
-											'<td colspan="3"><input class="form-control" type="text" data-val="'+ response.data[0]['optional_sub_fee']  +'" id="form_optional_sub_fee" value="'+ response.data[0]['optional_sub_fee']  +'" disabled></td>'+
-										'</tr>';
-									}
 											
-									if(response.data[0]['let_fee'] > 0){
+									if(response.data[0]['late_fee'] > 0){
 										x=x+'<tr>'+
 											'<td><b>Late fee</b></td>'+
-											'<td colspan="3"><input class="form-control" type="text" id="let_fee" value="'+ response.data[0]['let_fee']  +'" disabled /></td>'+
+											'<td colspan="3"><input class="form-control" type="text" id="late_fee" value="'+ response.data[0]['late_fee']  +'" disabled /></td>'+
 										'</tr>';
 									}	
 									
@@ -365,16 +369,12 @@ $(document).ready(function(){
 											'</td>'+
 										'</tr>'+
 										
-										'<tr>'+
-										'<td><b>Grand Total</b></td>'+
-										'<td colspan="3"><input class="form-control" type="text" id="form_total" value="'+ response.data[0]['grand_total']  +'" disabled /></td>'+
-									'</tr>'+
-										
 									'<tr>'+
 										'<td><b>Payment Mode</b></td>'+
 										'<td  colspan="3"><input type="radio" name="pay_method" class="pay_method" data-method="cash" checked /> CASH &nbsp;&nbsp;&nbsp;&nbsp;'+
 											'<input type="radio" name="pay_method" class="pay_method" data-method="cheque" /> CHEQUE &nbsp;&nbsp;&nbsp;&nbsp;'+
 											'<input type="radio" name="pay_method" class="pay_method" data-method="dd" /> DD(Demand Draft) '+
+											'<input type="radio" name="pay_method" class="pay_method" data-method="pos" /> POS '+
 											
 											'<div id="cheque_box" style="display:none;">'+
 												'<input class="form-control mb-3" type="text" id="cheque_pay_method1" placeholder="Cheque No."/>'+
@@ -392,7 +392,25 @@ $(document).ready(function(){
 												'<input class="form-control mb-3" type="text" id="dd_pay_method3" placeholder="Bank Name" />'+
 												'<div class="error" id="dd_pay_method3_err" style="display:none;"></div>'+
 											'</div>'+
+											
+											'<div id="pos_box" style="display:none;">'+
+											'<select class="form-control" id="card" name="card">'+
+												'<option value="">Select Card</option>'+
+												'<option value="credit_card">Credit Card</option>'+
+												'<option value="debit_card">Debit Card</option>'+
+											'</select>'+
+											'<div class="error" id="card_err" style="display:none;"></div>'+
+											'<input type="text" class="form-control" id="card_charges" name="card_charges" value="0" placeholder="GST Charge" disabled/>'+
+											'<div class="error" id="card_charges_err" style="display:none;"></div>'+
+											'<input type="hidden" id="form_total_with_charges" value="'+response.data[0]['grand_total']+'" />'+
+											
+										'</div>'+
 										'</td>'+
+									'</tr>'+
+									
+									'<tr>'+
+										'<td><b>Grand Total</b></td>'+
+										'<td colspan="3"><input class="form-control" type="text" id="form_total" value="'+ response.data[0]['grand_total']  +'" disabled /></td>'+
 									'</tr>'+
 								'</tbody>'+
 							'</table>'+
@@ -411,7 +429,7 @@ $(document).ready(function(){
     $(document).on('click','#fee_collect',function(){
 		var data = {};
 			data['std_id'] = $('#form_student_id').val();
-			data['fs_id'] = $('#form_fee_id').val();
+			//data['fs_id'] = $('#form_fee_id').val();
 			data['adm_no'] = $('#form_admin_no').val();
 			data['month'] = [];
 			 $.each($(".form_month option:selected"), function(){          
@@ -429,7 +447,7 @@ $(document).ready(function(){
 			data['lab_fee'] = $('#form_lab_fee').val();
 			data['library_fee'] = $('#form_library_fee').val();
 			data['optional_sub_fee'] = $('#form_optional_sub_fee').val();
-			data['let_fee'] = $('#let_fee').val();
+			data['late_fee'] = $('#late_fee').val();
 			data['total'] = $('#form_total').val();
 			data['pay_method'] = $("input[name='pay_method']:checked").data('method');
 			if($(this).prop("checked") == true){
@@ -499,6 +517,17 @@ $(document).ready(function(){
 				}else{
 					$('#dd_pay_method3_err').css('display','none');
 				}
+			}else if(data['pay_method'] == 'pos'){
+				var card = $('#card').val();
+				var card_charges = $('#card_charges').val();
+				data['card'] = card;
+				data['card_charges'] = card_charges;
+				if(card == ''){
+					$('#card_err').html('This is Required.').css('display','block');
+					formvalidate = false;
+				}else{
+					$('#card_err').css('display','none');
+				}
 			}
 			
 			var fee_waiver_amount = $('#fee_waiver_amount').val();
@@ -549,29 +578,44 @@ $(document).ready(function(){
     //----------------*********--------------------------------------
     $(document).on('click','.pay_method',function(){
     	var pay_method = $(this).data('method');
-    	if(pay_method == 'cash'){
+    	if(pay_method == 'dd'){
     		$('#cheque_box').css('display','none');
-    		$('#dd_box').css('display','none');
-    	} else if(pay_method == 'cheque'){
-    		$('#cheque_box').css('display','block');
-    		$('#dd_box').css('display','none');
-    	} else{
-    		$('#cheque_box').css('display','none');
+    		$('#pos_box').css('display','none');
     		$('#dd_box').css('display','block');
+    		$('#card').prop('selectedIndex','');
+    		$('#card_charges').val('0');
+    		total_fee('fee');
+    	} else if(pay_method == 'cheque'){
+    		$('#dd_box').css('display','none');
+    		$('#pos_box').css('display','none');
+    		$('#cheque_box').css('display','block');
+    		$('#card').prop('selectedIndex','');
+    		$('#card_charges').val('0');
+    		total_fee('fee');
+    	} else if(pay_method == 'pos'){
+    		$('#cheque_box').css('display','none');
+    		$('#dd_box').css('display','none');
+    		$('#pos_box').css('display','block');
+    	}else{
+    		$('#cheque_box').css('display','none');
+    		$('#dd_box').css('display','none');
+    		$('#pos_box').css('display','none');
+    		$('#card').prop('selectedIndex','');
+    		$('#card_charges').val('0');
+    		total_fee('fee');
     	}
     });
     
     //----------------*********--------------------------------------
     $(document).on('change','#form_month',function(){
  	   var month_ids = $(this).val().length;
- 	
     	tution_fee = $('#form_tution_fee').data('val');
 		hostel_fee = $('#form_hostel_fee').val();
 		bus_fee = $('#form_bus_fee').data('val');
 		lab_fee = $('#form_lab_fee').data('val');
 		library_fee =  $('#form_library_fee').data('val');
 		optional_sub_fee = $('#form_optional_sub_fee').data('val');
-		let_fee =  $('#let_fee').data('val');
+		late_fee =  $('#late_fee').data('val');
     	
     	tution = 0;
     	lab = 0;
@@ -603,8 +647,8 @@ $(document).ready(function(){
     	if(isNaN(hostel_fee)){
     		hostel_fee = 0;
     	}
-    	if(isNaN(let_fee)){
-    		let_fee = 0;
+    	if(isNaN(late_fee)){
+    		late_fee = 0;
     	}
     	
     	$('#form_tution_fee').val(tution);
@@ -802,6 +846,28 @@ $(document).ready(function(){
     });
     
     
+    $(document).on('change','#card',function(){
+    	var card = $(this).val();
+    	var actual_amount = $('#form_total_with_charges').val();
+    	if(card == 'credit_card'){
+    		var charges_amount = parseFloat(parseFloat(parseFloat(actual_amount) * parseFloat(2)) / 100).toFixed(2);
+    		$('#card_charges').val(charges_amount);
+    		total_fee('fee');
+    	}else if(card == 'debit_card'){
+    		 if (parseFloat(actual_amount) > 2000) {
+                 var charges_amount = parseFloat(parseFloat(parseFloat(actual_amount) * parseFloat(0.75)) / 100).toFixed(2);
+             } else {
+                 var charges_amount = parseFloat(parseFloat(parseFloat(actual_amount) * parseFloat(1.20)) / 100).toFixed(2);
+             }
+    		$('#card_charges').val(charges_amount);
+    		total_fee('fee');
+    	}else{
+    		$('#card_charges').val('0');
+    		total_fee('fee');
+    	}
+    });
+    
+    
 });//--------end of ready function-------------------
 
 function total_fee(x){
@@ -816,7 +882,8 @@ function total_fee(x){
 	lab_fee = $('#form_lab_fee').val();
 	library_fee =  $('#form_library_fee').val();
 	optional_sub_fee = $('#form_optional_sub_fee').val();
-	let_fee = $('#let_fee').val();
+	late_fee = $('#late_fee').val();
+	card_charges = $('#card_charges').val();
 	
 	admission_fee = parseFloat(admission_fee);
 	amalgamated_fee = parseFloat(amalgamated_fee);
@@ -827,7 +894,8 @@ function total_fee(x){
 	bus = parseFloat(bus_fee);
 	library = parseFloat(library_fee);
 	optional = parseFloat(optional_sub_fee);
-	let_fee = parseFloat(let_fee);
+	late_fee = parseFloat(late_fee);
+	card_charges = parseFloat(card_charges);
 	
 	if(isNaN(admission_fee)){
 		admission_fee = 0;
@@ -854,26 +922,22 @@ function total_fee(x){
 	if(isNaN(optional)){
 		optional = 0;
 	}
-	if(isNaN(let_fee)){
-		let_fee = 0;
+	if(isNaN(late_fee)){
+		late_fee = 0;
 	}
-	console.log(admission_fee);
-	console.log(amalgamated_fee);
-	console.log(tution);
-	console.log(hostel);
-	console.log(lab);
-	console.log(bus);
-	console.log(library);
-	console.log(optional);
-	console.log(let_fee);
+	if(isNaN(card_charges)){
+		card_charges = 0;
+	}
 	
 	if( x == 'fee'){
-		total = admission_fee + amalgamated_fee + tution + hostel + lab + bus + library + optional + let_fee;
+		total = admission_fee + amalgamated_fee + tution + hostel + lab + bus + library + optional + late_fee + card_charges;
 		$('#fee_collect').text('Submit '+total);
+		$('#form_total').val(total);
 		return total;
 	}else{
-		total = admission_fee + amalgamated_fee + tution + lab + bus + library + optional + let_fee;
+		total = admission_fee + amalgamated_fee + tution + lab + bus + library + optional + late_fee + card_charges;
 		$('#fee_collect').text('Submit '+total);
+		$('#form_total').val(total);
 		return total;
 	}
 }

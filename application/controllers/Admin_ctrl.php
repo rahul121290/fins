@@ -583,27 +583,31 @@ class Admin_ctrl extends CI_Controller {
             $session = $this->session->userdata('session_id');
             $school = $this->session->userdata('school_id');
             
-            $this->db->select('s.adm_no,s.name,s.f_name,c.class_name,sec.section_name,sf.receipt_no,
+            $this->db->select('s.sibling,s.std_id,s.adm_no,s.roll_no,s.name,s.f_name,s.contact_no,s.email_id,s.aadhar_no,s.photo,c.class_name,sec.section_name as section_name,s.sub_group as subgroup,sf.receipt_no,
                            GROUP_CONCAT(m.m_name) month,
-						   SUM(sf.amalgamated_fee) amalgamated_fee,
-						   SUM(sf.total) total_fee,
-						   SUM(sf.admission_fee) admission_fee,
-                           SUM(sf.bus_fee) bus_fee,
-                           SUM(sf.paid_amount) paid_amount,
-                           SUM(sf.let_fee) let_fee,
-                           IFNULL(fw.amount,0) fee_waiver_amount,
+                           IF(s.sibling="Yes",fs.sibling_rebate,0) sibling_rebate,
+                           IFNULL(SUM(sf.admission_fee),0) admission_fee,
+						   IFNULL(SUM(sf.amalgamated_fee),0) amalgamated_fee,
+                           IFNULL(SUM(sf.lab_fee),0) lab_fee,
+                           IFNULL(SUM(sf.bus_fee),0) bus_fee,
+                           IFNULL(SUM(sf.tution_fee),0) tution_fee,
+                           IFNULL(SUM(sf.let_fee),0) late_fee,
                            IFNULL(hfs.pay_amount,0) hostel_fee,
-                           (( SUM(sf.admission_fee) + SUM(sf.amalgamated_fee) + SUM(sf.bus_fee) + SUM(sf.paid_amount) + IFNULL(hfs.pay_amount,0)) - IFNULL(fw.amount,0)) grand_total
+                           IFNULL(SUM(sf.let_fee),0) let_fee,
+                           IFNULL(SUM(sf.card_charges),0) card_charges,
+                           IFNULL(fw.amount,0) fee_waiver_amount,
+                            
+                           ((IFNULL(SUM(sf.admission_fee),0) + IFNULL(SUM(sf.amalgamated_fee),0) + IFNULL(SUM(sf.lab_fee),0) + IFNULL(SUM(sf.bus_fee),0) + IFNULL(SUM(sf.let_fee),0) + IFNULL(SUM(sf.card_charges),0) + IFNULL(hfs.pay_amount,0) + IFNULL(SUM(sf.tution_fee),0)) - IF(s.sibling="Yes",fs.sibling_rebate,0)) grand_total
                            ');
             $this->db->join('students s','s.adm_no = sf.adm_no AND s.status = 1 AND s.ses_id = '.$session.' AND s.sch_id = '.$school.'');
+            $this->db->join('fees_structure fs','fs.ses_id = s.ses_id AND fs.sch_id = s.sch_id AND fs.class_id = s.class_id AND fs.med_id = s.medium AND fs.status = 1');
             $this->db->join('month m','m.m_id = sf.month_id AND m.status = 1');
             $this->db->join('class c','c.c_id = s.class_id AND c.status = 1');
             $this->db->join('section sec','sec.sec_id = s.sec_id AND sec.status = 1');
             $this->db->join('hostel_fee_status hfs','hfs.hfs_id = sf.hfs_id','LEFT');
-            $this->db->join('fee_waiver fw','fw.admission_no = sf.adm_no AND fw.session = sf.ses_id AND fw.school_id = sf.sch_id AND fw.month_id = sf.month_id','LEFT');
+            $this->db->join('fee_waiver fw','fw.admission_no = sf.adm_no AND fw.session = sf.ses_id AND fw.school_id = sf.sch_id AND fw.month_id = sf.month_id AND fw.approved = 1','LEFT');
             $this->data['result'] = $this->db->get_where('student_fee sf',array('sf.ses_id'=>$session,'sf.sch_id'=>$school,'sf.receipt_no'=>$receipt_no,'sf.status'=>1,'sf.pay_status'=>1))->result_array();
-            
-            //print_r($this->db->last_query());die;
+           // print_r($this->db->last_query());die;
             $this->data['word_amount'] = ucwords($this->my_function->number_to_word($this->data['result'][0]['grand_total']));
             
             $this->data['page_name'] = 'Fee Receipt';
@@ -661,6 +665,5 @@ class Admin_ctrl extends CI_Controller {
         $this->data['page_name'] = 'Error';
         $this->load->view("error_page", $this->data);
     }
-    
     
 }
