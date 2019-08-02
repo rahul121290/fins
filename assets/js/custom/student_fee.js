@@ -329,7 +329,7 @@ $(document).ready(function(){
 											
 									if(response.data[0]['let_fee'] > 0){
 										x=x+'<tr>'+
-											'<td><b>Let fee</b></td>'+
+											'<td><b>Late fee</b></td>'+
 											'<td colspan="3"><input class="form-control" type="text" id="let_fee" value="'+ response.data[0]['let_fee']  +'" disabled /></td>'+
 										'</tr>';
 									}	
@@ -527,6 +527,7 @@ $(document).ready(function(){
 					beforeSend:function(){},
 					success:function(response){
 						if(response.status == 200){
+							alert('Payment Successfull.');
 							$('#fee-detail-box').css('display','none');
 							var search_box_val = $('#search_box').val();
 							if(search_box_val == ''){
@@ -696,7 +697,7 @@ $(document).ready(function(){
 			var that = this;
 		   $.ajax({
 				type:'POST',
-				url:base_url+'Admin_ctrl/fee_waiver_apply',
+				url:base_url+'Student_fee/fee_waiver_apply',
 				data:{
 					'adm_no' : $('#form_admin_no').val(),
 					'session' : $('#session').val(),

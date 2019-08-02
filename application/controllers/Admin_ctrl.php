@@ -585,12 +585,15 @@ class Admin_ctrl extends CI_Controller {
             
             $this->db->select('s.adm_no,s.name,s.f_name,c.class_name,sec.section_name,sf.receipt_no,
                            GROUP_CONCAT(m.m_name) month,
+						   SUM(sf.amalgamated_fee) amalgamated_fee,
+						   SUM(sf.total) total_fee,
+						   SUM(sf.admission_fee) admission_fee,
                            SUM(sf.bus_fee) bus_fee,
                            SUM(sf.paid_amount) paid_amount,
                            SUM(sf.let_fee) let_fee,
                            IFNULL(fw.amount,0) fee_waiver_amount,
                            IFNULL(hfs.pay_amount,0) hostel_fee,
-                           ((SUM(sf.bus_fee) + SUM(sf.paid_amount) + SUM(sf.let_fee) + IFNULL(hfs.pay_amount,0)) - IFNULL(fw.amount,0)) grand_total
+                           (( SUM(sf.admission_fee) + SUM(sf.amalgamated_fee) + SUM(sf.bus_fee) + SUM(sf.paid_amount) + IFNULL(hfs.pay_amount,0)) - IFNULL(fw.amount,0)) grand_total
                            ');
             $this->db->join('students s','s.adm_no = sf.adm_no AND s.status = 1 AND s.ses_id = '.$session.' AND s.sch_id = '.$school.'');
             $this->db->join('month m','m.m_id = sf.month_id AND m.status = 1');

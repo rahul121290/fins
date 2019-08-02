@@ -22,7 +22,7 @@
 			<div class="box-body">
                 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Admission No.</label>
+                  <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>
                   <div class="col-sm-6">
 					<input type="text" name="admission_no" id="admission_no" class="form-control only_int" placeholder="Enter admission no.">
 					<div id="admission_no_err" style="display:none;color:red;"></div>
@@ -38,7 +38,7 @@
                 </div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Student Name</label>
+					<label class="col-sm-3 control-label">Student Name <span style="color:red;">*</span></label>
 						<div class="col-sm-6">
 							<input type="text" name="student_name" id="student_name" class="form-control only_text" placeholder="Enter student name">
 							<div id="student_name_err" class="text-danger" style="display:none;"></div>
@@ -46,7 +46,7 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Session</label>
+					<label class="col-sm-3 control-label">Session <span style="color:red;">*</span></label>
 						<div class="col-sm-6">
 							<select class="form-control" name="session" id="session">
 								<option value="">Select Session</option>
@@ -57,19 +57,19 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">School</label>
+					<label class="col-sm-3 control-label">Board <span style="color:red;">*</span></label>
 						<div class="col-sm-6">
 							<select class="form-control" name="school" id="school">
-								<option value="">Select School</option>
-								<option value="1">CBSC</option>
-								<option value="3">CG</option>
+								<option value="">Select Board</option>
+								<option value="1">CBSE</option>
+								<option value="3">CG State Board</option>
 							</select>
 							<div id="school_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Medium</label>
+					<label class="col-sm-3 control-label">Medium <span style="color:red;">*</span></label>
 						<div class="col-sm-6">
 							<select class="form-control" name="medium" id="medium">
 								<option value="">Select Medium</option>
@@ -82,7 +82,7 @@
 				</div>
 					
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Class</label>
+					<label class="col-sm-3 control-label">Class <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 						<select class="form-control" name="class" id="class">
 							<option value="">Select Class</option>
@@ -146,7 +146,7 @@
 				</div>
 				
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Father's Name</label>
+                  <label class="col-sm-3 control-label">Father's Name <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 						<input type="text" name="father_name" id="father_name" class="form-control only_text" placeholder="Enter father's name">
 						<div id="father_name_err" class="text-danger" style="display:none;"></div>
@@ -154,7 +154,7 @@
                 </div>
                 
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Mother's Name</label>
+					<label class="col-sm-3 control-label">Mother's Name <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 						<input type="text" name="mother_name" id="mother_name" class="form-control only_text" placeholder="Enter mother's name">
 						<div id="mother_name_err" class="text-danger" style="display:none;"></div>
@@ -162,7 +162,7 @@
                 </div>
                 
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Date Of Birth</label>
+					<label class="col-sm-3 control-label">Date Of Birth <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 					  <input type="date" class="form-control" id="dob" name="dob" placeholder="dd/mm/yyyy"> 
 					<div id="dob_err" class="text-danger" style="display:none;"></div> 
@@ -171,7 +171,7 @@
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">Gender</label>
+                    <label class="col-sm-3 control-label">Gender <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 					<select class="form-control" id="gender" name="gender">
 						<option value="">Select Gender</option>
@@ -183,7 +183,7 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Date of Admission</label>
+					<label class="col-sm-3 control-label">Date of Admission <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 					  <input type="date" class="form-control" id="admission_date" name="admission_date" placeholder="dd/mm/yyyy">
 					<div id="admission_date_err" style="display:none; color:red;"></div>
@@ -192,7 +192,7 @@
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">Caste</label>
+                    <label class="col-sm-3 control-label">Caste <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 					<select class="form-control" name="caste" id="caste">
 						<option value="">Select Caste</option>
@@ -232,7 +232,7 @@
                 </div>
                 
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Permanent Address</label>
+                  <label class="col-sm-3 control-label">Permanent Address <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 						<textarea name="address" id="address" class="form-control" rows="3" placeholder="Enter permanent address"></textarea>
 						<div id="address_err" class="text-danger" style="display:none;"></div>
@@ -256,7 +256,7 @@
                 </div>
                 
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Contact No.</label>
+                  <label class="col-sm-3 control-label">Contact No. <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 						<input type="text" name="contact_no" id="contact_no" class="form-control only_int" placeholder="Enter contact no.">
 						<div id="contact_no_err" class="text-danger" style="display:none;"></div>
@@ -296,7 +296,7 @@
                 </div>
                 
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">TC Self</label>
+                    <label class="col-sm-3 control-label">TC Self <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 					<select class="form-control" name="transfer" id="transfer">
 						<option value="">Select TC Self</option>
@@ -308,7 +308,7 @@
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">Hostler</label>
+                    <label class="col-sm-3 control-label">Hostler <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 					<select class="form-control" name="hostler" id="hostler">
 						<option value="">Select Hostler</option>
@@ -333,7 +333,7 @@
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">Bus</label>
+                    <label class="col-sm-3 control-label">Bus <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 					<select class="form-control" name="bus" id="bus">
 						<option value="">Select Bus</option>

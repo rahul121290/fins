@@ -87,16 +87,34 @@
 									<thead class="thead-light" >
 										<tr>
 											<td>Description</td>
-											<td align="center">Dua Date</td>
+											<td align="center">Due Date</td>
 											<td align="right">Amount</td>
 										</tr>
 									</thead>
 									<tbody>
+									
 										<tr>
 											<td>Tuition Fee <?php echo $result[0]['month']; ?></td>
 											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['paid_amount']; ?></td>
+											<td align="right"><?php echo $result[0]['total_fee']; ?></td>
 										</tr>
+										
+										<?php if($result[0]['admission_fee'] > 0){?>
+										<tr>
+											<td>Admission Fee</td>
+											<td align="center"><?php echo date('d-m-Y'); ?></td>
+											<td align="right"><?php echo $result[0]['admission_fee']; ?></td>
+										</tr>
+									<?php } ?>
+									
+									<?php if($result[0]['amalgamated_fee'] > 0){?>
+										<tr>
+											<td>Amalgamated Fee</td>
+											<td align="center"><?php echo date('d-m-Y'); ?></td>
+											<td align="right"><?php echo $result[0]['amalgamated_fee']; ?></td>
+										</tr>
+									<?php } ?>
+									
 										<?php if($result[0]['bus_fee'] > 0){?>
 										<tr>
 											<td>Bus Fee</td>
@@ -115,7 +133,7 @@
 										
 										<?php if($result[0]['let_fee'] > 0){?>
 										<tr>
-											<td>Let Fee</td>
+											<td>Late Fee</td>
 											<td align="center"><?php echo date('d-m-Y'); ?></td>
 											<td align="right"><?php echo $result[0]['let_fee']; ?></td>
 										</tr>
