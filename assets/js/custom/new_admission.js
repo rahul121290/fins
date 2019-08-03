@@ -93,7 +93,7 @@ $(document).ready(function(){
 			admission_date:{required:true},
 			caste:{required:true},
 //				blood:{required:true},
-			aadhaar:{required:true},
+			//aadhaar:{required:true},
 			address:{required:true},
 //				guardian:{required:true},
 //				local_address:{required:true},

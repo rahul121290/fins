@@ -34,11 +34,9 @@
 							</div>
 							<div class="col-sm-3 mb-3">
 								<select name="school" id="school" class="form-control">
-									<option value="">Select School</option>
-									<?php foreach($school as $school){?>
-										<option value="<?php echo $school['sch_id'];?>" selected><?php echo $school['school_name'];?></option>
-									<?php } ?>
-									<option value="3">CG</option>
+									<option value="">Select Board</option>
+    								<option value="1" selected>CBSE</option>
+    								<option value="3">CG State Board</option>
 								</select>
 								<div id="school_err" style="display:none; color:red;"></div>
 							</div>

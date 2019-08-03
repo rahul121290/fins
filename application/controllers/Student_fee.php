@@ -283,7 +283,7 @@ class Student_fee extends CI_Controller {
             }else{
                 $result[0]['previus_late_fee'] = ($result[0]['month_count']-1) * 200;
                 $result[0]['late_fee'] = $late_fee;
-                $result[0]['fee_type'] = 'Reguler';
+                $result[0]['fee_type'] = 'Regular';
             }
             $result[0]['grand_total'] = $late_fee + $result[0]['total_fee'] + $result[0]['previus_late_fee'];
             //print_r($result);die;
@@ -416,7 +416,8 @@ class Student_fee extends CI_Controller {
     
     
     function fee_submit(){
-        //print_r($this->input->post());die;
+        $total_fee = $this->input->post('total');
+        $fee_type = $this->input->post('fee_type');
         $session = $this->session->userdata('session_id');
         $school_id = $this->session->userdata('school_id');
         $adm_no = $this->input->post('adm_no');
@@ -501,6 +502,22 @@ class Student_fee extends CI_Controller {
             echo json_encode(array('msg'=>'Payment failed, Please try again.','status'=>500));
         }else{
             $this->db->trans_commit();
+            
+                $this->db->select('name,contact_no');
+                $student = $this->db->get_where('students',array('status'=>1,'ses_id'=>$session,'sch_id'=>$school_id,'adm_no'=>$adm_no))->result_array();
+                if(count($student) > 0){
+                    if($fee_type == 'Admission'){
+                        $mobile = $student[0]['contact_no'];
+                        $sms = 'Dear Parent, thank you for choosing Shakuntala Vidyalaya for a bright future of your ward. The admission is confirmed.';
+                        //print_r($sms);die;
+                        //$this->my_function->send_sms($mobile,$sms);
+                    }else{
+                        $mobile = $student[0]['contact_no'];
+                        $sms = 'Dear Parent, the fee payment of '.$student[0]['name'].' has been received. Amount : '.$total_fee.'. Regards SVR';
+                       // print_r($sms);die;
+                        //$this->my_function->send_sms($mobile,$sms);
+                    }
+                }
             echo json_encode(array('msg'=>'Payment successfully.','receipt_no'=>$receipt_no,'status'=>200));
         }
         

@@ -235,6 +235,8 @@ $(document).ready(function(){
 											'<input type="hidden" id="form_admin_no" value="'+ response.data[0]['adm_no'] +'">'+
 											'<input type="hidden" id="form_student_id" value="'+ response.data[0]['std_id'] +'">'+
 											'<input type="hidden" id="month_fee" value="'+ response.data[0]['month_total_fee'] +'">'+
+											'<input type="hidden" id="fee_type" value="'+ response.data[0]['fee_type'] +'">'+
+											
 											
 										'</td>'+
 									'</tr>'+
@@ -428,6 +430,8 @@ $(document).ready(function(){
     
     $(document).on('click','#fee_collect',function(){
 		var data = {};
+		
+		data['fee_type'] = $('#fee_type').val();
 			data['std_id'] = $('#form_student_id').val();
 			//data['fs_id'] = $('#form_fee_id').val();
 			data['adm_no'] = $('#form_admin_no').val();
