@@ -181,7 +181,7 @@ $(document).ready(function(){
 						                              '</tr>'+
 						                              '<tr>'+
 						                                 '<td>Attnd. Mid.Term</td>'+
-						                                 '<td>: '+value.total_days+'/'+value.present_days+'</td>'+
+						                                 '<td>: '+value.present_days+'/'+value.total_days+'</td>'+
 						                              '</tr>'+
 						                           '</tbody>'+
 						                        '</table>'+
@@ -341,19 +341,32 @@ $(document).ready(function(){
 						                  '</thead>'+
 						                  '<tbody>';
 						                  $.each(response.result.co_scholistic_sub,function(key,co_sch){
-						                	  if(value[co_sch['sub_name']] == 5){
-						                		  var co_marks = 'A';
-						                	  }else if(value[co_sch['sub_name']] == 4){
-						                		  var co_marks = 'B';
-						                	  }else if(value[co_sch['sub_name']] == 3){
-						                		  var co_marks = 'C';
-						                	  }else if(value[co_sch['sub_name']] == 2){
-						                		  var co_marks = 'C';
-						                	  }else if(value[co_sch['sub_name']] == 1){
-						                		  var co_marks = 'C';
+						                	  if(class_name < 12){
+						                		  if(value[co_sch['sub_name']] == 3){
+							                		  var co_marks = 'A';
+							                	  }else if(value[co_sch['sub_name']] == 2){
+							                		  var co_marks = 'B';
+							                	  }else if(value[co_sch['sub_name']] == 1){
+							                		  var co_marks = 'C';
+							                	  }else{
+							                		  var co_marks = '-';
+							                	  }
 						                	  }else{
-						                		  var co_marks = '-';
+						                		  if(value[co_sch['sub_name']] == 5){
+							                		  var co_marks = 'A';
+							                	  }else if(value[co_sch['sub_name']] == 4){
+							                		  var co_marks = 'B';
+							                	  }else if(value[co_sch['sub_name']] == 3){
+							                		  var co_marks = 'C';
+							                	  }else if(value[co_sch['sub_name']] == 2){
+							                		  var co_marks = 'C';
+							                	  }else if(value[co_sch['sub_name']] == 1){
+							                		  var co_marks = 'C';
+							                	  }else{
+							                		  var co_marks = '-';
+							                	  }
 						                	  }
+						                	  
 						                	  x=x+'<tr>'+
 						                        '<td>'+co_sch['sub_name']+'</td>'+
 						                        '<td align="center">'+co_marks+'</td>'+
