@@ -12,7 +12,7 @@ $permission = $this->my_function->user_permission();
       	<?php } else{ $school = 'sharda';?>
       	<li><img alt="" src="<?php echo base_url()?>assets/images/sharda/header-logo.png" height="50"></li>
       	<?php } ?>
-			<li class="active"><a href="<?=base_url().$school.'/'.$permission_link;?>/dashbord">DASHBORD</a></li>
+			<li class="active"><a href="<?=base_url().$school.'/'.$permission_link;?>/dashbord">DASHBOARD</a></li>
 			<?php if(in_array(1, $permission) || in_array(2, $permission) || in_array(3, $permission) || in_array(4, $permission) || in_array("5", $permission) || in_array(6, $permission) || in_array(7, $permission) || in_array(8, $permission) || in_array(9, $permission) || in_array(10, $permission)){ ?>
 				<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown"  href="#">MASTER RECORDS<span class="caret"></span></a>

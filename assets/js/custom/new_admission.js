@@ -104,9 +104,25 @@ $(document).ready(function(){
 //				weight:{required:true},
 			transfer:{required:true},
 				hostler:{required:true},
-				hostel:{required:($('#hostler').val() == "Yes")},
+				hostel: {
+				    required: function(element) {
+				        if ($("#hostler").val() == "Yes") {
+				            return true;
+				        } else {
+				            return false;
+				        }
+				    },
+				},
 				bus:{required:true},
-				bus_stoppage:{required:($('#bus').val() == "Yes")},
+				bus_stoppage: {
+				    required: function(element) {
+				        if ($("#bus").val() == "Yes") {
+				        	return true;
+				        } else {
+				        	return false;
+				        }
+				    },
+				},
 //				std_image:{required:true},
 			},
 		messages:{

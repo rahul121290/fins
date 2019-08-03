@@ -308,10 +308,10 @@
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">Hostler <span style="color:red;">*</span></label>
+                    <label class="col-sm-3 control-label">Hosteller <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
 					<select class="form-control" name="hostler" id="hostler">
-						<option value="">Select Hostler</option>
+						<option value="">Select Hosteller</option>
 						<option value="Yes">Yes</option>
 						<option value="No">No</option>
 					</select>
