@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/_all-skins.min.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/jquery-ui.css">
   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/marksheet-result.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/css/custom-style.css">
   
   <!-- Google Font -->
   <link rel="stylesheet" href="<?php echo base_url();?>assets/css/google_font.css">

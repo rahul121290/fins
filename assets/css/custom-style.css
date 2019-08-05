@@ -1,3 +1,5 @@
+.skin-blue .main-header .navbar .nav>li>a{padding:10px 8px;}
+.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side{background-color:#ececec;}
 .btn-space{margin-right:15px;}
 .form-control{background-color:#fbfafa;}
 .nav-active{background-color:#f5f5f5;}

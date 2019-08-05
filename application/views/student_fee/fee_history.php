@@ -4,7 +4,7 @@
       <h1>Reception</h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>shakuntala/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">fee history</li>
+        <li class="active">Fee History</li>
       </ol>
     </section>
     <section class="content-header "></section>

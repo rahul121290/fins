@@ -8,10 +8,12 @@ $permission = $this->my_function->user_permission();
       	<ul class="nav navbar-nav">
       	<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
       	
-      	<li><img alt="" src="<?php echo base_url()?>assets/images/shakuntala/header-logo.png" height="50"></li>
+      	<li style="margin-right:20px;"><img alt="" src="<?php echo base_url()?>assets/images/shakuntala/header-logo.png" height="50"></li>
       	<?php } else{ $school = 'sharda';?>
-      	<li><img alt="" src="<?php echo base_url()?>assets/images/sharda/header-logo.png" height="50"></li>
-      	<?php } ?>
+      	<li style="margin-right:20px;"><img alt="" src="<?php echo base_url()?>assets/images/sharda/header-logo.png" height="50"></li>
+		<?php } ?>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
 			<li class="active"><a href="<?=base_url().$school.'/'.$permission_link;?>/dashbord">DASHBOARD</a></li>
 			<?php if(in_array(1, $permission) || in_array(2, $permission) || in_array(3, $permission) || in_array(4, $permission) || in_array("5", $permission) || in_array(6, $permission) || in_array(7, $permission) || in_array(8, $permission) || in_array(9, $permission) || in_array(10, $permission)){ ?>
 				<li class="dropdown">
@@ -169,10 +171,10 @@ $permission = $this->my_function->user_permission();
 							<li><a href="<?=base_url();?>admin/fees-payment/generate-fees-csv"><i class="fa fa-snowflake-o text-blue" aria-hidden="true"></i>Generate Fees CSV</a></li>
 						</ul>
 					</li> <?php */?>
-				</ul>
+				
       
       	<?php $user = $this->ion_auth->user()->row();?>
-        <ul class="nav navbar-nav navbar-right"> 
+        
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?php echo base_url();?>assets/images/user.png" class="user-image" alt="User Image">

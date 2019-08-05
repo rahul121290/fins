@@ -403,12 +403,13 @@ $(document).ready(function(){
 								}
 								//---------------end of extra subjects show--------------------------
 								
-						         x=x+'<div class="modal-footer p-footer-sec">'+
+						         x=x+'<div class="modal-footer p-footer-sec" style="margin-top:15px;border-top:0px solid #eee;">'+
 						            '<div class="col-md-2 p-place-date"><b>Bhilai </b>'+currentDate+'</div>'+
-						            '<div class="col-md-2 col-md-offset-4 p-techer-sign"><b>Class Teacher </b></div>'+
-						            '<div class="col-md-2 col-md-offset-4 p-techer-sign"><b>Exam I/C </b></div>'+
-						            '<div class="col-md-2 p-school-seal"><b>Seal of the School</b></div>'+
-						            '<div class="col-md-2 text-center p-princi-sign"><img class="principle-sign" src="'+ base_url +'assets/images/'+response.result.org_details.school[0].principal_sign+'"><br>('+response.result.org_details.school[0].principal_name+')<br><b>Principal</b></div>'+
+						            '<div class="col-md-2 col-md-offset-2 p-techer-sign"><b>Signature of Class Teacher </b></div>'+
+						            //'<div class="col-md-2 col-md-offset-4 p-techer-sign"><b>Class Teacher </b></div>'+
+						            //'<div class="col-md-2 col-md-offset-4 p-techer-sign"><b>Exam I/C </b></div>'+
+						            '<div class="col-md-2 col-md-offset-1 p-school-seal"><b>Seal of the School</b></div>'+
+						            '<div class="col-md-2 col-md-offset-1 text-center p-princi-sign"><img class="principle-sign" src="'+ base_url +'assets/images/'+response.result.org_details.school[0].principal_sign+'"><br>('+response.result.org_details.school[0].principal_name+')<br><b>Principal</b></div>'+
 						         '</div>'+
 						      '</div>';
 							});

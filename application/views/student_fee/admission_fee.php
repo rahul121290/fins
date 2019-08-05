@@ -3,7 +3,7 @@
       <h1>Reception<small>admission fee</small></h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">new admission</li>
+        <li class="active">Admission Fee</li>
       </ol>
     </section>
 	<script src="<?php echo base_url();?>assets/js/custom/new_admission.js"></script>
