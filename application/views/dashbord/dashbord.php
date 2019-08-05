@@ -2,7 +2,6 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     
-    
      <?php if($this->ion_auth->is_admin()){?>
 	 <section class="content-header">
       <h1> Dashboard </h1>
@@ -58,9 +57,20 @@
             </div>
           </div>
         </div>
-    <?php }else{ ?>
-	<div class="container">
 		
+    <?php }else if(($this->uri->segment(2) == 'class-teacher') || ($this->uri->segment(2) == 'teacher')){ ?>
+	
+	<div class="text-center" style="opacity: 0.5;margin-top: 110px;display:none;">
+    <?php if($this->session->userdata('school_id') == 1){?>
+    	<img alt="shakuntala" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" width="200">
+    <?php }else{?>
+    <img alt="shakuntala" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" width="200">
+    <?php }?>
+    </div>
+	
+	<?php }else if($this->uri->segment(2) == 'reception'){?>
+	
+	<div class="container">
 		<div class="col-md-12" style="background-color:#fff;padding:20px 0px;margin-top:30px;">
 		<section class="content-header">
       <h1> Dashboard </h1>
@@ -75,17 +85,5 @@
 		<div class="col-md-2"></div>
 		</div>
 	</div>
-	
-	
-    <div class="text-center" style="opacity: 0.5;margin-top: 110px;display:none;">
-    <?php if($this->session->userdata('school_id') == 1){?>
-    	<img alt="shakuntala" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" width="200">
-    <?php }else{?>
-    <img alt="shakuntala" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" width="200">
-    <?php }?>
-    </div>
-	
-	
-	
-    <?php }?>
+    <?php } ?>
   </div>

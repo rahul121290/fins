@@ -510,7 +510,7 @@ class Student_fee extends CI_Controller {
                         $mobile = $student[0]['contact_no'];
                         $sms = 'Dear Parent, thank you for choosing Shakuntala Vidyalaya for a bright future of your ward. The admission is confirmed.';
                         //print_r($sms);die;
-                        //$this->my_function->send_sms($mobile,$sms);
+                        $this->my_function->send_sms($mobile,$sms);
                     }else{
                         $mobile = $student[0]['contact_no'];
                         $sms = 'Dear Parent, the fee payment of '.$student[0]['name'].' has been received. Amount : '.$total_fee.'. Regards SVR';
