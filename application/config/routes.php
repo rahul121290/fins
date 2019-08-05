@@ -45,6 +45,9 @@ $route['(:any)/(:any)/student-fee/history'] = 'Admin_ctrl/fee_history';
 $route['(:any)/(:any)/student-fee/new-admission'] = 'Admin_ctrl/new_admission';
 $route['(:any)/(:any)/student-fee/admission/(:num)/(:any)'] = 'Admin_ctrl/admission_fee/$1/$2';
 $route['(:any)/(:any)/student-fee/receipt/(:any)'] = 'Admin_ctrl/fee_receipt/$1/$2/$3';
+$route['(:any)/(:any)/prospectus/selling'] = 'Admin_ctrl/prospectus_selling';
+$route['(:any)/(:any)/prospectus/selling-list'] = 'Admin_ctrl/prospectus_selling_list';
+$route['(:any)/(:any)/fee-structure/add-new'] = 'Admin_ctrl/fee_structure';
 
 $route['(:any)/(:any)/profile'] = 'Admin_ctrl/profile';
 

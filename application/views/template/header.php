@@ -144,7 +144,25 @@ $permission = $this->my_function->user_permission();
     					</li>
 					<?php } ?>
 					
+					<?php if(in_array(27, $permission)){ ?>
+						<li class="dropdown">
+    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">FEE STRUCTURE<span class="caret"></span></a>
+    						<ul class="dropdown-menu">
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/fee-structure/add-new"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Add New</a></li>
+    						</ul>
+    					</li>
+					<?php } ?>
 					
+					<?php if(in_array(26, $permission)){ ?>
+						<li class="dropdown">
+    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">PROSPECTUS<span class="caret"></span></a>
+    						<ul class="dropdown-menu">
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/prospectus/selling"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Prospectus Selling</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/prospectus/selling-list"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Selling List</a></li>
+    						</ul>
+    					</li>
+					<?php } ?>
+										
 					<?php if(in_array(25, $permission)){ ?>
 						<li class="dropdown">
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">RECEPTION<span class="caret"></span></a>
@@ -159,9 +177,6 @@ $permission = $this->my_function->user_permission();
 					<?php if(in_array(24, $permission)){ ?>
 						<li class="dropdown"><a href="<?php echo base_url();?>Backup_ctrl">BackUp</a></li>
 					<?php } ?>
-					
-					
-					
 					
 					<?php /*?>
 					<li class="dropdown">

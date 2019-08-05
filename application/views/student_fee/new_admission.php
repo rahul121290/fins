@@ -28,6 +28,22 @@
 					<div id="admission_no_err" style="display:none;color:red;"></div>
 				</div>
                 </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>
+                  <div class="col-sm-6">
+					<input type="text" name="admission_no" id="admission_no" class="form-control only_int" placeholder="Enter admission no.">
+					<div id="admission_no_err" style="display:none;color:red;"></div>
+				</div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>
+                  <div class="col-sm-6">
+					<input type="text" name="admission_no" id="admission_no" class="form-control only_int" placeholder="Enter admission no.">
+					<div id="admission_no_err" style="display:none;color:red;"></div>
+				</div>
+                </div>
 				
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Roll No.</label>

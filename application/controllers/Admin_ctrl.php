@@ -661,6 +661,40 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
+    function prospectus_selling(){
+        if(in_array(26, $this->permission)){
+            $this->data['reg_no'] = $this->db->select('(IFNULL(MAX(reg_no),0) + 1) as reg_no')->get_where('prospectus')->result_array();
+            $this->data['page_name'] = 'Prospectus Selling';
+            $this->data['main'] = 'prospectus/prospectus_selling';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
+    function prospectus_selling_list(){
+        if(in_array(26, $this->permission)){
+            $this->data['page_name'] = 'Prospectus Selling List';
+            $this->data['main'] = 'prospectus/prospectus_selling_list';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
+    function fee_structure(){
+        if(in_array(27, $this->permission)){
+            $this->data['page_name'] = 'Fee Struture';
+            $this->data['main'] = 'student_fee/fee_structure';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
     function error_page(){
         $this->data['page_name'] = 'Error';
         $this->load->view("error_page", $this->data);
