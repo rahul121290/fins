@@ -20,14 +20,29 @@
 			
 			<form role="form" class="form-horizontal" id="student_form" method="POST">
 			<div class="box-body">
-                
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>
+                  <label class="col-sm-3 control-label">Fee Criteria <span style="color:red;">*</span></label>
                   <div class="col-sm-6">
-					<input type="text" name="admission_no" id="admission_no" class="form-control only_int" placeholder="Enter admission no.">
-					<div id="admission_no_err" style="display:none;color:red;"></div>
-				</div>
-                </div>
+					<select id="fee_criteria" name="fee_criteria" class="form-control">
+						<option value="">Fee Criteria</option>
+						<?php foreach($fee_criteria as $fc){?>
+							<option value="<?php echo $fc['fc_id'];?>"><?php echo $fc['fc_name'];?></option>
+						<?php } ?>
+					</select>
+				  </div>
+             	</div>
+             	
+             	<div class="form-group" style="display: none;" id="staff_child_row">
+                  <label class="col-sm-3 control-label">Staff Child <span style="color:red;">*</span></label>
+                  <div class="col-sm-6">
+					<select id="staff_child" name="staff_child" class="form-control">
+						<option value="">Staff Child</option>
+						<?php foreach($staff_child as $sc){?>
+							<option value="<?php echo $sc['sc_id'];?>"><?php echo $sc['name'];?></option>
+						<?php } ?>
+					</select>
+				  </div>
+             	</div>
                 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>

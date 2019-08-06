@@ -62,6 +62,17 @@ $(document).ready(function(){
 		  }
 	});
 	
+	$(document).on('change','#fee_criteria',function(){
+		var fee_criteria = $(this).val();
+		
+		if(fee_criteria == 4 || fee_criteria == 5){
+			$('#staff_child_row').css('display','block');			
+		}else{
+			$('#staff_child_row').css('display','none');
+			$('#staff_child').prop('selectedIndex','');
+		}
+	});
+	
 	
 	$(".only_int").on("keypress keyup blur", function(event) {
         $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
@@ -78,6 +89,16 @@ $(document).ready(function(){
 //--------------------add student---------------------------------
 	$('#student_form').validate({
 		rules:{
+			fee_criteria:{required:true},
+			staff_child:{
+			    required: function(element) {
+			        if ($("#fee_criteria").val() == 4 || $("#fee_criteria").val() == 5) {
+			        	return true;
+			        } else {
+			        	return false;
+			        }
+			    },
+			},
 			admission_no:{required:true,number:true},
 			//roll_no:{required:true},
 			student_name:{required:true},
@@ -103,28 +124,18 @@ $(document).ready(function(){
 //				height:{required:true},
 //				weight:{required:true},
 			transfer:{required:true},
-				hostler:{required:true},
-				hostel: {
-				    required: function(element) {
-				        if ($("#hostler").val() == "Yes") {
-				            return true;
-				        } else {
-				            return false;
-				        }
-				    },
-				},
-				bus:{required:true},
-				bus_stoppage: {
-				    required: function(element) {
-				        if ($("#bus").val() == "Yes") {
-				        	return true;
-				        } else {
-				        	return false;
-				        }
-				    },
-				},
-//				std_image:{required:true},
+			hostler:{required:true},
+			bus:{required:true},
+			bus_stoppage: {
+			    required: function(element) {
+			        if ($("#bus").val() == "Yes") {
+			        	return true;
+			        } else {
+			        	return false;
+			        }
+			    },
 			},
+		},
 		messages:{
 			},
 	});
@@ -182,6 +193,9 @@ $(document).ready(function(){
 	    	}
 //----------------------------------------------------------------------------------------
 	    		formdata = new FormData();
+	    		formdata.append('fee_criteria',$('#fee_criteria').val());
+	    		formdata.append('staff_child',$('#staff_child').val());
+	    		
 				formdata.append('adm_no',$('#admission_no').val());
 				formdata.append('roll_no',$('#roll_no').val());
 				formdata.append('name',$('#student_name').val());
@@ -235,7 +249,7 @@ $(document).ready(function(){
 							window.location.href = base_url+user_url+'/student-fee/payment';
 						}else{
 							alert(response.feedback);
-							}
+						}
 					},
 					cache:false,
 					contentType:false,

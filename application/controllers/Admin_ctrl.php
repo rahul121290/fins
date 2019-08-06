@@ -641,6 +641,8 @@ class Admin_ctrl extends CI_Controller {
     
     function new_admission(){
         if(in_array(25, $this->permission)){
+            $this->data['fee_criteria'] = $this->db->select('fc_id,fc_name')->get_where('fee_criteria',array('status'=>1))->result_array();
+            $this->data['staff_child'] = $this->db->select('sc_id,name')->get_where('staff_child',array('status'=>1))->result_array();
             $this->data['page_name'] = 'New Admission';
             $this->data['main'] = 'student_fee/new_admission';
             $this->_admin_class_teacher_access();

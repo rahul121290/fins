@@ -58,22 +58,7 @@ class Subject_allocation_ctrl extends CI_Controller{
             echo json_encode(array('feedback'=>'record not found.!','status'=>500));
         }
     }
-    
-//     public function subjetsList_ctrl(){
-//         $session = $this->session->userdata('session_id');
-//         $school = $this->session->userdata('school_id');
         
-//         $this->db->select('med_name,class_name,section_name,st_name,sg_name');
-//         $this->db->join('medium m','m.med_id=sa.med_id');
-//         $this->db->join('class c','c.c_id=sa.class_id');
-//         $this->db->join('section se','se.sec_id=sa.sec_id');
-//         $this->db->join('sub_type st','st.st_id=sa.st_id');
-//         $this->db->join('sub_group sg','sg.sg_id=sa.sg_id');
-//         $this->db->join('subject s','s.sub_id=sa.sub_id');
-//         $result = $this->db->get_where('subject_allocation sa',array('sa.ses_id'=>$session,'sa.sch_id'=>$school,'sa.med_id'=>2,'sa.status'=>1));
-//         print_r($this->db->last_query()); die;
-//     }
-    
     public function list_of_exam_marks_entry(){
         //----------get post data-------------------------------
         $ses_id = (int)$this->session->userdata('session_id');
