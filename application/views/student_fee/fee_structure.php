@@ -137,13 +137,13 @@ function fee_stucuture_record(sch_id,med_id,class_id){
 				$.each(response.data,function(key,value){
 					x=x+'<tr>'+
 					'<td>'+value.name+'</td>'+
-					'<td><input type="text" value="'+value.general+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_general" class="general"/></td>'+
-					'<td><input type="text" value="'+value.sibling+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_sibling" class="sibling"/></td>'+
-					'<td><input type="text" value="'+value.rte+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_rte" class="rte" /></td>'+
-					'<td><input type="text" value="'+value.new_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_first_child" class="new_staff_first_child" /></td>'+
-					'<td><input type="text" value="'+value.new_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_second_child" class="new_staff_second_child" /></td>'+
-					'<td><input type="text" value="'+value.old_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_first_child" class="old_staff_first_child" /></td>'+
-					'<td><input type="text" value="'+value.old_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_second_child" class="old_staff_second_child" /></td>'+
+					'<td><input type="text" value="'+value.general+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_general" class="general only_amount"/></td>'+
+					'<td><input type="text" value="'+value.sibling+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_sibling" class="sibling only_amount"/></td>'+
+					'<td><input type="text" value="'+value.rte+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_rte" class="rte only_amount" /></td>'+
+					'<td><input type="text" value="'+value.new_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_first_child" class="new_staff_first_child only_amount" /></td>'+
+					'<td><input type="text" value="'+value.new_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_second_child" class="new_staff_second_child only_amount" /></td>'+
+					'<td><input type="text" value="'+value.old_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_first_child" class="old_staff_first_child only_amount" /></td>'+
+					'<td><input type="text" value="'+value.old_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_second_child" class="old_staff_second_child only_amount" /></td>'+
 					'</tr>';
 				});
 				$('#submit').css('display','block');
@@ -153,8 +153,15 @@ function fee_stucuture_record(sch_id,med_id,class_id){
 	});
 }
 
-$(document).on('click','#submit',function(){
+$(document).on('keyup','.only_amount',function(){
+	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+        event.preventDefault();
+    }
+});
 
+
+$(document).on('click','#submit',function(){
 	var sch_id = $('#school').val();
 	var med_id = $('#medium').val();
 	var class_id =$('#class_id').val();
@@ -236,7 +243,7 @@ $(document).on('click','#submit',function(){
 		},
 		success:function(response){
 			if(response.status == 200){
-				$('#loader').modal('hide');
+				//$('#loader').modal('hide');
 				alert(response.msg);
 				fee_stucuture_record(sch_id,med_id,class_id);
 			}else{
@@ -245,8 +252,6 @@ $(document).on('click','#submit',function(){
 			}
 		},
 	});
-
-	
 });
 
 
