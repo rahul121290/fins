@@ -22,16 +22,16 @@
 			<div class="box-body">
                 
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Reg No.<span style="color:red;">*</span></label>
+					<label class="col-sm-3 control-label">Registration No.<span style="color:red;">*</span></label>
 						<div class="col-sm-6">
-							<input type="text" name="reg_no" id="reg_no" class="form-control only_text" value="<?php echo $reg_no[0]['reg_no'];?>" placeholder="Enter Registration Number">
+							<input type="text" name="reg_no" id="reg_no" class="form-control only_text" value="<?php echo $reg_no[0]['reg_no'];?>" placeholder="Enter Registration Number" />
 							<div id="reg_no_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Selling Date<span style="color:red;">*</span></label>
 						<div class="col-sm-6">
-							<input type="date" name="selling_date" id="selling_date" class="form-control" value="<?php echo date('Y-m-d');?>">
+							<input type="date" name="selling_date" id="selling_date" class="form-control" value="<?php echo date('Y-m-d');?>" />
 							<div id="selling_date_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
@@ -43,7 +43,7 @@
 							<select class="form-control" name="school" id="school">
 								<option value="">Select Board</option>
 								<option value="1">CBSE</option>
-								<option value="3">CG State Board</option>
+								<option value="3">State Board</option>
 							</select>
 							<div id="school_err" class="text-danger" style="display:none;"></div>
 						</div>
@@ -78,7 +78,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Name <span style="color:red;">*</span></label>
 						<div class="col-sm-6">
-							<input type="text" name="name" id="name" class="form-control only_text" placeholder="Enter Name">
+							<input type="text" name="name" id="name" class="form-control only_text" placeholder="Enter Name" />
 							<div id="name_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
@@ -86,15 +86,15 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Contact No. <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="phone" id="phone" max="10" class="form-control only_int" placeholder="Enter contact no.">
+						<input type="text" name="phone" id="phone" max="10" class="form-control only_int" placeholder="Enter Contact No." />
 						<div id="phone_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Alternate No <span style="color:red;">*</span></label>
+                  <label class="col-sm-3 control-label">Alternate Mobile No. <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="alternate_no" max="10" id="alternate_no" class="form-control only_int" placeholder="Alternate Number">
+						<input type="text" name="alternate_no" max="10" id="alternate_no" class="form-control only_int" placeholder="Alternate Mobile Number" />
 						<div id="alternate_no_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -102,15 +102,13 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Address <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<textarea name="address" id="address" class="form-control" rows="3" placeholder="Enter local address"></textarea>
+						<textarea name="address" id="address" class="form-control" rows="3" placeholder="Enter Address"></textarea>
 						<div id="address_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
 			</div>
-					<div class="box-footer">
-                      	<div class="col-sm-offset-8">
-                            <button type="button" id="submit" class="btn btn-info">Submit</button>
-                        </div>
+					<div class="box-footer text-center">
+                        <button type="button" id="submit" class="btn btn-info">Submit</button>
         			</div>
 			</form>
 		</div>

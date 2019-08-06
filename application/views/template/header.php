@@ -148,7 +148,7 @@ $permission = $this->my_function->user_permission();
 						<li class="dropdown">
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">FEE STRUCTURE<span class="caret"></span></a>
     						<ul class="dropdown-menu">
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/fee-structure/add-new"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Add New</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/fee-structure/add-new"><i class="fa fa-inbox text-blue" aria-hidden="true"></i>Add New Fee Structure</a></li>
     						</ul>
     					</li>
 					<?php } ?>
@@ -157,8 +157,8 @@ $permission = $this->my_function->user_permission();
 						<li class="dropdown">
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">PROSPECTUS<span class="caret"></span></a>
     						<ul class="dropdown-menu">
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/prospectus/selling"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Prospectus Selling</a></li>
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/prospectus/selling-list"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Selling List</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/prospectus/selling"><i class="fa fa-book text-blue" aria-hidden="true"></i>Prospectus Selling</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/prospectus/selling-list"><i class="fa fa-address-book-o text-blue" aria-hidden="true"></i>Selling List</a></li>
     						</ul>
     					</li>
 					<?php } ?>
@@ -167,9 +167,9 @@ $permission = $this->my_function->user_permission();
 						<li class="dropdown">
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">RECEPTION<span class="caret"></span></a>
     						<ul class="dropdown-menu">
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/new-admission"><i class="fa fa-percent text-blue" aria-hidden="true"></i>New Admission</a></li>
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/payment"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Student Fee</a></li>
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/history"><i class="fa fa-percent text-blue" aria-hidden="true"></i>Fee History</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/new-admission"><i class="fa fa-user text-blue" aria-hidden="true"></i>New Admission</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/payment"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Student Fee</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/history"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Fee History</a></li>
     						</ul>
     					</li>
 					<?php } ?>

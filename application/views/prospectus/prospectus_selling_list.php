@@ -14,19 +14,19 @@
 			</div>
 			<div class="box-body">
 			
-			<div class="form-group">
-						<div class="col-sm-2">
+			<div class="col-sm-2">
+						<div class="form-group">
 							<select class="form-control" name="seach_school" id="seach_school">
 								<option value="">Select Board</option>
 								<option value="1" selected>CBSE</option>
-								<option value="3">CG State Board</option>
+								<option value="3">State Board</option>
 							</select>
 							<div id="seach_school_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
-				<div class="form-group">
-						<div class="col-sm-2">
+				<div class="col-sm-2">
+						<div class=" form-group">
 							<select class="form-control" name="seach_medium" id="seach_medium">
 								<option value="">Select Medium</option>
 								<?php foreach($medium as $med){?>
@@ -37,8 +37,8 @@
 						</div>
 				</div>
 					
-				<div class="form-group">
-					<div class="col-sm-2">
+				<div class="col-sm-2">
+					<div class="form-group">
 						<select class="form-control" name="seach_class" id="seach_class">
 							<option value="">Select Class</option>
 							<?php foreach($class as $classes){?>
@@ -49,37 +49,31 @@
 					</div>
 				</div>
 				
-				<div class="form-group">
-					<div class="col-sm-2">
+				<div class="col-sm-2">
+					<div class="form-group">
 						<input type="date" id="from_date" name="from_date" class="form-control">
 						<div id="from_date_err" class="text-danger" style="display:none;"></div>
 					</div>
 				</div>
 
-				<div class="form-group">
-					<div class="col-sm-2">
+				<div class="col-sm-2">
+					<div class="form-group">
 						<input type="date" id="to_date" name="to_date" class="form-control">
 						<div id="to_date_err" class="text-danger" style="display:none;"></div>
 					</div>
 				</div>
 				
-				<div class="form-group">
-					<div class="col-sm-2">
-						<button id="search" class="btn btn-primary btn-sm">Search</button>
+				<div class="col-sm-2">
+					<div class="form-group">
+						<button id="search" class="btn btn-primary btn-sm">Search</button> &nbsp; <button id="print" class="btn btn-info btn-sm">Print</button>
 					</div>
 				</div>
-				
-				<div class="form-group">
-					<div class="col-sm-2">
-						<button id="print" class="btn btn-info btn-sm">print</button>
-					</div>
-				</div>
-			
-                      	<table class="table table-bordered table-striped">
+					<div class="col-md-12 table-responsive">
+                      	<table class="table table-bordered table-striped text-center">
                 		<thead>
                 			<tr>
-                				<th>Sr No.</th>
-                				<th>Reg. No.</th>
+                				<th>S.No.</th>
+                				<th>Registration No.</th>
                 				<th>Selling Date</th>
                 				<th>Session</th>
                 				<th>Board</th>
@@ -87,13 +81,14 @@
                 				<th>Medium</th>
                 				<th>Name</th>
                 				<th>Contact No.</th>
-                				<th>Alternet No.</th>
+                				<th>Alternate No.</th>
                 				<th>Address</th>
                 				<th>Action</th>
                 			</tr>
                 			</thead>
                 			<tbody id="prospectus_list"></tbody>
                 	</table>
+					</div>
     			</div>
 		</div>
     </section>
@@ -114,41 +109,41 @@
       
       <div class="modal-body">
         <form role="form" class="form-horizontal" id="update_prospectus_form" method="POST">
-			<div class="box-body">
+			<div class="">
                 
                 <input type="hidden" id="p_id" name="p_id" value="">
                 
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Reg No.<span style="color:red;">*</span></label>
-						<div class="col-sm-6">
-							<input type="text" name="reg_no" id="reg_no" class="form-control only_text" value="" placeholder="Enter Registration Number" disabled="disabled">
+					<label class="col-sm-4 control-label">Registration No.<span style="color:red;">*</span></label>
+						<div class="col-sm-7">
+							<input type="text" name="reg_no" id="reg_no" class="form-control only_text" value="" placeholder="Enter Registration Number" disabled="disabled" />
 							<div id="reg_no_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Selling Date<span style="color:red;">*</span></label>
-						<div class="col-sm-6">
-							<input type="date" name="selling_date" id="selling_date" class="form-control" value="">
+					<label class="col-sm-4 control-label">Selling Date<span style="color:red;">*</span></label>
+						<div class="col-sm-7">
+							<input type="date" name="selling_date" id="selling_date" class="form-control" value="" />
 							<div id="selling_date_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Board <span style="color:red;">*</span></label>
-						<div class="col-sm-6">
+					<label class="col-sm-4 control-label">Board <span style="color:red;">*</span></label>
+						<div class="col-sm-7">
 							<select class="form-control" name="school" id="school">
 								<option value="">Select Board</option>
 								<option value="1">CBSE</option>
-								<option value="3">CG State Board</option>
+								<option value="3">State Board</option>
 							</select>
 							<div id="school_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Medium <span style="color:red;">*</span></label>
-						<div class="col-sm-6">
+					<label class="col-sm-4 control-label">Medium <span style="color:red;">*</span></label>
+						<div class="col-sm-7">
 							<select class="form-control" name="medium" id="medium">
 								<option value="">Select Medium</option>
 								<?php foreach($medium as $med){?>
@@ -160,8 +155,8 @@
 				</div>
 					
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Class <span style="color:red;">*</span></label>
-					<div class="col-sm-6">
+					<label class="col-sm-4 control-label">Class <span style="color:red;">*</span></label>
+					<div class="col-sm-7">
 						<select class="form-control" name="class_id" id="class_id">
 							<option value="">Select Class</option>
 							<?php foreach($class as $classes){?>
@@ -173,41 +168,39 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Name <span style="color:red;">*</span></label>
-						<div class="col-sm-6">
-							<input type="text" name="name" id="name" class="form-control only_text" placeholder="Enter Name">
+					<label class="col-sm-4 control-label">Name <span style="color:red;">*</span></label>
+						<div class="col-sm-7">
+							<input type="text" name="name" id="name" class="form-control only_text" placeholder="Enter Name" />
 							<div id="name_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Contact No. <span style="color:red;">*</span></label>
-					<div class="col-sm-6">
-						<input type="text" name="phone" id="phone" class="form-control only_int" placeholder="Enter contact no.">
+                  <label class="col-sm-4 control-label">Contact No. <span style="color:red;">*</span></label>
+					<div class="col-sm-7">
+						<input type="text" name="phone" id="phone" class="form-control only_int" placeholder="Enter Contact No." />
 						<div id="phone_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Alternate No <span style="color:red;">*</span></label>
-					<div class="col-sm-6">
-						<input type="text" name="alternate_no" id="alternate_no" class="form-control only_int" placeholder="Alternate Number">
+                  <label class="col-sm-4 control-label">Alternate Mobile No. <span style="color:red;">*</span></label>
+					<div class="col-sm-7">
+						<input type="text" name="alternate_no" id="alternate_no" class="form-control only_int" placeholder="Alternate Number" />
 						<div id="alternate_no_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
                 
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Address <span style="color:red;">*</span></label>
-					<div class="col-sm-6">
+                  <label class="col-sm-4 control-label">Address <span style="color:red;">*</span></label>
+					<div class="col-sm-7">
 						<textarea name="address" id="address" class="form-control" rows="3" placeholder="Enter local address"></textarea>
 						<div id="address_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
 			</div>
-					<div class="box-footer">
-                      	<div class="col-sm-offset-8">
-                            <button type="button" id="update" class="btn btn-info">Update</button>
-                        </div>
+					<div class="box-footer text-center">
+                        <button type="button" id="update" class="btn btn-info">Update</button>
         			</div>
 			</form>
       </div>
@@ -253,7 +246,7 @@ function alllist(sch_id,med_id,class_id,from_date,to_date){
 						var school = 'CG Board';
 					}
 					x=x+'<tr>'+
-						'<td>'+parseInt(key+1)+'</td>'+
+						'<td>'+parseInt(key+1)+'.</td>'+
 						'<td>'+value.reg_no+'</td>'+
 						'<td>'+value.selling_date+'</td>'+
 						'<td>'+value.session_name+'</td>'+
@@ -264,8 +257,8 @@ function alllist(sch_id,med_id,class_id,from_date,to_date){
 						'<td>'+value.phone+'</td>'+
 						'<td>'+value.alternate_no+'</td>'+
 						'<td>'+value.address+'</td>'+
-						'<td><button class="btn btn-primary btn-sm edit" id="'+value.p_id+'">Edit</button>'+
-							'<button class="btn btn-danger btn-sm delete" id="'+value.p_id+'">Delete</button></td>'+
+						'<td><button class="btn btn-primary btn-sm edit" id="'+value.p_id+'"><i class="fa fa-edit"></i></button>&nbsp;&nbsp;'+
+							'<button class="btn btn-danger btn-sm delete" id="'+value.p_id+'"><i class="fa fa-trash"></i></button></td>'+
 						'</tr>';
 				});
 				$('#prospectus_list').html(x);
@@ -322,7 +315,7 @@ $(document).on('click','#print',function(){
                 				'<th>Medium</th>'+
                 				'<th>Name</th>'+
                 				'<th>Contact No.</th>'+
-                				'<th>Alternet No.</th>'+
+                				'<th>Alternate No.</th>'+
                 				'<th>Address</th>'+
                 			'</tr>'+
                 			'</thead>'+
@@ -352,7 +345,7 @@ $(document).on('click','#print',function(){
             		x=x+'</tbody></table>';
             		with(win.document){open(); write(x);close();}
 			}else{
-			$('#prospectus_list').html('<tr><td colspan="12" style="text-align: center;">Record not found.</td></tr>');	
+			
 			}
 		},
 	});

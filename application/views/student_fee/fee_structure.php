@@ -10,7 +10,7 @@
 	<section class="content">
 		<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
 			<div class="box-header with-border ui-sortable-handle" style="cursor: move;">
-			  <h3 class="box-title">Fee Structure</h3>
+			  <h3 class="box-title">Fee Structure Add /Update</h3>
 			  <div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
 				  <i class="fa fa-minus"></i></button>
@@ -18,10 +18,10 @@
 			</div>
 			<div class="box-body">
 			<form action="javascript:void(0);" id="fee_structure_form">
-    			<div class="form-group">
-                      <div class="col-sm-6">
+    			<div class="col-sm-3 ">
+                      <div class="form-group">
     					<select id="school" name="school" class="form-control">
-    						<option value="">Select School</option>
+    						<option value="">Select Board</option>
     						<option value="1">CBSE</option>
     						<option value="3">CG Board</option>
     					</select>
@@ -29,8 +29,8 @@
     			  </div>
                </div>
                
-               <div class="form-group">
-                      <div class="col-sm-6">
+               <div class="col-sm-3">
+                      <div class="form-group">
     					<select id="medium" name="medium" class="form-control">
     						<option value="">Select Medium</option>
     						<?php foreach($medium as $med){?>
@@ -41,8 +41,8 @@
     			  </div>
                </div>
     			
-    			<div class="form-group">
-                      <div class="col-sm-6">
+    			<div class="col-sm-3">
+                      <div class="form-group">
     					<select id="class_id" name="class_id" class="form-control">
     						<option value="">Select Class</option>
     						<?php foreach($class as $class){?>
@@ -53,28 +53,36 @@
     			  </div>
                </div>
                
-               <div class="form-group">
-                      <div class="col-sm-6">
-    					<button id="search" class="btn btn-primary btn-sm">Search</button>
-    			  </div>
+               <div class="col-sm-3">
+    				<button id="search" class="btn btn-primary btn-sm">Search</button>
                </div>
                
-               <table class="table">
+			   <div class="col-md-12">
+			   <h3 class="box-title" style="font-size:19px;">Fee Structure List</h3>
+			   <hr>
+               <div class="table-responsive" style="min-height:300px;">
+			   <table class="table" >
                		<thead>
                			<tr>
                				<th>Heads</th>
-               				<th>General</th>
+               				<th>General Student</th>
                				<th>Sibling</th>
                				<th>RTE</th>
-               				<th>New Staff(first child)</th>
-               				<th>New Staff(second child)</th>
-               				<th>Old Staff(first child)</th>
-               				<th>Old Staff(second child)</th>
+               				<th>New Staff(1st Child)</th>
+               				<th>New Staff(2nd Child)</th>
+               				<th>Old Staff(1st Child)</th>
+               				<th>Old Staff(2nd Child)</th>
                			</tr>
                		</thead>
                		<tbody id="feelist"></tbody>
                </table>
-               <button class="btn btn-success btn-sm" id="submit" style="display:none;">Submit</button>
+			   </div>
+			   <div class="col-md-12">
+				   <div class="text-center">
+				   <button class="btn btn-success " id="submit" style="display:none;">Submit</button>
+				   </div>
+			   </div>
+			   </div>
                </form>
 			</div>
 		</div>
@@ -136,14 +144,14 @@ function fee_stucuture_record(sch_id,med_id,class_id){
 				var x = '';
 				$.each(response.data,function(key,value){
 					x=x+'<tr>'+
-					'<td>'+value.name+'</td>'+
-					'<td><input type="text" value="'+value.general+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_general" class="general only_amount"/></td>'+
-					'<td><input type="text" value="'+value.sibling+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_sibling" class="sibling only_amount"/></td>'+
-					'<td><input type="text" value="'+value.rte+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_rte" class="rte only_amount" /></td>'+
-					'<td><input type="text" value="'+value.new_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_first_child" class="new_staff_first_child only_amount" /></td>'+
-					'<td><input type="text" value="'+value.new_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_second_child" class="new_staff_second_child only_amount" /></td>'+
-					'<td><input type="text" value="'+value.old_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_first_child" class="old_staff_first_child only_amount" /></td>'+
-					'<td><input type="text" value="'+value.old_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_second_child" class="old_staff_second_child only_amount" /></td>'+
+					'<td><b>'+value.name+'</b></td>'+
+					'<td><input type="text" value="'+value.general+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_general" class="general only_amount form-control"/></td>'+
+					'<td><input type="text" value="'+value.sibling+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_sibling" class="sibling only_amount form-control"/></td>'+
+					'<td><input type="text" value="'+value.rte+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_rte" class="rte only_amount form-control" /></td>'+
+					'<td><input type="text" value="'+value.new_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_first_child" class="new_staff_first_child only_amount form-control" /></td>'+
+					'<td><input type="text" value="'+value.new_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_second_child" class="new_staff_second_child only_amount form-control" /></td>'+
+					'<td><input type="text" value="'+value.old_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_first_child" class="old_staff_first_child only_amount form-control" /></td>'+
+					'<td><input type="text" value="'+value.old_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_second_child" class="old_staff_second_child only_amount form-control" /></td>'+
 					'</tr>';
 				});
 				$('#submit').css('display','block');
