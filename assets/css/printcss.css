@@ -1,0 +1,9 @@
+ @media print {
+          .r-table-print{width:50%;}
+		 .thead-light{background-color:#f2f2f2 !important;}
+
+		.noprint{ display:none !important;}
+		.box.box-danger {
+    border-top-color: #fff !important;
+}
+ }
