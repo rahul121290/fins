@@ -59,16 +59,6 @@
 								<div id="class_name_err" style="display:none; color:red;"></div>
 							</div>
 							
-							<div class="col-sm-3 mb-3" id="sub_group_table" style="display:none;">
-								<select name="sub_group" id="sub_group" class="form-control">
-									<option value="">Select Subject Group</option>
-									<?php foreach($group as $groups){?>
-            							<option value="<?php echo $groups['sg_id'];?>"><?php echo $groups['sg_name'];?></option>
-            						<?php } ?>
-								</select>
-								<div id="sub_group_err" style="display:none; color:red;"></div>
-							</div>
-							
 							<div class="col-sm-3 mb-3">
 								<select name="section" id="section" class="form-control">
 									<option value="">Select Section</option>
@@ -78,16 +68,6 @@
 								</select>
 								<div id="section_err" style="display:none; color:red;"></div>
 							</div>
-							
-							<div class="col-sm-3 mb-3">
-								<select name="month" id="month" class="form-control">
-									<option value="">Select Month</option>
-									<?php foreach($month as $months){?>
-										<option value="<?php echo $months['m_id'];?>" <?php if($months['m_id'] == date('m')){echo "selected";} ?>><?php echo $months['m_name'];?></option>
-									<?php }?>
-								</select>
-							</div>
-							
 					    </div>
 					    <div class="col-sm-9 mb-3" style="padding-left:0px;">
 							<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Admission Number">	
@@ -107,6 +87,7 @@
               		     <div class="box-body">
           					<table class="table table-responsive">
     							<thead><tr>
+    							<th>S No.</th>
                                   <th>Admission No.</th>
                                   <th>Class/ Section</th>
                                   <th>Student Name</th>

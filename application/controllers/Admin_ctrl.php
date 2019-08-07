@@ -578,6 +578,25 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
+    function fee_payment(){
+        if(in_array(25, $this->permission)){
+            $this->data['page_name'] = 'Fee Payment';
+            $this->data['main'] = 'student_fee/fee_payment';
+            
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    function fee_payment1(){
+            $this->data['page_name'] = 'Fee Payment';
+            $this->data['main'] = 'student_fee/fee_payment_demo';
+            $this->data['site_name'] = 'Vivartha';
+            $this->data['site_title'] = 'Vivartha';
+            $this->load->view("template/temp", $this->data);
+    }
+    
     function fee_receipt($schoolname,$group_name,$receipt_no){
         if(in_array(25, $this->permission)){
             $session = $this->session->userdata('session_id');
