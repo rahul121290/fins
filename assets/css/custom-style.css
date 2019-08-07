@@ -229,6 +229,21 @@ input [type="file"]{border:1px solid #eee;padding:2px;}
 .table-bordered>tbody>tr>td{font-size:12px !important;text-align:center !important;}
 
 .ms-full{height:1040px!important;}
+.month-fee-table input[type=checkbox]{float:left;margin-top:5px;margin-right:6px;}
+.fee-waiver-box{position:relative;}
+.fee-waiver-box .apply-btn{position:absolute;top:0;right:0;}
+.submit-otp{position:absolute;top:0;right:0;}
+.resend-otp{position:absolute;    top: -16px;
+    left: 0px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #067cc1;}
+.fee-tottal-box{    padding: 10px;
+    margin: 0 10px 10px 10px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    font-size: 18px;}
+.payment-method-box input[type=checkbox]{width:16px;height:16px;}
 /*custom respo*/
 
 
