@@ -229,7 +229,7 @@ input [type="file"]{border:1px solid #eee;padding:2px;}
 .table-bordered>tbody>tr>td{font-size:12px !important;text-align:center !important;}
 
 .ms-full{height:1040px!important;}
-.month-fee-table input[type=checkbox]{float:left;margin-top:5px;margin-right:6px;}
+.month-fee-table input[type=checkbox]{float:left;margin-top:-3px;margin-right:6px;    width: 25px;    height: 25px;}
 .fee-waiver-box{position:relative;}
 .fee-waiver-box .apply-btn{position:absolute;top:0;right:0;}
 .submit-otp{position:absolute;top:0;right:0;}
@@ -240,10 +240,87 @@ input [type="file"]{border:1px solid #eee;padding:2px;}
     color: #067cc1;}
 .fee-tottal-box{    padding: 10px;
     margin: 0 10px 10px 10px;
-    background-color: #f2f2f2;
+    background-color: #c7c4c4;
     border: 1px solid #ddd;
-    font-size: 18px;}
-.payment-method-box input[type=checkbox]{width:16px;height:16px;}
+    font-size: 18px;float:left;width:100%;}
+.payment-method-box input[type=checkbox]{width:25px;height:25px;}
+.totalinput{border: 0px;
+    font-size: 21px;
+    padding: 0 15px !important;
+    background-color: #e8e8e8 !important;
+    font-weight: 600;}
+
+
+
+/* The container */
+.pm-box {
+
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.pm-box input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  z-index:99;
+}
+.pm-box input[type=checkbox] {width:25px;height:25px;}
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 12px;
+  left: 7px;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+}
+
+/* On mouse-over, add a grey background color */
+.pm-box:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.pm-box input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.pm-box input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.pm-box .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 /*custom respo*/
 
 

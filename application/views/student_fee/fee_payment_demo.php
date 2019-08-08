@@ -135,7 +135,7 @@
 					<thead><tr><th></th><th></th><th></th><th></th><th></th></tr></thead>
 					<tbody>
 					<tr>
-						<td><input class="form-check-input" type="checkbox" /><td>
+						<td class="pm-box"><input class="form-check-input" type="checkbox" /><span class="checkmark"></span><td>
 						<td><b>Cash</b></td>
 						<td><input class="form-control" type="text" placeholder="Amount type" /></td>
 						<td></td>
@@ -143,7 +143,7 @@
 						<td></td>
 					</tr>
 					<tr>
-						<td><input class="form-check-input" type="checkbox" /><td>
+						<td class="pm-box"><input class="form-check-input" type="checkbox" /><span class="checkmark"></span><td>
 						<td><b>Cheque</b></td>
 						<td><input class="form-control" type="text" placeholder="Amount type" /></td>
 						<td><input class="form-control" type="text" placeholder="Bank name" /></td>
@@ -151,7 +151,7 @@
 						<td></td>
 					</tr>
 					<tr>
-						<td><input class="form-check-input" type="checkbox" /><td>
+						<td class="pm-box"><input class="form-check-input" type="checkbox" /><span class="checkmark"></span><td>
 						<td><b>DD(Demand Draft)</b></td>
 						<td><input class="form-control" type="text" placeholder="Amount type" /></td>
 						<td><input class="form-control" type="text" placeholder="Bank name" /></td>
@@ -159,7 +159,7 @@
 						<td></td>
 					</tr>
 					<tr>
-						<td><input class="form-check-input" type="checkbox" /><td>
+						<td class="pm-box"><input class="form-check-input" type="checkbox" /><span class="checkmark"></span><td>
 						<td><b>POS Machine</b></td>
 						<td>
 							<select class="form-control">
@@ -175,7 +175,7 @@
 					</tbody>
 				</table>
 				<hr>
-				<div style="margin-left:5%;" class="col-md-5 fee-tottal-box">
+				<div style="margin-left:55%;" class="col-md-5 fee-tottal-box">
 					<div class="pull-left">Grand Total</div>
 					<div class="pull-right ">
 						4000.00/-

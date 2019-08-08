@@ -37,7 +37,7 @@ $(document).ready(function(){
 						'<td><b>Student Fee Category</b></td><td>: '+response.data.student[0].fc_name+'</td>'+
 						'</tr><tr>'+
 						'<td><b>Medium</b></td><td>: '+response.data.student[0].medium+'</td>'+
-						'<td><b></b></td><td></td>'+
+						'<td><b>Contact No.</b></td><td></td>'+
 					'</tr>'+
 					'</tbody>'+
 				'</table>';
@@ -54,7 +54,7 @@ $(document).ready(function(){
 							var check_box = '';
 						}
 						f=f+'<tr>'+
-						'<td><input '+check_box+' type="checkbox" data-late_fee="0" value="'+value.amount+'" data-ft_id="'+value.ft_id+'" class="ones_in_session fee_total"></td>'+
+						'<td class="pm-box"><input '+check_box+' type="checkbox" data-late_fee="0" value="'+value.amount+'" data-ft_id="'+value.ft_id+'" class="ones_in_session fee_total"> <span class="checkmark"></span></td>'+
 						'<td><b>'+value.name+'</b></td>'+
 						'<td>'+value.amount+'</td>'+
 						'<td>'+value.fee_status+'</td>'+
@@ -70,7 +70,7 @@ $(document).ready(function(){
 						var total_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee) + parseFloat(value.late_fee));
 						console.log(total_fee);
 						m=m+'<tr>'+
-							'<td><input type="checkbox" data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total"></td>'+
+							'<td class="pm-box"><input type="checkbox" data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
 							'<td>'+value.name+'</td>'+
 							'<td>'+value.fee.toFixed(2)+'</td>'+
 							'<td>'+value.bus_fee.toFixed(2)+'</td>'+

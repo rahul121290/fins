@@ -14,7 +14,7 @@
     </section>
     	<script src="<?php echo base_url();?>assets/js/custom/student_fee.js"></script>
     	<!-- main section -->
-        <div class="col-md-6">	
+        <div class="col-md-12">	
           	<div class="box box-danger">
                 <div class="box-header">
                   <h3 class="box-title">Student Filter</h3>
@@ -25,14 +25,14 @@
             	<input type="hidden" id="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>">
             	
               			<div class="form-group" style="margin-bottom:0px;">
-              				<div class="col-sm-3 mb-3">
+              				<div class="col-sm-2 mb-3">
 								<select name="session" id="session" class="form-control">
 									<option value="0">Select Session</option>
 									<option value="3" selected>2019-20</option>
 								</select>
 								<div id="session_err" style="display:none; color:red;"></div>
 							</div>
-							<div class="col-sm-3 mb-3">
+							<div class="col-sm-2 mb-3">
 								<select name="school" id="school" class="form-control">
 									<option value="">Select Board</option>
     								<option value="1" selected>CBSE</option>
@@ -40,7 +40,7 @@
 								</select>
 								<div id="school_err" style="display:none; color:red;"></div>
 							</div>
-							<div class="col-sm-3 mb-3" >
+							<div class="col-sm-2 mb-3" >
 								<select name="medium" id="medium" class="form-control">
 									<option value="">Select Medium</option>
 									<?php foreach($medium as $med){?>
@@ -49,7 +49,7 @@
 								</select>
 								<div id="medium_err" style="display:none; color:red;"></div>
 							</div>
-							<div class="col-sm-3 mb-3">
+							<div class="col-sm-2 mb-3">
 								<select class="form-control" id="class_name" name="class_name">
 									<option value="">Select Class</option>
 									<?php foreach($class as $classes){?>
@@ -59,7 +59,7 @@
 								<div id="class_name_err" style="display:none; color:red;"></div>
 							</div>
 							
-							<div class="col-sm-3 mb-3">
+							<div class="col-sm-2 mb-3">
 								<select name="section" id="section" class="form-control">
 									<option value="">Select Section</option>
 									<?php foreach($section as $sec){?>
@@ -68,14 +68,17 @@
 								</select>
 								<div id="section_err" style="display:none; color:red;"></div>
 							</div>
+							<div class="col-md-2 mb-3" style="padding:0px 0px;">
+								<button type="button" name="search" id="search" class="btn btn-info pull-left">Search</button>
+								<button style="margin-left:10px;" type="reset" class="btn btn-default pull-left">Reset</button>
+								
+							</div>
 					    </div>
-					    <div class="col-sm-9 mb-3" style="padding-left:0px;">
+						 
+					    <div class="col-sm-6 mb-3" style="padding-left:0px;">
 							<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Admission Number">	
 						</div>
-					    <div class="box-footer col-md-3" style="padding:0px 0px;">
-                  			<button style="margin-left:10px;" type="reset" class="btn btn-default pull-right">Reset</button>
-                        	<button type="button" name="search" id="search" class="btn btn-info pull-right">Search</button>
-        				</div>
+					   
             		</form>	
         		</div><!-- end box body -->
      			</div>
@@ -103,7 +106,7 @@
               		</div>
          		</div>
    			</div>
-   			<div class="col-md-6" id="fee-detail-box" style="display: none;">	
+   			<div class="col-md-12" id="fee-detail-box" style="display: none;">	
               	<div class="box box-info">
                     <div class="box-header">
                       <h3 class="box-title">Fee Detail</h3>

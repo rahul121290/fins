@@ -59,7 +59,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th><input type="checkbox" id="all_month"> All</th>
+							<th class="pm-box"><input type="checkbox" id="all_month"><span class="checkmark"></span> <span style="margin-left:30px;font-size:13px;">All</th>
 							<th>Fee Month</th>
 							<th>Tution Fee</th>
 							<th>Bus Fee</th>
@@ -93,10 +93,10 @@
 				</div>
 				<div class="col-md-6">
 					<div class="box-header">
-						 <h3 class="box-title">Total Fee</h3>
+						 <h3 class="box-title"><b>TOTAL FEE</b></h3>
 					</div>
 					<div class="fee-tottal-box">
-						<input type="text" class="form-control" id="fee_total" value="0.00" disabled="disabled">
+						<input type="text" class="form-control totalinput" id="fee_total" value="0.00" disabled="disabled">
 					</div>
 				</div>
     		</div><!-- end box body -->
@@ -112,7 +112,7 @@
 					<thead><tr><th></th><th></th><th></th><th></th><th></th><th></thead>
 					<tbody>
 					<tr>
-						<td><input class="form-check-input pay_method" id="cash" type="checkbox" /><td>
+						<td class="pm-box"><input class="form-check-input pay_method" id="cash" type="checkbox" /><span class="checkmark"></span><td>
 						<td><b>Cash</b></td>
 						<td><input class="form-control max_type" id="cash_amount" type="text" placeholder="Enter Amount" disabled="disabled" /></td>
 						<td></td>
@@ -121,7 +121,7 @@
 						
 					</tr>
 					<tr>
-						<td><input class="form-check-input pay_method" id="cheque" type="checkbox" /><td>
+						<td class="pm-box"><input class="form-check-input pay_method" id="cheque" type="checkbox" /><span class="checkmark"></span><td>
 						<td><b>Cheque</b></td>
 						<td><input class="form-control max_type" id="cheque_amount" type="text" placeholder="Cheque Amount" disabled="disabled" /></td>
 						<td><input class="form-control" id="cheque_no" type="text" placeholder="Cheque No." disabled="disabled" /></td>
@@ -129,7 +129,7 @@
 						<td><input class="form-control" id="cheque_bank" type="text" placeholder="Bank Name" disabled="disabled" /></td>
 					</tr>
 					<tr>
-						<td><input class="form-check-input pay_method" id="dd" type="checkbox" /><td>
+						<td class="pm-box"><input class="form-check-input pay_method" id="dd" type="checkbox" /> <span class="checkmark"></span><td>
 						<td><b>DD(Demand Draft)</b></td>
 						<td><input class="form-control max_type" id="dd_amount" type="text" placeholder="DD Amount" disabled="disabled" /></td>
 						<td><input class="form-control" id="dd_no" type="text" placeholder="DD(Demand Draft) No." disabled="disabled" /></td>
@@ -137,7 +137,7 @@
 						<td><input class="form-control" id="dd_bank" type="text" placeholder="Bank Name" disabled="disabled" /></td>
 					</tr>
 					<tr>
-						<td><input class="form-check-input pay_method" id="pos" type="checkbox" /><td>
+						<td class="pm-box"><input class="form-check-input pay_method" id="pos" type="checkbox" /><span class="checkmark"></span><td>
 						<td><b>POS</b></td>
 						<td>
 							<select class="form-control" id="pos_card" disabled="disabled">
@@ -154,11 +154,14 @@
 					</tbody>
 				</table>
 				<hr>
-				<div style="margin-left:5%;" class="col-md-5 fee-tottal-box">
-					<div class="pull-left">Grand Total</div>
-					<div class="pull-right"><input type="text" class="form-control" id="grand_total" value="0.00" disabled="disabled"></div>
+				<div style="margin-left:58%;" class="col-md-5 ">
+					<div class="fee-tottal-box">
+					<div class="pull-left"><b>GRAND TOTAL</b></div>
+					<div class="pull-right"><input type="text" class="form-control totalinput" id="grand_total" value="0.00" disabled="disabled" /></div>
+					</div>
+					<button id="submit" class="btn btn-success pull-right">Submit</button>
 				</div>
-				<button id="submit" class="btn btn-success">Submit</button>
+				
 			</div>
 		</div>
 	</div>
