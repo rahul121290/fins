@@ -597,46 +597,97 @@ class Admin_ctrl extends CI_Controller {
             $this->load->view("template/temp", $this->data);
     }
     
-    function fee_receipt($schoolname,$group_name,$receipt_no){
+    function fee_receipt($school_name,$user_group,$receipt){
         if(in_array(25, $this->permission)){
-            $session = $this->session->userdata('session_id');
-            $school = $this->session->userdata('school_id');
             
-            $this->db->select('s.sibling,s.std_id,s.adm_no,s.roll_no,s.name,s.f_name,s.contact_no,s.email_id,s.aadhar_no,s.photo,c.class_name,sec.section_name as section_name,s.sub_group as subgroup,sf.receipt_no,
-                           GROUP_CONCAT(m.m_name) month,
-                           IF(s.sibling="Yes",fs.sibling_rebate,0) sibling_rebate,
-                           IFNULL(SUM(sf.admission_fee),0) admission_fee,
-						   IFNULL(SUM(sf.amalgamated_fee),0) amalgamated_fee,
-                           IFNULL(SUM(sf.lab_fee),0) lab_fee,
-                           IFNULL(SUM(sf.bus_fee),0) bus_fee,
-                           IFNULL(SUM(sf.tution_fee),0) tution_fee,
-                           IFNULL(SUM(sf.let_fee),0) late_fee,
-                           IFNULL(hfs.pay_amount,0) hostel_fee,
-                           IFNULL(SUM(sf.let_fee),0) let_fee,
-                           IFNULL(SUM(sf.card_charges),0) card_charges,
-                           IFNULL(fw.amount,0) fee_waiver_amount,
-                            
-                           ((IFNULL(SUM(sf.admission_fee),0) + IFNULL(SUM(sf.amalgamated_fee),0) + IFNULL(SUM(sf.lab_fee),0) + IFNULL(SUM(sf.bus_fee),0) + IFNULL(SUM(sf.let_fee),0) + IFNULL(SUM(sf.card_charges),0) + IFNULL(hfs.pay_amount,0) + IFNULL(SUM(sf.tution_fee),0)) - IF(s.sibling="Yes",fs.sibling_rebate,0)) grand_total
-                           ');
-            $this->db->join('students s','s.adm_no = sf.adm_no AND s.status = 1 AND s.ses_id = '.$session.' AND s.sch_id = '.$school.'');
-            $this->db->join('fees_structure fs','fs.ses_id = s.ses_id AND fs.sch_id = s.sch_id AND fs.class_id = s.class_id AND fs.med_id = s.medium AND fs.status = 1');
-            $this->db->join('month m','m.m_id = sf.month_id AND m.status = 1');
-            $this->db->join('class c','c.c_id = s.class_id AND c.status = 1');
-            $this->db->join('section sec','sec.sec_id = s.sec_id AND sec.status = 1');
-            $this->db->join('hostel_fee_status hfs','hfs.hfs_id = sf.hfs_id','LEFT');
-            $this->db->join('fee_waiver fw','fw.admission_no = sf.adm_no AND fw.session = sf.ses_id AND fw.school_id = sf.sch_id AND fw.month_id = sf.month_id AND fw.approved = 1','LEFT');
-            $this->data['result'] = $this->db->get_where('student_fee sf',array('sf.ses_id'=>$session,'sf.sch_id'=>$school,'sf.receipt_no'=>$receipt_no,'sf.status'=>1,'sf.pay_status'=>1))->result_array();
-           // print_r($this->db->last_query());die;
-            $this->data['word_amount'] = ucwords($this->my_function->number_to_word($this->data['result'][0]['grand_total']));
+            $this->db->select('DATE_FORMAT(sf.created_at,"%d-%m-%Y") receipt_date,s.ses_id,s.sch_id,s.medium,s.class_id,s.fee_criteria,s.adm_no,s.name,s.f_name,bs.price bus_fee,sf.receipt_no,
+                    sf.session_fee_ids,
+                    sf.month_ids,
+                    sf.late_fee,
+                    paid_amount
+                    ');
+            $this->db->join('students s','s.ses_id = sf.ses_id AND s.sch_id = sf.sch_id AND s.medium = sf.med_id AND s.adm_no = sf.adm_no AND s.status = 1');
+            $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.ses_id = s.ses_id AND bs.status = 1','LEFT');
+            $result['student'] = $this->db->get_where('student_fee sf',array('sf.status'=>1,'sf.receipt_no'=>$receipt))->result_array();
             
+            if(count($result['student']) > 0){
+                
+                //-------------session fee------------------------------
+                $session_fee = '0';
+                if($result['student'][0]['session_fee_ids'] != '' || $result['student'][0]['session_fee_ids'] != null){
+                    $session_fee = $result['student'][0]['session_fee_ids'];
+                }
+                
+                $ses_id = $result['student'][0]['ses_id'];
+                $sch_id = $result['student'][0]['sch_id'];
+                $med_id = $result['student'][0]['medium'];
+                $class_id = $result['student'][0]['class_id'];
+                $fee_criteria = $result['student'][0]['fee_criteria'];
+                
+                
+                $condition = 'fsm.status = 1';
+                $condition .=' AND fsm.ses_id = '.$ses_id;
+                $condition .=' AND fsm.sch_id = '.$sch_id;
+                $condition .=' AND fsm.med_id = '.$med_id;
+                $condition .=' AND fsm.class_id = '.$class_id;
+                $condition .=' AND cfs.fc_id = '.$fee_criteria;
+                
+                $this->db->select('ft.ft_id,ft.name,fc.fc_id,fc.fc_name,cfs.amount');
+                $this->db->join('fee_structure_master fsm','fsm.fs_id = cfs.fsm_id');
+                $this->db->join('fee_criteria fc','fc.fc_id = cfs.fc_id');
+                $this->db->join('fee_type ft','ft.ft_id = cfs.ft_id AND ft.ft_id IN ('.$session_fee.')');
+                $this->db->where($condition);
+                $result['session_fee'] = $this->db->get_where('class_fee_structure cfs')->result_array();
+                
+                //-----------------month fee--------------------------
+                
+                $month_ids = '0';
+                if($result['student'][0]['month_ids'] != '' || $result['student'][0]['month_ids'] != null){
+                    $month_ids = $result['student'][0]['month_ids'];
+                }
+                
+                $this->db->select('fm.*,t1.amount tution_fee');
+                $this->db->join('(SELECT fsm.ses_id,cfs.amount
+                             FROM class_fee_structure cfs
+                             JOIN fee_structure_master fsm ON fsm.fs_id = cfs.fsm_id
+                             WHERE fsm.status = 1 AND fsm.ses_id = '.$ses_id.' AND fsm.sch_id = '.$sch_id.' AND fsm.med_id = '.$med_id.' AND fsm.class_id = '.$class_id.' AND cfs.fc_id = 1
+                             AND cfs.ft_id = 5) t1','t1.ses_id = fm.ses_id',false);
+                $this->db->where('fm_id IN ('.$month_ids.')');
+                $fee_month = $this->db->get_where('fee_month fm',array('fm.status'=>1))->result_array();
+                
+                $result['month_fee'] = array();
+                if(count($fee_month) > 0){
+                    $current_date = date('Y-m-d');
+                    foreach($fee_month as $month){
+                        $temp = array();
+                        $temp['fm_id'] =  $month['fm_id'];
+                        $temp['name'] =  $month['name'];
+                        $temp['fee'] =  $month['tution_fee'] * $month['total_month'];
+                        
+                        //------------class 10th and class 12 not march bus fee not include-------------
+                        if(($class_id== 13 && $month['fm_id'] == 9) || ($class_id == 15 && $month['fm_id'] == 9)){
+                            $temp['bus_fee'] = $result['student'][0]['bus_fee'] * 1;
+                        }else{
+                            $temp['bus_fee'] = $result['student'][0]['bus_fee'] * $month['bus_month'];
+                        }
+                        
+                        //--------------**********--------------
+                        $result['month_fee'][] = $temp;
+                    }
+                }
+                $result['word_amount'] = ucwords($this->my_function->number_to_word($result['student'][0]['paid_amount']));
+            }
+            
+            $this->data['result'] = $result;
             $this->data['page_name'] = 'Fee Receipt';
             $this->data['main'] = 'student_fee/fee_receipt';
-            $this->_admin_class_teacher_access();
+            $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
-            $this->data['main'] = 'error_page';
+            $this->_load_view('error_page');
         }
     }
+    
     
     function fee_history(){
         if(in_array(25, $this->permission)){

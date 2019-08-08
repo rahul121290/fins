@@ -58,26 +58,26 @@
 							<div class="col-sm-12 mb-3 fee-print">
 								<table class="table r-table-print" style="float:left;width:48%;">
 									<tbody>
-									<tr><td style="border:0px;">Receipt Date</td><td style="border:0px;">: <?php echo date('d-m-Y'); ?></td></tr>
+									<tr><td style="border:0px;">Receipt Date</td><td style="border:0px;">: <?php echo $result['student'][0]['receipt_date']; ?></td></tr>
 									<tr>
 										<td>Student's Name</td>
-										<td>: <?php echo $result[0]['name'];?></td>
+										<td>: <?php echo $result['student'][0]['name'];?></td>
 									</tr>
 									<tr>
 										<td>Father's Name</td>
-										<td>: <?php echo $result[0]['f_name'];?></td></tr>
+										<td>: <?php echo $result['student'][0]['f_name'];?></td></tr>
 									</tbody>
 								</table>
 								<table class="table r-table-print" style="width:48%;">
 									<tbody>
-									<tr><td style="border:0px;">Receipt No.</td><td style="border:0px;">: <?php echo $result[0]['receipt_no']; ?></td></tr>
+									<tr><td style="border:0px;">Receipt No.</td><td style="border:0px;">: <?php echo $result['student'][0]['receipt_no']; ?></td></tr>
 									<tr>
 										<td>Admission No.</td>
-										<td>: <?php echo $result[0]['adm_no']; ?></td>
+										<td>: <?php echo $result['student'][0]['adm_no']; ?></td>
 									</tr>
 									<tr>
 										<td>Class/Sec</td>
-										<td>: <?php echo $result[0]['class_name']; ?>/<?php echo $result[0]['section_name']; ?></td>
+										<td>: <?php echo $result['student'][0]['class_id']; ?>/<?php echo $result['student'][0]['class_id']; ?></td>
 									</tr>
 									</tbody>
 								</table>
@@ -93,66 +93,53 @@
 									</thead>
 									<tbody>
 									
-										<tr>
-											<td>Tuition Fee <?php echo $result[0]['month']; ?></td>
+										<?php 
+										if(count($result['session_fee']) > 0){ ?>
+										    <tr>
+    											<td><b>Session Fee</b></td>
+    											<td align="center"></td>
+    											<td align="right"></td>
+											</tr>   
+										    <?php foreach($result['session_fee'] as $session_fee){ ?>
+										     
+										 <tr>
+											<td><?php echo $session_fee['name'];?></td>
 											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['tution_fee']; ?></td>
-										</tr>
+											<td align="right"><?php echo $session_fee['amount']; ?></td>
+										</tr>           
+										<?php } } ?>
 										
-										<?php if($result[0]['admission_fee'] > 0){?>
-										<tr>
-											<td>Admission Fee</td>
+										
+										<?php 
+										if(count($result['month_fee']) > 0){ ?>
+											<tr>
+    											<td><b>Month + Bus Fee</b></td>
+    											<td align="center"></td>
+    											<td align="right"></td>
+											</tr>
+										    <?php foreach($result['month_fee'] as $month_fee){ ?>
+										     
+										 <tr>
+											<td><?php echo $month_fee['name'];?></td>
 											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['admission_fee']; ?></td>
-										</tr>
-									<?php } ?>
+											<td align="right"><?php echo $month_fee['fee'] + $month_fee['bus_fee'] ; ?></td>
+										</tr>           
+										<?php } } ?>
 									
-									<?php if($result[0]['amalgamated_fee'] > 0){?>
-										<tr>
-											<td>Amalgamated Fee</td>
-											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['amalgamated_fee']; ?></td>
-										</tr>
-									<?php } ?>
-									
-										<?php if($result[0]['bus_fee'] > 0){?>
-										<tr>
-											<td>Bus Fee</td>
-											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['bus_fee']; ?></td>
-										</tr>
-										<?php } ?>
-										
-										<?php if($result[0]['hostel_fee'] > 0){?>
-										<tr>
-											<td>Hostel Fee</td>
-											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['hostel_fee']; ?></td>
-										</tr>
-										<?php } ?>
-										
-										<?php if($result[0]['late_fee'] > 0){?>
+										<?php if($result['student'][0]['late_fee'] > 0){?>
 										<tr>
 											<td>Late Fee</td>
 											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['late_fee']; ?></td>
-										</tr>
-										<?php } ?>
-										
-										<?php if($result[0]['fee_waiver_amount'] > 0){?>
-										<tr>
-											<td>Fee Waiver</td>
-											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result[0]['fee_waiver_amount']; ?></td>
+											<td align="right"><?php echo $result['student'][0]['late_fee']; ?></td>
 										</tr>
 										<?php } ?>
 										
 										<tr class="grand-t">
 											<td><b>Grand Total</b></td>
-											<td colspan="2" align="right"><b><?php echo $result[0]['grand_total']; ?></b></td>
+											<td colspan="2" align="right"><b><?php echo $result['student'][0]['paid_amount']; ?></b></td>
 										</tr>
 										<tr>
-											<td class="b-space" colspan="3" align="right"><b><?php echo $word_amount;?></b></td>
+											<td class="b-space" colspan="3" align="right"><b><?php echo $result['word_amount'];?></b></td>
 										</tr>
 										<tr>
 											<td colspan="2" align="left">Date: <?php echo date('d-M-Y h:i');?> / Ranjeet </td>

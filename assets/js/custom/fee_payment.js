@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	var baseUrl = $('#base_url').val();
+	var userUrl = $('#user_url').val(); 
 	var ses_id = $('#ses_id').val();
 	var sch_id = $('#sch_id').val();
 	var med_id = $('#med_id').val();
@@ -24,7 +25,6 @@ $(document).ready(function(){
 				if(response.status == 200){
 
 	//-----------------------------------student details----------------------
-					
 					x=x+'<table class="table">'+
 						'<tbody>'+
 						'<tr><td><b>Student Name</b></td><td>: '+response.data.student[0].name+'</td>'+
@@ -36,8 +36,8 @@ $(document).ready(function(){
 						'<td><b>Class</b></td><td>: '+response.data.student[0].class_name+'</td>'+
 						'<td><b>Student Fee Category</b></td><td>: '+response.data.student[0].fc_name+'</td>'+
 						'</tr><tr>'+
-						'<td><b>Medium</b></td><td>: '+response.data.student[0].medium+'</td>'+
-						'<td><b>Contact No.</b></td><td></td>'+
+						'<td><b>Medium</b></td><td>: '+response.data.student[0].med_name+'</td>'+
+						'<td><b>Contact No.</b></td><td>'+response.data.student[0].contact_no+'</td>'+
 					'</tr>'+
 					'</tbody>'+
 				'</table>';
@@ -50,14 +50,16 @@ $(document).ready(function(){
 					$.each(response.data.session_fee,function(key,value){
 						if(value.fee_status == 'Paid'){
 							var check_box = 'disabled';
+							var fee_status = '<b style="color:green;">Paid</b>';
 						}else{
 							var check_box = '';
+							var fee_status = '<b style="color:red;">Pending</b>';
 						}
 						f=f+'<tr>'+
 						'<td class="pm-box"><input '+check_box+' type="checkbox" data-late_fee="0" value="'+value.amount+'" data-ft_id="'+value.ft_id+'" class="ones_in_session fee_total"> <span class="checkmark"></span></td>'+
 						'<td><b>'+value.name+'</b></td>'+
 						'<td>'+value.amount+'</td>'+
-						'<td>'+value.fee_status+'</td>'+
+						'<td>'+fee_status+'</td>'+
 					'<tr>';
 			
 					});
@@ -65,21 +67,28 @@ $(document).ready(function(){
 
 	//--------------month fee-----------------------------------
 					var m ='';
-					$.each(response.data.fee_month,function(key,value){
-						var tution_and_bus_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee));
-						var total_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee) + parseFloat(value.late_fee));
-						console.log(total_fee);
-						m=m+'<tr>'+
-							'<td class="pm-box"><input type="checkbox" data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
-							'<td>'+value.name+'</td>'+
-							'<td>'+value.fee.toFixed(2)+'</td>'+
-							'<td>'+value.bus_fee.toFixed(2)+'</td>'+
-							'<td>'+value.due_date+'</td>'+
-							'<td>'+value.late_fee.toFixed(2)+'</td>'+
-							'<td>'+total_fee.toFixed(2)+'</td>'+
-						'</tr>';
-					});
-					$('#month_fee').html(m);				
+					if(response.data.fee_month){
+						$.each(response.data.fee_month,function(key,value){
+							
+							var tution_and_bus_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee));
+							var total_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee) + parseFloat(value.late_fee));
+							console.log(total_fee);
+							m=m+'<tr>'+
+								'<td class="pm-box"><input type="checkbox" data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
+								'<td>'+value.name+'</td>'+
+								'<td>'+value.fee.toFixed(2)+'</td>'+
+								'<td>'+value.bus_fee.toFixed(2)+'</td>'+
+								'<td>'+value.due_date+'</td>'+
+								'<td>'+value.late_fee.toFixed(2)+'</td>'+
+								'<td>'+total_fee.toFixed(2)+'</td>'+
+							'</tr>';
+						});
+						$('#month_fee').html(m);	
+					}else{
+						$('#month_fee').html('<tr><td colspan="7" style="text-align:center;">Paid all month fee</td></tr>');
+					}
+					
+								
 				}else{
 						alert(response.msg);
 				    }
@@ -232,7 +241,7 @@ $(document).ready(function(){
 			
 			var fee_waiver_amount = $('#fee_waiver_amount').val();
 			if(fee_waiver_amount == ''){
-				fee_waiver_amount = 100;
+				fee_waiver_amount = 0;
 			}
 			var total = total - fee_waiver_amount;
 			$('#fee_total').val(total.toFixed(2));
@@ -278,7 +287,8 @@ $(document).ready(function(){
 	$(document).on('click','#all_month',function(){
 		if($(this).prop("checked") == true){
 			$('.month_fee_count').prop('checked',true);
-			$('.fee_total').each(function(){
+			 $('#fee_total').val('0.00');
+			$('.month_fee_count').each(function(){
 				var main_fee = $(this).val();
 				var late_fee = $(this).data('late_fee');
 				
@@ -290,7 +300,7 @@ $(document).ready(function(){
 				
 				var fee_waiver_amount = $('#fee_waiver_amount').val();
 				if(fee_waiver_amount == ''){
-					fee_waiver_amount = 100;
+					fee_waiver_amount = 0;
 				}
 				var total = total - fee_waiver_amount;
 				$('#fee_total').val(total.toFixed(2));
@@ -299,7 +309,7 @@ $(document).ready(function(){
 		}else{
 			
 			$('.month_fee_count').prop('checked',false);
-			$('.fee_total').each(function(){
+			$('.month_fee_count').each(function(){
 				var main_fee = $(this).val();
 				var late_fee = $(this).data('late_fee');
 				
@@ -311,7 +321,7 @@ $(document).ready(function(){
 				
 				var fee_waiver_amount = $('#fee_waiver_amount').val();
 				if(fee_waiver_amount == ''){
-					fee_waiver_amount = 100;
+					fee_waiver_amount = 0;
 				}
 				var total = total + fee_waiver_amount;
 				$('#fee_total').val(total.toFixed(2));
@@ -371,7 +381,6 @@ $(document).ready(function(){
 		if($(this).prop('checked') == true){
 			$('#pos_card').prop('disabled',false);
 			$('#pos_amount').prop('disabled',false);
-			$('#trns_charge').prop('disabled',false);
 		}else{
 			$('#pos_card').prop('selectedIndex','');
 			$('#pos_amount').val('');
@@ -379,7 +388,6 @@ $(document).ready(function(){
 			
 			$('#pos_card').prop('disabled',true);
 			$('#pos_amount').prop('disabled',true);
-			$('#trns_charge').prop('disabled',true);
 		}
 	});
 	
@@ -568,6 +576,7 @@ $(document).ready(function(){
 				success:function(response){
 					if(response.status == 200){
 						alert(response.msg);
+						window.location.href = baseUrl+userUrl+'/student-fee/receipt/'+response.receipt_no;
 					}else{
 						alert(response.msg);
 					}

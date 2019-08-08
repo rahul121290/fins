@@ -20,6 +20,7 @@
               <h3 class="box-title">Student Details</h3>
             </div>
         	<div class="box-body form-horizontal">
+        		<input type="hidden" id="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>">
         		<input type="hidden" id="ses_id" value="<?php echo $this->uri->segment(5);?>" />
         		<input type="hidden" id="sch_id" value="<?php echo $this->uri->segment(6);?>" />
         		<input type="hidden" id="med_id" value="<?php echo $this->uri->segment(7);?>" />
@@ -36,7 +37,7 @@
 	 <div class="col-md-6">	
       	<div class="box box-danger">
             <div class="box-header">
-              <h3 class="box-title">Once in a session</h3>
+              <h3 class="box-title">Session Fee</h3>
             </div>
         	<div class="box-body form-horizontal">
 				<table class="table">
@@ -114,7 +115,7 @@
 					<tr>
 						<td class="pm-box"><input class="form-check-input pay_method" id="cash" type="checkbox" /><span class="checkmark"></span><td>
 						<td><b>Cash</b></td>
-						<td><input class="form-control max_type" id="cash_amount" type="text" placeholder="Enter Amount" disabled="disabled" /></td>
+						<td><input class="form-control max_type" id="cash_amount" type="number" placeholder="Enter Amount" disabled="disabled" /></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -123,7 +124,7 @@
 					<tr>
 						<td class="pm-box"><input class="form-check-input pay_method" id="cheque" type="checkbox" /><span class="checkmark"></span><td>
 						<td><b>Cheque</b></td>
-						<td><input class="form-control max_type" id="cheque_amount" type="text" placeholder="Cheque Amount" disabled="disabled" /></td>
+						<td><input class="form-control max_type" id="cheque_amount" type="number" placeholder="Cheque Amount" disabled="disabled" /></td>
 						<td><input class="form-control" id="cheque_no" type="text" placeholder="Cheque No." disabled="disabled" /></td>
 						<td><input class="form-control" id="cheque_date" type="date" placeholder="Date" disabled="disabled" /></td>
 						<td><input class="form-control" id="cheque_bank" type="text" placeholder="Bank Name" disabled="disabled" /></td>
@@ -131,7 +132,7 @@
 					<tr>
 						<td class="pm-box"><input class="form-check-input pay_method" id="dd" type="checkbox" /> <span class="checkmark"></span><td>
 						<td><b>DD(Demand Draft)</b></td>
-						<td><input class="form-control max_type" id="dd_amount" type="text" placeholder="DD Amount" disabled="disabled" /></td>
+						<td><input class="form-control max_type" id="dd_amount" type="number" placeholder="DD Amount" disabled="disabled" /></td>
 						<td><input class="form-control" id="dd_no" type="text" placeholder="DD(Demand Draft) No." disabled="disabled" /></td>
 						<td><input class="form-control" id="dd_date" type="date" placeholder="Date" disabled="disabled" /></td>
 						<td><input class="form-control" id="dd_bank" type="text" placeholder="Bank Name" disabled="disabled" /></td>
@@ -147,8 +148,8 @@
 							</select>
 							<div class="error" id="pos_card_err" style="display: none;"></div>
 						</td>
-						<td><input class="form-control max_type" id="pos_amount" type="text" placeholder="POS Amount" disabled="disabled" /></td>
-						<td><input class="form-control" id="trns_charge" type="text" placeholder="Transaction Charge" disabled="disabled" /></td>
+						<td><input class="form-control max_type" id="pos_amount" type="number" placeholder="POS Amount" disabled="disabled" /></td>
+						<td><input class="form-control" id="trns_charge" type="number" placeholder="Transaction Charge" disabled="disabled" /></td>
 						<td></td>
 					</tr>
 					</tbody>
@@ -156,10 +157,10 @@
 				<hr>
 				<div style="margin-left:58%;" class="col-md-5 ">
 					<div class="fee-tottal-box">
-					<div class="pull-left"><b>GRAND TOTAL</b></div>
+					<div class="pull-left" style="padding-top:5px;"><b>GRAND TOTAL FEE</b></div>
 					<div class="pull-right"><input type="text" class="form-control totalinput" id="grand_total" value="0.00" disabled="disabled" /></div>
 					</div>
-					<button id="submit" class="btn btn-success pull-right">Submit</button>
+					<button id="submit" class="btn btn-lg btn-success pull-right">Submit</button>
 				</div>
 				
 			</div>

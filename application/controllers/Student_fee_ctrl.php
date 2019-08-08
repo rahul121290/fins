@@ -58,9 +58,10 @@ class Student_fee_ctrl extends CI_Controller {
         $med_id = $this->input->post('med_id');
         $adm_no = $this->input->post('adm_no');
         
-        $this->db->select('s.*,fc.fc_name,bs.bus_stoppage,bs.price bus_fee,c.class_name');
+        $this->db->select('s.*,m.med_name,fc.fc_name,bs.bus_stoppage,bs.price bus_fee,c.class_name');
         $this->db->join('class c','c.c_id = s.class_id AND c.status = 1');
         $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria AND fc.status = 1');
+        $this->db->join('medium m','m.med_id = s.medium');
         $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.ses_id = s.ses_id AND bs.status = 1','LEFT');
         $this->db->where(array('s.ses_id'=>$ses_id,'s.sch_id'=>$sch_id,'s.medium'=>$med_id,'s.adm_no'=>$adm_no));
         $result['student'] = $this->db->get_where('students s',array('s.status'=>1))->result_array();
@@ -102,7 +103,6 @@ class Student_fee_ctrl extends CI_Controller {
             $this->db->where('ft.ft_id <> 5'); //---tution fee always not including in seesion fee-----------
             $result['session_fee'] = $this->db->get_where('class_fee_structure cfs')->result_array();
             
-            
             $this->db->select('fm.*,DATE_FORMAT(fm.due_date,"%d-%m-%Y") as show_due_date,t1.amount tution_fee');
             $this->db->join('(SELECT fsm.ses_id,cfs.amount
                              FROM class_fee_structure cfs
@@ -110,6 +110,7 @@ class Student_fee_ctrl extends CI_Controller {
                              WHERE fsm.status = 1 AND fsm.ses_id = '.$ses_id.' AND fsm.sch_id = '.$sch_id.' AND fsm.med_id = '.$med_id.' AND fsm.class_id = '.$result['student'][0]['class_id'].' AND cfs.fc_id = 1
                              AND cfs.ft_id = 5) t1','t1.ses_id = fm.ses_id',false);
             $this->db->where('fm_id NOT IN ('.$month_fee.')');
+            //$this->db->join('(SELECT * FROM fee_month WHERE fm_id IN ('.$month_fee.')) t2','t2.fm_id = fm.fm_id','LEFT');
             $fee_month = $this->db->get_where('fee_month fm',array('fm.status'=>1))->result_array();
             
             $result['fee_month'] = array();
@@ -121,7 +122,6 @@ class Student_fee_ctrl extends CI_Controller {
                     $temp['name'] =  $month['name'];
                     $temp['fee'] =  $month['tution_fee'] * $month['total_month'];
                     $temp['due_date'] = $month['show_due_date'];
-                    
                     //------------class 10th and class 12 not march bus fee not include-------------
                     if(($result['student'][0]['class_id'] == 13 && $month['fm_id'] == 9) || ($result['student'][0]['class_id'] == 15 && $month['fm_id'] == 9)){
                         $temp['bus_fee'] = $result['student'][0]['bus_fee'] * 1;
@@ -267,7 +267,7 @@ class Student_fee_ctrl extends CI_Controller {
        
       $result =  $this->Student_fee_model->fee_payment($data,$pay_method);
       if($result){
-          echo json_encode(array('msg'=>'Submit successfully','status'=>200));
+          echo json_encode(array('msg'=>'Submit successfully','receipt_no'=>$data['receipt_no'],'status'=>200));
       }else{
           echo json_encode(array('msg'=>'Submit Failed, Please try again.','status'=>500));
       }
