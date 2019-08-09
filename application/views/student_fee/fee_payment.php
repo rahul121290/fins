@@ -63,7 +63,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th class="pm-box">Select<!-- <input type="checkbox" id="all_month"><span class="checkmark"></span> <span style="margin-left:30px;font-size:13px;">All --></th>
+							<th>Select</th>
 							<th>Fee Month</th>
 							<th>Tution Fee</th>
 							<th>Bus Fee</th>

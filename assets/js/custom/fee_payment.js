@@ -274,11 +274,6 @@ $(document).ready(function(){
 	     	var box_amount = $('#fee_total').val();
 			var total = parseFloat(box_amount) +  parseFloat(actual_total);
 			
-			var fee_waiver_amount = $('#fee_waiver_amount').val();
-			if(fee_waiver_amount == ''){
-				fee_waiver_amount = 0;
-			}
-			var total = total - fee_waiver_amount;
 			$('#fee_total').val(total.toFixed(2));
 			
 			//----------grande total------------------
@@ -300,11 +295,6 @@ $(document).ready(function(){
 	     	var box_amount = $('#fee_total').val();
 			var total = parseFloat(box_amount) -  parseFloat(actual_total);
 			
-			var fee_waiver_amount = $('#fee_waiver_amount').val();
-			if(fee_waiver_amount == ''){
-				fee_waiver_amount = 0;
-			}
-			var total = total + fee_waiver_amount;
 			$('#fee_total').val(total.toFixed(2));
 			
 			//----------grande total------------------
@@ -317,53 +307,6 @@ $(document).ready(function(){
 			//-----------*********---------------------
 	    }
 	});
-
-	//-------------select all month----------------------
-//	$(document).on('click','#all_month',function(){
-//		if($(this).prop("checked") == true){
-//			$('.month_fee_count').prop('checked',true);
-//			
-//			$('.month_fee_count').each(function(){
-//				var main_fee = $(this).val();
-//				var late_fee = $(this).data('late_fee');
-//				
-//				$('#all_late_fee').val(parseFloat(parseFloat($('#all_late_fee').val()) + parseFloat(late_fee)).toFixed(2));
-//				
-//		        var actual_total = parseFloat(main_fee) + parseFloat(late_fee);
-//		     	var box_amount = $('#fee_total').val();
-//				var total = parseFloat(box_amount) +  parseFloat(actual_total);
-//				
-//				var fee_waiver_amount = $('#fee_waiver_amount').val();
-//				if(fee_waiver_amount == ''){
-//					fee_waiver_amount = 0;
-//				}
-//				var total = total - fee_waiver_amount;
-//				$('#fee_total').val(total.toFixed(2));
-//			});
-//			
-//		}else{
-//			
-//			$('.month_fee_count').prop('checked',false);
-//			
-//			$('.month_fee_count').each(function(){
-//				var main_fee = $(this).val();
-//				var late_fee = $(this).data('late_fee');
-//				
-//				$('#all_late_fee').val(parseFloat(parseFloat($('#all_late_fee').val()) - parseFloat(late_fee)).toFixed(2));
-//				
-//		        var actual_total = parseFloat(main_fee) + parseFloat(late_fee);
-//		     	var box_amount = $('#fee_total').val();
-//				var total = parseFloat(box_amount) -  parseFloat(actual_total);
-//				
-//				var fee_waiver_amount = $('#fee_waiver_amount').val();
-//				if(fee_waiver_amount == ''){
-//					fee_waiver_amount = 0;
-//				}
-//				var total = total + fee_waiver_amount;
-//				$('#fee_total').val(total.toFixed(2));
-//			});
-//		} 
-//	});
 
 	//----------paymethod section---------------------
 	$(document).on('click','#cash',function(){
@@ -590,7 +533,7 @@ $(document).ready(function(){
 		});
 
 		if(parseFloat(cal_pay_method_amount) != parseFloat(fee_total)){
-			alert('Total fee and pay amount is miss match.');
+			alert('Something wrong in pay method.');
 			formvalidate = false;
 		}
 		

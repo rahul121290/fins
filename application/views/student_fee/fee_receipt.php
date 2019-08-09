@@ -29,7 +29,7 @@
  }
 </style>
 <link src="<?php echo base_url();?>assets/css/printcss.css" />
-
+<input type="hidden" id="receipt_no" value="<?php echo $this->uri->segment(5)?>" />
 <div class="content-wrapper" style="background-color:#fff;">
     <section class="content-header"></section>
     	<!-- main section -->
@@ -55,33 +55,8 @@
 							</div>
 							</div>
 							<hr>
-							<div class="col-sm-12 mb-3 fee-print">
-								<table class="table r-table-print" style="float:left;width:48%;">
-									<tbody>
-									<tr><td style="border:0px;">Receipt Date</td><td style="border:0px;">: <?php echo $result['student'][0]['receipt_date']; ?></td></tr>
-									<tr>
-										<td>Student's Name</td>
-										<td>: <?php echo $result['student'][0]['name'];?></td>
-									</tr>
-									<tr>
-										<td>Father's Name</td>
-										<td>: <?php echo $result['student'][0]['f_name'];?></td></tr>
-									</tbody>
-								</table>
-								<table class="table r-table-print" style="width:48%;">
-									<tbody>
-									<tr><td style="border:0px;">Receipt No.</td><td style="border:0px;">: <?php echo $result['student'][0]['receipt_no']; ?></td></tr>
-									<tr>
-										<td>Admission No.</td>
-										<td>: <?php echo $result['student'][0]['adm_no']; ?></td>
-									</tr>
-									<tr>
-										<td>Class/Sec</td>
-										<td>: <?php echo $result['student'][0]['class_id']; ?>/<?php echo $result['student'][0]['class_id']; ?></td>
-									</tr>
-									</tbody>
-								</table>
-							</div>
+							<div class="col-sm-12 mb-3 fee-print" id="general_details"></div>
+							
 							<div class="col-sm-12 mb-3 receipt-amount-box">
 								<table class="table r-table-print-dis">
 									<thead class="thead-light" >
@@ -91,61 +66,7 @@
 											<td align="right">Amount</td>
 										</tr>
 									</thead>
-									<tbody>
-									
-										<?php 
-										if(count($result['session_fee']) > 0){ ?>
-										    <tr>
-    											<td><b>Session Fee</b></td>
-    											<td align="center"></td>
-    											<td align="right"></td>
-											</tr>   
-										    <?php foreach($result['session_fee'] as $session_fee){ ?>
-										     
-										 <tr>
-											<td><?php echo $session_fee['name'];?></td>
-											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $session_fee['amount']; ?></td>
-										</tr>           
-										<?php } } ?>
-										
-										
-										<?php 
-										if(count($result['month_fee']) > 0){ ?>
-											<tr>
-    											<td><b>Month + Bus Fee</b></td>
-    											<td align="center"></td>
-    											<td align="right"></td>
-											</tr>
-										    <?php foreach($result['month_fee'] as $month_fee){ ?>
-										     
-										 <tr>
-											<td><?php echo $month_fee['name'];?></td>
-											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $month_fee['fee'] + $month_fee['bus_fee'] ; ?></td>
-										</tr>           
-										<?php } } ?>
-									
-										<?php if($result['student'][0]['late_fee'] > 0){?>
-										<tr>
-											<td>Late Fee</td>
-											<td align="center"><?php echo date('d-m-Y'); ?></td>
-											<td align="right"><?php echo $result['student'][0]['late_fee']; ?></td>
-										</tr>
-										<?php } ?>
-										
-										<tr class="grand-t">
-											<td><b>Grand Total</b></td>
-											<td colspan="2" align="right"><b><?php echo $result['student'][0]['paid_amount']; ?></b></td>
-										</tr>
-										<tr>
-											<td class="b-space" colspan="3" align="right"><b><?php echo $result['word_amount'];?></b></td>
-										</tr>
-										<tr>
-											<td colspan="2" align="left">Date: <?php echo date('d-M-Y h:i');?> / Ranjeet </td>
-											<td align="right">Counter I/C</td>
-										</tr>
-									</tbody>
+									<tbody id="fee_details"></tbody>
 								</table>
 							</div>
 					    </div>
@@ -158,6 +79,111 @@
 		</div>
 
 <script type="text/javascript">
+var baseUrl = $('#base_url').val();
+var receipt_no = $('#receipt_no').val();
+
+fee_details();
+function fee_details(){
+	$.ajax({
+		type:'GET',
+		url:baseUrl+'Student_fee_ctrl/fee_receipt',
+		data:{'receipt_no':receipt_no},
+		dataType:'json',
+		beforeSend:function(){
+			//$('#loader').modal('show');
+		},
+		success:function(response){
+			if(response.status == 200){
+				if(response.data.student){
+					var std = '<table class="table r-table-print" style="float:left;width:48%;">'+
+					'<tbody>'+
+					'<tr><td style="border:0px;">Receipt Date</td><td style="border:0px;">: '+response.data.student[0].receipt_date+'</td></tr>'+
+					'<tr>'+
+						'<td>Student\'s Name</td>'+
+						'<td>: '+response.data.student[0].name+'</td>'+
+					'</tr>'+
+					'<tr>'+
+						'<td>Father\'s Name</td>'+
+						'<td>: '+response.data.student[0].f_name+'</td></tr>'+
+					'</tbody>'+
+				'</table>'+
+				'<table class="table r-table-print" style="width:48%;">'+
+					'<tbody>'+
+					'<tr><td style="border:0px;">Receipt No.</td><td style="border:0px;">: '+response.data.student[0].receipt_no+'</td></tr>'+
+					'<tr>'+
+						'<td>Admission No.</td>'+
+						'<td>: '+response.data.student[0].adm_no+'</td>'+
+					'</tr>'+
+					'<tr>'+
+						'<td>Class/Sec</td>'+
+						'<td>: '+response.data.student[0].class_name+'/'+response.data.student[0].section_name+'</td>'+
+					'</tr>'+
+					'</tbody>'+
+				'</table>';
+					$('#general_details').html(std);
+				}
+
+				var x='';
+				if(response.data.session_fee.length > 0){
+					x=x+'<tr><td><b>Session Fee</b></td><td align="center"></td><td align="right"></td></tr>'; 
+					$.each(response.data.session_fee,function(key,value){
+						x=x+'<tr>'+
+						'<td>'+value.name+'</td>'+
+						'<td align="center"><?php echo date('d-m-Y');?></td>'+
+						'<td align="right">'+value.amount+'</td>'+
+					'</tr>';
+					});
+				}
+
+				if(response.data.month_fee.length > 0){
+					x=x+'<tr><td><b>Month + Bus Fee</b></td><td align="center"></td><td align="right"></td></tr>';
+					$.each(response.data.month_fee,function(key,value){
+						var fee = parseFloat(parseFloat(value.fee) + parseFloat(value.bus_fee));
+						x=x+'<tr>'+
+						'<td>'+value.name+'</td>'+
+						'<td align="center"><?php echo date('d-m-Y');?></td>'+
+						'<td align="right">'+fee.toFixed(2)+'</td>'+
+					'</tr>'; 
+					});
+					
+				}
+
+				if(response.data.student[0].late_fee > 0){
+					x=x+'<tr>'+
+    					'<td>Late Fee</td>'+
+    					'<td align="center"><?php echo date('d-m-Y'); ?></td>'+
+    					'<td align="right">'+response.data.student[0].late_fee+'</td>'+
+    				'</tr>';
+				}
+
+				
+				if(response.data.fee_waiver.length > 0){
+					x=x+'<tr>'+
+					'<td>Fee Waiver</td>'+
+					'<td align="center"><?php echo date('d-m-Y'); ?></td>'+
+					'<td align="right">'+response.data.fee_waiver[0].amount+'</td>'+
+				'</tr>';
+				}
+				
+				x=x+'<tr class="grand-t">'+
+    				'<td><b>Grand Total</b></td>'+
+    				'<td colspan="2" align="right"><b>'+response.data.student[0].paid_amount+'</b></td>'+
+    			'</tr>'+
+    			'<tr>'+
+    				'<td class="b-space" colspan="3" align="right"><b>'+response.data.word_amount+'</b></td>'+
+    			'</tr>'+
+    			'<tr>'+
+    				'<td colspan="2" align="left">Date: <?php echo date('d-M-Y h:i');?> / Ranjeet </td>'+
+    				'<td align="right">Counter I/C</td>'+
+    			'</tr>';
+				$('#fee_details').html(x);
+			}
+		},
+	});
+}
+
+
+
 $('#print').on('click',function(){
 	window.print();
 });
