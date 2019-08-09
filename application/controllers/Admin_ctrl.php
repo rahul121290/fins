@@ -691,7 +691,7 @@ class Admin_ctrl extends CI_Controller {
     }
     
     
-    function fee_report(){
+    function fee_reports(){
         if(in_array(25, $this->permission)){
             $school = $this->session->userdata('school_id');
             $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();
@@ -704,6 +704,26 @@ class Admin_ctrl extends CI_Controller {
             
             $this->data['page_name'] = 'Fee Receipt';
             $this->data['main'] = 'student_fee/fee_report';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function fee_report($sch_name,$group_name,$adm_no){
+        if(in_array(25, $this->permission)){
+            $school = $this->session->userdata('school_id');
+            $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();
+            $this->data['school'] = $this->db->select('*')->get_where('school',array('status'=>1,'sch_id'=>$school))->result_array();
+            $this->data['medium'] = $this->db->select('*')->get_where('medium',array('status'=>1))->result_array();
+            $this->data['class'] = $this->db->select('*')->get_where('class',array('status'=>1))->result_array();
+            $this->data['sub_group'] = $this->db->select('*')->get_where('sub_group',array('status'=>1))->result_array();
+            $this->data['section'] = $this->db->select('*')->get_where('section',array('status'=>1))->result_array();
+            $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
+            
+            $this->data['page_name'] = 'Fee Receipt';
+            $this->data['main'] = 'student_fee/student_report';
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
