@@ -237,7 +237,6 @@ $(document).ready(function(){
 					type:'POST',
 					url:base_url+'New_admission_ctrl/add_student',
 					data:formdata,
-					async:false,
 					dataType:'json',
 					beforeSend:function(){
 						$('#loader').modal('show');	

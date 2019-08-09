@@ -23,9 +23,9 @@ class New_admission_ctrl extends CI_Controller {
         $data['medium'] = $this->input->post('medium');
         
         $data['fee_criteria'] = $this->input->post('fee_criteria');
-        $data['staff_child'] = null;
-        if(!empty($data['staff_child'])){
-            $data['staff_child'] = $this->input->post('staff_child');
+        $data['staff_child'] = $this->input->post('staff_child');
+        if(empty($data['staff_child'])){
+            $data['staff_child'] = null;
         }
         $data['adm_no'] = $this->input->post('adm_no');
         $data['roll_no'] = $this->input->post('roll_no');
@@ -62,6 +62,7 @@ class New_admission_ctrl extends CI_Controller {
         $data['created_by'] = $this->session->userdata('user_id');
         $data['created_at'] = date('Y-m-d H:i:s');
        // print_r($data);die;
+       
         $result = $this->Student_model->add_student($std_id,$old_image,$data);
         
         if($result){

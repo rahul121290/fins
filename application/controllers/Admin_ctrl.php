@@ -689,7 +689,7 @@ class Admin_ctrl extends CI_Controller {
     }
     
     
-    function fee_history(){
+    function fee_report(){
         if(in_array(25, $this->permission)){
             $school = $this->session->userdata('school_id');
             $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();

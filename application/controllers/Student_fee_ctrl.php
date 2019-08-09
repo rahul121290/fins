@@ -58,9 +58,10 @@ class Student_fee_ctrl extends CI_Controller {
         $med_id = $this->input->post('med_id');
         $adm_no = $this->input->post('adm_no');
         
-        $this->db->select('s.*,m.med_name,fc.fc_name,bs.bus_stoppage,bs.price bus_fee,c.class_name');
+        $this->db->select('s.*,m.med_name,fc.fc_name,bs.bus_stoppage,bs.price bus_fee,c.class_name,IFNULL(sc.name,"") staff_child');
         $this->db->join('class c','c.c_id = s.class_id AND c.status = 1');
         $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria AND fc.status = 1');
+        $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
         $this->db->join('medium m','m.med_id = s.medium');
         $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.ses_id = s.ses_id AND bs.status = 1','LEFT');
         $this->db->where(array('s.ses_id'=>$ses_id,'s.sch_id'=>$sch_id,'s.medium'=>$med_id,'s.adm_no'=>$adm_no));
@@ -101,7 +102,10 @@ class Student_fee_ctrl extends CI_Controller {
                 $this->db->where('ft.ft_id <> IN (3,4)');
             }
             $this->db->where('ft.ft_id <> 5'); //---tution fee always not including in seesion fee-----------
+            $this->db->group_by('ft.ft_id');
             $result['session_fee'] = $this->db->get_where('class_fee_structure cfs')->result_array();
+            //print_r($this->db->last_query());die;
+            
             
             $this->db->select('fm.*,DATE_FORMAT(fm.due_date,"%d-%m-%Y") as show_due_date,t1.amount tution_fee');
             $this->db->join('(SELECT fsm.ses_id,cfs.amount
@@ -143,6 +147,12 @@ class Student_fee_ctrl extends CI_Controller {
                     $result['fee_month'][] = $temp;
                 }
             }
+            
+            //-------------fee waiver-----------------------------
+            $this->db->select('amount');
+            $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'med_id'=>$med_id,'month_id'=>date('m'),'adm_no'=>$adm_no));
+            $result['fee_waiver'] = $this->db->get_where('fee_waiver',array('status'=>1))->result_array();
+            
             echo json_encode(array('data'=>$result,'status'=>200));
         }else{
             echo json_encode(array('msg'=>'Student record not found.','status'=>500));

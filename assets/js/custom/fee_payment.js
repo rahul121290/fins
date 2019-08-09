@@ -19,10 +19,13 @@ $(document).ready(function(){
 				'adm_no':adm_no
 				},
 			dataType:'json',
-			beforeSend:function(){},
+			beforeSend:function(){
+				$('#loader').modal('show');
+			},
 			success:function(response){
 				var x='';
 				if(response.status == 200){
+					$('#loader').modal('hide');
 					$('#student_name').val(response.data.student[0].name);
 					$('#contact_no').val(response.data.student[0].contact_no);
 	//-----------------------------------student details----------------------
@@ -35,7 +38,7 @@ $(document).ready(function(){
 						'<td><b>Roll No.</b></td><td>: '+response.data.student[0].roll_no+'</td>'+
 						'</tr><tr>'+
 						'<td><b>Class</b></td><td>: '+response.data.student[0].class_name+'</td>'+
-						'<td><b>Student Fee Category</b></td><td>: '+response.data.student[0].fc_name+'</td>'+
+						'<td><b>Student Fee Category</b></td><td>: '+response.data.student[0].fc_name+' / '+response.data.student[0].staff_child+'</td>'+
 						'</tr><tr>'+
 						'<td><b>Medium</b></td><td>: '+response.data.student[0].med_name+'</td>'+
 						'<td><b>Contact No.</b></td><td>'+response.data.student[0].contact_no+'</td>'+
@@ -49,31 +52,41 @@ $(document).ready(function(){
 					var f = '';
 					var flag = 1;
 					$.each(response.data.session_fee,function(key,value){
-						if(value.fee_status == 'Paid'){
-							var check_box = 'disabled';
-							var fee_status = '<b style="color:green;">Paid</b>';
-						}else{
-							var check_box = '';
-							var fee_status = '<b style="color:red;">Pending</b>';
+						if(parseFloat(value.amount) > parseFloat(0) ){
+							if(value.fee_status == 'Paid'){
+								var check_box = 'disabled';
+								var fee_status = '<b style="color:green;">Paid</b>';
+							}else{
+								var check_box = '';
+								var fee_status = '<b style="color:red;">Pending</b>';
+							}
+							f=f+'<tr>'+
+							'<td class="pm-box"><input '+check_box+' type="checkbox" data-late_fee="0" value="'+value.amount+'" data-ft_id="'+value.ft_id+'" class="ones_in_session fee_total"> <span class="checkmark"></span></td>'+
+							'<td><b>'+value.name+'</b></td>'+
+							'<td>'+value.amount+'</td>'+
+							'<td>'+fee_status+'</td>'+
+						'<tr>';
 						}
-						f=f+'<tr>'+
-						'<td class="pm-box"><input '+check_box+' type="checkbox" data-late_fee="0" value="'+value.amount+'" data-ft_id="'+value.ft_id+'" class="ones_in_session fee_total"> <span class="checkmark"></span></td>'+
-						'<td><b>'+value.name+'</b></td>'+
-						'<td>'+value.amount+'</td>'+
-						'<td>'+fee_status+'</td>'+
-					'<tr>';
-			
 					});
 					$('#one_time_fee').html(f);
 
-	//--------------month fee-----------------------------------
+					//--------------fee waiver----------------------
+					
+//					if(response.data.fee_waiver[0].amount){
+//						$('#fee_waiver_amount').val(response.data.fee_waiver[0].amount);
+//						$('#fee_waiver_amount').prop('disabled',true);
+//						$('#fee_waiver_apply').prop('disabled',true);
+//						$('#fee_waiver_otp_row').css('display','block');
+//					}
+					
+					//--------------month fee-----------------------------------
 					var m ='';
 					if(response.data.fee_month){
 						$.each(response.data.fee_month,function(key,value){
 							
 							var tution_and_bus_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee));
 							var total_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee) + parseFloat(value.late_fee));
-							console.log(total_fee);
+							
 							m=m+'<tr>'+
 								'<td class="pm-box"><input type="checkbox" data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
 								'<td>'+value.name+'</td>'+
@@ -110,7 +123,7 @@ $(document).ready(function(){
     		$('#fee_waiver_amount_err').html('This is Required.').css('display','block');
     		formvalidate = false;
     	}else if( parseFloat(fee_total) < parseFloat(fee_waiver_amount) ){
-    		$('#fee_waiver_amount_err').html('This amount is greater then of total amount.').css('display','block');
+    		$('#fee_waiver_amount_err').html('Fee waiver amount must be less then of total fee.').css('display','block');
     		formvalidate = false;
         }else{
        		$('#fee_waiver_amount_err').css('display','none');
@@ -129,9 +142,12 @@ $(document).ready(function(){
 					'amount' : $('#fee_waiver_amount').val(),
 				},
 				dataType:'json',
-				beforeSend:function(){},
+				beforeSend:function(){
+					$('#loader').modal('show');
+				},
 				success:function(response){
 					if(response.status == 200){
+						$('#loader').modal('hide');
 						alert('OTP Send in Director Mobile number');
 						$('#fee_waiver_amount').prop('disabled',true);
 						$('#fee_waiver_apply').prop('disabled',true);
@@ -144,7 +160,6 @@ $(document).ready(function(){
     	}
     });
     
-	
 	//-----------fee waiver otp resnd---------------------
     $(document).on('click','#resend_otp',function(){
     	 $.ajax({
@@ -159,9 +174,12 @@ $(document).ready(function(){
 					'amount' : $('#fee_waiver_amount').val(),
 				},
 				dataType:'json',
-				beforeSend:function(){},
+				beforeSend:function(){
+					$('#loader').modal('show');
+				},
 				success:function(response){
 					if(response.status == 200){
+						$('#loader').modal('hide');
 						alert('OTP Resend Successfully.');
 					}else{
 						alert('Something went wrong.');
@@ -175,8 +193,6 @@ $(document).ready(function(){
     	var fee_waiver_otp = $('#fee_waiver_otp').val();
     	var fee_waiver_amount = $('#fee_waiver_amount').val();
     	var formvalid = true;
-    	console.log(fee_waiver_otp);
-    	console.log(fee_waiver_amount);
     	if(fee_waiver_amount == ''){
     		$('#fee_waiver_amount_err').html('This is Required.').css('display','block');
     		formvalid = false;
@@ -218,7 +234,16 @@ $(document).ready(function(){
         				var fee_waiver_amount = $('#fee_waiver_amount').val();
         				var fee_total = $('#fee_total').val();
         				var waiver_amount = parseFloat(parseFloat(fee_total) - parseFloat(fee_waiver_amount));
-        				$('#fee_total').val(waiver_amount.toFixed(2)); 
+        				$('#fee_total').val(waiver_amount.toFixed(2));
+        				
+        				var trns_charge = $('#trns_charge').val();
+        				if(trns_charge == ''){
+        					trns_charge = 0;
+        				}
+        				
+        				var grand_total = parseFloat(parseFloat(waiver_amount) + parseFloat(trns_charge));
+        				$('#grand_total').val(grand_total.toFixed(2));
+        				
         			}else{
         				$('#loader').modal('hide');
         				$('#fee_waiver_otp_err').html(response.msg).css('display','block');
@@ -555,7 +580,7 @@ $(document).ready(function(){
 		});
 
 		if(parseFloat(cal_pay_method_amount) != parseFloat(fee_total)){
-			alert('Amount not match.');
+			alert('Total fee and pay amount is miss match.');
 			formvalidate = false;
 		}
 		
@@ -578,7 +603,9 @@ $(document).ready(function(){
 				url:baseUrl+'Student_fee_ctrl/fee_payment',
 				data:formdata,
 				dataType:'json',
-				beforeSend:function(){},
+				beforeSend:function(){
+					$('#loader').modal('show');
+				},
 				success:function(response){
 					if(response.status == 200){
 						alert(response.msg);
