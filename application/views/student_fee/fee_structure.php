@@ -68,10 +68,12 @@
                				<th>General Student</th>
                				<th>Sibling</th>
                				<th>RTE</th>
-               				<th>New Staff(1st Child)</th>
-               				<th>New Staff(2nd Child)</th>
                				<th>Old Staff(1st Child)</th>
                				<th>Old Staff(2nd Child)</th>
+               				
+               				<th>New Staff(1st Child)</th>
+               				<th>New Staff(2nd Child)</th>
+               				
                			</tr>
                		</thead>
                		<tbody id="feelist"></tbody>
@@ -148,10 +150,10 @@ function fee_stucuture_record(sch_id,med_id,class_id){
 					'<td><input type="number" value="'+value.general+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_general" class="general only_amount form-control"/></td>'+
 					'<td><input type="number" value="'+value.sibling+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_sibling" class="sibling only_amount form-control"/></td>'+
 					'<td><input type="number" value="'+value.rte+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_rte" class="rte only_amount form-control" /></td>'+
-					'<td><input type="number" value="'+value.new_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_first_child" class="new_staff_first_child only_amount form-control" /></td>'+
-					'<td><input type="number" value="'+value.new_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_second_child" class="new_staff_second_child only_amount form-control" /></td>'+
 					'<td><input type="number" value="'+value.old_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_first_child" class="old_staff_first_child only_amount form-control" /></td>'+
 					'<td><input type="number" value="'+value.old_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_second_child" class="old_staff_second_child only_amount form-control" /></td>'+
+					'<td><input type="number" value="'+value.new_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_first_child" class="new_staff_first_child only_amount form-control" /></td>'+
+					'<td><input type="number" value="'+value.new_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_second_child" class="new_staff_second_child only_amount form-control" /></td>'+
 					'</tr>';
 				});
 				$('#submit').css('display','block');

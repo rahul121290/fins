@@ -87,14 +87,23 @@ $(document).ready(function(){
 							var tution_and_bus_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee));
 							var total_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee) + parseFloat(value.late_fee));
 							
+							if(value.fee_status == 'Paid'){
+								var check_box = 'disabled';
+								var fee_status = '<b style="color:green;">Paid</b>';
+							}else{
+								var check_box = '';
+								var fee_status = '<b style="color:red;">Pending</b>';
+							}
+							
 							m=m+'<tr>'+
-								'<td class="pm-box"><input type="checkbox" data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
+								'<td class="pm-box"><input type="checkbox" '+check_box+' data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
 								'<td>'+value.name+'</td>'+
 								'<td>'+value.fee.toFixed(2)+'</td>'+
 								'<td>'+value.bus_fee.toFixed(2)+'</td>'+
 								'<td>'+value.due_date+'</td>'+
 								'<td>'+value.late_fee.toFixed(2)+'</td>'+
 								'<td>'+total_fee.toFixed(2)+'</td>'+
+								'<td>'+fee_status+'</td>'+
 							'</tr>';
 						});
 						$('#month_fee').html(m);	
@@ -310,50 +319,51 @@ $(document).ready(function(){
 	});
 
 	//-------------select all month----------------------
-	$(document).on('click','#all_month',function(){
-		if($(this).prop("checked") == true){
-			$('.month_fee_count').prop('checked',true);
-			 $('#fee_total').val('0.00');
-			$('.month_fee_count').each(function(){
-				var main_fee = $(this).val();
-				var late_fee = $(this).data('late_fee');
-				
-				$('#all_late_fee').val(parseFloat(parseFloat($('#all_late_fee').val()) + parseFloat(late_fee)).toFixed(2));
-				
-		        var actual_total = parseFloat(main_fee) + parseFloat(late_fee);
-		     	var box_amount = $('#fee_total').val();
-				var total = parseFloat(box_amount) +  parseFloat(actual_total);
-				
-				var fee_waiver_amount = $('#fee_waiver_amount').val();
-				if(fee_waiver_amount == ''){
-					fee_waiver_amount = 0;
-				}
-				var total = total - fee_waiver_amount;
-				$('#fee_total').val(total.toFixed(2));
-			});
-			
-		}else{
-			
-			$('.month_fee_count').prop('checked',false);
-			$('.month_fee_count').each(function(){
-				var main_fee = $(this).val();
-				var late_fee = $(this).data('late_fee');
-				
-				$('#all_late_fee').val(parseFloat(parseFloat($('#all_late_fee').val()) - parseFloat(late_fee)).toFixed(2));
-				
-		        var actual_total = parseFloat(main_fee) + parseFloat(late_fee);
-		     	var box_amount = $('#fee_total').val();
-				var total = parseFloat(box_amount) -  parseFloat(actual_total);
-				
-				var fee_waiver_amount = $('#fee_waiver_amount').val();
-				if(fee_waiver_amount == ''){
-					fee_waiver_amount = 0;
-				}
-				var total = total + fee_waiver_amount;
-				$('#fee_total').val(total.toFixed(2));
-			});
-		} 
-	});
+//	$(document).on('click','#all_month',function(){
+//		if($(this).prop("checked") == true){
+//			$('.month_fee_count').prop('checked',true);
+//			
+//			$('.month_fee_count').each(function(){
+//				var main_fee = $(this).val();
+//				var late_fee = $(this).data('late_fee');
+//				
+//				$('#all_late_fee').val(parseFloat(parseFloat($('#all_late_fee').val()) + parseFloat(late_fee)).toFixed(2));
+//				
+//		        var actual_total = parseFloat(main_fee) + parseFloat(late_fee);
+//		     	var box_amount = $('#fee_total').val();
+//				var total = parseFloat(box_amount) +  parseFloat(actual_total);
+//				
+//				var fee_waiver_amount = $('#fee_waiver_amount').val();
+//				if(fee_waiver_amount == ''){
+//					fee_waiver_amount = 0;
+//				}
+//				var total = total - fee_waiver_amount;
+//				$('#fee_total').val(total.toFixed(2));
+//			});
+//			
+//		}else{
+//			
+//			$('.month_fee_count').prop('checked',false);
+//			
+//			$('.month_fee_count').each(function(){
+//				var main_fee = $(this).val();
+//				var late_fee = $(this).data('late_fee');
+//				
+//				$('#all_late_fee').val(parseFloat(parseFloat($('#all_late_fee').val()) - parseFloat(late_fee)).toFixed(2));
+//				
+//		        var actual_total = parseFloat(main_fee) + parseFloat(late_fee);
+//		     	var box_amount = $('#fee_total').val();
+//				var total = parseFloat(box_amount) -  parseFloat(actual_total);
+//				
+//				var fee_waiver_amount = $('#fee_waiver_amount').val();
+//				if(fee_waiver_amount == ''){
+//					fee_waiver_amount = 0;
+//				}
+//				var total = total + fee_waiver_amount;
+//				$('#fee_total').val(total.toFixed(2));
+//			});
+//		} 
+//	});
 
 	//----------paymethod section---------------------
 	$(document).on('click','#cash',function(){

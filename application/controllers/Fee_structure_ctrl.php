@@ -18,10 +18,10 @@ class Fee_structure_ctrl extends CI_Controller {
             MAX(IF(fc_id = 1, amount, "")) as general,
             MAX(IF(fc_id = 2, amount, "")) as sibling,
             MAX(IF(fc_id = 3, amount, "")) as rte,
-            MAX(IF(fc_id = 4 AND staff_child = 1, amount, "")) as new_staff_first_child,
-            MAX(IF(fc_id = 4 AND staff_child = 2, amount, "")) as new_staff_second_child,
-            MAX(IF(fc_id = 5 AND staff_child = 1, amount, "")) as old_staff_first_child,
-            MAX(IF(fc_id = 5 AND staff_child = 2, amount, "")) as old_staff_second_child
+            MAX(IF(fc_id = 4 AND staff_child = 1, amount, "")) as old_staff_first_child,
+            MAX(IF(fc_id = 4 AND staff_child = 2, amount, "")) as old_staff_second_child,
+            MAX(IF(fc_id = 5 AND staff_child = 1, amount, "")) as new_staff_first_child,
+            MAX(IF(fc_id = 5 AND staff_child = 2, amount, "")) as new_staff_second_child
         ');
         $this->db->join('class_fee_structure cfs','cfs.ft_id = ft.ft_id AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = '.$data['ses_id'].' AND sch_id = '.$data['sch_id'].' AND med_id = '.$data['med_id'].' AND class_id = '.$data['class_id'].' AND status = 1 ORDER BY fs_id DESC LIMIT 1)','LEFT');
         $this->db->group_by('ft.ft_id');

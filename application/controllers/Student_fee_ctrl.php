@@ -58,7 +58,7 @@ class Student_fee_ctrl extends CI_Controller {
         $med_id = $this->input->post('med_id');
         $adm_no = $this->input->post('adm_no');
         
-        $this->db->select('s.*,m.med_name,fc.fc_name,bs.bus_stoppage,bs.price bus_fee,c.class_name,IFNULL(sc.name,"") staff_child');
+        $this->db->select('s.*,s.staff_child staff_child_id,m.med_name,fc.fc_name,bs.bus_stoppage,bs.price bus_fee,c.class_name,IFNULL(sc.name,"") staff_child');
         $this->db->join('class c','c.c_id = s.class_id AND c.status = 1');
         $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria AND fc.status = 1');
         $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
@@ -74,6 +74,7 @@ class Student_fee_ctrl extends CI_Controller {
             $condition .=' AND fsm.med_id = '.$med_id;
             $condition .=' AND fsm.class_id = '.$result['student'][0]['class_id'];
             $condition .=' AND cfs.fc_id = '.$result['student'][0]['fee_criteria'];
+            $condition .=' AND cfs.staff_child = '.$result['student'][0]['staff_child_id'];
             
             $session_fee = '0';
             $month_fee = '0';
@@ -102,7 +103,6 @@ class Student_fee_ctrl extends CI_Controller {
                 $this->db->where('ft.ft_id <> IN (3,4)');
             }
             $this->db->where('ft.ft_id <> 5'); //---tution fee always not including in seesion fee-----------
-            $this->db->group_by('ft.ft_id');
             $result['session_fee'] = $this->db->get_where('class_fee_structure cfs')->result_array();
             //print_r($this->db->last_query());die;
             
@@ -149,7 +149,7 @@ class Student_fee_ctrl extends CI_Controller {
             }
             
             //-------------fee waiver-----------------------------
-            $this->db->select('amount');
+            $this->db->select('*');
             $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'med_id'=>$med_id,'month_id'=>date('m'),'adm_no'=>$adm_no));
             $result['fee_waiver'] = $this->db->get_where('fee_waiver',array('status'=>1))->result_array();
             

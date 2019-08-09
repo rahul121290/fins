@@ -600,7 +600,7 @@ class Admin_ctrl extends CI_Controller {
     function fee_receipt($school_name,$user_group,$receipt){
         if(in_array(25, $this->permission)){
             
-            $this->db->select('DATE_FORMAT(sf.created_at,"%d-%m-%Y") receipt_date,s.ses_id,s.sch_id,s.medium,s.class_id,s.fee_criteria,s.adm_no,s.name,s.f_name,bs.price bus_fee,sf.receipt_no,
+            $this->db->select('DATE_FORMAT(sf.created_at,"%d-%m-%Y") receipt_date,s.ses_id,s.sch_id,s.medium,s.class_id,s.fee_criteria,s.staff_child,s.adm_no,s.name,s.f_name,bs.price bus_fee,sf.receipt_no,
                     sf.session_fee_ids,
                     sf.month_ids,
                     sf.late_fee,
@@ -623,6 +623,7 @@ class Admin_ctrl extends CI_Controller {
                 $med_id = $result['student'][0]['medium'];
                 $class_id = $result['student'][0]['class_id'];
                 $fee_criteria = $result['student'][0]['fee_criteria'];
+                $staff_child = $result['student'][0]['staff_child'];
                 
                 
                 $condition = 'fsm.status = 1';
@@ -631,14 +632,15 @@ class Admin_ctrl extends CI_Controller {
                 $condition .=' AND fsm.med_id = '.$med_id;
                 $condition .=' AND fsm.class_id = '.$class_id;
                 $condition .=' AND cfs.fc_id = '.$fee_criteria;
+                $condition .=' AND cfs.staff_child = '.$staff_child;
                 
                 $this->db->select('ft.ft_id,ft.name,fc.fc_id,fc.fc_name,cfs.amount');
-                $this->db->join('fee_structure_master fsm','fsm.fs_id = cfs.fsm_id');
+                $this->db->join('fee_structure_master fsm','fsm.fs_id = cfs.fsm_id AND fsm.status = 1');
                 $this->db->join('fee_criteria fc','fc.fc_id = cfs.fc_id');
                 $this->db->join('fee_type ft','ft.ft_id = cfs.ft_id AND ft.ft_id IN ('.$session_fee.')');
                 $this->db->where($condition);
                 $result['session_fee'] = $this->db->get_where('class_fee_structure cfs')->result_array();
-                
+                //print_r($this->db->last_query());die;
                 //-----------------month fee--------------------------
                 
                 $month_ids = '0';
@@ -701,7 +703,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
             
             $this->data['page_name'] = 'Fee Receipt';
-            $this->data['main'] = 'student_fee/fee_history';
+            $this->data['main'] = 'student_fee/fee_report';
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';

@@ -63,13 +63,14 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th class="pm-box"><input type="checkbox" id="all_month"><span class="checkmark"></span> <span style="margin-left:30px;font-size:13px;">All</th>
+							<th class="pm-box">Select<!-- <input type="checkbox" id="all_month"><span class="checkmark"></span> <span style="margin-left:30px;font-size:13px;">All --></th>
 							<th>Fee Month</th>
 							<th>Tution Fee</th>
 							<th>Bus Fee</th>
 							<th>Due Date</th>
 							<th>Late Fee</th>
 							<th>Total Fee</th>
+							<th>Status</th>
 						</tr>
 					</thead>
 				<tbody id="month_fee"></tbody>
