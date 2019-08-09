@@ -246,7 +246,7 @@ $(document).ready(function(){
 						console.log();
 						if(response.status == 200){
 							alert(response.msg);
-							window.location.href = base_url+user_url+'/student-fee/payment';
+							window.location.href = base_url+user_url+'/student-fee/payment/'+response.ses_id+'/'+response.sch_id+'/'+response.med_id+'/'+response.adm_no;
 						}else{
 							alert(response.feedback);
 						}

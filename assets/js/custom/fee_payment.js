@@ -23,7 +23,8 @@ $(document).ready(function(){
 			success:function(response){
 				var x='';
 				if(response.status == 200){
-
+					$('#student_name').val(response.data.student[0].name);
+					$('#contact_no').val(response.data.student[0].contact_no);
 	//-----------------------------------student details----------------------
 					x=x+'<table class="table">'+
 						'<tbody>'+
@@ -473,6 +474,8 @@ $(document).ready(function(){
 		var adm_no = $('#adm_no').val();
 		var late_fee = $('#all_late_fee').val();
 		var fee_total = $('#fee_total').val();
+		var student_name = $('#student_name').val();
+		var contact_no = $('#contact_no').val();
 		var session_fee = [];
 		var month_ids = [];
 		var pay_option = [];
@@ -558,6 +561,9 @@ $(document).ready(function(){
 		
 		if(formvalidate){
 			var formdata = new FormData();
+			formdata.append('student_name',student_name);
+			formdata.append('contact_no',contact_no);
+			
 			formdata.append('ses_id',ses_id);
 			formdata.append('sch_id',sch_id);
 			formdata.append('med_id',med_id);

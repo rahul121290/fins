@@ -241,7 +241,11 @@ class Student_fee_ctrl extends CI_Controller {
         $data['med_id'] = $this->input->post('med_id');
         $data['adm_no'] = $this->input->post('adm_no');
         $data['pay_month'] = date('m');
+        
         $data['session_fee_ids'] = $this->input->post('session_fee');
+        if(empty($data['session_fee_ids'])){
+            $data['session_fee_ids'] = null;
+        }
         $data['month_ids'] = $this->input->post('month_ids');
         $data['late_fee'] = $this->input->post('late_fee');
         $data['paid_amount'] = $this->input->post('paid_amount');
@@ -256,10 +260,25 @@ class Student_fee_ctrl extends CI_Controller {
            $temp['method_name'] = $pay[0]['pay_method'];
            $temp['amount'] = $pay[1]['amount'];
            $temp['card_name'] = $pay[2]['card'];
+           if(empty($temp['card_name'])){
+               $temp['card_name'] = null;
+           }
            $temp['trans_amount'] = $pay[3]['trns_amount'];
+           if(empty($temp['trans_amount'])){
+               $temp['trans_amount'] = null;
+           }
            $temp['method_no'] = $pay[4]['method_no'];
+           if(empty($temp['method_no'])){
+               $temp['method_no'] = null;
+           }
            $temp['method_date'] = $pay[5]['date'];
+           if(empty($temp['method_date'])){
+               $temp['method_date'] = null;
+           }
            $temp['bank_name'] = $pay[6]['bank_name'];
+           if(empty($temp['bank_name'])){
+               $temp['bank_name'] = null;
+           }
            $temp['created_at'] = date('Y-m-d H:i:s');
            $temp['created_by'] = $this->session->userdata('user_id');
            $pay_method[] = $temp;    
@@ -267,6 +286,10 @@ class Student_fee_ctrl extends CI_Controller {
        
       $result =  $this->Student_fee_model->fee_payment($data,$pay_method);
       if($result){
+          $mobile = $this->input->post('contact_no');
+          $sms = 'Dear Parent, the fee payment of '.$this->input->post('student_name').' has been received. Amount : '.$data['paid_amount'].'. Regards SVR';
+          // print_r($sms);die;
+          //$this->my_function->send_sms($mobile,$sms);
           echo json_encode(array('msg'=>'Submit successfully','receipt_no'=>$data['receipt_no'],'status'=>200));
       }else{
           echo json_encode(array('msg'=>'Submit Failed, Please try again.','status'=>500));

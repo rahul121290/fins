@@ -28,6 +28,9 @@
         		<input type="hidden" id="current_month" value="<?php echo date('m');?>" />
         		<input type="hidden"  id="all_late_fee" value="0.00" />
         		
+        		<input type="hidden"  id="student_name" value="" />
+        		<input type="hidden"  id="contact_no" value="" />
+        		
         		<div id="student_details"></div>
         		
     		</div><!-- end box body -->
