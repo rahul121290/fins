@@ -81,11 +81,11 @@
 						 <h3 class="box-title">Fee Waiver</h3>
 					</div>
 					<div class="fee-waiver-box">
-						<input class="form-control" type="number" id="fee_waiver_amount" placeholder="Enter Amount" />
+						<input class="form-control" type="number" id="fee_waiver_amount" placeholder="Enter Fee Waiver Amount" />
 						<div class="error" id="fee_waiver_amount_err" style="display: none;"></div>
 						<button class="btn btn-info apply-btn" id="fee_waiver_apply">Apply</button>
 						
-						<div class="col-md-6" id="fee_waiver_otp_row" style="padding-left:0px;position:relative; display:none;">
+						<div class="col-md-6" id="fee_waiver_otp_row" style="padding-left:0px;position:relative;margin-top:25px;display:none;">
 						
 						<input class="form-control" id="fee_waiver_otp" type="number" placeholder="Type OTP" />
 						<div class="error" id="fee_waiver_otp_err" style="display: none;"></div>
