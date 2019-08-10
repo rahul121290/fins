@@ -608,7 +608,7 @@ class Admin_ctrl extends CI_Controller {
         }
     }
    
-    function fee_reports(){
+    function class_wise(){
         if(in_array(25, $this->permission)){
             $school = $this->session->userdata('school_id');
             $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();
@@ -628,7 +628,7 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
-    function fee_report($sch_name,$group_name,$adm_no){
+    function student_report($sch_name,$group_name,$adm_no){
         if(in_array(25, $this->permission)){
             $school = $this->session->userdata('school_id');
             $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();

@@ -74,8 +74,9 @@ class Student_fee_ctrl extends CI_Controller {
             $condition .=' AND fsm.med_id = '.$med_id;
             $condition .=' AND fsm.class_id = '.$result['student'][0]['class_id'];
             $condition .=' AND cfs.fc_id = '.$result['student'][0]['fee_criteria'];
-            $condition .=' AND cfs.staff_child = '.$result['student'][0]['staff_child_id'];
-            
+            if(!empty($result['student'][0]['staff_child_id'])){
+                $condition .=' AND cfs.staff_child = '.$result['student'][0]['staff_child_id'];
+            }
             $session_fee = '0';
             $month_fee = '0';
             $this->db->select('GROUP_CONCAT(session_fee_ids) as session_fee, GROUP_CONCAT(month_ids) as month_fee');
@@ -100,7 +101,7 @@ class Student_fee_ctrl extends CI_Controller {
                 $this->db->where('ft.ft_id <> 1');
             }
             if($result['student'][0]['class_id'] < 12){ //---nursury to class VIII not show lab fee and option sub fee----
-                $this->db->where('ft.ft_id <> IN (3,4)');
+                $this->db->where('ft.ft_id NOT IN (3,4)');
             }
             $this->db->where('ft.ft_id <> 5'); //---tution fee always not including in seesion fee-----------
             $result['session_fee'] = $this->db->get_where('class_fee_structure cfs')->result_array();

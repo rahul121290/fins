@@ -169,6 +169,14 @@ $permission = $this->my_function->user_permission();
     						<ul class="dropdown-menu">
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/new-admission"><i class="fa fa-user text-blue" aria-hidden="true"></i>New Admission</a></li>
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/payment"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Student Fee</a></li>
+    						</ul>
+    					</li>
+    					
+    					<li class="dropdown">
+    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">REPORT<span class="caret"></span></a>
+    						<ul class="dropdown-menu">
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/class-wise"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Class Wise</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/student/123"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Student Wise</a></li>
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/fee-histroy"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Fee History</a></li>
     						</ul>
     					</li>
