@@ -18,10 +18,8 @@ class Fee_structure_ctrl extends CI_Controller {
             MAX(IF(fc_id = 1, amount, "")) as general,
             MAX(IF(fc_id = 2, amount, "")) as sibling,
             MAX(IF(fc_id = 3, amount, "")) as rte,
-            MAX(IF(fc_id = 4 AND staff_child = 1, amount, "")) as old_staff_first_child,
-            MAX(IF(fc_id = 4 AND staff_child = 2, amount, "")) as old_staff_second_child,
-            MAX(IF(fc_id = 5 AND staff_child = 1, amount, "")) as new_staff_first_child,
-            MAX(IF(fc_id = 5 AND staff_child = 2, amount, "")) as new_staff_second_child
+            MAX(IF(fc_id = 4 AND staff_child = 1, amount, "")) as staff_first_child,
+            MAX(IF(fc_id = 4 AND staff_child = 2, amount, "")) as staff_second_child
         ');
         $this->db->join('class_fee_structure cfs','cfs.ft_id = ft.ft_id AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = '.$data['ses_id'].' AND sch_id = '.$data['sch_id'].' AND med_id = '.$data['med_id'].' AND class_id = '.$data['class_id'].' AND status = 1 ORDER BY fs_id DESC LIMIT 1)','LEFT');
         $this->db->group_by('ft.ft_id');
@@ -43,10 +41,8 @@ class Fee_structure_ctrl extends CI_Controller {
         $data['general'] = $this->input->post('general');
         $data['sibling'] = $this->input->post('sibling');
         $data['rte'] = $this->input->post('rte');
-        $data['new_staff_first_child'] = $this->input->post('new_staff_first_child');
-        $data['new_staff_second_child'] = $this->input->post('new_staff_second_child');
-        $data['old_staff_first_child'] = $this->input->post('old_staff_first_child');
-        $data['old_staff_second_child'] = $this->input->post('old_staff_second_child');
+        $data['staff_first_child'] = $this->input->post('staff_first_child');
+        $data['staff_second_child'] = $this->input->post('staff_second_child');
         
         $final = array();
         foreach($data['general'] as $general){
@@ -74,38 +70,20 @@ class Fee_structure_ctrl extends CI_Controller {
             $temp['amount'] = $rte[1]['amount'];
             $final[] = $temp;
         }
-        foreach($data['new_staff_first_child'] as $new_staff_first_child){
+        foreach($data['staff_first_child'] as $staff_first_child){
             $temp  = array();
-            $temp['ft_id'] = $new_staff_first_child[0]['ft_id'];
+            $temp['ft_id'] = $staff_first_child[0]['ft_id'];
             $temp['fc_id'] = '4';
             $temp['staff_child'] = 1;
-            $temp['amount'] = $new_staff_first_child[1]['amount'];
+            $temp['amount'] = $staff_first_child[1]['amount'];
             $final[] = $temp;
         }
-        foreach($data['new_staff_second_child'] as $new_staff_second_child){
+        foreach($data['staff_second_child'] as $staff_second_child){
             $temp  = array();
-            $temp['ft_id'] = $new_staff_second_child[0]['ft_id'];
+            $temp['ft_id'] = $staff_second_child[0]['ft_id'];
             $temp['fc_id'] = '4';
             $temp['staff_child'] = 2;
-            $temp['amount'] = $new_staff_second_child[1]['amount'];
-            $final[] = $temp;
-        }
-        
-        foreach($data['old_staff_first_child'] as $old_staff_first_child){
-            $temp  = array();
-            $temp['ft_id'] = $old_staff_first_child[0]['ft_id'];
-            $temp['fc_id'] = '5';
-            $temp['staff_child'] = 1;
-            $temp['amount'] = $old_staff_first_child[1]['amount'];
-            $final[] = $temp;
-        }
-        
-        foreach($data['old_staff_second_child'] as $old_staff_second_child){
-            $temp  = array();
-            $temp['ft_id'] = $old_staff_second_child[0]['ft_id'];
-            $temp['fc_id'] = '5';
-            $temp['staff_child'] = 2;
-            $temp['amount'] = $old_staff_second_child[1]['amount'];
+            $temp['amount'] = $staff_second_child[1]['amount'];
             $final[] = $temp;
         }
         

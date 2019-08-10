@@ -19,6 +19,7 @@ class Prospectus_ctrl extends CI_Controller {
         $data['phone'] = $this->input->post('phone');
         $data['alternate_no'] = $this->input->post('alternate_no');
         $data['address'] = $this->input->post('address');
+        $data['amount'] = $this->input->post('amount');
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $this->session->userdata('user_id');
         

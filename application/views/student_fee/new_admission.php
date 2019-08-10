@@ -199,7 +199,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Date Of Birth <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-					  <input type="date" class="form-control" id="dob" name="dob" placeholder="dd/mm/yyyy"> 
+					  <input type="date" max="1979-12-31" class="form-control" id="dob" name="dob" placeholder="dd/mm/yyyy"> 
 					<div id="dob_err" class="text-danger" style="display:none;"></div> 
 					</div>
 					<!-- /.input group -->
@@ -220,7 +220,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Date of Admission <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-					  <input type="date" class="form-control" id="admission_date" name="admission_date" placeholder="dd/mm/yyyy">
+					  <input type="date" max="1979-12-31" value="<?php echo date('Y-m-d');?>" class="form-control" id="admission_date" name="admission_date" placeholder="dd/mm/yyyy">
 					<div id="admission_date_err" style="display:none; color:red;"></div>
 					</div>
 					<!-- /.input group -->

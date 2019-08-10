@@ -104,7 +104,7 @@
 					      <div class="form-group">
 							<label class="control-label col-md-2">DOB</label>
 							<div class="col-sm-8">
-								<input type="date" name="dob" id="dob" class="form-control" placeholder="date of birth">
+								<input type="date" max="1979-12-31" name="dob" id="dob" class="form-control" placeholder="date of birth">
 								<div id="dob_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>

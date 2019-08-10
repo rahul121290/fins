@@ -12,6 +12,7 @@ $(document).ready(function(){
 			phone:{required:true,number:true,maxlength: 10,minlength: 10},
 			alternate_no:{number:true,maxlength: 10,minlength: 10},
 			address:{required:true},
+			amount:{required:true}
 		},
 	});
 	
@@ -30,7 +31,8 @@ $(document).ready(function(){
 					name:$('#name').val(),
 					phone:$('#phone').val(),
 					alternate_no:$('#alternate_no').val(),
-					address:$('#address').val()
+					address:$('#address').val(),
+					amount:$('#amount').val(),
 				},
 				dataType:'json',
 				beforeSend:function(){

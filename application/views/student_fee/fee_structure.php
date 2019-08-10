@@ -68,11 +68,9 @@
                				<th>General Student</th>
                				<th>Sibling</th>
                				<th>RTE</th>
-               				<th>Old Staff(1st Child)</th>
-               				<th>Old Staff(2nd Child)</th>
+               				<th>Staff (First Child)</th>
+               				<th>Staff (Second Child)</th>
                				
-               				<th>New Staff(1st Child)</th>
-               				<th>New Staff(2nd Child)</th>
                				
                			</tr>
                		</thead>
@@ -150,10 +148,8 @@ function fee_stucuture_record(sch_id,med_id,class_id){
 					'<td><input type="number" value="'+value.general+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_general" class="general only_amount form-control"/></td>'+
 					'<td><input type="number" value="'+value.sibling+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_sibling" class="sibling only_amount form-control"/></td>'+
 					'<td><input type="number" value="'+value.rte+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_rte" class="rte only_amount form-control" /></td>'+
-					'<td><input type="number" value="'+value.old_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_first_child" class="old_staff_first_child only_amount form-control" /></td>'+
-					'<td><input type="number" value="'+value.old_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_old_staff_second_child" class="old_staff_second_child only_amount form-control" /></td>'+
-					'<td><input type="number" value="'+value.new_staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_first_child" class="new_staff_first_child only_amount form-control" /></td>'+
-					'<td><input type="number" value="'+value.new_staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_new_staff_second_child" class="new_staff_second_child only_amount form-control" /></td>'+
+					'<td><input type="number" value="'+value.staff_first_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_staff_first_child" class="staff_first_child only_amount form-control" /></td>'+
+					'<td><input type="number" value="'+value.staff_second_child+'" data-ft_id="'+value.ft_id+'" id="'+value.ft_id+'_staff_second_child" class="staff_second_child only_amount form-control" /></td>'+
 					'</tr>';
 				});
 				$('#submit').css('display','block');
@@ -200,36 +196,21 @@ $(document).on('click','#submit',function(){
 			rte.push(temp);  
 	});
 
-	var new_staff_first_child = [];
-	$( ".new_staff_first_child" ).each(function(key,value) {
+
+	var staff_first_child = [];
+	$( ".staff_first_child" ).each(function(key,value) {
 			var temp = [];
 			temp.push({ ft_id : $(this).data('ft_id')});
 			temp.push({ amount : $(this).val()});
-			new_staff_first_child.push(temp);  
+			staff_first_child.push(temp);  
 	});
 
-	var new_staff_second_child = [];
-	$( ".new_staff_second_child" ).each(function(key,value) {
+	var staff_second_child = [];
+	$( ".staff_second_child" ).each(function(key,value) {
 			var temp = [];
 			temp.push({ ft_id : $(this).data('ft_id')});
 			temp.push({ amount : $(this).val()});
-			new_staff_second_child.push(temp);  
-	});
-
-	var old_staff_first_child = [];
-	$( ".old_staff_first_child" ).each(function(key,value) {
-			var temp = [];
-			temp.push({ ft_id : $(this).data('ft_id')});
-			temp.push({ amount : $(this).val()});
-			old_staff_first_child.push(temp);  
-	});
-
-	var old_staff_second_child = [];
-	$( ".old_staff_second_child" ).each(function(key,value) {
-			var temp = [];
-			temp.push({ ft_id : $(this).data('ft_id')});
-			temp.push({ amount : $(this).val()});
-			old_staff_second_child.push(temp);  
+			staff_second_child.push(temp);  
 	});
 
 	$.ajax({
@@ -242,10 +223,8 @@ $(document).on('click','#submit',function(){
 			'general':general,
 			'sibling':sibling,
 			'rte':rte,
-			'new_staff_first_child':new_staff_first_child,
-			'new_staff_second_child':new_staff_second_child,
-			'old_staff_first_child':old_staff_first_child,
-			'old_staff_second_child':old_staff_second_child
+			'staff_first_child':staff_first_child,
+			'staff_second_child':staff_second_child
 		},
 		dataType:'json',
 		beforeSend:function(){
