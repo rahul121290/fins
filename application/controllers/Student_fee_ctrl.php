@@ -330,7 +330,6 @@ class Student_fee_ctrl extends CI_Controller {
     
     function fee_receipt(){
         $receipt = $this->input->get('receipt_no');
-        
         $this->db->select('DATE_FORMAT(sf.created_at,"%d-%m-%Y") receipt_date,sf.receipt_no,sf.pay_month,s.ses_id,s.sch_id,s.medium,s.class_id,
                     c.class_name,sec.section_name,s.fee_criteria,s.staff_child,s.adm_no,s.name,s.f_name,
                     sf.session_fee_ids,

@@ -92,7 +92,7 @@
                 </div>
                 
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Alternate Mobile No. <span style="color:red;">*</span></label>
+                  <label class="col-sm-3 control-label">Alternate Mobile No.</label>
 					<div class="col-sm-6">
 						<input type="number" name="alternate_no" id="alternate_no" class="form-control only_int" placeholder="Alternate Mobile Number" />
 						<div id="alternate_no_err" class="text-danger" style="display:none;"></div>

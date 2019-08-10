@@ -33,10 +33,14 @@ $(document).ready(function(){
 					address:$('#address').val()
 				},
 				dataType:'json',
-				beforeSend:function(){},
+				beforeSend:function(){
+					$('#loader').modal('show');
+				},
 				success:function(response){
 					if(response.status == 200){
+						$('#loader').modal('hide');
 						alert('Insert Successfully.');
+						location.reload();
 					}else{
 						alert('Insert Faild, Please try again.');
 					}

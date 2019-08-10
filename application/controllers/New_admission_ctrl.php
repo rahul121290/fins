@@ -68,7 +68,6 @@ class New_admission_ctrl extends CI_Controller {
         if($result){
             $mobile = $data['contact_no'];
             $sms = 'Dear Parent, thank you for choosing Shakuntala Vidyalaya for a bright future of your ward. The admission is confirmed.';
-            //print_r($sms);die;
             $this->my_function->send_sms($mobile,$sms);
             
             echo json_encode(array('msg'=>'Admission successfully.',

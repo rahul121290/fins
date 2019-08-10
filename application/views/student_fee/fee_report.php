@@ -116,6 +116,7 @@
                                   <th>Pending Fee</th>
                                   <th>Received Fee</th>
                                   <th>Total Fee</th>
+                                  <th>Action</th>
                                 </tr>
                             </thead>
     						<tbody id="">
@@ -127,6 +128,7 @@
 									<td>2502.00</td>
 									<td>3502.00</td>
 									<td>6002.00</td>
+									<th><a href="http://localhost/school_19/trunk/shakuntala/reception/report/student/123" class="btn btn-sm btn-info" target="_blank">View Details</a></th>
 								</tr>
 							</tbody>
     					</table>
