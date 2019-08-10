@@ -14,6 +14,40 @@ class New_admission_ctrl extends CI_Controller {
         }
     }
     
+    function student_record(){
+        $data['ses_id'] = $this->session->userdata('session_id');
+        $data['sch_id'] = $this->input->post('school');
+        $data['medium'] = $this->input->post('medium');
+        $data['class_id'] = $this->input->post('class_id');
+        $data['sec_id'] = $this->input->post('section');
+        
+        $condition = 'status = 1';
+        if(!empty($data['ses_id'])){
+            $condition .= ' AND ses_id ='.$data['ses_id'];
+        }
+        if(!empty($data['sch_id'])){
+            $condition .= ' AND sch_id ='.$data['sch_id'];
+        }
+        if(!empty($data['medium'])){
+            $condition .= ' AND medium ='.$data['medium'];
+        }
+        if(!empty($data['class_id'])){
+            $condition .= ' AND class_id ='.$data['class_id'];
+        }
+        if(!empty($data['sec_id'])){
+            $condition .= ' AND sec_id ='.$data['sec_id'];
+        }
+        
+        $this->db->select('*');
+        $this->db->where($condition);
+        $result = $this->db->get_where('students')->result_array();
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+    }
+    
     public function add_student(){
         $std_id = $this->input->post('std_id');
         $old_image = $this->input->post('old_image');
@@ -27,6 +61,12 @@ class New_admission_ctrl extends CI_Controller {
         if(empty($data['staff_child'])){
             $data['staff_child'] = null;
         }
+        
+        $data['related_std'] = $this->input->post('related_adm_no');
+        if(empty($data['related_std'])){
+            $data['related_std'] = null;
+        }
+        
         $data['adm_no'] = $this->input->post('adm_no');
         $data['roll_no'] = $this->input->post('roll_no');
         $data['name'] = $this->input->post('name');

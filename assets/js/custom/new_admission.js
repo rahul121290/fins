@@ -9,6 +9,79 @@ $(document).ready(function(){
 		dateFormat: 'dd-mm-yy'
 	});
 
+	
+	$(document).on('click','#verify_sibling_related_adm_no',function(){
+		$('#sibling_verification').modal('show');
+	});
+	
+	$(document).on('click','#search_record',function(){
+		var school = $('#sibling_school').val();
+		var medium = $('#sibling_medium').val();
+		var class_id = $('#sibling_class').val();
+		var section = $('#sibling_section').val();
+		var siblingValidate = true;
+		
+		if(school == ''){
+			$('#sibling_school_err').html('This is Required.').css('display','block');
+			siblingValidate = false;
+		}else{
+			$('#sibling_school_err').css('display','none');
+		}
+		
+		if(medium == ''){
+			$('#sibling_medium_err').html('This is Required.').css('display','block');
+			siblingValidate = false;
+		}else{
+			$('#sibling_medium_err').css('display','none');
+		}
+		
+		if(class_id == ''){
+			$('#sibling_class_err').html('This is Required.').css('display','block');
+			siblingValidate = false;
+		}else{
+			$('#sibling_class_err').css('display','none');
+		}
+		
+		if(section == ''){
+			$('#sibling_section_err').html('This is Required.').css('display','block');
+			siblingValidate = false;
+		}else{
+			$('#sibling_section_err').css('display','none');
+		}
+		
+		if(siblingValidate){
+			$.ajax({
+				type:'POST',
+				url:base_url+'New_admission_ctrl/student_record',
+				data:{'school':school,'medium':medium,'class_id':class_id,'section':section},
+				dataType:'json',
+				beforeSend:function(){
+					$('#loader').modal('show');
+				},
+				success:function(response){
+					if(response.status == 200){
+						$('#loader').modal('hide');
+						var x='';
+						$.each(response.data,function(key,value){
+							x=x+'<tr>'+
+									'<td>'+parseInt(key+1)+'</td>'+
+									'<td>'+value.adm_no+'</td>'+
+									'<td>'+value.name+'</td>'+
+									'<td>'+value.f_name+'</td>'+
+									'<td>'+value.contact_no+'</td>'+
+								'</tr>';
+						});
+						$('#student_list').html(x);
+					}else{
+						$('#loader').modal('hide');
+						$('#student_list').html('<tr><td colspan="5">Record not found.</td></tr>');
+					}
+				},
+			});
+		}		
+	});
+	
+	
 //--------------check existing admission no--------------------------------
 	$(document).on('keyup','#admission_no',function(){
 		var admission_no = $('#admission_no').val();
@@ -65,11 +138,19 @@ $(document).ready(function(){
 	$(document).on('change','#fee_criteria',function(){
 		var fee_criteria = $(this).val();
 		
+		if(fee_criteria == 2){
+			$('#sibling_details').css('display','block');
+		}else{
+			$('#related_adm_no').val('');
+			$('#sibling_details').css('display','none');
+		}
+		
 		if(fee_criteria == 4 || fee_criteria == 5){
 			$('#staff_child_row').css('display','block');			
 		}else{
-			$('#staff_child_row').css('display','none');
 			$('#staff_child').prop('selectedIndex','');
+			$('#staff_child_row').css('display','none');
+			
 		}
 	});
 	
@@ -86,61 +167,74 @@ $(document).ready(function(){
             e.preventDefault();
         }
     });
-//--------------------add student---------------------------------
-	$('#student_form').validate({
-		rules:{
-			fee_criteria:{required:true},
-			staff_child:{
-			    required: function(element) {
-			        if ($("#fee_criteria").val() == 4 || $("#fee_criteria").val() == 5) {
-			        	return true;
-			        } else {
-			        	return false;
-			        }
-			    },
-			},
-			admission_no:{required:true,number:true},
-			//roll_no:{required:true},
-			student_name:{required:true},
-			session:{required:true},
-			school:{required:true},
-			medium:{required:true},
-			class:{required:true},
-			//section:{required:true},
-			father_name:{required:true},
-			mother_name:{required:true},
-			dob:{required:true},
-			gender:{required:true},
-			admission_date:{required:true},
-			caste:{required:true},
-//				blood:{required:true},
-			//aadhaar:{required:true},
-			address:{required:true},
-//				guardian:{required:true},
-//				local_address:{required:true},
-			contact_no:{required:true},
-			//email:{email:true},
-//				medical:{required:true},
-//				height:{required:true},
-//				weight:{required:true},
-			transfer:{required:true},
-			hostler:{required:true},
-			bus:{required:true},
-			bus_stoppage: {
-			    required: function(element) {
-			        if ($("#bus").val() == "Yes") {
-			        	return true;
-			        } else {
-			        	return false;
-			        }
-			    },
-			},
-		},
-		messages:{
-			},
-	});
 	
 	$(document).on('click','#submit',function(){
+		
+		//--------------------add student---------------------------------
+		$('#student_form').validate({
+			rules:{
+				fee_criteria:{required:true},
+				staff_child:{
+				    required: function(element) {
+				        if ($("#fee_criteria").val() == 4 || $("#fee_criteria").val() == 5) {
+				        	return true;
+				        } else {
+				        	return false;
+				        }
+				    },
+				},
+				
+				related_adm_no:{
+					required:function(element) {
+				        if ($("#fee_criteria").val() == 2) {
+				        	return true;
+				        } else {
+				        	return false;
+				        }
+				    },
+			    },
+				admission_no:{required:true,number:true},
+				//roll_no:{required:true},
+				student_name:{required:true},
+				session:{required:true},
+				school:{required:true},
+				medium:{required:true},
+				class:{required:true},
+				//section:{required:true},
+				father_name:{required:true},
+				mother_name:{required:true},
+				dob:{required:true},
+				gender:{required:true},
+				admission_date:{required:true},
+				caste:{required:true},
+//					blood:{required:true},
+				//aadhaar:{required:true},
+				address:{required:true},
+//					guardian:{required:true},
+//					local_address:{required:true},
+				contact_no:{required:true},
+				//email:{email:true},
+//					medical:{required:true},
+//					height:{required:true},
+//					weight:{required:true},
+				transfer:{required:true},
+				hostler:{required:true},
+				bus:{required:true},
+				bus_stoppage: {
+				    required: function(element) {
+				        if ($("#bus").val() == "Yes") {
+				        	return true;
+				        } else {
+				        	return false;
+				        }
+				    },
+				},
+			},
+			messages:{
+				},
+		});
+		
+		
 	    var formvalidate = $('#student_form').valid();//----- formvalidate = true-------------------
 	    if(formvalidate == true){
 	    	//----------------validation for fit,elective and subject groups---------------------------
@@ -168,9 +262,6 @@ $(document).ready(function(){
 	    				}	
 	    	}
 	    	
-	    	
-	    	
-	    	
 	    //--------------validation for image-------------------------------------------------		
 	    	var img = $('#std_image').val();
 	    	if(img){
@@ -195,6 +286,8 @@ $(document).ready(function(){
 	    		formdata = new FormData();
 	    		formdata.append('fee_criteria',$('#fee_criteria').val());
 	    		formdata.append('staff_child',$('#staff_child').val());
+	    		formdata.append('related_adm_no',$('#related_adm_no').val());
+	    		
 	    		
 				formdata.append('adm_no',$('#admission_no').val());
 				formdata.append('roll_no',$('#roll_no').val());

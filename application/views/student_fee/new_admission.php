@@ -18,7 +18,7 @@
 			  </div>
 			</div>
 			
-			<form role="form" class="form-horizontal" id="student_form" method="POST">
+			<form role="form" action="javascript:void(0);" class="form-horizontal" id="student_form" method="POST">
 			<div class="box-body">
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Fee Criteria <span style="color:red;">*</span></label>
@@ -43,7 +43,19 @@
 					</select>
 				  </div>
              	</div>
-                
+             	
+             	<div class="form-group" style="display: none;" id="sibling_details">
+                  <label class="col-sm-3 control-label">Related Admission No. <span style="color:red;">*</span></label>
+                  <div class="col-sm-3">
+					<input type="text" name="related_adm_no"  id="related_adm_no" class="form-control" placeholder="Enter Related Student Admission Number">
+					<div id="related_adm_no_err" class="error" style="display: none;"></div>
+				  </div>
+				  
+                  <div class="col-sm-3">
+					<button class="btn btn-sm btn-success" id="verify_sibling_related_adm_no">Verify</button>
+				  </div>
+             	</div>
+             	
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>
                   <div class="col-sm-6">
@@ -389,7 +401,7 @@
 			</div>
 					<div class="box-footer">
                       	<div class="col-sm-offset-8">
-                            <button type="button" name="submit" id="submit" class="btn btn-info">Submit</button>
+                            <button type="button" id="submit" class="btn btn-info">Submit</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                         </div>
         			</div>
@@ -399,3 +411,89 @@
 </div>
 
 <input type="hidden" id="user_url" name="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>"/>
+
+
+<!-- Modal -->
+<div id="sibling_verification" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        
+        <div class="row">
+        	<div class="form-group">
+              <div class="col-sm-3">
+				<select class="form-control" id="sibling_school">
+					<option value="">Select BOARD</option>
+					<option value="1">CBSE</option>
+					<option value="2">CG Board</option>
+				</select>
+				<div id="sibling_school_err" class="error" style="display: none;"></div>
+			</div>
+			
+              <div class="col-sm-3">
+    			<select class="form-control" id="sibling_medium"> 
+    				<option value="">Select Medium</option>
+    				<?php foreach($medium as $med){?>
+    				    <option value="<?php echo $med['med_id'];?>"><?php echo $med['med_name'];?></option>
+    				<?php }?>
+    			</select>
+    			<div id="sibling_medium_err" class="error" style="display: none;"></div>
+    		</div>
+    		
+    		<div class="col-sm-3">
+    			<select class="form-control" id="sibling_class">
+    				<option value="">Select Class</option>
+    				<?php foreach($class as $classes){?>
+						<option value="<?php echo $classes['c_id'];?>"><?php echo $classes['class_name'];?></option>
+					<?php } ?>
+    			</select>
+    			<div id="sibling_class_err" class="error" style="display: none;"></div>
+    		</div>
+    		
+    		<div class="col-sm-3">
+    			<select class="form-control" id="sibling_section">
+    				<option value="">Select Section</option>
+    				<?php foreach($section as $sec){?>
+						<option value="<?php echo $sec['sec_id'];?>"><?php echo $sec['section_name'];?></option>
+					<?php }?>
+    			</select>
+    			<div id="sibling_section_err" class="error" style="display: none;"></div>
+    		</div>
+    		
+    		<div class="col-sm-3">
+    			<button id="search_record" class="btn btn-sm btn-primary">Search</button>
+    		</div>
+      	 </div>
+      	 
+      	 <div style="width:100%; height: 400px;overflow-y: scroll;float: left;
+}">
+      	 	<table class="table" >
+      	 		<thead>
+      	 			<tr>
+      	 				<th>S No.</th>
+      	 				<th>Admission No.</th>
+      	 				<th>Student Name</th>
+      	 				<th>Father's Name</th>
+      	 				<th>Contact No.</th>
+      	 			</tr>
+      	 		</thead>
+      	 		<tbody id="student_list"></tbody>
+      	 	</table>
+      	 </div>
+      </div>
+        
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
