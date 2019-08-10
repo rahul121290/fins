@@ -26,7 +26,7 @@ class Fee_structure_ctrl extends CI_Controller {
         $this->db->join('class_fee_structure cfs','cfs.ft_id = ft.ft_id AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = '.$data['ses_id'].' AND sch_id = '.$data['sch_id'].' AND med_id = '.$data['med_id'].' AND class_id = '.$data['class_id'].' AND status = 1 ORDER BY fs_id DESC LIMIT 1)','LEFT');
         $this->db->group_by('ft.ft_id');
         $result = $this->db->get_where('fee_type ft',array('ft.status'=>1))->result_array();
-       // print_r($this->db->last_query());die;
+        //print_r($this->db->last_query());die;
         if(count($result) > 0){
             echo json_encode(array('data'=>$result,'status'=>200));
         }else{

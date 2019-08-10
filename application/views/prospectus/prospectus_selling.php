@@ -86,7 +86,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Contact No. <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="phone" id="phone" max="10" class="form-control only_int" placeholder="Enter Contact No." />
+						<input type="number" name="phone" id="phone" class="form-control only_int" placeholder="Enter Contact No." />
 						<div id="phone_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -94,7 +94,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Alternate Mobile No. <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="alternate_no" max="10" id="alternate_no" class="form-control only_int" placeholder="Alternate Mobile Number" />
+						<input type="number" name="alternate_no" id="alternate_no" class="form-control only_int" placeholder="Alternate Mobile Number" />
 						<div id="alternate_no_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>

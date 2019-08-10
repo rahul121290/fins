@@ -9,8 +9,8 @@ $(document).ready(function(){
 			medium:{required:true},
 			class_id:{required:true},
 			name:{required:true},
-			phone:{required:true,number:true},
-			alternate_no:{number:true},
+			phone:{required:true,number:true,maxlength: 10,minlength: 10},
+			alternate_no:{number:true,maxlength: 10,minlength: 10},
 			address:{required:true},
 		},
 	});
