@@ -136,7 +136,7 @@ function fee_details(){
 				}
 
 				if(response.data.month_fee.length > 0){
-					x=x+'<tr><td><b>Month + Bus Fee</b></td><td align="center"></td><td align="right"></td></tr>';
+					x=x+'<tr><td><b>Month Fee</b></td><td align="center"></td><td align="right"></td></tr>';
 					$.each(response.data.month_fee,function(key,value){
 						var fee = parseFloat(parseFloat(value.fee) + parseFloat(value.bus_fee));
 						x=x+'<tr>'+
@@ -157,11 +157,11 @@ function fee_details(){
 				}
 
 				
-				if(response.data.fee_waiver.length > 0){
+				if(response.data.student[0].fee_waiver > 0){
 					x=x+'<tr>'+
 					'<td>Fee Waiver</td>'+
 					'<td align="center"><?php echo date('d-m-Y'); ?></td>'+
-					'<td align="right">'+response.data.fee_waiver[0].amount+'</td>'+
+					'<td align="right">'+response.data.student[0].fee_waiver+'</td>'+
 				'</tr>';
 				}
 				

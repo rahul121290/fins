@@ -97,7 +97,7 @@
                                   <th>Father's Name</th>
 								  <th>Subject Group</th>
                                   <th>Contact No.</th>
-                                  <th>Status</th>
+                                  <th>Fee Criteria</th>
                                   <th>Action</th>
                                 </tr>
                             </thead>

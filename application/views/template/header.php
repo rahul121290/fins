@@ -169,7 +169,7 @@ $permission = $this->my_function->user_permission();
     						<ul class="dropdown-menu">
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/new-admission"><i class="fa fa-user text-blue" aria-hidden="true"></i>New Admission</a></li>
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/payment"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Student Fee</a></li>
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/history"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Fee History</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/fee-histroy"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Fee History</a></li>
     						</ul>
     					</li>
 					<?php } ?>
@@ -177,19 +177,8 @@ $permission = $this->my_function->user_permission();
 					<?php if(in_array(24, $permission)){ ?>
 						<li class="dropdown"><a href="<?php echo base_url();?>Backup_ctrl">BackUp</a></li>
 					<?php } ?>
-					
-					<?php /*?>
-					<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">FEES PAYMENT<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="<?=base_url();?>admin/fees-payment/pay-student-fees"><i class="fa fa-telegram text-blue" aria-hidden="true"></i>Pay Students Fees</a></li>
-							<li><a href="<?=base_url();?>admin/fees-payment/generate-fees-csv"><i class="fa fa-snowflake-o text-blue" aria-hidden="true"></i>Generate Fees CSV</a></li>
-						</ul>
-					</li> <?php */?>
-				
-      
+									
       	<?php $user = $this->ion_auth->user()->row();?>
-        
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?php echo base_url();?>assets/images/user.png" class="user-image" alt="User Image">

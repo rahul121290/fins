@@ -28,6 +28,7 @@ $(document).ready(function(){
 					$('#loader').modal('hide');
 					$('#student_name').val(response.data.student[0].name);
 					$('#contact_no').val(response.data.student[0].contact_no);
+					$('#bus_id').val(response.data.student[0].bus_id);
 	//-----------------------------------student details----------------------
 					x=x+'<table class="table">'+
 						'<tbody>'+
@@ -47,7 +48,6 @@ $(document).ready(function(){
 				'</table>';
 				
 				$('#student_details').html(x);
-					
 	//------------------------session fee--------------------------------
 					var f = '';
 					var flag = 1;
@@ -234,6 +234,7 @@ $(document).ready(function(){
         		},
         		success:function(response){
         			if(response.status == 200){
+        				$('#fw_id').val(response.fw_id);
         				$('#loader').modal('hide');	
         				$('#fee_waiver_apply').html('Applied');
         				$('#fee_waiver_apply').removeClass('btn-info',true);
@@ -454,6 +455,9 @@ $(document).ready(function(){
 		var fee_total = $('#fee_total').val();
 		var student_name = $('#student_name').val();
 		var contact_no = $('#contact_no').val();
+		var bus_id = $('#bus_id').val();
+		var fw_id = $('#fw_id').val();
+		var fee_waiver_amount = $('#fee_waiver_amount').val();
 		var session_fee = [];
 		var month_ids = [];
 		var pay_option = [];
@@ -541,7 +545,9 @@ $(document).ready(function(){
 			var formdata = new FormData();
 			formdata.append('student_name',student_name);
 			formdata.append('contact_no',contact_no);
-			
+			formdata.append('bus_id',bus_id);
+			formdata.append('fw_id',fw_id);
+			formdata.append('ses_id',ses_id);
 			formdata.append('ses_id',ses_id);
 			formdata.append('sch_id',sch_id);
 			formdata.append('med_id',med_id);
@@ -549,6 +555,7 @@ $(document).ready(function(){
 			formdata.append('session_fee',session_fee);
 			formdata.append('month_ids',month_ids);
 			formdata.append('late_fee',late_fee);
+			formdata.append('fee_waiver_amount',fee_waiver_amount);
 			formdata.append('paid_amount',fee_total);
 			formdata.append('pay_option',JSON.stringify(pay_option));
 			$.ajax({

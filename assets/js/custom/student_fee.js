@@ -99,14 +99,19 @@ $(document).ready(function(){
 							'<td>'+value.name+'</td>'+
 							'<td>'+value.f_name+'</td>';
 							if(value.sg_name){
-								x=x+'<td>'+value.f_name+'</td>';
+								x=x+'<td>'+value.sg_name+'</td>';
 							}else{
 								x=x+'<td>-</td>';
 							}
 							x=x+'<td>'+value.contact_no+'</td>'+
-							'<td>-</td>'+
-							'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-med_id="'+value.medium+'" data-adm_no="'+value.adm_no+'" class="btn btn-sm btn-primary payment">Pay Now</button></td>'+
-							'</tr>';
+							'<td>'+value.fc_name+'</td>';
+							if(value.fc_name == 'RTE'){
+								x=x+'<td><button class="btn btn-success btn-sm">RTE (No fee)</button></td>';
+							}else{
+								x=x+'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-med_id="'+value.medium+'" data-adm_no="'+value.adm_no+'" class="btn btn-sm btn-primary payment">Pay Now</button></td>';
+							}
+							
+							x=x+'</tr>';
 					});
 					$('#student_list').html(x);
 				}else{
