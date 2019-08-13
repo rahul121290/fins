@@ -672,6 +672,19 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
+    function update_records(){
+        if(in_array(25, $this->permission)){
+            $this->data['fee_criteria'] = $this->db->get_where('fee_criteria',array('status'=>1))->result_array();
+            $this->data['staff_child'] = $this->db->get_where('staff_child',array('status'=>1))->result_array();
+            $this->data['page_name'] = 'Update Records';
+            $this->data['main'] = 'student_fee/update_records';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
     function admission_fee($sch_id,$adm_no){
         if(in_array(25, $this->permission)){
             $this->data['page_name'] = 'Admission Fee';
@@ -716,6 +729,10 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'error_page';
         }
     }
+    
+    
+    
+    
     
     function error_page(){
         $this->data['page_name'] = 'Error';

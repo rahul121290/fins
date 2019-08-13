@@ -390,8 +390,10 @@ $(document).ready(function(){
 		
 		if(pos_card == 'credit_card'){
 			var card_charge = 2;
-		}else{
+		}else if(parseFloat(pos_amount) >= parseFloat(2000)){
 			var card_charge = 0.75;
+		}else{
+			card_charge = 0;
 		}
 		
 		if(fieldvalidate){
@@ -430,19 +432,34 @@ $(document).ready(function(){
 	//-------------- focus on text box--------------------------------
 	$(document).on('keyup','.max_type',function(){
 		var max = $('#fee_total').val();
-	  	var val = $(this).val();
+		
+		var val = parseFloat(0);
+		$('.max_type').each(function(){
+			val += +$(this).val();
+		});
 	  	
+		$('#pay_method_amount').html(val);
+		
 	  	if (parseFloat(val) < parseFloat(0)){
 	  	  	$(this).val(0.00);
+	  	  	$('#pay_method_amount').html($(this).val(0.00));
 	  	 }
+	  	if(parseFloat(val) < parseFloat(max)){
+	  		$('#pay_method_amount').html('Outstanding <b>' + parseFloat(parseFloat(max) - parseFloat(val))+'</b>');
+	  	}
 	  	if(parseFloat(val) > parseFloat(max)){
 	  	  	$(this).css('box-shadow','0px 0px 10px red');
 		  	$(this).focus();
-		    //$(this).val(max);
+		  	$('#pay_method_amount').html('Worng amount <b>'+ parseFloat(parseFloat(val) - parseFloat(max))+'</b> Rs. extra.');
 	  	}	
 	  	else{
 	  	  	$(this).css('box-shadow','none');
 	  	}
+	  	
+	  	if(parseFloat(val) == parseFloat(max)){
+	  		$('#pay_method_amount').html('Currect amount <b>' +parseFloat(val)+'</b>');
+	  	}
+	  	
 	});
 //-----------------submit-----------------------------
 	$(document).on('click','#submit',function(){

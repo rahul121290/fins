@@ -2,12 +2,89 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Student_fee_ctrl extends CI_Controller {
-    var $permission;
     function __construct(){
         parent :: __construct();
         $this->load->library('My_function');
         $this->load->model('Student_fee_model');
     }
+    
+    function update_records(){
+        $std_id = $this->input->post('std_id');
+        $data['fee_criteria'] = $this->input->post('fee_criteria');
+        $data['staff_child'] = $this->input->post('staff_child');
+        if(empty($data['staff_child'])){
+            $data['staff_child'] = null;
+        }
+        $data['class_id'] = $this->input->post('class_id');
+        $data['sec_id'] = $this->input->post('section');
+        $data['hostler'] = $this->input->post('hostler');
+        $data['bus'] = $this->input->post('bus');
+        $data['bus_id'] = $this->input->post('bus_stoppage');
+        
+        $this->db->where('std_id',$std_id);
+        $result = $this->db->update('students',$data);
+        if($result){
+            echo json_encode(array('msg'=>'Update successfull.','status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Update failed, Please try again.','status'=>500));
+        }
+        
+        
+    }
+    
+    function recordList(){
+        $data['sch_id'] = $this->input->post('school');
+        $data['medium'] = $this->input->post('medium');
+        $data['class_id'] = $this->input->post('class_name');
+        $data['sec_id'] = $this->input->post('section');
+        $data['search_data'] = $this->input->post('search_box');
+        
+        $condition = 's.status = 1';
+       
+        if(!empty($data['sch_id'])){
+            $condition .= ' AND s.sch_id = '.$data['sch_id'];
+        }
+        if(!empty($data['medium'])){
+            $condition .= ' AND s.medium = '.$data['medium'];
+        }
+        if(!empty($data['class_id'])){
+            $condition .= ' AND s.class_id = '.$data['class_id'];
+        }
+        if(!empty($data['sec_id'])){
+            $condition .= ' AND s.sec_id = '.$data['sec_id'];
+        }
+        if(!empty($data['search_data'])){
+            $condition .= ' AND s.adm_no = '.$data['search_data'];
+        }
+        
+        $this->db->select('s.*,fc.fc_name fee_criteria,c.class_name,sec.section_name,IFNULL(sg.sg_name,"-") sg_name,IFNULL(bs.bus_stoppage,"-") bus_stoppage');
+        $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
+        $this->db->join('class c','c.c_id = s.class_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('sub_group sg','sg.sg_id = s.sub_group','LEFT');
+        $this->db->join('bus_structure bs','bs.bs_id = s.bus_id','LEFT');
+        $this->db->where($condition);
+        $result = $this->db->get_where('students s')->result_array();
+        
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'record not found.','status'=>500));
+        }
+    }
+    
+    function studentEditRecord(){
+        $std_id = $this->input->get('std_id');
+        
+        $this->db->select('*');
+        $result = $this->db->get_where('students s',array('status'=>1,'std_id'=>$std_id))->result_array();
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'record not found.','status'=>500));
+        }
+    }
+    
     
     function studentList(){
         $data['ses_id'] = $this->input->post('session');
@@ -288,6 +365,7 @@ class Student_fee_ctrl extends CI_Controller {
         $pay_method = [];
         foreach($pay_option as $pay){
            $temp = [];
+           $temp['receipt_no'] = $data['receipt_no'];
            $temp['method_name'] = $pay[0]['pay_method'];
            $temp['amount'] = $pay[1]['amount'];
            $temp['card_name'] = $pay[2]['card'];
@@ -420,9 +498,114 @@ class Student_fee_ctrl extends CI_Controller {
         }else{
             echo json_encode(array('data'=>'Record not found.','status'=>500));
         }
-        
-        
     }
     
+    function class_wise_report(){
+        $data['session'] = $this->input->post('session');
+        $data['school'] = $this->input->post('school');
+        $data['medium'] = $this->input->post('medium');
+        $data['class_name'] = $this->input->post('class_name');
+        $data['section'] = $this->input->post('section');
+        
+        $condition = 's.status = 1';
+        if($data['session']){
+            $condition .= ' AND s.ses_id = '.$data['session'];
+        }
+        if($data['school']){
+            $condition .= ' AND s.sch_id = '.$data['school'];
+        }
+        if($data['medium']){
+            $condition .= ' AND s.medium = '.$data['medium'];
+        }
+        if($data['class_name']){
+            $condition .= ' AND s.class_id = '.$data['class_name'];
+        }
+        if($data['section']){
+            $condition .= ' AND s.sec_id = '.$data['section'];
+        }
+        
+        $this->db->select('s.adm_no,s.name,s.f_name,IFNULL(s.bus,"No") bus,
+                MAX(IF(ft.ft_id = 1, cfs.amount, 0)) as admission_fee,
+                MAX(IF(ft.ft_id = 2, cfs.amount, 0)) as amalgamated_fund,
+                MAX(IF(ft.ft_id = 3, cfs.amount, 0)) as lab_fee,
+                MAX(IF(ft.ft_id = 4, cfs.amount, 0)) as optional_sub,
+                MAX(IF(ft.ft_id = 5, cfs.amount, 0)) as tuition_fee,
+                (MAX(IF(ft.ft_id = 1, cfs.amount, 0)) +
+                    MAX(IF(ft.ft_id = 2, cfs.amount, 0)) + 
+                    MAX(IF(ft.ft_id = 3, cfs.amount, 0)) +
+                    MAX(IF(ft.ft_id = 4, cfs.amount, 0)) +
+                    (MAX(IF(ft.ft_id = 5, cfs.amount, 0)) * 12 ) +
+                    IF(s.class_id = 13 OR s.class_id = 15,IFNULL(bs.price,0)*10,IFNULL(bs.price,0)*11 ) ) total
+        '); 
+        $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.status = 1 AND s.bus = "Yes"','LEFT');
+        $this->db->join('class_fee_structure cfs','cfs.fc_id = s.fee_criteria AND cfs.staff_child  = s.staff_child OR cfs.staff_child  IS NULL AND cfs.fc_id = s.fee_criteria AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = '.$data['session'].' AND sch_id = '.$data['school'].' AND med_id = '.$data['medium'].' AND class_id = '.$data['class_name'].' AND status = 1 ORDER BY fs_id DESC LIMIT 1)');
+        $this->db->join('fee_type ft','ft.ft_id = cfs.ft_id');
+        $this->db->where($condition);
+        $this->db->group_by('s.adm_no');
+        $this->db->order_by('s.adm_no');
+        $result = $this->db->get_where('students s')->result_array();
+        
+        $this->db->select('s.adm_no,SUM(sf.paid_amount) as paid_fee,IFNULL(GROUP_CONCAT(sf.month_ids),0) paid_month');
+        $this->db->join('student_fee sf','sf.adm_no = s.adm_no AND sf.ses_id = s.ses_id AND sf.sch_id = s.sch_id AND sf.med_id = s.medium AND sf.status = 1','LEFT');
+        $this->db->where($condition);
+        $this->db->group_by('s.adm_no');
+        $this->db->order_by('s.adm_no');
+        $paid_details = $this->db->get_where('students s')->result_array();
+        
+        $this->db->select('*');
+        $fee_month = $this->db->get_where('fee_month',array('status'=>1))->result_array();
+        
+        $final = [];
+        $paid_fee = 0;
+        $pending_fee = 0;
+        $total_fee = 0;
+        
+        if(count($result) > 0 && count($paid_details) > 0){
+            foreach($result as $total_detail){
+                foreach($paid_details as $paid){
+                    if($total_detail['adm_no'] == $paid['adm_no']){
+                        $temp = [];
+                        $temp['adm_no'] = $total_detail['adm_no'];
+                        $temp['name'] = $total_detail['name'];
+                        $temp['f_name'] = $total_detail['f_name'];
+                        $temp['bus'] = $total_detail['bus'];
+                        $temp['pending_fee'] = $total_detail['total'] - $paid['paid_fee'];
+                        $temp['paid_fee'] = $paid['paid_fee'];
+                        $temp['total'] = $total_detail['total'];
+                        
+                        $temp['pending_month'] = ''; 
+                        $paid_month = explode(",",$paid['paid_month']);
+                        
+                        
+                            foreach($fee_month as $month){
+                                $flag = 0;
+                                foreach($paid_month as $pmonth){
+                                    if($month['fm_id'] == $pmonth){
+                                        $flag = 1;
+                                        //$temp['pending_month'] .= $month['name'].', ';
+                                    }
+                            }
+                            if($flag == 0){
+                                $temp['pending_month'] .= $month['name'].', ';
+                            }
+                        }
+                        
+                        $paid_fee += $temp['paid_fee'];
+                        $pending_fee += $temp['pending_fee'];
+                        $total_fee += $temp['total'];
+                        
+                        $final[] = $temp;
+                        
+                    }
+                }
+            }
+        }
+        
+        if(count($final) > 0){
+            echo json_encode(array('data'=>$final,'paid_fee'=>$paid_fee,'pending_fee'=>$pending_fee,'total_fee'=>$total_fee,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+    }
     
 }

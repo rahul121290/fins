@@ -162,6 +162,7 @@
 					</tbody>
 				</table>
 				<hr>
+				<div id="pay_method_amount"></div>
 				<div style="margin-left:58%;" class="col-md-5 ">
 					<div class="fee-tottal-box">
 					<div class="pull-left" style="padding-top:5px;"><b>GRAND TOTAL FEE</b></div>
