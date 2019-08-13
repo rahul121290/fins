@@ -51,14 +51,14 @@
 				
 				<div class="col-sm-2">
 					<div class="form-group">
-						<input type="date" max="1979-12-31" id="from_date" name="from_date" class="form-control">
+						<input type="date" max="<?php echo date('Y-m-d')?>" id="from_date" name="from_date" class="form-control">
 						<div id="from_date_err" class="text-danger" style="display:none;"></div>
 					</div>
 				</div>
 
 				<div class="col-sm-2">
 					<div class="form-group">
-						<input type="date" max="1979-12-31" id="to_date" name="to_date" class="form-control">
+						<input type="date" max="<?php echo date('Y-m-d')?>" name="to_date" class="form-control">
 						<div id="to_date_err" class="text-danger" style="display:none;"></div>
 					</div>
 				</div>

@@ -31,7 +31,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Selling Date<span style="color:red;">*</span></label>
 						<div class="col-sm-6">
-							<input type="date" max="1979-12-31" name="selling_date" id="selling_date" class="form-control" value="<?php echo date('Y-m-d');?>" />
+							<input type="date" max="<?php echo date('Y-m-d')?>" name="selling_date" id="selling_date" class="form-control" value="<?php echo date('Y-m-d');?>" />
 							<div id="selling_date_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
