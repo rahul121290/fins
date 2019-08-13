@@ -163,6 +163,18 @@ $permission = $this->my_function->user_permission();
     					</li>
 					<?php } ?>
 										
+					<?php if(in_array(28, $permission)){ ?>
+						<li class="dropdown">
+    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">HOSTEL<span class="caret"></span></a>
+    						<ul class="dropdown-menu">
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/import-hostel-details"><i class="fa fa-user text-blue" aria-hidden="true"></i>Import Hostel Details</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/student-fee"><i class="fa fa-user text-blue" aria-hidden="true"></i>Hostel Fee</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/fee-payment"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Hostel Fee Payment</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/report"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Hostel Report</a></li>
+    						</ul>
+    					</li>
+					<?php } ?>		
+							
 					<?php if(in_array(25, $permission)){ ?>
 						<li class="dropdown">
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">RECEPTION<span class="caret"></span></a>

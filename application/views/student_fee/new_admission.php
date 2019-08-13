@@ -471,8 +471,7 @@
     		</div>
       	 </div>
       	 
-      	 <div style="width:100%; height: 400px;overflow-y: scroll;float: left;
-}">
+      	 <div style="width:100%; height: 400px;overflow-y: scroll;float: left;">
       	 	<table class="table" >
       	 		<thead>
       	 			<tr>

@@ -39,7 +39,7 @@ $route['(:any)/(:any)/fees-payment/generate-fees-csv'] = 'Admin_ctrl/generate_fe
 $route['(:any)/(:any)/helth/general-information'] = 'Admin_ctrl/helth_general_information';
 $route['(:any)/(:any)/helth/health-activity'] = 'Admin_ctrl/health_activity';
 
-//----------------fee modules-------------------------------------
+//----------------student fee-------------------------------------
 $route['(:any)/(:any)/student-fee/payment'] = 'Admin_ctrl/student_fee';
 $route['(:any)/(:any)/student-fee/payment/(:num)/(:num)/(:num)/(:any)'] = 'Admin_ctrl/fee_payment';
 
@@ -56,7 +56,11 @@ $route['(:any)/(:any)/prospectus/selling'] = 'Admin_ctrl/prospectus_selling';
 $route['(:any)/(:any)/prospectus/selling-list'] = 'Admin_ctrl/prospectus_selling_list';
 $route['(:any)/(:any)/fee-structure/add-new'] = 'Admin_ctrl/fee_structure';
 
-
+//----------hostel fee--------------------------------
+$route['(:any)/(:any)/hostel/import-hostel-details'] = 'Admin_ctrl/import_hostel_details';
+$route['(:any)/(:any)/hostel/student-fee'] = 'Admin_ctrl/hostel_fee';
+$route['(:any)/(:any)/hostel/fee-payment'] = 'Admin_ctrl/hostel_student_list';
+$route['(:any)/(:any)/hostel/report'] = 'Admin_ctrl/hostel_report';
 
 
 $route['(:any)/(:any)/profile'] = 'Admin_ctrl/profile';

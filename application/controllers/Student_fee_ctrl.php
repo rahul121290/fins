@@ -8,12 +8,35 @@ class Student_fee_ctrl extends CI_Controller {
         $this->load->model('Student_fee_model');
     }
     
+    
+    function related_std_details(){
+        $adm_no = $this->input->post('adm_no');
+        $this->db->select('s.*,c.class_name,sec.section_name,IFNULL(sg.sg_name,"") sg_name');
+        $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
+        $this->db->join('class c','c.c_id = s.class_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('sub_group sg','sg.sg_id = s.sub_group','LEFT');
+        $this->db->order_by('s.adm_no');
+        $result = $this->db->get_where('students s',array('s.status'=>1,'s.adm_no'=>$adm_no))->result_array();
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'record not found.','status'=>500));
+        }
+    }
+    
+    
     function update_records(){
         $std_id = $this->input->post('std_id');
+        $data['std_status'] = $this->input->post('admission_status');
         $data['fee_criteria'] = $this->input->post('fee_criteria');
         $data['staff_child'] = $this->input->post('staff_child');
         if(empty($data['staff_child'])){
             $data['staff_child'] = null;
+        }
+        $data['related_std'] = $this->input->post('related_std');
+        if(empty($data['related_std'])){
+            $data['related_std'] = null;
         }
         $data['class_id'] = $this->input->post('class_id');
         $data['sec_id'] = $this->input->post('section');
@@ -28,8 +51,6 @@ class Student_fee_ctrl extends CI_Controller {
         }else{
             echo json_encode(array('msg'=>'Update failed, Please try again.','status'=>500));
         }
-        
-        
     }
     
     function recordList(){

@@ -29,11 +29,6 @@ class Admin_ctrl extends CI_Controller {
             $session = $this->session->userdata('session_id');
             $school = $this->session->userdata('school_id');
             
-//             $this->db->select('ct.med_id,ct.class_id,ct.sec_id,ct.sg_id,t.email');
-//             $this->db->join('teacher t','t.t_id=ct.t_id');
-//             $this->db->where('t.email=(SELECT `email` FROM `users` WHERE `id` ='.$user_id.')');
-//             $is_class_teacher = $this->db->get_where('class_teacher ct',array('ct.ses_id'=>$session,'sch_id'=>$school,'ct.status'=>1))->result_array();
-           
             $this->db->select('ct.med_id,ct.class_id,ct.sec_id,ct.sg_id');
             $this->db->join('users u','u.t_id = ct.t_id AND u.id = '.$user_id);
             $is_class_teacher = $this->db->get_where('class_teacher ct',array('ct.ses_id'=>$session,'sch_id'=>$school,'ct.status'=>1))->result_array();
@@ -562,6 +557,7 @@ class Admin_ctrl extends CI_Controller {
        }
     }
     
+    //----------------student fee-----------------------------------
     
     function student_fee(){
         if(in_array(25, $this->permission)){
@@ -730,8 +726,51 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
+    //--------------------hostel-----------------------
     
+    function import_hostel_details(){
+        if(in_array(28, $this->permission)){
+            $this->data['page_name'] = 'Import Hostel Details';
+            $this->data['main'] = 'student_fee/hostel/import_hostel_details';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
     
+    function hostel_fee(){
+        if(in_array(28, $this->permission)){
+            $this->data['page_name'] = 'Hostel Fee';
+            $this->data['main'] = 'student_fee/hostel/hostel_fee';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function hostel_student_list(){
+        if(in_array(28, $this->permission)){
+            $this->data['page_name'] = 'Hostel Fee';
+            $this->data['main'] = 'student_fee/hostel/hostel_student_list';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function hostel_report(){
+        if(in_array(28, $this->permission)){
+            $this->data['page_name'] = 'Hostel Fee';
+            $this->data['main'] = 'student_fee/hostel/hostel_report';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
     
     
     function error_page(){

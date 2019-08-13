@@ -107,12 +107,24 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title">Update Student Details</h4>
       </div>
       <div class="modal-body">
         	<div class="box-body">
         	<form class="form-horizontal" action="javascript:void(0);">
             <input type="hidden" id="std_id" name="std_id">
+            
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">Admission Status</label>
+            	<div class="col-sm-6">
+            		<select class="form-control" name="admission_status" id="admission_status">
+            			<option value="">Select Admission Status</option>
+            			<option value="new_student">New Admission</option>
+            			<option value="old_student">Old Admission</option>
+            		</select>
+            		<div id="admission_status_err" class="text-danger" style="display:none;"></div>
+            	</div>
+            </div>
             
             <div class="form-group">
             	<label class="col-sm-3 control-label">Fee Criteria</label>
@@ -137,6 +149,15 @@
             			<?php } ?>
             		</select>
             		<div id="staff_child_err" class="text-danger" style="display:none;"></div>
+            	</div>
+            </div>
+            
+            <div class="form-group" style="display: none;" id="related_student_row">
+            	<label class="col-sm-3 control-label">Related Student</label>
+            	<div class="col-sm-6">
+            		<input type="text" id="related_std" name="related_std" placeholder="Related Student Admission Number" class="form-control">
+            		<div id="related_std_err" class="text-danger" style="display:none;"></div>
+            		<div id="related_std_details" style="display: none;"></div>
             	</div>
             </div>
             
@@ -327,13 +348,29 @@ $(document).on('click','.edit',function(){
 
 $(document).on('click','#update',function(){
 	var std_id = $('#std_id').val();
+	var admission_status = $('#admission_status').val();
 	var fee_criteria = $('#fee_criteria').val();
 	var staff_child = $('#staff_child').val();
+	var related_std = $('#related_std').val();
 	var class_id = $('#edit_class').val();
 	var section = $('#edit_section').val();
 	var hostler = $('#edit_hostler').val();
 	var bus = $('#edit_bus').val();
 	var bus_stoppage = $('#bus_stoppage').val();
+
+	if(admission_status == ''){
+		$('#admission_status_err').html('This is Required.').css('display','block');
+		return false;
+	}else{
+		$('#admission_status_err').css('display','none');
+	}
+	
+	if(fee_criteria == 2 && related_std == ''){
+		$('#related_std_err').html('This is Required.').css('display','block');
+		return false;
+	}else{
+		$('#related_std_err').css('display','none');
+	}
 	
 	if(fee_criteria == 4 && staff_child == ''){
 		$('#staff_child_err').html('This is Required.').css('display','block');
@@ -361,8 +398,10 @@ $(document).on('click','#update',function(){
 		url:baseUrl+'Student_fee_ctrl/update_records',
 		data:{
 			'std_id':std_id,
+			'admission_status':admission_status,
 			'fee_criteria':fee_criteria,
 			'staff_child':staff_child,
+			'related_std':related_std,
 			'class_id':class_id,
 			'section':section,
 			'hostler':hostler,
@@ -389,8 +428,35 @@ $(document).on('click','#update',function(){
 	
 });
 
+$(document).on('keyup','#related_std',function(){
+	var adm_no = $(this).val();
+	$.ajax({
+		type:'POST',
+		url:baseUrl+'Student_fee_ctrl/related_std_details',
+		data:{'adm_no':adm_no},
+		dataType:'json',
+		beforeSend:function(){},
+		success:function(response){
+			if(response.status == 200){
+				$('#related_std_details').html('Name : '+response.data[0].name+'<br/>Father\'s Name : '+response.data[0].f_name+'<br/>Class/Sec : '+response.data[0].class_name+'/'+response.data[0].section_name).css('display','block');
+			}else{
+				$('#related_std_details').css('display','none');
+			}
+		},
+	});
+});
+
+
 $(document).on('click','#fee_criteria',function(){
 	var fee_criteria = $(this).val();
+
+	if(fee_criteria == 2){
+		$('#related_student_row').css('display','block');
+	}else{
+		$('#related_student').val('');
+		$('#related_student_row').css('display','none');
+	}
+	
 	if(fee_criteria == 4){
 		$('#staff_child_row').css('display','block');
 	}else{
