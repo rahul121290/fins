@@ -330,7 +330,7 @@ $('#student_form').validate({
 		address:{required:true},
 //			guardian:{required:true},
 //			local_address:{required:true},
-		contact_no:{required:true},
+		contact_no:{required:true,minlength:10,maxlength:10},
 		email:{email:true},
 //			medical:{required:true},
 //			height:{required:true},
