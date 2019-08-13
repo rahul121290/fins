@@ -33,6 +33,7 @@ class Student_fee_ctrl extends CI_Controller {
     }
     
     function recordList(){
+        $data['ses_id'] = $this->session->userdata('session_id');
         $data['sch_id'] = $this->input->post('school');
         $data['medium'] = $this->input->post('medium');
         $data['class_id'] = $this->input->post('class_name');
@@ -40,7 +41,9 @@ class Student_fee_ctrl extends CI_Controller {
         $data['search_data'] = $this->input->post('search_box');
         
         $condition = 's.status = 1';
-       
+        if(!empty($data['ses_id'])){
+            $condition .= ' AND s.ses_id = '.$data['ses_id'];
+        }
         if(!empty($data['sch_id'])){
             $condition .= ' AND s.sch_id = '.$data['sch_id'];
         }
