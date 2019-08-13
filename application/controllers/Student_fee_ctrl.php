@@ -57,13 +57,15 @@ class Student_fee_ctrl extends CI_Controller {
             $condition .= ' AND s.adm_no = '.$data['search_data'];
         }
         
-        $this->db->select('s.*,fc.fc_name fee_criteria,c.class_name,sec.section_name,IFNULL(sg.sg_name,"-") sg_name,IFNULL(bs.bus_stoppage,"-") bus_stoppage');
+        $this->db->select('s.*,IFNULL(sf.name,"") staff_child,fc.fc_name fee_criteria,c.class_name,sec.section_name,IFNULL(sg.sg_name,"-") sg_name,IFNULL(bs.bus_stoppage,"-") bus_stoppage');
         $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
         $this->db->join('class c','c.c_id = s.class_id');
         $this->db->join('section sec','sec.sec_id = s.sec_id');
         $this->db->join('sub_group sg','sg.sg_id = s.sub_group','LEFT');
         $this->db->join('bus_structure bs','bs.bs_id = s.bus_id','LEFT');
+        $this->db->join('staff_child sf','sf.sc_id = s.staff_child','LEFT');
         $this->db->where($condition);
+        $this->db->order_by('s.adm_no');
         $result = $this->db->get_where('students s')->result_array();
         
         if(count($result) > 0){
