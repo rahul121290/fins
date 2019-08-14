@@ -26,7 +26,7 @@ table{margin-bottom:0!important;}
 .address-sec{    min-height: 20px;
     max-height: 50px;
     overflow: hidden;background: rgba(255, 255, 255, 0.5 ) !important;}
-.academic-result-t{width:100%;float:left; background-color: #f1f1f1;text-align:center;
+.academic-result-t{width:100%;float:left; background-color: #f1f1f1;
     border-bottom: 1px solid #e2e1e1;
     padding: 4px 2px 4px 12px;    margin-bottom: 1px;
     border-radius: 12px 12px 0px 0px;margin-top:10px;font-size:11px;}

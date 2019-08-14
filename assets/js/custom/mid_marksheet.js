@@ -108,7 +108,7 @@ $(document).ready(function(){
 							var x = '<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/bootstrap.min.css">'+
 	        						'<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/marksheet-result.css">'+
 	        						'<link rel="stylesheet" type="text/css" media="print" href="'+ base_url +'assets/css/marksheet-result-print.css">'+
-	        						'<div class="modal-content p-head-sec">';
+	        						'<div class="modal-content p-head-sec" style="height:640px;">';
 								$.each(response.result.final,function(key,value){
 							      x=x+'<div class="modal-content p-head-sec">'+
 						         '<img src="'+base_url+'assets/images/'+response.result.org_details.school[0].school_image+'" style="position:absolute;top:40%;left:30%;margin:0 auto; background-size:cover; background-position:center;opacity: 0.5;filter: alpha(opacity=50);">'+
@@ -195,7 +195,7 @@ $(document).ready(function(){
 						               '<table class="table">'+
 						                  '<thead>'+
 						                     '<tr>'+
-						                        '<th style="width:18%;">Subjects</th>';
+						                        '<th style="width:18%;text-align:left;">Subjects</th>';
 						                        if(class_name < 14){
 						                        	x=x+'<th>Pre Mid MM:10</th>'+
 								      				'<th>Note Book: 05</th>'+
@@ -291,7 +291,7 @@ $(document).ready(function(){
 			                                            	var grade = '-';
 			                                            }												           	  	
 							                    	x=x+'<tr>'+
-							                    	 	'<td>'+mid_sub.sub_name+'</td>';
+							                    	 	'<td style="text-align:left;">'+mid_sub.sub_name+'</td>';
 								                        
 								                        if(class_name < 14){
 								                        	if(pre_marks == 'Abst.'){var pre_marks1 = pre_marks;}else{var pre_marks1 = (pre_marks/20*10).toFixed(2);}
@@ -335,7 +335,7 @@ $(document).ready(function(){
 						               '<table class="table">'+
 						                  '<thead>'+
 						                     '<tr>'+
-						                        '<th>Subjects</th>'+
+						                        '<th style="text-align:left;">Subjects</th>'+
 						                        '<th>Grade</th>'+
 						                     '</tr>'+
 						                  '</thead>'+
@@ -368,7 +368,7 @@ $(document).ready(function(){
 						                	  }
 						                	  
 						                	  x=x+'<tr>'+
-						                        '<td>'+co_sch['sub_name']+'</td>'+
+						                        '<td style="text-align:left;">'+co_sch['sub_name']+'</td>'+
 						                        '<td align="center">'+co_marks+'</td>'+
 						                     '</tr>'; 
 							              });

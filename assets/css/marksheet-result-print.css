@@ -27,7 +27,7 @@ table{margin-bottom:0 !important;}
 .student-per-info table.table tbody tr td{padding:1px 4px !important;border-top: 1px solid #ece9e9 !important;border-bottom: 0px solid #ece9e9 !important;font-size:11px !important;background: rgba(241, 241, 241, 0.0 ) !important;}
 .address-sec{min-height: 20px !important;   max-height: 50px !important;    overflow: hidden!important;/*background: rgba(255, 255, 255, 0.5 ) !important;*/}
 
-.academic-result-t{/*background: rgba(255, 255, 255, 0.5 ) !important;*/width:100% !important;float:left !important;border-bottom: 1px solid #e2e1e1 !important;text-align:center !important;
+.academic-result-t{/*background: rgba(255, 255, 255, 0.5 ) !important;*/width:100% !important;float:left !important;border-bottom: 1px solid #e2e1e1 !important;
     padding: 4px 2px 2px 12px !important;    margin-bottom: 1px !important;    border-radius: 12px 12px 0px 0px !important;margin-top:2px !important;font-size:11px !important;}
 .p-head-sec-f .academic-result-t{background: rgba(241, 241, 241, 0.9 ) !important;}
 .instc-sec .table>thead>tr>th{background: rgba(241, 241, 241, 0.9 ) !important;}
