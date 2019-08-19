@@ -14,6 +14,7 @@ $(document).ready(function(){
 				if(response.status == 200){
 					$('#loader').modal('hide');
 					$('#email').val(response.result[0].email);
+					$('#group').val(response.result[0].class_teacher);
 				}
 			},
 		});

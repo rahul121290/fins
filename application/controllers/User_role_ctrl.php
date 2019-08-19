@@ -17,7 +17,10 @@ class User_role_ctrl extends CI_Controller{
     
     public function getemail(){
         $tid = (int)$this->input->post('tid');
-        $result = $this->db->select('email')->get_where('teacher',array('t_id'=>$tid,'status'=>1))->result_array();
+        $this->db->select('t.email,IF(ct.t_id IS NULL,"2","3") class_teacher');
+        $this->db->join('class_teacher ct','ct.t_id = t.t_id','LEFT');
+        $result = $this->db->get_where('teacher t',array('t.t_id'=>$tid,'t.status'=>1))->result_array();
+       // print_r($this->db->last_query());die;
         if(count($result) > 0 ){
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{

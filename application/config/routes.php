@@ -57,9 +57,10 @@ $route['(:any)/(:any)/prospectus/selling-list'] = 'Admin_ctrl/prospectus_selling
 $route['(:any)/(:any)/fee-structure/add-new'] = 'Admin_ctrl/fee_structure';
 
 //----------hostel fee--------------------------------
-$route['(:any)/(:any)/hostel/import-hostel-details'] = 'Admin_ctrl/import_hostel_details';
+$route['(:any)/(:any)/hostel/add-hostel-details'] = 'Admin_ctrl/add_hostel_details';
 $route['(:any)/(:any)/hostel/student-fee'] = 'Admin_ctrl/hostel_fee';
 $route['(:any)/(:any)/hostel/fee-payment'] = 'Admin_ctrl/hostel_student_list';
+$route['(:any)/(:any)/hostel/receipt'] = 'Admin_ctrl/hostel_receipt';
 $route['(:any)/(:any)/hostel/report'] = 'Admin_ctrl/hostel_report';
 
 

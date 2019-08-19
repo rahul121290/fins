@@ -28,7 +28,6 @@
         		<input type="hidden" id="current_month" value="<?php echo date('m');?>" />
         		<input type="hidden" id="bus_id" value="" />
         		<input type="hidden" id="fw_id" value="" />
-        		
         		<input type="hidden"  id="all_late_fee" value="0.00" />
         		
         		<input type="hidden"  id="student_name" value="" />

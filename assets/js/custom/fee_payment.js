@@ -83,7 +83,6 @@ $(document).ready(function(){
 					var m ='';
 					if(response.data.fee_month){
 						$.each(response.data.fee_month,function(key,value){
-							
 							var tution_and_bus_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee));
 							var total_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee) + parseFloat(value.late_fee));
 							
@@ -94,9 +93,8 @@ $(document).ready(function(){
 								var check_box = '';
 								var fee_status = '<b style="color:red;">Pending</b>';
 							}
-							
 							m=m+'<tr>'+
-								'<td class="pm-box"><input type="checkbox" '+check_box+' data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
+								'<td class="pm-box"><input type="checkbox" '+check_box+'  data-tution_fee="'+value.fee+'" data-bus_fee="'+value.bus_fee+'"  data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
 								'<td>'+value.name+'</td>'+
 								'<td>'+value.fee.toFixed(2)+'</td>'+
 								'<td>'+value.bus_fee.toFixed(2)+'</td>'+
@@ -263,6 +261,8 @@ $(document).ready(function(){
     	}
     });
 	
+    
+    
     //-------------calculate fee-----------------------------
 	$(document).on('click','.fee_total',function(){
 		if($(this).prop("checked") == true){
@@ -479,15 +479,35 @@ $(document).ready(function(){
 		var month_ids = [];
 		var pay_option = [];
 		
+		var admission_fee = 0;
+		var amalgamated_fund = 0;
+		var lab_fee = 0;
+		var optional_sub = 0;
+		
 		$('.ones_in_session').each(function(){
 			if($(this).prop("checked") == true){
-				session_fee.push($(this).data('ft_id'));
+				var ft_id = $(this).data('ft_id');
+				if(parseInt(ft_id) == parseInt(1)){
+					admission_fee = $(this).val();
+				}else if(parseInt(ft_id) == parseInt(2)){
+					amalgamated_fund = $(this).val();
+				}else if(parseInt(ft_id) == parseInt(3)){
+					lab_fee = $(this).val();
+				}else if(parseInt(ft_id) == parseInt(4)){
+					optional_sub = $(this).val();
+				}
+				session_fee.push(ft_id);
 			}
 		});
 
+		
+		var tuition_fee = parseFloat(0);
+		var bus_fee = parseFloat(0);
 		$('.tution_fee').each(function(){
 			if($(this).prop("checked") == true){
 				month_ids.push($(this).data('month_id'));
+				tuition_fee += parseFloat($(this).data('tution_fee'));
+				bus_fee += parseFloat($(this).data('bus_fee'));
 			}
 		});
 		
@@ -570,6 +590,14 @@ $(document).ready(function(){
 			formdata.append('med_id',med_id);
 			formdata.append('adm_no',adm_no);
 			formdata.append('session_fee',session_fee);
+			
+			formdata.append('admission_fee',admission_fee);
+			formdata.append('amalgamated_fund',amalgamated_fund);
+			formdata.append('lab_fee',lab_fee);
+			formdata.append('optional_sub',optional_sub);
+			formdata.append('tuition_fee',tuition_fee);
+			formdata.append('bus_fee',bus_fee);
+			
 			formdata.append('month_ids',month_ids);
 			formdata.append('late_fee',late_fee);
 			formdata.append('fee_waiver_amount',fee_waiver_amount);

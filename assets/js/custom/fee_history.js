@@ -1,168 +1,22 @@
 $( document ).ready(function() {
 	var baseUrl = $('#base_url').val();
-
-
-	$('#fee_history_form').validate({
-		rules:{
-			session:{required:true},
-			school:{required:true},
-			medium:{required:true},
-			//class_name:{required:true},
-		},
-	});
-	$(document).on('click','#search_fee_history',function(){
-		var formvalidate = $('#fee_history_form').valid();
-		if(formvalidate){
-			var formdata = new FormData();
-			formdata.append('session',$('#session').val());
-			formdata.append('school',$('#school').val());
-			formdata.append('medium',$('#medium').val());
-			formdata.append('class',$('#class_name').val());
-			formdata.append('from_date',$('#from_date').val());
-			formdata.append('to_date',$('#to_date').val());
-			formdata.append('fee_status',$('#fee_status').val());
-			formdata.append('fee_waiver',$('#fee_waiver').val());
-			
-			$.ajax({
-				type:'POST',
-				url:baseUrl+'Fee_history_ctrl/getFeeHistory',
-				data:formdata,
-				dataType:'json',
-				beforeSend:function(){
-					$('#loader').modal('show');
-				},
-				success:function(response){
-					if(response.status == 200){
-						$('#loader').modal('hide');
-						$('#total_amount').html(response.data.generated_fee);
-						$('#collected_amount').html(parseInt(response.data.collected_amount).toFixed(2));
-						$('#fee_waiver_show').html(response.data.fee_waiver);
-						
-						if(parseInt(response.data.pending_amount) > 0 ){
-							var pending_amount = parseInt(response.data.pending_amount).toFixed(2);
-						}else{
-							var pending_amount = '-';
-						}
-						$('#pending_amount').html(pending_amount);
-
-						var x='';
-						$.each(response.data.student_history,function(key,value){
-							if(value.pay_status == 0){
-								var pay_status = 'Pending';
-							}else{
-								var pay_status = 'Paid';
-								}
-							x=x+'<tr>'+
-	    							'<td>'+parseInt(key+1)+'</td>'+
-	    							'<td>'+value.adm_no+'</td>'+
-	    							'<td>'+value.name+'</td>'+
-	    							'<td>'+value.class_name+'/'+value.section_name+'</td>'+
-	    							'<td>'+value.contact_no+'</td>'+
-	    							'<td>'+value.total+'</td>'+
-	    							'<td>'+pay_status+'</td>'+
-								'</tr>';
-						});
-						$('#student_list').html(x);
-						
-					}else{
-						$('#student_list').html('<tr><td colspan="7" style="text-align:center;">Record not found</td></tr>');
-					}
-				},
-				cache:false,
-				contentType:false,
-				processData:false
-			});
-		}
-	});
-	//----------------***********-----------------
-
-	$(document).on('keyup','#search_box',function(){
-		var session = $('#session').val();
-		var school = $('#school').val();
-		var adm_no = $(this).val();
-		var formvalidate = true;
-		
-		if(session == ''){
-			$('#session_err').html('This is Required.').css('display','block');
-			formvalidate = false;
-		}else{
-			$('#session_err').css('display','none');
-		}
-
-		if(school == ''){
-			$('#school_err').html('This is Required.').css('display','block');
-			formvalidate = false;
-		}else{
-			$('#school_err').css('display','none');
-		}
-
-		if(adm_no == ''){
-			$('#search_box_err').html('This is Required.').css('display','block');
-			formvalidate = false;
-		}else{
-			$('#search_box_err').css('display','none');
-		}
-
-		if(formvalidate){
-			var formdata = new FormData();
-			formdata.append('session',$('#session').val());
-			formdata.append('school',$('#school').val());
-			formdata.append('adm_no',adm_no);
-			
-			$.ajax({
-				type:'POST',
-				url:baseUrl+'Fee_history_ctrl/getFeeHistory',
-				data:formdata,
-				dataType:'json',
-				beforeSend:function(){},
-				success:function(response){
-					if(response.status == 200){
-						$('#total_amount').html(response.data.generated_fee);
-						$('#collected_amount').html(parseInt(response.data.collected_amount).toFixed(2));
-						$('#fee_waiver_show').html(response.data.fee_waiver);
-						if(parseInt(response.data.pending_amount) > 0 ){
-							var pending_amount = parseInt(response.data.pending_amount).toFixed(2);
-						}else{
-							var pending_amount = '-';
-						}
-						$('#pending_amount').html(pending_amount);
-
-						var x='';
-						$.each(response.data.student_history,function(key,value){
-							if(value.pay_status == 0){
-								var pay_status = 'Pending';
-							}else{
-								var pay_status = 'Paid';
-								}
-							x=x+'<tr>'+
-									'<td>'+parseInt(key+1)+'</td>'+
-									'<td>'+value.adm_no+'</td>'+
-									'<td>'+value.name+'</td>'+
-									'<td>'+value.class_name+'/'+value.section_name+'</td>'+
-									'<td>'+value.contact_no+'</td>'+
-									'<td>'+value.total+'</td>'+
-									'<td>'+pay_status+'</td>'+
-								'</tr>';
-						});
-						$('#student_list').html(x);
-						
-					}else{
-						$('#student_list').html('<tr><td colspan="7" style="text-align:center;">Record not found</td></tr>');
-					}
-				},
-				cache:false,
-				contentType:false,
-				processData:false
-			});
-		}
-	});
-
-	//------------------****************------------------------
-	getAllRecords();
-	function getAllRecords(){
+	var session = $('#session').val();
+	var school = $('#school').val();
+	var medium  = $('#medium').val();
+	var from_date = $('#from_date').val();
+	var to_date = $('#to_date').val();
+	
+	day_wise_report(session,school,medium,from_date,to_date);
+	function day_wise_report(session,school,medium,from_date,to_date){
 		$.ajax({
-			type:'GET',
-			url:baseUrl+'Fee_history_ctrl/getAllRecords',
+			type:'POST',
+			url:baseUrl+'Student_fee_ctrl/day_wise_report',
+			data:{'session':session,
+				'school':school,
+				'medium':medium,
+				'from_date':from_date,
+				'to_date':to_date
+			},
 			dataType:'json',
 			beforeSend:function(){
 				$('#loader').modal('show');
@@ -170,14 +24,131 @@ $( document ).ready(function() {
 			success:function(response){
 				if(response.status == 200){
 					$('#loader').modal('hide');
-					$('#total_amount').html(response.data.generated_fee);
-					$('#collected_amount').html(parseInt(response.data.collected_amount).toFixed(2));
-					$('#fee_waiver_show').html(response.data.fee_waiver);
-					$('#pending_amount').html(parseInt(response.data.pending_amount).toFixed(2));
-				}else{
+					$('#received_fee').html(response.data.month_paid);
+					$('#pending_fee').html(response.data.month_pending);
+					$('#total_fee').html(response.data.month_total);
 					
+					var x='<table class="table table-responsive"><tbody style="font-size:16px;">';
+					x=x+='<tr><td><b>Received Amount</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.student_fee[0].paid_amount+'/-</td></tr>'+
+					'<tr><td><b>Admission Fee</b></td><td>'+response.data.student_fee[0].admission_fee+'</td></tr>'+
+					'<tr><td><b>Amalgamated Fund</b></td><td>'+response.data.student_fee[0].amalgamated_fund+'</td></tr>'+
+					'<tr><td><b>Bus Fee</b></td><td>'+response.data.student_fee[0].bus_fee+'</td></tr>'+
+					'<tr><td><b>Fee Waiver</b></td><td>'+response.data.student_fee[0].fee_waiver+'</td></tr>'+
+					'<tr><td><b>Lab Fee</b></td><td>'+response.data.student_fee[0].lab_fee+'</td></tr>'+
+					'<tr><td><b>Late Fee</b></td><td>'+response.data.student_fee[0].late_fee+'</td></tr>'+
+					'<tr><td><b>Optional Sub</b></td><td>'+response.data.student_fee[0].optional_sub+'</td></tr>'+
+					
+					'<tr><td colspan="2" style="text-align:center;"><b>Pay Method</b></td></tr>'+
+					
+					'<tr><td><b>Cash</b></td><td>'+response.data.pay_method[0].cash+'</td></tr>'+
+					'<tr><td><b>Cheque</b></td><td>'+response.data.pay_method[0].cheque+'</td></tr>'+
+					'<tr><td><b>DD (Demand Draft)</b></td><td>'+response.data.pay_method[0].dd+'</td></tr>'+
+					'<tr><td><b>Credit Card</b></td><td>'+response.data.pay_method[0].credit_card+'</td></tr>'+
+					'<tr><td><b>Debit Card</b></td><td>'+response.data.pay_method[0].debit_card+'</td></tr>'+
+					
+					'</tbody></table>';
+					$('#fee_report_table').html(x);
 				}
 			},
+			complete:function(){},
 		});
 	}
+	
+	$(document).on('change','#school',function(){
+		var school = $(this).val();
+		var session = $('#session').val();
+		var medium  = $('#medium').val();
+		var from_date = $('#from_date').val();
+		var to_date = $('#to_date').val();
+		if(session == ''){
+			$('#session_err').html('This is Required.').css('display','block');
+			return false;
+		}else{
+			$('#session_err').css('display','none');
+		}
+		
+		if(school == ''){
+			$('#school_err').html('This is Required.').css('display','block');
+			return false;
+		}else{
+			day_wise_report(session,school,medium,from_date,to_date);
+		}
+		
+		
+	});
+	
+	$(document).on('change','#medium',function(){
+		var session = $('#session').val();
+		var school = $('#school').val();
+		var medium  = $(this).val();
+		var from_date = $('#from_date').val();
+		var to_date = $('#to_date').val();
+		if(session == ''){
+			$('#session_err').html('This is Required.').css('display','block');
+			return false;
+		}else{
+			$('#session_err').css('display','none');
+		}
+		
+		if(school == ''){
+			$('#school_err').html('This is Required.').css('display','block');
+			return false;
+		}else{
+			$('#school_err').css('display','none');
+		}
+		
+		if(medium == ''){
+			$('#medium_err').html('This is Required.').css('display','block');
+			return false;
+		}else{
+			day_wise_report(session,school,medium,from_date,to_date);
+		}
+		
+	});
+	
+	
+	$(document).on('change','#from_date',function(){
+		var session = $('#session').val();
+		var school = $('#school').val();
+		var medium  = $('#medium').val();
+		var from_date = $(this).val();
+		var to_date = $('#to_date').val();
+		if(session == ''){
+			$('#session_err').html('This is Required.').css('display','block');
+			return false;
+		}else{
+			$('#session_err').css('display','none');
+		}
+		if(school == ''){
+			$('#school_err').html('This is Required.').css('display','block');
+			return false;
+		}else{
+			$('#school_err').css('display','none');
+		}
+		day_wise_report(session,school,medium,from_date,to_date);
+		
+	});
+	
+	$(document).on('change','#to_date',function(){
+		var session = $('#session').val();
+		var school = $('#school').val();
+		var medium  = $('#medium').val();
+		var from_date = $('#from_date').val();
+		var to_date = $(this).val();
+		if(session == ''){
+			$('#session_err').html('This is Required.').css('display','block');
+			return false;
+		}else{
+			$('#session_err').css('display','none');
+		}
+		if(school == ''){
+			$('#school_err').html('This is Required.').css('display','block');
+			return false;
+		}else{
+			$('#school_err').css('display','none');
+		}
+		day_wise_report(session,school,medium,from_date,to_date);
+	});
+	
+	
 });

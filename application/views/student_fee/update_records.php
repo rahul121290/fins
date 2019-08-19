@@ -211,7 +211,7 @@
             	</div>
             </div>
             
-            <div class="form-group">
+            <div class="form-group" style="display: none;" id="bus_stoppage_row">
             	<label class="col-sm-3 control-label">Bus Stoppage</label>
             	<div class="col-sm-6">
             	<select class="form-control" name="bus_stoppage" id="bus_stoppage">
@@ -336,7 +336,19 @@ $(document).on('click','.edit',function(){
 				$('#edit_section').val(response.data[0].sec_id);
 				$('#edit_hostler').val(response.data[0].hostler);
 				$('#edit_bus').val(response.data[0].bus);
-				$('#bus_stoppage').val(response.data[0].bus_id);
+
+				if(response.data[0].bus == "Yes"){
+					$('#bus_stoppage_row').css('display','block');
+				}else{
+					$('#bus_stoppage_row').css('display','none');
+				}
+				
+				if(response.data[0].bus_id == 0){
+					var bus_id = "";
+				}else{
+					var bus_id = response.data[0].bus_id;
+				}
+				$('#bus_stoppage').val(bus_id);
 				$('#std_update_form').modal('show');
 			}else{
 				alert(response.msg);
@@ -345,6 +357,14 @@ $(document).on('click','.edit',function(){
 	});
 });
 
+$(document).on('change','#edit_bus',function(){
+	if($(this).val() == 'Yes'){
+		$('#bus_stoppage_row').css('display','block');
+	}else{
+		$('#bus_stoppage').prop('selectedIndex','');
+		$('#bus_stoppage_row').css('display','none');
+	}
+});
 
 $(document).on('click','#update',function(){
 	var std_id = $('#std_id').val();

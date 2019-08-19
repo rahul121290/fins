@@ -292,7 +292,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'master/user_role';
             $this->data['teachers'] = $this->db->select('t_id,teacher_name')->order_by('teacher_name','ASC')->get_where('teacher',array('status'=>1,'school_id'=>$school))->result_array();
             $this->data['permission'] = $this->db->select('pid,p_name,category_name')->get_where('permission',array('status'=>1))->result_array();
-            $this->data['groups'] = $this->db->select('id,name')->where('id > 1')->get_where('groups')->result_array();
+            $this->data['groups'] = $this->db->select('id,name')->where('id IN (2,3)')->get_where('groups')->result_array();
             $this->data['user_list'] = $this->db->select('u.id,u.username,u.email,u.pass_hint')->join('users_groups ug','ug.user_id = u.id')->order_by('u.id','DESC')->where('ug.group_id NOT IN(1,4)')->get_where('users u',array('u.active'=>1,'u.status'=>1,'u.school_id'=>$school))->result_array();
             //print_r($this->db->last_query());die;
             $this->_load_view();
@@ -728,10 +728,10 @@ class Admin_ctrl extends CI_Controller {
     
     //--------------------hostel-----------------------
     
-    function import_hostel_details(){
+    function add_hostel_details(){
         if(in_array(28, $this->permission)){
             $this->data['page_name'] = 'Import Hostel Details';
-            $this->data['main'] = 'student_fee/hostel/import_hostel_details';
+            $this->data['main'] = 'student_fee/hostel/add_hostel_details';
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
@@ -760,6 +760,18 @@ class Admin_ctrl extends CI_Controller {
             $this->_load_view('error_page');
         }
     }
+
+    function hostel_receipt(){
+        if(in_array(28, $this->permission)){
+            $this->data['page_name'] = 'Hostel Receipt';
+            $this->data['main'] = 'student_fee/hostel/hostel_receipt';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
     
     function hostel_report(){
         if(in_array(28, $this->permission)){

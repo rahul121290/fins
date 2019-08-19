@@ -351,6 +351,7 @@ class Student_fee_ctrl extends CI_Controller {
     
     
     function fee_payment(){
+        
         $this->db->select('MAX(receipt_no) as receipt_no');
         $receipt = $this->db->get_where('student_fee')->result_array();
         
@@ -373,6 +374,14 @@ class Student_fee_ctrl extends CI_Controller {
         if(empty($data['session_fee_ids'])){
             $data['session_fee_ids'] = null;
         }
+        
+        $data['admission_fee'] = $this->input->post('admission_fee');
+        $data['amalgamated_fund'] = $this->input->post('amalgamated_fund');
+        $data['lab_fee'] = $this->input->post('lab_fee');
+        $data['optional_sub'] = $this->input->post('optional_sub');
+        $data['tuition_fee'] = $this->input->post('tuition_fee');
+        $data['bus_fee'] = $this->input->post('bus_fee');
+        
         $data['month_ids'] = $this->input->post('month_ids');
         $data['late_fee'] = $this->input->post('late_fee');
         if(!empty($data['fw_id'])){
@@ -632,6 +641,248 @@ class Student_fee_ctrl extends CI_Controller {
             echo json_encode(array('data'=>$final,'paid_fee'=>$paid_fee,'pending_fee'=>$pending_fee,'total_fee'=>$total_fee,'status'=>200));
         }else{
             echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+    }
+    
+    function day_wise_report(){
+        $data['ses_id'] = $this->input->post('session');
+        $data['sch_id'] = $this->input->post('school');
+        $data['med_id'] = $this->input->post('medium');
+        $data['from_date'] = $this->input->post('from_date');
+        $data['to_date'] = $this->input->post('to_date');
+       
+        //-------------get month total fee----------------------
+        $current_month = (int)date('m');
+        if($current_month == 4 || $current_month == 5){
+            $fee_month = 1;
+            $paid_fee_month = '4,5';
+        }else if($current_month == 6){
+            $fee_month = 2;
+            $paid_fee_month = '6';
+        }else if($current_month == 7){
+            $fee_month = 3;
+            $paid_fee_month = '7';
+        }else if($current_month == 8){
+            $fee_month = 4;
+            $paid_fee_month = '8';
+        }else if($current_month == 9 || $current_month == 10){
+            $fee_month = 5;
+            $paid_fee_month = '9,10';
+        }else if($current_month == 11){
+            $fee_month = 6;
+            $paid_fee_month = '11';
+        }else if($current_month == 12){
+            $fee_month = 7;
+            $paid_fee_month = '12';
+        }else if($current_month == 1){
+            $fee_month = 8;
+            $paid_fee_month = '1';
+        }else if($current_month == 2 || $current_month == 3){
+            $fee_month = 9;
+            $paid_fee_month = '2,3';
+        }
+        
+        $result['month_total'] = 0;
+        $this->db->select('*');
+        $check = $this->db->get_where('fee_month_total',array('fm_id'=>$fee_month,'ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'status'=>1))->result_array();
+        if(count($check) > 0){
+            $result['month_total'] = $check[0]['amount'];
+        }else{
+            $this->all_fee_details($data['ses_id'],$data['sch_id']);
+            $check = $this->db->get_where('fee_month_total',array('fm_id'=>$fee_month,'ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'status'=>1))->result_array();
+            $result['month_total'] = $check[0]['amount'];
+        }
+        
+        
+        //---------------get month paid fee-------------------------
+        $result['month_paid'] = 0;
+        $result['month_pending'] = 0;
+        $this->db->select('SUM(paid_amount) paid_amount');
+        $this->db->where('pay_month IN ('.$paid_fee_month.')');
+        $month_paid = $this->db->get_where('student_fee',array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'status'=>1))->result_array();
+        if(!empty($month_paid[0]['paid_amount'])){
+            $result['month_paid'] = $month_paid[0]['paid_amount'];
+            $result['month_pending'] = $result['month_total'] - $month_paid[0]['paid_amount'];
+        }
+        //----------------daily report----------------------------
+        $condition = 'sf.status = 1';
+        if(!empty($data['ses_id'])){
+            $condition .= ' AND sf.ses_id = '.$data['ses_id'];
+        }
+        if(!empty($data['sch_id'])){
+            $condition .= ' AND sf.sch_id = '.$data['sch_id'];
+        }
+        if(!empty($data['med_id'])){
+            $condition .= ' AND sf.med_id = '.$data['med_id'];
+        }
+      
+        if(!empty($data['from_date'])){
+            $condition .= ' AND CAST(sf.created_at AS DATE) >= "'.$data['from_date'].'"';
+        }
+        
+        if(!empty($data['to_date'])){
+            $condition .= ' AND CAST(sf.created_at AS DATE) <= "'.$data['to_date'].'"';
+        }
+        
+        $this->db->select('
+                           IFNULL(SUM(sf.paid_amount),0) paid_amount,
+                           IFNULL(SUM(sf.admission_fee),0) admission_fee,
+                           IFNULL(SUM(sf.amalgamated_fund),0) amalgamated_fund,
+                           IFNULL(SUM(sf.lab_fee),0) lab_fee,
+                           IFNULL(SUM(sf.optional_sub),0) optional_sub,
+                           IFNULL(SUM(sf.tuition_fee),0) bus_fee,
+                           IFNULL(SUM(sf.late_fee),0) late_fee,
+                           IFNULL(SUM(sf.paid_amount),0) paid_amount,
+                           IFNULL(SUM(sf.fee_waiver),0) fee_waiver
+                ');
+        $this->db->where($condition);
+        $result['student_fee'] = $this->db->get_where('student_fee sf',array('sf.status'=>1))->result_array();
+        
+        $this->db->select('
+                           IFNULL(SUM(IF(fpm.method_name = "cash",fpm.amount,0)),0) cash,
+                           IFNULL(SUM(IF(fpm.method_name = "cheque",fpm.amount,0)),0) cheque,
+                           IFNULL(SUM(IF(fpm.method_name = "dd",fpm.amount,0)),0) dd,
+                           IFNULL(SUM(IF(fpm.method_name = "pos",IF(fpm.card_name = "credit_card",fpm.amount,0),0)),0) credit_card,
+                           IFNULL(SUM(IF(fpm.method_name = "pos",IF(fpm.card_name = "debit_card",fpm.amount,0),0)),0) debit_card
+        ');
+        $this->db->join('student_fee sf','sf.receipt_no = fpm.receipt_no');
+        $this->db->where('CAST(fpm.created_at AS DATE) >=',$data['from_date']);
+        $this->db->where('CAST(fpm.created_at AS DATE) <=',$data['to_date']);
+        $this->db->where($condition);
+        $result['pay_method'] = $this->db->get_where('fee_pay_method fpm',array('fpm.status'=>1))->result_array();
+        
+        
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+    }
+    
+    function all_fee_details($session,$school){
+        $this->db->trans_begin();
+        $current_month = (int)date('m');
+        if($current_month == 4 || $current_month == 5){ //-------------admission month-------------
+            $this->db->select('IFNULL(bs.price * 1,0) bus_fee,
+                MAX(IF(cfs.ft_id = 1, IF(s.std_status = "new_student",cfs.amount,0), 0)) as admission_fee,
+                MAX(IF(cfs.ft_id = 2, cfs.amount, 0)) as amalgamated_fund,
+                MAX(IF(cfs.ft_id = 3, cfs.amount, 0)) as lab_fee,
+                MAX(IF(cfs.ft_id = 4, cfs.amount, 0)) as optional_sub,
+                MAX(IF(cfs.ft_id = 5, cfs.amount * 2, 0)) as tution_fee
+        ');
+            $this->db->join('fee_structure_master fsm','fsm.ses_id = s.ses_id AND fsm.sch_id = s.sch_id AND fsm.med_id = s.medium AND fsm.class_id = s.class_id AND fsm.status = 1');
+            $this->db->join('class_fee_structure cfs','cfs.fsm_id = fsm.fs_id AND cfs.fc_id = s.fee_criteria AND (cfs.staff_child = s.staff_child OR cfs.staff_child IS NULL)');
+            $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.school_id = s.sch_id AND bs.ses_id = s.ses_id AND s.status = 1 AND s.bus = "Yes"','LEFT');
+            $this->db->group_by('s.std_id');
+            $shakuntala = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.status'=>1))->result_array();
+        }else if($current_month == 9 || $current_month == 10){
+            $this->db->select('IFNULL(bs.price * 2,0) bus_fee,
+                MAX(IF(cfs.ft_id = 1,0, 0)) as admission_fee,
+                MAX(IF(cfs.ft_id = 2,0, 0)) as amalgamated_fund,
+                MAX(IF(cfs.ft_id = 3,0, 0)) as lab_fee,
+                MAX(IF(cfs.ft_id = 4,0, 0)) as optional_sub,
+                MAX(IF(cfs.ft_id = 5, cfs.amount * 2, 0)) as tution_fee
+        ');
+            $this->db->join('fee_structure_master fsm','fsm.ses_id = s.ses_id AND fsm.sch_id = s.sch_id AND fsm.med_id = s.medium AND fsm.class_id = s.class_id AND fsm.status = 1');
+            $this->db->join('class_fee_structure cfs','cfs.fsm_id = fsm.fs_id AND cfs.fc_id = s.fee_criteria AND (cfs.staff_child = s.staff_child OR cfs.staff_child IS NULL)');
+            $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.school_id = s.sch_id AND bs.ses_id = s.ses_id AND s.status = 1 AND s.bus = "Yes"','LEFT');
+            $this->db->group_by('s.std_id');
+            $shakuntala = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.status'=>1))->result_array();
+        }else if($current_month == 2|| $current_month == 3){
+            $this->db->select('IFNULL(IF(s.class_id = 13 OR s.class_id = 15,(bs.price * 1),(bs.price * 2) ), 0) bus_fee,
+                MAX(IF(cfs.ft_id = 1,0, 0)) as admission_fee,
+                MAX(IF(cfs.ft_id = 2,0, 0)) as amalgamated_fund,
+                MAX(IF(cfs.ft_id = 3,0, 0)) as lab_fee,
+                MAX(IF(cfs.ft_id = 4,0, 0)) as optional_sub,
+                MAX(IF(cfs.ft_id = 5, cfs.amount * 2, 0)) as tution_fee
+        ',false);
+            $this->db->join('fee_structure_master fsm','fsm.ses_id = s.ses_id AND fsm.sch_id = s.sch_id AND fsm.med_id = s.medium AND fsm.class_id = s.class_id AND fsm.status = 1');
+            $this->db->join('class_fee_structure cfs','cfs.fsm_id = fsm.fs_id AND cfs.fc_id = s.fee_criteria AND (cfs.staff_child = s.staff_child OR cfs.staff_child IS NULL)');
+            $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.school_id = s.sch_id AND bs.ses_id = s.ses_id AND s.status = 1 AND s.bus = "Yes"','LEFT');
+            $this->db->group_by('s.std_id');
+            $shakuntala = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.status'=>1))->result_array();
+        }
+        else{
+            $this->db->select('IFNULL(bs.price,0) bus_fee,
+                MAX(IF(cfs.ft_id = 1,0, 0)) as admission_fee,
+                MAX(IF(cfs.ft_id = 2,0, 0)) as amalgamated_fund,
+                MAX(IF(cfs.ft_id = 3,0, 0)) as lab_fee,
+                MAX(IF(cfs.ft_id = 4,0, 0)) as optional_sub,
+                MAX(IF(cfs.ft_id = 5, cfs.amount, 0)) as tution_fee
+        ');
+            $this->db->join('fee_structure_master fsm','fsm.ses_id = s.ses_id AND fsm.sch_id = s.sch_id AND fsm.med_id = s.medium AND fsm.class_id = s.class_id AND fsm.status = 1');
+            $this->db->join('class_fee_structure cfs','cfs.fsm_id = fsm.fs_id AND cfs.fc_id = s.fee_criteria AND (cfs.staff_child = s.staff_child OR cfs.staff_child IS NULL)');
+            $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.school_id = s.sch_id AND bs.ses_id = s.ses_id AND s.status = 1 AND s.bus = "Yes"','LEFT');
+            $this->db->group_by('s.std_id');
+            $shakuntala = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.status'=>1))->result_array();
+        }
+        
+        $month_fee = 0;
+        foreach($shakuntala as $svr){
+            $month_fee += $svr['bus_fee'] + $svr['admission_fee'] + $svr['amalgamated_fund'] + $svr['lab_fee'] + $svr['optional_sub'] + $svr['tution_fee'];
+        }
+        
+        if($current_month == 4 || $current_month == 5){
+            $fee_month = 1;
+        }else if($current_month == 6){
+            $fee_month = 2;
+        }else if($current_month == 7){
+            $fee_month = 3;
+        }else if($current_month == 8){
+            $fee_month = 4;
+        }else if($current_month == 9 || $current_month == 10){
+            $fee_month = 5;
+        }else if($current_month == 11){
+            $fee_month = 6;
+        }else if($current_month == 12){
+            $fee_month = 7;
+        }else if($current_month == 1){
+            $fee_month = 8;
+        }else if($current_month == 2 || $current_month == 3){
+            $fee_month = 9;
+        }
+        
+        $this->db->select('mt_id');
+        $result = $this->db->get_where('fee_month_total',array(
+            'fm_id'=>$fee_month,
+            'ses_id'=>$session,
+            'sch_id'=>$school,
+            'amount'=>$month_fee,
+            'status'=>1
+        ))->result_array();
+        
+        if(count($result) > 0){
+            //--------update-----------------
+           $this->db->where('mt_id',$result[0]['mt_id']);
+           $this->db->update('fee_month_total',array(
+               'fm_id'=>$fee_month,
+               'ses_id'=>$session,
+               'sch_id'=>$school,
+               'amount'=>$month_fee,
+               'created_at'=>date('Y-m-d H:i:s'),
+               'created_by'=>$this->session->userdata('user_id')
+           ));
+        }else{
+            //--------update-----------------
+            $this->db->insert('fee_month_total',array(
+                'fm_id'=>$fee_month,
+                'ses_id'=>$session,
+                'sch_id'=>$school,
+                'amount'=>$month_fee,
+                'created_at'=>date('Y-m-d H:i:s'),
+                'created_by'=>$this->session->userdata('user_id')
+            ));
+        }
+        
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+            return false;
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return true;
         }
     }
     
