@@ -89,7 +89,7 @@
 						
 						
 						
-						<textarea class="form-control" rows="" cols="" placeholder="" name="fee_waiver_remark" id="fee_waiver_remark"></textarea>
+						<textarea class="form-control" rows="" cols="" placeholder="Remarks" name="fee_waiver_remark" id="fee_waiver_remark"></textarea>
 						<div class="error" id="fee_waiver_remark_err" style="display: none;"></div>
 						
 						<button class="btn btn-info apply-btn" id="fee_waiver_apply">Apply</button>
