@@ -9,6 +9,7 @@
 	<script src="<?php echo base_url();?>assets/js/custom/add_student.js"></script>
     <!-- Main content -->
 	<section class="content">
+	<?php if($this->ion_auth->is_admin() == 1){?>
 		<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">
 			<div class="box-header with-border ui-sortable-handle" style="cursor: move;">
 			  <h3 class="box-title">Csv Import</h3><input type="button" id="download_format" value="Download Sample File" class="btn btn-sm pull-right">
@@ -29,7 +30,7 @@
                 </div>
     		</div><br>
     	</div>
-	
+	<?php } ?>
 		<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
 			<div class="box-header with-border ui-sortable-handle" style="cursor: move;">
 			  <h3 class="box-title">Add New Student</h3>
