@@ -670,6 +670,10 @@ class Student_fee_ctrl extends CI_Controller {
                             }
                         }
                         
+                        if($temp['fc_name'] == 'RTE'){
+                            $temp['pending_month'] .= 'No Fee';
+                        }
+                        
                         $paid_fee += $temp['paid_fee'];
                         $pending_fee += $temp['pending_fee'];
                         $total_fee += $temp['total'];
