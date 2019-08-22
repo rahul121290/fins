@@ -649,9 +649,9 @@ class Student_fee_ctrl extends CI_Controller {
                         $temp['name'] = $total_detail['name'];
                         $temp['f_name'] = $total_detail['f_name'];
                         $temp['bus'] = $total_detail['bus'];
-                        $temp['pending_fee'] = $total_detail['total'] - $paid['paid_fee'];
-                        $temp['paid_fee'] = $paid['paid_fee'];
                         $temp['total'] = $total_detail['total'];
+                        $temp['paid_fee'] = $paid['paid_fee'];
+                        $temp['pending_fee'] = $temp['total'] - $temp['paid_fee'];
                         
                         $temp['pending_month'] = ''; 
                         $paid_month = explode(",",$paid['paid_month']);

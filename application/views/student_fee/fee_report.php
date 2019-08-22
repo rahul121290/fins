@@ -120,9 +120,9 @@
                           <th>Pending Month</th>
                           <th>Fee Criteria</th>
                           <th>Staff Child</th>
-                          <th>Pending Fee</th>
-                          <th>Received Fee</th>
                           <th>Total Fee</th>
+                          <th>Received Fee</th>
+                          <th>Pending Fee</th>
                           <th>Action</th>
                         </tr>
                     </thead>
@@ -207,9 +207,9 @@ $(document).on('click','#search',function(){
 							'<td>'+value.pending_month+'</td>'+
 							'<td>'+value.fc_name+'</td>'+
 							'<td>'+value.staff_child+'</td>'+
-							'<td>'+pending_fee+'</td>'+
-							'<td>'+paid_fee+'</td>'+
 							'<td>'+total+'</td>'+
+							'<td>'+paid_fee+'</td>'+
+							'<td>'+pending_fee+'</td>'+
 							'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-sm btn-primary view_details">View Details</button></td>'+
 							'</tr>';
 					});
