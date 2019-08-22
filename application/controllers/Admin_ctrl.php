@@ -614,6 +614,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['sub_group'] = $this->db->select('*')->get_where('sub_group',array('status'=>1))->result_array();
             $this->data['section'] = $this->db->select('*')->get_where('section',array('status'=>1))->result_array();
             $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
+            $this->data['fee_criteria'] = $this->db->select('*')->get_where('fee_criteria',array('status'=>1))->result_array();
             
             $this->data['page_name'] = 'Fee Receipt';
             $this->data['main'] = 'student_fee/fee_report';
@@ -624,7 +625,7 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
-    function student_report($sch_name,$group_name,$adm_no){
+    function student_report(){
         if(in_array(25, $this->permission)){
             $school = $this->session->userdata('school_id');
             $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();
@@ -726,6 +727,30 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
+    function online_fee(){
+        if(in_array(27, $this->permission)){
+            $this->data['page_name'] = 'Generate fee for online';
+            $this->data['main'] = 'student_fee/online_fee';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
+    function data_sync(){
+        if(in_array(27, $this->permission)){
+            $this->data['page_name'] = 'Data Sync';
+            $this->data['main'] = 'student_fee/data_sync';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
+    
+    
     //--------------------hostel-----------------------
     
     function add_hostel_details(){
@@ -773,6 +798,8 @@ class Admin_ctrl extends CI_Controller {
     }
     
     
+    
+    
     function hostel_report(){
         if(in_array(28, $this->permission)){
             $this->data['page_name'] = 'Hostel Fee';
@@ -783,7 +810,6 @@ class Admin_ctrl extends CI_Controller {
             $this->_load_view('error_page');
         }
     }
-    
     
     function error_page(){
         $this->data['page_name'] = 'Error';

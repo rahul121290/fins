@@ -44,8 +44,8 @@ $route['(:any)/(:any)/student-fee/payment'] = 'Admin_ctrl/student_fee';
 $route['(:any)/(:any)/student-fee/payment/(:num)/(:num)/(:num)/(:any)'] = 'Admin_ctrl/fee_payment';
 
 $route['(:any)/(:any)/report/class-wise'] = 'Admin_ctrl/class_wise';
-$route['(:any)/(:any)/report/student/(:any)'] = 'Admin_ctrl/student_report/$1/$2/$3';
-$route['(:any)/(:any)/report/fee-histroy'] = 'Admin_ctrl/fee_histroy';
+$route['(:any)/(:any)/report/student/(:num)/(:num)/(:any)'] = 'Admin_ctrl/student_report';
+$route['(:any)/(:any)/report/fee-mis'] = 'Admin_ctrl/fee_histroy';
 
 $route['(:any)/(:any)/student-fee/new-admission'] = 'Admin_ctrl/new_admission';
 $route['(:any)/(:any)/student-fee/update-records'] = 'Admin_ctrl/update_records';
@@ -55,6 +55,10 @@ $route['(:any)/(:any)/student-fee/receipt/(:any)'] = 'Admin_ctrl/fee_receipt/$1/
 $route['(:any)/(:any)/prospectus/selling'] = 'Admin_ctrl/prospectus_selling';
 $route['(:any)/(:any)/prospectus/selling-list'] = 'Admin_ctrl/prospectus_selling_list';
 $route['(:any)/(:any)/fee-structure/add-new'] = 'Admin_ctrl/fee_structure';
+$route['(:any)/(:any)/fee-structure/online-fee'] = 'Admin_ctrl/online_fee';
+$route['(:any)/(:any)/fee-structure/data-sync'] = 'Admin_ctrl/data_sync';
+
+
 
 //----------hostel fee--------------------------------
 $route['(:any)/(:any)/hostel/add-hostel-details'] = 'Admin_ctrl/add_hostel_details';

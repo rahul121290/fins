@@ -17,11 +17,9 @@
         </div>
     	<div class="box-body form-horizontal">
     	<form id="class_wise_fee_details" action="javascript:void(0);" method="POST" role="form">
-    	
     	<input type="hidden" id="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>">
-    	
       			<div class="form-group" style="margin-bottom:0px;">
-      				<div class="col-sm-2 mb-3">
+      				<div class="col-sm-1 mb-3">
 						<select name="session" id="session" class="form-control">
 							<option value="">Select Session</option>
 							<option value="3" selected>2019-20</option>
@@ -47,6 +45,7 @@
 						</select>
 						<div id="medium_err" style="display:none; color:red;"></div>
 					</div>
+					
 					<div class="col-sm-2 mb-3">
 						<select class="form-control" id="class_name" name="class_name">
 							<option value="">Select Class</option>
@@ -66,6 +65,17 @@
 						</select>
 						<div id="section_err" style="display:none; color:red;"></div>
 					</div>
+					
+					<div class="col-sm-2 mb-3">
+						<select name="fee_criteria" id="fee_criteria" class="form-control">
+							<option value="">Select Criteria</option>
+							<?php foreach($fee_criteria as $feecriteria){?>
+    							<option value="<?php echo $feecriteria['fc_id'];?>"><?php echo $feecriteria['fc_name'];?></option>
+    						<?php }?>
+						</select>
+						<div id="fee_criteria_err" style="display:none; color:red;"></div>
+					</div>
+					
 					<div class="col-md-2 mb-3">
 						<button type="button" id="search" class="btn btn-info pull-left">Search</button>	
 					</div>
@@ -76,34 +86,40 @@
 		
 		<div class="box box-primary">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
+    				<div class="col-md-4">
+    					<b style="color:#5d5c5c;">Total Fee</b><br>
+    					<span id="total_fee"><b>0.00</b></span>
+    				</div>
+    			
+				
 				<div class="col-md-4" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Received Fee</b><br>
 					<span id="paid_fee"><b>0.00</b></span>
 				</div>
+				
 				<div class="col-md-4" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Pending Fee</b><br>
 					<span id="pending_fee"><b>0.00</b></span>
-				</div>
-				<div class="col-md-4">
-					<b style="color:#5d5c5c;">Total Fee</b><br>
-					<span id="total_fee"><b>0.00</b></span>
 				</div>
 			</div>
 		</div>
 	
 		<div class="box box-info">
             <div class="box-header">
-              <h3 class="box-title"><b>Shakuntala Vidyalaya XI/B (Math) Fee List</b></h3>
+              <h3 class="box-title">Student List</h3>
             </div>
       		     <div class="box-body">
   					<table class="table table-responsive">
 						<thead><tr>
 						<th>S.No.</th>
 						<th>Admission No.</th>
+						<th>Class/Sec</th>
 						<th>Student Name</th>
                           <th>Father's Name</th>
                           <th>Bus</th>
                           <th>Pending Month</th>
+                          <th>Fee Criteria</th>
+                          <th>Staff Child</th>
                           <th>Pending Fee</th>
                           <th>Received Fee</th>
                           <th>Total Fee</th>
@@ -127,7 +143,8 @@ $('#class_wise_fee_details').validate({
 		school:{required:true},
 		medium:{required:true},
 		class_name:{required:true},
-		section:{required:true},
+		//section:{required:true},
+		//fee_criteria:{required:true},
 	},
 });
 
@@ -140,7 +157,7 @@ $(document).on('click','#search',function(){
     	var medium = $('#medium').val();
     	var class_name = $('#class_name').val();
     	var section = $('#section').val();
-
+		var fee_criteria = $('#fee_criteria').val();
 		$.ajax({
 			type:'POST',
 			url:baseUrl+'Student_fee_ctrl/class_wise_report',
@@ -149,7 +166,8 @@ $(document).on('click','#search',function(){
 				'school':school,
 				'medium':medium,
 				'class_name':class_name,
-				'section':section
+				'section':section,
+				'fee_criteria':fee_criteria
 			},
 			dataType:'json',
 			beforeSend:function(){},
@@ -182,29 +200,32 @@ $(document).on('click','#search',function(){
 						x=x+'<tr>'+
 							'<td>'+parseInt(key+1)+'</td>'+
 							'<td>'+value.adm_no+'</td>'+
+							'<td>'+value.class_name+'/'+value.section_name+'</td>'+
 							'<td>'+value.name+'</td>'+
 							'<td>'+value.f_name+'</td>'+
 							'<td>'+value.bus+'</td>'+
 							'<td>'+value.pending_month+'</td>'+
+							'<td>'+value.fc_name+'</td>'+
+							'<td>'+value.staff_child+'</td>'+
 							'<td>'+pending_fee+'</td>'+
 							'<td>'+paid_fee+'</td>'+
 							'<td>'+total+'</td>'+
-							'<td><button data-adm_no="'+value.adm_no+'" class="btn btn-sm btn-primary view_details">View Details</button></td>'+
+							'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-sm btn-primary view_details">View Details</button></td>'+
 							'</tr>';
 					});
 					$('#student_list').html(x);
 				}else{
-					$('#student_list').html('<tr><td colspan="6" style="text-align:center;">Record not found.</td></tr>');
+					$('#student_list').html('<tr><td colspan="13" style="text-align:center;">Record not found.</td></tr>');
 				}
 			},
 		});
 	}
 	
-
-// 	$(document).on('click','.view_details',function(){
-// 		var adm_no = $(this).data('adm_no');
-// 		window.open(baseUrl+userUrl+'/report/student/'+adm_no);
-// 	});
-	
+	$(document).on('click','.view_details',function(){
+		var ses_id = $(this).data('ses_id');
+		var sch_id = $(this).data('sch_id');
+		var adm_no = $(this).data('adm_no');
+		window.open(baseUrl+userUrl+'/report/student/'+ses_id+'/'+sch_id+'/'+adm_no);
+	});
 });
 </script>

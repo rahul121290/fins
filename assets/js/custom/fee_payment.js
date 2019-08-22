@@ -53,16 +53,17 @@ $(document).ready(function(){
 					var flag = 1;
 					$.each(response.data.session_fee,function(key,value){
 						if(parseFloat(value.amount) > parseFloat(0) ){
+							f=f+'<tr>';
 							if(value.fee_status == 'Paid'){
-								var check_box = 'disabled';
+								f=f+'<td><img src="'+baseUrl+'assets/images/paid_fee.png" width="30"/></td>';
 								var fee_status = '<b style="color:green;">Paid</b>';
 							}else{
-								var check_box = '';
+								f=f+'<td class="pm-box"><input type="checkbox" data-late_fee="0" value="'+value.amount+'" data-ft_id="'+value.ft_id+'" class="ones_in_session fee_total"> <span class="checkmark"></span></td>';
 								var fee_status = '<b style="color:red;">Pending</b>';
 							}
-							f=f+'<tr>'+
-							'<td class="pm-box"><input '+check_box+' type="checkbox" data-late_fee="0" value="'+value.amount+'" data-ft_id="'+value.ft_id+'" class="ones_in_session fee_total"> <span class="checkmark"></span></td>'+
-							'<td><b>'+value.name+'</b></td>'+
+							
+							
+							f=f+'<td><b>'+value.name+'</b></td>'+
 							'<td>'+value.amount+'</td>'+
 							'<td>'+fee_status+'</td>'+
 						'<tr>';
@@ -81,7 +82,7 @@ $(document).ready(function(){
 					
 					//--------------month fee-----------------------------------
 					var m ='';
-					if(response.data.fee_month){
+					if(response.data.fee_month.length > 0){
 						$.each(response.data.fee_month,function(key,value){
 							var tution_and_bus_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee));
 							var total_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee) + parseFloat(value.late_fee));
@@ -106,7 +107,7 @@ $(document).ready(function(){
 						});
 						$('#month_fee').html(m);	
 					}else{
-						$('#month_fee').html('<tr><td colspan="7" style="text-align:center;">Paid all month fee</td></tr>');
+						$('#month_fee').html('<tr><td colspan="7" style="text-align:center;"><b>No Outstanding Fee till month.</b></td></tr>');
 					}
 					
 								
@@ -123,8 +124,16 @@ $(document).ready(function(){
 
     $(document).on('click','#fee_waiver_apply',function(){
     	var fee_waiver_amount = $('#fee_waiver_amount').val();
+    	var fee_waiver_remark = $('#fee_waiver_remark').val();
     	var fee_total = $('#fee_total').val();
     	var formvalidate = true;
+    	
+    	if(fee_waiver_remark == ''){
+    		$('#fee_waiver_remark_err').html('This is Required.').css('display','block');
+    		formvalidate = false;
+    	}else{
+    		$('#fee_waiver_remark_err').css('display','none');
+    	}
     	
     	if(fee_waiver_amount == ''){
     		$('#fee_waiver_amount_err').html('This is Required.').css('display','block');
@@ -147,6 +156,7 @@ $(document).ready(function(){
 					'adm_no' : adm_no,
 					'month_id' : current_month,
 					'amount' : $('#fee_waiver_amount').val(),
+					'remark':$('#fee_waiver_remark').val()
 				},
 				dataType:'json',
 				beforeSend:function(){
@@ -158,6 +168,7 @@ $(document).ready(function(){
 						alert('OTP Send in Director Mobile number');
 						$('#fee_waiver_amount').prop('disabled',true);
 						$('#fee_waiver_apply').prop('disabled',true);
+						$('#fee_waiver_remark').prop('disabled',true);
 						$('#fee_waiver_otp_row').css('display','block');
 					}else{
 						alert('something went wrong.');
@@ -261,8 +272,6 @@ $(document).ready(function(){
     	}
     });
 	
-    
-    
     //-------------calculate fee-----------------------------
 	$(document).on('click','.fee_total',function(){
 		if($(this).prop("checked") == true){
@@ -285,6 +294,8 @@ $(document).ready(function(){
 			var grand_total = parseFloat(parseFloat(total) + parseFloat(card_charge));
 			$('#grand_total').val(grand_total.toFixed(2));
 			//-----------*********---------------------
+			
+			$('#submit').prop('disabled',false);
 	    }
 	    else if($(this).prop("checked") == false){
 	    	var main_fee = $(this).val();
@@ -463,7 +474,6 @@ $(document).ready(function(){
 	});
 //-----------------submit-----------------------------
 	$(document).on('click','#submit',function(){
-		var formvalidate = true;
 		var ses_id = $('#ses_id').val();
 		var sch_id = $('#sch_id').val();
 		var med_id = $('#med_id').val();
@@ -478,11 +488,11 @@ $(document).ready(function(){
 		var session_fee = [];
 		var month_ids = [];
 		var pay_option = [];
-		
 		var admission_fee = 0;
 		var amalgamated_fund = 0;
 		var lab_fee = 0;
 		var optional_sub = 0;
+		var formvalidate = true;
 		
 		$('.ones_in_session').each(function(){
 			if($(this).prop("checked") == true){
@@ -497,9 +507,11 @@ $(document).ready(function(){
 					optional_sub = $(this).val();
 				}
 				session_fee.push(ft_id);
+			}else if($(this).prop("checked") == false){
+				alert('Session fee is Required.');
+				formvalidate = false;
 			}
 		});
-
 		
 		var tuition_fee = parseFloat(0);
 		var bus_fee = parseFloat(0);
@@ -511,7 +523,7 @@ $(document).ready(function(){
 			}
 		});
 		
-		if(month_ids == ''){
+		if(month_ids == '' && formvalidate == true){
 			alert('Please select which month payment. You want to pay.');
 			formvalidate = false;
 		}
@@ -572,11 +584,14 @@ $(document).ready(function(){
 				pay_option.push(temp);
 			}
 		});
-
-		if(parseFloat(cal_pay_method_amount) != parseFloat(fee_total)){
-			alert('Something wrong in pay method.');
-			formvalidate = false;
+		
+		if(formvalidate == true){
+			if(parseFloat(cal_pay_method_amount) != parseFloat(fee_total)){
+				alert('Pay amount missmatch.');
+				formvalidate = false;
+			}
 		}
+		
 		
 		if(formvalidate){
 			var formdata = new FormData();

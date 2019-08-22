@@ -77,11 +77,15 @@
     </section>
 	<hr>
 		
-		<div class="col-md-2 text-center"><a title="Add Students" href="<?php echo base_url()?>shakuntala/reception/student-fee/new-admission"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/student-add.png"><br> <h4 style="font-weight:600;color:#524d4d;font-size:16px;">Add Students</h4></a></div>
+		<div class="col-md-2 text-center"><a title="Add Students" href="<?php echo base_url().$this->uri->segment(1);?>/reception/student-fee/new-admission"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/student-add.png"><br> <h4 style="font-weight:600;color:#524d4d;font-size:16px;">Add Students</h4></a></div>
 		
-		<div class="col-md-2 text-center"><a title="Student Fee" href="<?php echo base_url()?>shakuntala/reception/student-fee/payment"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/student-fee.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Student Fee</h4></a></div>
+		<div class="col-md-2 text-center"><a title="Student Fee" href="<?php echo base_url().$this->uri->segment(1);?>/reception/student-fee/payment"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/student-fee.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Student Fee</h4></a></div>
 		
-		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url()?>shakuntala/reception/report/fee-histroy"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/fee-history.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Fee History</h4></a></div>
+		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/report/fee-histroy"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/fee-history.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Fee History</h4></a></div>
+		
+		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/fee-structure/online-fee"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/fee-history.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Generate fee for online</h4></a></div>
+		
+		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/fee-structure/data-sync"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/fee-history.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">	Data Sync</h4></a></div>
 		<div class="col-md-2"></div>
 		</div>
 	</div>

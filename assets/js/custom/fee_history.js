@@ -6,6 +6,8 @@ $( document ).ready(function() {
 	var from_date = $('#from_date').val();
 	var to_date = $('#to_date').val();
 	
+	$('#date_range').html('From '+ moment(from_date).format("DD-MM-YYYY")+' To ' +moment(to_date).format("DD-MM-YYYY"));
+	
 	day_wise_report(session,school,medium,from_date,to_date);
 	function day_wise_report(session,school,medium,from_date,to_date){
 		$.ajax({
@@ -24,6 +26,8 @@ $( document ).ready(function() {
 			success:function(response){
 				if(response.status == 200){
 					$('#loader').modal('hide');
+					$('#date_range').html('From '+ moment(from_date).format("DD-MM-YYYY")+' To ' +moment(to_date).format("DD-MM-YYYY"));
+					
 					$('#received_fee').html(response.data.month_paid);
 					$('#pending_fee').html(response.data.month_pending);
 					$('#total_fee').html(response.data.month_total);
@@ -73,8 +77,6 @@ $( document ).ready(function() {
 		}else{
 			day_wise_report(session,school,medium,from_date,to_date);
 		}
-		
-		
 	});
 	
 	$(document).on('change','#medium',function(){

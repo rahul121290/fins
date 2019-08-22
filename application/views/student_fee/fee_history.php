@@ -13,6 +13,11 @@
 <div class="col-md-12">	
   	<div class="box box-primary">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
+			<div class="col-md-4">
+					<b style="color:#5d5c5c;">Total Amount</b><br>
+					<b id="total_fee"></b>
+				</div>
+				
 				<div class="col-md-4" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Received Amount</b><br>
 					<b id="received_fee"></b>
@@ -21,10 +26,7 @@
 					<b style="color:#5d5c5c;">Pending Amount</b><br>
 					<b id="pending_fee"></b>
 				</div>
-				<div class="col-md-4">
-					<b style="color:#5d5c5c;">Total Amount</b><br>
-					<b id="total_fee"></b>
-				</div>
+				
 			</div>
 		</div>
 		
@@ -94,7 +96,7 @@
 		<div class="box box-danger">
             <div class="box-header" style="background-color: #881e1e;color: #fff;">
               <h3 class="box-title"><b>Shakuntala Vidyalaya (2019-20)</b></h3>
-			  <span class="pull-right"><b>Date: <?php echo date('d-M-Y');?></b></span>
+			  <span class="pull-right"><b>Date Range: <span id="date_range"></span></b></span>
             </div>
       		     <div class="box-body" id="fee_report_table"></div>
  		</div>

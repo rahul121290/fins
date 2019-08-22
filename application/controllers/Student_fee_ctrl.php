@@ -221,7 +221,31 @@ class Student_fee_ctrl extends CI_Controller {
             if(!empty($result['student'][0]['staff_child_id'])){
                 $this->db->where('t1.staff_child',$result['student'][0]['staff_child_id']);
             }
-            $fee_month = $this->db->get_where('fee_month fm',array('fm.status'=>1))->result_array();
+            
+            $current_month = (int)date('m');
+            if($current_month == 4 || $current_month == 5){
+                $fee_month_id = 1;
+            }else if($current_month == 6){
+                $fee_month_id = 2;
+            }else if($current_month == 7){
+                $fee_month_id = 3;
+            }else if($current_month == 8){
+                $fee_month_id = 4;
+            }else if($current_month == 9 || $current_month == 10){
+                $fee_month_id = 5;
+            }else if($current_month == 11){
+                $fee_month_id = 6;
+            }else if($current_month == 12){
+                $fee_month_id = 7;
+            }else if($current_month == 1){
+                $fee_month_id = 8;
+            }else if($current_month == 2 || $current_month == 3){
+                $fee_month_id = 9;
+            }
+            
+            
+            
+            $fee_month = $this->db->get_where('fee_month fm',array('fm.status'=>1,'fm_id <='=>$fee_month_id))->result_array();
             
             $result['fee_month'] = array();
             if(count($fee_month) > 0){
@@ -272,6 +296,7 @@ class Student_fee_ctrl extends CI_Controller {
         $data['adm_no'] = $this->input->post('adm_no');
         $data['month_id'] = $this->input->post('month_id');
         $amount = $this->input->post('amount');
+        $remark = $this->input->post('remark');
         $otp = $this->my_function->generateNumericOTP();
         
         $this->db->trans_begin();
@@ -284,8 +309,9 @@ class Student_fee_ctrl extends CI_Controller {
             $this->db->update('fee_waiver',array(
                 'approved'=>0,
                 'amount' => $amount,
+                'remark' => $remark,
                 'otp' => $otp,
-                'remark' => 'offline',
+                'waiver_mode' => 'Offline',
                 'applied_on' => date('Y-m-d h:i:s'),
                 'created_by' => $this->session->userdata('user_id')
             ));
@@ -293,8 +319,9 @@ class Student_fee_ctrl extends CI_Controller {
             //------------insert------------------
             $data['approved'] = 0;
             $data['amount'] = $amount;
+            $data['remark'] = $remark;
             $data['otp'] = $otp;
-            $data['remark'] = 'offline';
+            $data['waiver_mode'] = 'Offline';
             $data['applied_on'] = date('Y-m-d h:i:s');
             $data['created_by'] = $this->session->userdata('user_id');
             
@@ -348,19 +375,21 @@ class Student_fee_ctrl extends CI_Controller {
         
     }
     
-    
-    
     function fee_payment(){
-        
         $this->db->select('MAX(receipt_no) as receipt_no');
-        $receipt = $this->db->get_where('student_fee')->result_array();
+        $receipt = $this->db->get_where('student_fee',array('pay_mode'=>'Offline'))->result_array();
+        
+        $this->db->select('MAX(offline_fee_id) as offline_fee_id');
+        $offline_fee_id = $this->db->get_where('student_fee',array('pay_mode'=>'Offline'))->result_array();
         
         $data['receipt_no'] = $receipt[0]['receipt_no'] + 1;
+        $data['offline_fee_id'] = $receipt[0]['offline_fee_id'] + 1;
+        
         $data['ses_id'] = $this->input->post('ses_id');
         $data['sch_id'] = $this->input->post('sch_id');
         $data['med_id'] = $this->input->post('med_id');
         $data['adm_no'] = $this->input->post('adm_no');
-        $data['pay_month'] = date('m');
+        $data['payment_date'] = date('Y-m-d');
         
         $data['bus_id'] = $this->input->post('bus_id');
         if(empty($data['bus_id'])){
@@ -390,9 +419,8 @@ class Student_fee_ctrl extends CI_Controller {
             $data['fee_waiver'] = 0;
         }
         $data['paid_amount'] = $this->input->post('paid_amount');
-        
         $data['total_fee'] = $data['fee_waiver'] + $data['paid_amount'];
-        
+        $data['pay_mode'] = 'Offline';
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $this->session->userdata('user_id');
         
@@ -444,7 +472,7 @@ class Student_fee_ctrl extends CI_Controller {
     
     function fee_receipt(){
         $receipt = $this->input->get('receipt_no');
-        $this->db->select('DATE_FORMAT(sf.created_at,"%d-%m-%Y") receipt_date,sf.receipt_no,sf.pay_month,s.ses_id,s.sch_id,s.medium,s.class_id,
+        $this->db->select('DATE_FORMAT(sf.created_at,"%d-%m-%Y") receipt_date,sf.receipt_no,sf.payment_date,s.ses_id,s.sch_id,s.medium,s.class_id,
                     c.class_name,sec.section_name,s.fee_criteria,s.staff_child,s.adm_no,s.name,s.f_name,
                     sf.session_fee_ids,
                     sf.month_ids,
@@ -542,6 +570,7 @@ class Student_fee_ctrl extends CI_Controller {
         $data['medium'] = $this->input->post('medium');
         $data['class_name'] = $this->input->post('class_name');
         $data['section'] = $this->input->post('section');
+        $data['fee_criteria'] = $this->input->post('fee_criteria');
         
         $condition = 's.status = 1';
         if($data['session']){
@@ -559,8 +588,11 @@ class Student_fee_ctrl extends CI_Controller {
         if($data['section']){
             $condition .= ' AND s.sec_id = '.$data['section'];
         }
+        if($data['fee_criteria']){
+            $condition .= ' AND s.fee_criteria = '.$data['fee_criteria'];
+        }
         
-        $this->db->select('s.adm_no,s.name,s.f_name,IFNULL(s.bus,"No") bus,
+        $this->db->select('s.ses_id,s.sch_id,s.adm_no,s.name,s.f_name,IFNULL(s.bus,"No") bus,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"-") staff_child,
                 MAX(IF(ft.ft_id = 1, cfs.amount, 0)) as admission_fee,
                 MAX(IF(ft.ft_id = 2, cfs.amount, 0)) as amalgamated_fund,
                 MAX(IF(ft.ft_id = 3, cfs.amount, 0)) as lab_fee,
@@ -576,12 +608,16 @@ class Student_fee_ctrl extends CI_Controller {
         $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.status = 1 AND s.bus = "Yes"','LEFT');
         $this->db->join('class_fee_structure cfs','cfs.fc_id = s.fee_criteria AND cfs.staff_child  = s.staff_child OR cfs.staff_child  IS NULL AND cfs.fc_id = s.fee_criteria AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = '.$data['session'].' AND sch_id = '.$data['school'].' AND med_id = '.$data['medium'].' AND class_id = '.$data['class_name'].' AND status = 1 ORDER BY fs_id DESC LIMIT 1)');
         $this->db->join('fee_type ft','ft.ft_id = cfs.ft_id');
+        $this->db->join('class c','c.c_id = s.class_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
+        $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
         $this->db->where($condition);
         $this->db->group_by('s.adm_no');
         $this->db->order_by('s.adm_no');
         $result = $this->db->get_where('students s')->result_array();
         
-        $this->db->select('s.adm_no,SUM(sf.paid_amount) as paid_fee,IFNULL(GROUP_CONCAT(sf.month_ids),0) paid_month');
+        $this->db->select('s.ses_id,s.sch_id,s.adm_no,SUM(sf.paid_amount) as paid_fee,IFNULL(GROUP_CONCAT(sf.month_ids),0) paid_month');
         $this->db->join('student_fee sf','sf.adm_no = s.adm_no AND sf.ses_id = s.ses_id AND sf.sch_id = s.sch_id AND sf.med_id = s.medium AND sf.status = 1','LEFT');
         $this->db->where($condition);
         $this->db->group_by('s.adm_no');
@@ -601,7 +637,15 @@ class Student_fee_ctrl extends CI_Controller {
                 foreach($paid_details as $paid){
                     if($total_detail['adm_no'] == $paid['adm_no']){
                         $temp = [];
+                        $temp['ses_id'] = $total_detail['ses_id'];
+                        $temp['sch_id'] = $total_detail['sch_id'];
                         $temp['adm_no'] = $total_detail['adm_no'];
+                        
+                        $temp['class_name'] = $total_detail['class_name'];
+                        $temp['section_name'] = $total_detail['section_name'];
+                        $temp['fc_name'] = $total_detail['fc_name'];
+                        $temp['staff_child'] = $total_detail['staff_child'];
+                        
                         $temp['name'] = $total_detail['name'];
                         $temp['f_name'] = $total_detail['f_name'];
                         $temp['bus'] = $total_detail['bus'];
@@ -698,7 +742,7 @@ class Student_fee_ctrl extends CI_Controller {
         $result['month_paid'] = 0;
         $result['month_pending'] = 0;
         $this->db->select('SUM(paid_amount) paid_amount');
-        $this->db->where('pay_month IN ('.$paid_fee_month.')');
+        $this->db->where('MONTH(payment_date) IN ('.$paid_fee_month.')');
         $month_paid = $this->db->get_where('student_fee',array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'status'=>1))->result_array();
         if(!empty($month_paid[0]['paid_amount'])){
             $result['month_paid'] = $month_paid[0]['paid_amount'];
@@ -885,5 +929,81 @@ class Student_fee_ctrl extends CI_Controller {
             return true;
         }
     }
+    
+    
+    function student_report(){
+        $data['ses_id'] = $this->input->post('ses_id');
+        $data['sch_id'] = $this->input->post('sch_id');
+        $data['adm_no'] = $this->input->post('adm_no');
+        
+        
+        $this->db->select('s.ses_id,s.sch_id,s.adm_no,s.name,s.f_name,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"") staff_child,IFNULL(s.bus,"No") bus,
+                MAX(IF(ft.ft_id = 1, cfs.amount, 0)) as admission_fee,
+                MAX(IF(ft.ft_id = 2, cfs.amount, 0)) as amalgamated_fund,
+                MAX(IF(ft.ft_id = 3, cfs.amount, 0)) as lab_fee,
+                MAX(IF(ft.ft_id = 4, cfs.amount, 0)) as optional_sub,
+                MAX(IF(ft.ft_id = 5, cfs.amount, 0)) as tuition_fee,
+                (MAX(IF(ft.ft_id = 1, cfs.amount, 0)) +
+                    MAX(IF(ft.ft_id = 2, cfs.amount, 0)) +
+                    MAX(IF(ft.ft_id = 3, cfs.amount, 0)) +
+                    MAX(IF(ft.ft_id = 4, cfs.amount, 0)) +
+                    (MAX(IF(ft.ft_id = 5, cfs.amount, 0)) * 12 ) +
+                    IF(s.class_id = 13 OR s.class_id = 15,IFNULL(bs.price,0)*10,IFNULL(bs.price,0)*11 ) ) total
+        ');
+        $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.status = 1 AND s.bus = "Yes"','LEFT');
+        $this->db->join('class_fee_structure cfs','cfs.fc_id = s.fee_criteria AND cfs.staff_child  = s.staff_child OR cfs.staff_child  IS NULL 
+        AND cfs.fc_id = s.fee_criteria AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = '.$data['ses_id'].' 
+        AND sch_id = '.$data['sch_id'].' AND med_id = s.medium AND class_id = s.class_id AND status = 1 ORDER BY fs_id DESC LIMIT 1)');
+        $this->db->join('fee_type ft','ft.ft_id = cfs.ft_id');
+        $this->db->join('class c','c.c_id = s.class_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
+        $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
+        $this->db->where(array('s.ses_id'=>$data['ses_id'],'s.sch_id'=>$data['sch_id'],'s.adm_no'=>$data['adm_no']));
+        $this->db->group_by('s.adm_no');
+        $this->db->order_by('s.adm_no');
+        $student_details = $this->db->get_where('students s')->result_array();
+        
+        $paid_fee = 0;
+        
+        $this->db->select('*');
+        $student_fee = $this->db->get_where('student_fee',array('status'=>1,'ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'adm_no'=>$data['adm_no']))->result_array();        
+        $final = array();
+        if(count($student_fee) > 0){
+            foreach($student_fee as $key => $fee){
+                $temp = array();
+                $this->db->select('GROUP_CONCAT(name) fee_month');
+                $this->db->where('fm_id IN ('.$fee['month_ids'].')');
+                $this->db->group_by('ses_id');
+                $fee_month = $this->db->get_where('fee_month',array('status'=>1,'ses_id'=>$data['ses_id']))->result_array();
+                
+                if($fee['session_fee_ids'] != null || $fee['session_fee_ids'] != ''){
+                    $ft_ids = $fee['session_fee_ids'];
+                }else{
+                    $ft_ids = 0;
+                }
+                $this->db->select('GROUP_CONCAT(name) fee_type');
+                $this->db->where('ft_id IN ('.$ft_ids.')');
+                $fee_type = $this->db->get_where('fee_type',array('status'=>1))->result_array();
+                
+                $temp = $fee;
+                $temp['fee_month'] = $fee_month[0]['fee_month'];
+                $temp['session_fee'] = $fee_type[0]['fee_type'];
+                
+                $paid_fee += $fee['paid_amount'];
+                
+                $final[] = $temp;
+            }
+        }
+        
+        $total_fee = $student_details[0]['total'];
+        $pending_fee = $student_details[0]['total'] - $paid_fee;
+        if(count($student_details) > 0){
+            echo json_encode(array('data'=>$final,'student_details'=>$student_details,'total_fee'=>$total_fee,'paid_fee'=>$paid_fee,'pending_fee'=>$pending_fee,'status'=>200));
+        }else{
+            echo json_encode(array('data'=>'student recor not found.','status'=>500));
+        }
+    }
+    
     
 }

@@ -167,7 +167,7 @@ $permission = $this->my_function->user_permission();
 						<li class="dropdown">
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">HOSTEL FEE<span class="caret"></span></a>
     						<ul class="dropdown-menu">
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/import-hostel-details"><i class="fa fa-user text-blue" aria-hidden="true"></i>Add Hostel Student</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/add-hostel-details"><i class="fa fa-user text-blue" aria-hidden="true"></i>Add Hostel Student</a></li>
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/fee-payment"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Student Fee</a></li>
 								
 								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/student-fee"><i class="fa fa-user text-blue" aria-hidden="true"></i>Fee Payment</a></li>
@@ -191,7 +191,7 @@ $permission = $this->my_function->user_permission();
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">REPORT<span class="caret"></span></a>
     						<ul class="dropdown-menu">
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/class-wise"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Class Wise</a></li>
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/fee-histroy"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Fee History</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/fee-mis"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Fee MIS</a></li>
     						</ul>
     					</li>
 					<?php } ?>
