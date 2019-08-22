@@ -383,7 +383,7 @@ class Student_fee_ctrl extends CI_Controller {
         $offline_fee_id = $this->db->get_where('student_fee',array('pay_mode'=>'Offline'))->result_array();
         
         $data['receipt_no'] = $receipt[0]['receipt_no'] + 1;
-        $data['offline_fee_id'] = $receipt[0]['offline_fee_id'] + 1;
+        $data['offline_fee_id'] = $offline_fee_id[0]['offline_fee_id'] + 1;
         
         $data['ses_id'] = $this->input->post('ses_id');
         $data['sch_id'] = $this->input->post('sch_id');
