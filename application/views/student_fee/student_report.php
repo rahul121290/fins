@@ -119,7 +119,7 @@ function student_report(){
 						'<td>'+value.fee_month+'</td>'+
 						'<td>'+value.paid_amount+'</td>'+
 						'<td>'+value.pay_mode+'</td>'+
-						'<td><button data-receipt_no="'+value.receipt_no+'" class="btn btn-sm btn-primary print_receipt">Print Receipt</button></td>'+
+						'<td><button data-receipt_no="'+value.receipt_no+'" class="btn btn-primary print_receipt">Print Receipt</button></td>'+
 					'</tr>';
 				});
 				$('#fee_details').html(x);

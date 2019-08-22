@@ -92,7 +92,7 @@
 						<textarea class="form-control" rows="" cols="" placeholder="Remarks" name="fee_waiver_remark" id="fee_waiver_remark"></textarea>
 						<div class="error" id="fee_waiver_remark_err" style="display: none;"></div>
 						
-						<button class="btn btn-info apply-btn" id="fee_waiver_apply">Apply</button>
+						<button class="btn btn-primary apply-btn" id="fee_waiver_apply">Apply</button>
 						
 						<div class="col-md-6" id="fee_waiver_otp_row" style="padding-left:0px;position:relative;margin-top:25px;display:none;">
 						
@@ -173,7 +173,7 @@
 					<div class="pull-left" style="padding-top:5px;"><b>GRAND TOTAL FEE</b></div>
 					<div class="pull-right"><input type="text" class="form-control totalinput" id="grand_total" value="0.00" disabled="disabled" /></div>
 					</div>
-					<button id="submit" class="btn btn-lg btn-success pull-right" disabled="disabled">Submit</button>
+					<button id="submit" class="btn btn-lg btn-success pull-right" disabled="disabled">Payment</button>
 				</div>
 				
 			</div>

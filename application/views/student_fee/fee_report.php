@@ -77,7 +77,7 @@
 					</div>
 					
 					<div class="col-md-2 mb-3">
-						<button type="button" id="search" class="btn btn-info pull-left">Search</button>	
+						<button type="button" id="search" class="btn btn-warning pull-left">Search</button>	
 					</div>
 			    </div>
     		</form>	
@@ -210,7 +210,7 @@ $(document).on('click','#search',function(){
 							'<td>'+total+'</td>'+
 							'<td>'+paid_fee+'</td>'+
 							'<td>'+pending_fee+'</td>'+
-							'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-sm btn-primary view_details">View Details</button></td>'+
+							'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-primary view_details">View Details</button></td>'+
 							'</tr>';
 					});
 					$('#student_list').html(x);

@@ -108,7 +108,7 @@ $(document).ready(function(){
 							if(value.fc_name == 'RTE'){
 								x=x+'<td><button class="btn btn-success btn-sm">RTE (No fee)</button></td>';
 							}else{
-								x=x+'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-med_id="'+value.medium+'" data-adm_no="'+value.adm_no+'" class="btn btn-sm btn-primary payment">Pay Now</button></td>';
+								x=x+'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-med_id="'+value.medium+'" data-adm_no="'+value.adm_no+'" class="btn btn-primary payment">Pay Now</button></td>';
 							}
 							
 							x=x+'</tr>';

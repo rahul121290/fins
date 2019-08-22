@@ -119,9 +119,11 @@
                 </div>
                 
 			</div>
-					<div class="box-footer text-center">
-                        <button type="button" id="submit" class="btn btn-info">Submit</button>
+			<div class="col-xs-12">
+				<div class="box-footer text-center">
+                        <button type="button" id="submit" class="btn btn-success">Submit</button>
         			</div>
+			</div>
 			</form>
 		</div>
         </section>

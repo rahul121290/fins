@@ -69,9 +69,7 @@
 								<div id="section_err" style="display:none; color:red;"></div>
 							</div>
 							<div class="col-md-2 mb-3" style="padding:0px 0px;">
-								<button type="button" name="search" id="search" class="btn btn-info pull-left">Search</button>
-								<button style="margin-left:10px;" type="reset" class="btn btn-default pull-left">Reset</button>
-								
+								<button type="button" name="search" id="search" class="btn btn-warning pull-left">Search</button>
 							</div>
 					    </div>
 						 

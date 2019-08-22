@@ -54,7 +54,7 @@
                </div>
                
                <div class="col-sm-3">
-    				<button id="search" class="btn btn-primary btn-sm">Search</button>
+    				<button id="search" class="btn btn-warning">Search</button>
                </div>
                
 			   <div class="col-md-12">
@@ -77,9 +77,9 @@
                		<tbody id="feelist"></tbody>
                </table>
 			   </div>
-			   <div class="col-md-12">
+			   <div class="col-md-6">
 				   <div class="text-center">
-				   <button class="btn btn-success " id="submit" style="display:none;">Submit</button>
+				   <button class="btn btn-block btn-success " id="submit" style="display:none;">Submit</button>
 				   </div>
 			   </div>
 			   </div>

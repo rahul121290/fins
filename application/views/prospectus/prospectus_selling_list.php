@@ -65,7 +65,8 @@
 				
 				<div class="col-sm-2">
 					<div class="form-group">
-						<button id="search" class="btn btn-primary btn-sm">Search</button> &nbsp; <button id="print" class="btn btn-info btn-sm">Print</button>
+						<button id="search" class="btn btn-warning">Search</button> &nbsp; 
+						<button id="print" class="btn btn-primary">Print</button>
 					</div>
 				</div>
 					<div class="col-md-12 table-responsive">

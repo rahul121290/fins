@@ -61,7 +61,7 @@
 							<div id="section_err" style="display:none; color:red;"></div>
 						</div>
 						<div class="col-md-2 mb-3" style="padding:0px 0px;">
-							<button type="button" name="search" id="search" class="btn btn-info pull-left">Search</button>
+							<button type="button" name="search" id="search" class="btn btn-warning pull-left">Search</button>
 						</div>
 				    </div>
 					 
@@ -226,7 +226,7 @@
             
             <div class="form-group">
             	<div class="col-sm-6">
-            		<button class="btn btn-sm btn-success" id="update">Update</button>
+            		<button class="btn btn-success" id="update">Update</button>
             	</div>
             </div>  
             
@@ -304,7 +304,7 @@ function list(school,medium,class_name,section,search_box){
 						'<td>'+value.bus+'</td>'+
 						'<td>'+value.bus_stoppage+'</td>'+
 						'<td>'+value.hostler+'</td>'+
-						'<td><button data-std_id = "'+value.std_id+'" class="btn btn-sm btn-success edit">Edit</button></td>'+
+						'<td><button data-std_id = "'+value.std_id+'" class="btn btn-primary edit">Edit</button></td>'+
 					'</tr>';
 				});
 				$('#student_list').html(x);
