@@ -19,8 +19,10 @@ $(document).ready(function(){
 				success:function(response){
 					if(response.status == 200){
 						$('#admission_no_err').html('<strong>'+response.result[0].adm_no+'</strong> is already exist.').css('display','block');
+						$('#submit').attr('disabled',true);
 					}else{
 						$('#admission_no_err').css('display','none');
+						$('#submit').attr('disabled',false);
 						}
 				},
 			});
