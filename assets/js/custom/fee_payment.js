@@ -109,8 +109,6 @@ $(document).ready(function(){
 					}else{
 						$('#month_fee').html('<tr><td colspan="7" style="text-align:center;"><b>No Outstanding Fee till month.</b></td></tr>');
 					}
-					
-								
 				}else{
 						alert(response.msg);
 				    }
