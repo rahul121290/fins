@@ -2,7 +2,7 @@
 <section class="content-header">
       <h1>Reception</h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>shakuntala/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">Student Fee Details</li>
       </ol>
     </section>
@@ -59,12 +59,12 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>Sr No.</th>
+							<th>S.No.</th>
 							<th>Receipt No</th>
 							<th>Payment Date</th>
 							<th>Months</th>
 							<th>Payment Amount</th>
-							<th>pay_mode</th>
+							<th>Pay Mode</th>
 							<th>Action</th>
 						</tr>
 					</thead>

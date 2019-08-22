@@ -90,29 +90,60 @@
             <div class="box-header">
               <h3 class="box-title"><b>Shakuntala Gurukul Fee</b></h3>
             </div>
-      		     <div class="box-body">
-  					<table class="table table-responsive">
-						<thead><tr>
-						<th>S.No.</th>
-						<th>Board</th>
-						<th>Hostel</th>
-                        <th>Month/Day</th>
-                        <th>All Hostel Fee</th>
+      		<div class="box-body">
+				<table class="table table-responsive">
+					<thead><tr>
+					<th>S.No.</th>
+					<th>Board</th>
+					<th>Hostel</th>
+					<th>Month/Day</th>
+					<th>All Hostel Fee</th>
 
-                        </tr>
-                    </thead>
+					</tr>
+					</thead>
 					<tbody id="student_list">
-						<tr>
-							<td>01.</td>
-							<td>Shakuntala CSBE</td>
-							<td>Hostel 1</td>
-							<td>Rs.145000.00/-</td>
-							<td>Rs.2,45000.00/-</td>
-						</tr>
+					<tr>
+						<td>01.</td>
+						<td>Shakuntala CSBE</td>
+						<td>Hostel 1</td>
+						<td>Rs.145000.00/-</td>
+						<td>Rs.2,45000.00/-</td>
+					</tr>
 					</tbody>
 				</table>
       		</div>
  		</div>
+		
+		<div class="box box-info">
+			 <div class="box-header text-center">
+              <h3><b>SHAKUNTALA GURUKUL</b></h3>
+			  <p>Bhilai C.G 490023</p>
+            </div>
+      		<div class="box-body">
+			
+				<table class="table table-responsive">
+					<thead><tr>
+					<th>S.No.</th>
+					<th>Particulars</th>
+					<th>Sac Code</th>
+					<th>Qty.</th>
+					<th>All Hostel Fee</th>
+
+					</tr>
+					</thead>
+					<tbody id="student_list">
+					<tr>
+						<td>01.</td>
+						<td>Shakuntala CSBE</td>
+						<td>Hostel 1</td>
+						<td>Rs.145000.00/-</td>
+						<td>Rs.2,45000.00/-</td>
+					</tr>
+					</tbody>
+				</table>
+      		</div>
+		</div>
+		
 	</div>
 </div>
 		

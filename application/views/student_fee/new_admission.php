@@ -1,8 +1,8 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Reception<small>new admission</small></h1>
+      <h1>Reception<small>New Admission</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"></i>Dashboard</a></li>
         <li class="active">New Admission</li>
       </ol>
     </section>

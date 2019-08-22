@@ -2,7 +2,7 @@
 <section class="content-header">
       <h1>School Fee <small>MIS</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>shakuntala/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">School Fee</li>
       </ol>
     </section>
@@ -15,16 +15,16 @@
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
 			<div class="col-md-4">
 					<b style="color:#5d5c5c;">Total Amount</b><br>
-					<b id="total_fee"></b>
+					<b>Rs. </b><b id="total_fee"></b>/-
 				</div>
 				
 				<div class="col-md-4" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Received Amount</b><br>
-					<b id="received_fee"></b>
+					<b>Rs. </b><b id="received_fee"></b>/-
 				</div>
 				<div class="col-md-4" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Pending Amount</b><br>
-					<b id="pending_fee"></b>
+					<b>Rs. </b><b id="pending_fee"></b>/-
 				</div>
 				
 			</div>
