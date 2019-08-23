@@ -737,6 +737,16 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'error_page';
         }
     }
+    function recycle_bin(){
+        if(in_array(27, $this->permission)){
+            $this->data['page_name'] = 'Student Trash';
+            $this->data['main'] = 'student_fee/recycle_bin.php';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
     
     function data_sync(){
         if(in_array(27, $this->permission)){
@@ -796,9 +806,6 @@ class Admin_ctrl extends CI_Controller {
             $this->_load_view('error_page');
         }
     }
-    
-    
-    
     
     function hostel_report(){
         if(in_array(28, $this->permission)){

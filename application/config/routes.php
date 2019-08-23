@@ -57,6 +57,7 @@ $route['(:any)/(:any)/prospectus/selling-list'] = 'Admin_ctrl/prospectus_selling
 $route['(:any)/(:any)/fee-structure/add-new'] = 'Admin_ctrl/fee_structure';
 $route['(:any)/(:any)/fee-structure/online-fee'] = 'Admin_ctrl/online_fee';
 $route['(:any)/(:any)/fee-structure/data-sync'] = 'Admin_ctrl/data_sync';
+$route['(:any)/(:any)/students/recycle-bin'] = 'Admin_ctrl/recycle_bin';
 
 
 

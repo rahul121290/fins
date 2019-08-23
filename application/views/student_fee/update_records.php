@@ -66,7 +66,7 @@
 				    </div>
 					 
 				    <div class="col-sm-6 mb-3" style="padding-left:0px;">
-						<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Admission Number">	
+						<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Admission Number/ Student Name">	
 					</div>
 				   
         		</form>	

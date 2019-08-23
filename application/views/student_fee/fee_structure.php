@@ -22,8 +22,9 @@
                       <div class="form-group">
     					<select id="school" name="school" class="form-control">
     						<option value="">Select Board</option>
-    						<option value="1">CBSE</option>
+    						<option value="1" selected>CBSE</option>
     						<option value="3">CG Board</option>
+    						<option value="2">Sharda</option>
     					</select>
     					<div class="error" id="school_err" style="display: none;"></div>
     			  </div>

@@ -410,3 +410,83 @@
 </div>
 
 <input type="hidden" id="user_url" name="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>"/>
+<!-- Modal -->
+<div id="sibling_verification" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+        	<div class="form-group">
+              <div class="col-sm-3">
+				<select class="form-control" id="sibling_school">
+					<option value="">Select BOARD</option>
+					<option value="1">CBSE</option>
+					<option value="2">CG Board</option>
+				</select>
+				<div id="sibling_school_err" class="error" style="display: none;"></div>
+			</div>
+
+              <div class="col-sm-3">
+    			<select class="form-control" id="sibling_medium"> 
+    				<option value="">Select Medium</option>
+    				<?php foreach($medium as $med){?>
+    				    <option value="<?php echo $med['med_id'];?>"><?php echo $med['med_name'];?></option>
+    				<?php }?>
+    			</select>
+    			<div id="sibling_medium_err" class="error" style="display: none;"></div>
+    		</div>
+
+    		<div class="col-sm-3">
+    			<select class="form-control" id="sibling_class">
+    				<option value="">Select Class</option>
+    				<?php foreach($class as $classes){?>
+						<option value="<?php echo $classes['c_id'];?>"><?php echo $classes['class_name'];?></option>
+					<?php } ?>
+    			</select>
+    			<div id="sibling_class_err" class="error" style="display: none;"></div>
+    		</div>
+
+    		<div class="col-sm-3">
+    			<select class="form-control" id="sibling_section">
+    				<option value="">Select Section</option>
+    				<?php foreach($section as $sec){?>
+						<option value="<?php echo $sec['sec_id'];?>"><?php echo $sec['section_name'];?></option>
+					<?php }?>
+    			</select>
+    			<div id="sibling_section_err" class="error" style="display: none;"></div>
+    		</div>
+
+    		<div class="col-sm-3">
+    			<button id="search_record" class="btn btn-sm btn-primary">Search</button>
+    		</div>
+      	 </div>
+
+      	 <div style="width:100%; height: 400px;overflow-y: scroll;float: left;">
+      	 	<table class="table" >
+      	 		<thead>
+      	 			<tr>
+      	 				<th>S No.</th>
+      	 				<th>Admission No.</th>
+      	 				<th>Student Name</th>
+      	 				<th>Father's Name</th>
+      	 				<th>Contact No.</th>
+      	 			</tr>
+      	 		</thead>
+      	 		<tbody id="student_list"></tbody>
+      	 	</table>
+      	 </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

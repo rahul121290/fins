@@ -1,6 +1,15 @@
 $(document).ready(function(){
 	var baseUrl = $('#base_url').val();
 	
+	$(document).on('click','#enable_amount',function(){
+		if($(this).prop('checked') == 1){
+			$('#amount').prop('disabled',false);
+		}else{
+			$('#amount').prop('disabled',true);
+		}
+	});
+	
+	
 	$('#prospectus_form').validate({
 		rules:{
 			reg_no:{required:true},

@@ -346,7 +346,7 @@ $(document).on('click','#print',function(){
             		x=x+'</tbody></table>';
             		with(win.document){open(); write(x);close();}
 			}else{
-			
+				alert(response.msg);
 			}
 		},
 	});

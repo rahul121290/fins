@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Generate_fee_ctrl extends CI_Controller {
     function __construct(){
         parent :: __construct();
+        $this->load->library('My_function');
         $this->server = $this->load->database('server',true);
     }
     
@@ -148,8 +149,75 @@ class Generate_fee_ctrl extends CI_Controller {
             echo json_encode(array('msg'=>'Insert successfully','status'=>200));
         }
     }
-     
+ 
+    function send_fee_sms(){
+        $data['session'] = $this->session->userdata('session_id');
+        $data['school'] = $this->input->post('school');
+        $data['class_id'] = $this->input->post('class_id');
+        
+        $current_month = (int)date('m');
+        if($current_month == 4 || $current_month == 5){
+            $fee_month_id = 1;
+            $month_name = 'April + May';
+        }else if($current_month == 6){
+            $fee_month_id = 2;
+            $month_name = 'June';
+        }else if($current_month == 7){
+            $fee_month_id = 3;
+            $month_name = 'July';
+        }else if($current_month == 8){
+            $fee_month_id = 4;
+            $month_name = 'Aug';
+        }else if($current_month == 9 || $current_month == 10){
+            $fee_month_id = 5;
+            $month_name = 'Sep + Oct.';
+        }else if($current_month == 11){
+            $fee_month_id = 6;
+            $month_name = 'November';
+        }else if($current_month == 12){
+            $fee_month_id = 7;
+            $month_name = 'December';
+        }else if($current_month == 1){
+            $fee_month_id = 8;
+            $month_name = 'January';
+        }else if($current_month == 2 || $current_month == 3){
+            $fee_month_id = 9;
+            $month_name = 'Feb + March';
+        }
+                
+        $this->db->select('*');
+        $checkexist = $this->db->get_where('fee_month_sms',array('ses_id'=>$data['session'],'fm_id'=>$fee_month_id,'sch_id'=>$data['school'],'class_id'=>$data['class_id'],'status'=>1))->result_array();
+        
+        if(count($checkexist) > 0){
+            echo json_encode(array('msg'=>'Already send SMS','status'=>500));
+            die;
+        }else{
+            //-----------send sms------------
+            $this->server->select('s.name,s.contact_no,sf.total_fee');
+            $this->server->join('student_fee sf','s.adm_no = sf.adm_no AND s.ses_id = sf.ses_id AND s.sch_id = sf.sch_id AND sf.status = 1');
+            $student_fee = $this->server->get_where('students s',array('s.status'=>1,'s.ses_id'=>$data['session'],'s.sch_id'=>$data['school'],'s.class_id'=>$data['class_id']))->result_array();
+            if(count($student_fee) > 0){
+                //-----------insert in table------------
+                $this->db->insert('fee_month_sms',
+                    array('ses_id'=>$data['session'],
+                        'fm_id'=>$fee_month_id,
+                        'sch_id'=>$data['school'],
+                        'class_id'=>$data['class_id'],
+                        'created_by'=>$this->session->userdata('user_id'),
+                        'created_at'=>date('Y-m-d H:i:s')
+                    ));
+                    /////////////send sms///////////////////////
+                foreach($student_fee as $std_fee){
+                    $sms = 'Dear Parent, Shakuntala Vidyalaya Fee of Rs. '.$std_fee['total_fee'].', due on 15-'.date('m').'-'.date('Y').', has been generated and presented in Parent Portal. Please login to pay online by due date. Avoid late fee. Transaction charges applicable.';
+//                     print_r($sms);
+//                     print_r($std_fee['contact_no']);die;
+                    //$this->my_function->send_sms($sms,$std_fee['contact_no']);
+                }
+                echo json_encode(array('msg'=>'SMS Send Successfully','status'=>200));
+            }else{
+                echo json_encode(array('msg'=>'Student record not found.','status'=>500));
+            }
+        }
+    }
+    
 }
-
-
-

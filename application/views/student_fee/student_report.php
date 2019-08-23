@@ -136,7 +136,6 @@ function student_report(){
 
 $(document).on('click','.print_receipt',function(){
 	var receipt_no = $(this).data('receipt_no');
-
 	window.open(baseUrl+userUrl+"/student-fee/receipt/"+receipt_no,"popupWindow", "width=960, height=960, scrollbars=yes");
 });
 

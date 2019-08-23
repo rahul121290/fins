@@ -425,5 +425,65 @@ class Student_ctrl extends CI_Controller{
 		
 	}
 	
+	function discontinue_student_list(){
+	    $data['session'] = $this->input->post('session');
+	    $data['school'] = $this->input->post('school');
+	    $data['medium'] = $this->input->post('medium');
+	    $data['search_box'] = $this->input->post('search_box');
+	    
+	    $condition = 's.status = 0';
+	    if(!empty($data['session'])){
+	        $condition .= ' AND s.ses_id = '.$data['session'];
+	    }
+	    if(!empty($data['school'])){
+	        $condition .= ' AND s.sch_id = '.$data['school'];
+	    }
+	    if(!empty($data['medium'])){
+	        $condition .= ' AND s.medium = '.$data['medium'];
+	    }
+	    if(!empty($data['search_box'])){
+	        $condition .= ' AND (s.adm_no = "'.$data['session'].'" OR s.name LIKE "'.$data['search_box'].'%")';
+	    }
+	    
+	    
+	    $this->db->select('s.std_id,s.adm_no,c.class_name,sec.section_name,s.name,s.f_name,fc.fc_name,IFNULL(sc.name,"-") staff_child');
+	    $this->db->join('class c','c.c_id = s.class_id AND c.status = 1');
+	    $this->db->join('section sec','sec.sec_id = s.sec_id AND sec.status = 1');
+	    $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
+	    $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
+	    $this->db->where($condition);
+	    $this->db->order_by('discontinue_date','DESC');
+	    $result = $this->db->get_where('students s')->result_array();
+	    
+	    if(count($result) > 0){
+	        echo json_encode(array('data'=>$result,'status'=>200));
+	    }else{
+	        echo json_encode(array('msg'=>'record not found.','status'=>500));
+	    }
+	}
+	
+	function std_restore(){
+	    $std_id = $this->input->post('std_id');
+	    
+	    $this->db->where('std_id',$std_id);
+	    $result = $this->db->update('students',array('status'=>1));
+	    if($result){
+	        echo json_encode(array('msg'=>'Student restore successfully','status'=>200));
+	    }else{
+	        echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
+	    }
+	}
+	
+	function std_delete(){
+	    $std_id = $this->input->post('std_id');
+	    
+	    $this->db->where('std_id',$std_id);
+	    $result = $this->db->delete('students');
+	    if($result){
+	        echo json_encode(array('msg'=>'Student Delete successfully','status'=>200));
+	    }else{
+	        echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
+	    }
+	}
     
 }

@@ -78,7 +78,7 @@ class Student_fee_ctrl extends CI_Controller {
             $condition .= ' AND s.sec_id = '.$data['sec_id'];
         }
         if(!empty($data['search_data'])){
-            $condition .= ' AND s.adm_no = '.$data['search_data'];
+            $condition .= ' AND (s.adm_no = "'.$data['search_data'].'" OR s.name LIKE "'.$data['search_data'].'%")';
         }
         
         $this->db->select('s.*,IFNULL(sf.name,"") staff_child,fc.fc_name fee_criteria,c.class_name,sec.section_name,IFNULL(sg.sg_name,"-") sg_name,IFNULL(bs.bus_stoppage,"-") bus_stoppage');
@@ -137,7 +137,7 @@ class Student_fee_ctrl extends CI_Controller {
             $condition .= ' AND s.sec_id = '.$data['sec_id'];
         }
         if(!empty($data['search_data'])){
-            $condition .= ' AND s.adm_no = '.$data['search_data'];
+            $condition .= ' AND (s.adm_no = "'.$data['search_data'].'" OR s.name LIKE "%'.$data['search_data'].'%")';
         }
         
         $this->db->select('fc.fc_name,s.ses_id,s.sch_id,s.medium,s.adm_no,c.class_name,sec.section_name,s.name,s.f_name,IFNULL(sg.sg_name,"") sg_name,s.contact_no');
@@ -571,7 +571,8 @@ class Student_fee_ctrl extends CI_Controller {
         $data['class_name'] = $this->input->post('class_name');
         $data['section'] = $this->input->post('section');
         $data['fee_criteria'] = $this->input->post('fee_criteria');
-        
+        $data['search_box'] = $this->input->post('search_box');
+ 
         $condition = 's.status = 1';
         if($data['session']){
             $condition .= ' AND s.ses_id = '.$data['session'];
@@ -591,8 +592,11 @@ class Student_fee_ctrl extends CI_Controller {
         if($data['fee_criteria']){
             $condition .= ' AND s.fee_criteria = '.$data['fee_criteria'];
         }
+        if($data['search_box']){
+            $condition .= ' AND (s.adm_no = "'.$data['search_box'].'" OR s.name LIKE "'.$data['search_box'].'%")';
+        }
         
-        $this->db->select('s.ses_id,s.sch_id,s.adm_no,s.name,s.f_name,IFNULL(s.bus,"No") bus,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"-") staff_child,
+        $this->db->select('s.std_id,s.ses_id,s.sch_id,s.adm_no,s.name,s.f_name,IFNULL(s.bus,"No") bus,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"-") staff_child,
                 MAX(IF(ft.ft_id = 1, cfs.amount, 0)) as admission_fee,
                 MAX(IF(ft.ft_id = 2, cfs.amount, 0)) as amalgamated_fund,
                 MAX(IF(ft.ft_id = 3, cfs.amount, 0)) as lab_fee,
@@ -606,7 +610,7 @@ class Student_fee_ctrl extends CI_Controller {
                     IF(s.class_id = 13 OR s.class_id = 15,IFNULL(bs.price,0)*10,IFNULL(bs.price,0)*11 ) ) total
         '); 
         $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.status = 1 AND s.bus = "Yes"','LEFT');
-        $this->db->join('class_fee_structure cfs','cfs.fc_id = s.fee_criteria AND cfs.staff_child  = s.staff_child OR cfs.staff_child  IS NULL AND cfs.fc_id = s.fee_criteria AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = '.$data['session'].' AND sch_id = '.$data['school'].' AND med_id = '.$data['medium'].' AND class_id = '.$data['class_name'].' AND status = 1 ORDER BY fs_id DESC LIMIT 1)');
+        $this->db->join('class_fee_structure cfs','cfs.fc_id = s.fee_criteria AND cfs.staff_child  = s.staff_child OR cfs.staff_child  IS NULL AND cfs.fc_id = s.fee_criteria AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND med_id = s.medium AND class_id = s.class_id AND status = 1 ORDER BY fs_id DESC LIMIT 1)');
         $this->db->join('fee_type ft','ft.ft_id = cfs.ft_id');
         $this->db->join('class c','c.c_id = s.class_id');
         $this->db->join('section sec','sec.sec_id = s.sec_id');
@@ -617,7 +621,7 @@ class Student_fee_ctrl extends CI_Controller {
         $this->db->order_by('s.adm_no');
         $result = $this->db->get_where('students s')->result_array();
         
-        $this->db->select('s.ses_id,s.sch_id,s.adm_no,SUM(sf.paid_amount) as paid_fee,IFNULL(GROUP_CONCAT(sf.month_ids),0) paid_month');
+        $this->db->select('s.std_id,s.ses_id,s.sch_id,s.adm_no,SUM(sf.paid_amount) as paid_fee,IFNULL(GROUP_CONCAT(sf.month_ids),0) paid_month');
         $this->db->join('student_fee sf','sf.adm_no = s.adm_no AND sf.ses_id = s.ses_id AND sf.sch_id = s.sch_id AND sf.med_id = s.medium AND sf.status = 1','LEFT');
         $this->db->where($condition);
         $this->db->group_by('s.adm_no');
@@ -637,6 +641,7 @@ class Student_fee_ctrl extends CI_Controller {
                 foreach($paid_details as $paid){
                     if($total_detail['adm_no'] == $paid['adm_no']){
                         $temp = [];
+                        $temp['std_id'] = $total_detail['std_id'];
                         $temp['ses_id'] = $total_detail['ses_id'];
                         $temp['sch_id'] = $total_detail['sch_id'];
                         $temp['adm_no'] = $total_detail['adm_no'];
@@ -1009,5 +1014,20 @@ class Student_fee_ctrl extends CI_Controller {
         }
     }
     
+    function student_discontinue(){
+        $ses_id = $this->input->post('ses_id');
+        $sch_id = $this->input->post('sch_id');
+        $adm_no = $this->input->post('adm_no');
+        
+        $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no));
+        $result = $this->db->update('students',array('status'=>0,'discontinue_date'=>date('Y-m-d H:i:s')));
+        if($result){
+            $this->all_fee_details($ses_id,$sch_id);
+            echo json_encode(array('msg'=>'Student Discontinue Successfully','status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Something went wrong, Please try again.','status'=>500));
+        }
+        
+    }
     
 }

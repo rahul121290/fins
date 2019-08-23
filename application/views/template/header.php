@@ -148,7 +148,7 @@ $permission = $this->my_function->user_permission();
 						<li class="dropdown">
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">FEE STRUCTURE<span class="caret"></span></a>
     						<ul class="dropdown-menu">
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/fee-structure/add-new"><i class="fa fa-inbox text-blue" aria-hidden="true"></i>Add New Fee Structure</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/fee-structure/add-new"><i class="fa fa-inbox text-blue" aria-hidden="true"></i>Add/Update Fee Structure</a></li>
     						</ul>
     					</li>
 					<?php } ?>
