@@ -23,8 +23,13 @@ class Data_sync_ctrl extends CI_Controller {
             $result = $this->server->get_where('student_fee',array('status'=>1,'pay_status'=>1,'pay_mode'=>'Online','online_fee_id >'=>(int)$local[0]['online_fee_id']))->result_array();
             if(count($result) > 0){
                 $this->db->select('MAX(receipt_no) receipt_no');
-                $receipt_no = $this->db->get_where('student_fee',array('status'=>1,'pay_status'=>1,'pay_mode'=>'Online'))->result_array();
+                $receipt_no = $this->db->get_where('student_fee',array('status'=>1,'pay_status'=>1))->result_array();
                 $receipt_no = $receipt_no[0]['receipt_no'];
+                if($receipt_no == ''){
+                    $receipt_no = 1;
+                }else{
+                    $receipt_no = $receipt_no+1;
+                }
                 $final = array();
                 foreach($result as $key => $res){
                     $temp = array();
@@ -42,6 +47,7 @@ class Data_sync_ctrl extends CI_Controller {
         
         $this->server->select('MAX(offline_fee_id) offline_fee_id');
         $server = $this->server->get_where('student_fee',array('status'=>1,'pay_mode'=>'Offline'))->result_array();
+        
         if((int)$local[0]['offline_fee_id'] > (int)$server[0]['offline_fee_id']){
             $this->db->select('offline_fee_id,online_fee_id,receipt_no,adm_no,ses_id,sch_id,med_id,session_fee_ids,month_ids,bus_id,fw_id,admission_fee,amalgamated_fund,lab_fee,optional_sub,tuition_fee,bus_fee,late_fee,fee_waiver,total_fee,paid_amount,payment_date,payment_id,pay_mode,pay_method,pay_status,created_at,created_by,updated_at,updated_by,status');
             $result = $this->db->get_where('student_fee',array('status'=>1,'pay_status'=>1,'pay_mode'=>'Offline','offline_fee_id >'=>(int)$server[0]['offline_fee_id']))->result_array();
@@ -64,8 +70,8 @@ class Data_sync_ctrl extends CI_Controller {
         
     }
     
-    
-    function data_sync(){//--------------for subject allocation--------------------------
+    //--------------for subject allocation--------------------------
+    function data_sync(){
         $this->db->trans_begin();
         $this->db->select('*');
         $sub_allocation = $this->db->get_where('temp_subject_allocation')->result_array();

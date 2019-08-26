@@ -179,7 +179,10 @@ $(document).on('keyup','#search_box',function(){
 	var class_name = '';
 	var section = '';
 	var fee_criteria = '';
-	student_details_list(session,school,medium,class_name,section,fee_criteria,search_box);
+
+	if(search_box != ''){
+		student_details_list(session,school,medium,class_name,section,fee_criteria,search_box);
+	}
 });
 
 function student_details_list(session,school,medium,class_name,section,fee_criteria,search_box){
@@ -292,5 +295,4 @@ $(document).on('click','.view_details',function(){
 	var adm_no = $(this).data('adm_no');
 	window.open(baseUrl+userUrl+'/report/student/'+ses_id+'/'+sch_id+'/'+adm_no);
 });
-
 </script>

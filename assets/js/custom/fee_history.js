@@ -34,6 +34,8 @@ $( document ).ready(function() {
 					
 					var x='<table class="table table-responsive"><tbody style="font-size:16px;">';
 					x=x+='<tr><td><b>Received Amount</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.student_fee[0].paid_amount+'/-</td></tr>'+
+					'<tr><td><b>Offline</b></td><td>'+response.data.student_fee[0].total_offline+'</td></tr>'+
+					'<tr><td><b>Online</b></td><td>'+response.data.student_fee[0].total_online+'</td></tr>'+
 					'<tr><td><b>Admission Fee</b></td><td>'+response.data.student_fee[0].admission_fee+'</td></tr>'+
 					'<tr><td><b>Amalgamated Fund</b></td><td>'+response.data.student_fee[0].amalgamated_fund+'</td></tr>'+
 					'<tr><td><b>Bus Fee</b></td><td>'+response.data.student_fee[0].bus_fee+'</td></tr>'+
@@ -43,7 +45,6 @@ $( document ).ready(function() {
 					'<tr><td><b>Optional Sub</b></td><td>'+response.data.student_fee[0].optional_sub+'</td></tr>'+
 					
 					'<tr><td colspan="2" style="text-align:center;"><b>Pay Method</b></td></tr>'+
-					
 					'<tr><td><b>Cash</b></td><td>'+response.data.pay_method[0].cash+'</td></tr>'+
 					'<tr><td><b>Cheque</b></td><td>'+response.data.pay_method[0].cheque+'</td></tr>'+
 					'<tr><td><b>DD (Demand Draft)</b></td><td>'+response.data.pay_method[0].dd+'</td></tr>'+

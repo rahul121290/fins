@@ -759,22 +759,28 @@ class Student_fee_ctrl extends CI_Controller {
         }
         //----------------daily report----------------------------
         $condition = 'sf.status = 1';
+        $condition1 = 'status = 1';
         if(!empty($data['ses_id'])){
             $condition .= ' AND sf.ses_id = '.$data['ses_id'];
+            $condition1 .= ' AND ses_id = '.$data['ses_id'];
         }
         if(!empty($data['sch_id'])){
             $condition .= ' AND sf.sch_id = '.$data['sch_id'];
+            $condition1 .= ' AND sch_id = '.$data['sch_id'];
         }
         if(!empty($data['med_id'])){
             $condition .= ' AND sf.med_id = '.$data['med_id'];
+            $condition1 .= ' AND med_id = '.$data['med_id'];
         }
       
         if(!empty($data['from_date'])){
-            $condition .= ' AND CAST(sf.created_at AS DATE) >= "'.$data['from_date'].'"';
+            $condition .= ' AND sf.payment_date >= "'.$data['from_date'].'"';
+            $condition1 .= ' AND payment_date >= "'.$data['from_date'].'"';
         }
         
         if(!empty($data['to_date'])){
-            $condition .= ' AND CAST(sf.created_at AS DATE) <= "'.$data['to_date'].'"';
+            $condition .= ' AND sf.payment_date <= "'.$data['to_date'].'"';
+            $condition1 .= ' AND payment_date <= "'.$data['to_date'].'"';
         }
         
         $this->db->select('
@@ -786,11 +792,13 @@ class Student_fee_ctrl extends CI_Controller {
                            IFNULL(SUM(sf.tuition_fee),0) bus_fee,
                            IFNULL(SUM(sf.late_fee),0) late_fee,
                            IFNULL(SUM(sf.paid_amount),0) paid_amount,
-                           IFNULL(SUM(sf.fee_waiver),0) fee_waiver
+                           IFNULL(SUM(sf.fee_waiver),0) fee_waiver,
+                           IFNULL((SELECT SUM(paid_amount) FROM student_fee WHERE '.$condition1.' AND pay_mode = "Offline"),0) total_offline,
+                           IFNULL((SELECT SUM(paid_amount) FROM student_fee WHERE '.$condition1.' AND pay_mode = "Online"),0) total_online
                 ');
         $this->db->where($condition);
         $result['student_fee'] = $this->db->get_where('student_fee sf',array('sf.status'=>1))->result_array();
-        
+
         $this->db->select('
                            IFNULL(SUM(IF(fpm.method_name = "cash",fpm.amount,0)),0) cash,
                            IFNULL(SUM(IF(fpm.method_name = "cheque",fpm.amount,0)),0) cheque,
@@ -799,11 +807,10 @@ class Student_fee_ctrl extends CI_Controller {
                            IFNULL(SUM(IF(fpm.method_name = "pos",IF(fpm.card_name = "debit_card",fpm.amount,0),0)),0) debit_card
         ');
         $this->db->join('student_fee sf','sf.receipt_no = fpm.receipt_no');
-        $this->db->where('CAST(fpm.created_at AS DATE) >=',$data['from_date']);
-        $this->db->where('CAST(fpm.created_at AS DATE) <=',$data['to_date']);
+        $this->db->where('sf.payment_date >=',$data['from_date']);
+        $this->db->where('sf.payment_date <=',$data['to_date']);
         $this->db->where($condition);
         $result['pay_method'] = $this->db->get_where('fee_pay_method fpm',array('fpm.status'=>1))->result_array();
-        
         
         if(count($result) > 0){
             echo json_encode(array('data'=>$result,'status'=>200));
