@@ -259,7 +259,7 @@ class Marks_entry_ctrl extends CI_Controller{
                 $this->db->where('sa.class_id',$data['class_id']);
                 $this->db->where('sa.med_id',$data['medium']);
                 if(!empty($data['sub_group'])){
-                    $this->db->where('sa.sg_id',$data['medium']);
+                    $this->db->where('sa.sg_id',$data['sub_group']);
                 }
                 $this->db->group_by('st.sec_id');
                 $section = $this->db->get_where('sub_teacher st',array('st.status'=>1))->result_array();
@@ -267,6 +267,7 @@ class Marks_entry_ctrl extends CI_Controller{
                 echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
             }
         }
+        //print_r($this->db->last_query());die;
         if(count($section) > 0){
             echo json_encode(array('data'=>$section,'status'=>200));
         }else{
