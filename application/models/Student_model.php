@@ -43,8 +43,21 @@ class Student_model extends CI_Model{
         if(!empty($std_id)){
             $this->db->where('std_id',$std_id);
             $this->db->update('students',$data);
+            
+            $event = 'Update Student';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'students';
+            $table_id = $std_id;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            
         }else{
             $this->db->insert('students',$data);
+            
+            $event = 'Add New Student';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'students';
+            $table_id = $this->db->insert_id();
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
         }
         
         if ($this->db->trans_status() === FALSE)
@@ -62,7 +75,15 @@ class Student_model extends CI_Model{
     
     public function deleteRecord($delete_id){
         $this->db->where('std_id',$delete_id);
-        return $this->db->update('students',array('status'=>0));
+         $this->db->update('students',array('status'=>0));
+        
+        $event = 'Delete Student';
+        $user = $this->session->userdata('user_id');
+        $table_name = 'students';
+        $table_id = $delete_id;
+        $this->my_function->add_log($user,$event,$table_name,$table_id);
+        
+        return true;
     }
 
 

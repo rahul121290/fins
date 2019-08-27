@@ -72,7 +72,14 @@ class Auth extends CI_Controller{
 			$remember = (bool)$this->input->post('remember');
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember,$this->input->post('school_id')))
 			{
+			    
 				//if the login is successful
+				$event = 'Login';
+				$user = $this->session->userdata('user_id');
+				$table_name = null;
+				$table_id = null;
+				$this->my_function->add_log($user,$event,$table_name,$table_id);
+			    
 				//redirect them back to the home page
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
 				
@@ -133,6 +140,12 @@ class Auth extends CI_Controller{
 		}else{
 		    $path = 'sharda/login';
 		}
+		
+		$event = 'Logout';
+		$user = $this->session->userdata('user_id');
+		$table_name = null;
+		$table_id = null;
+		$this->my_function->add_log($user,$event,$table_name,$table_id);
 		
 		// log the user out
 		$logout = $this->ion_auth->logout();

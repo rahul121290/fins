@@ -136,7 +136,5 @@ class New_admission_ctrl extends CI_Controller {
         }else{
             echo json_encode(array('msg'=>'Admission process failed, Please try again.','status'=>500));
         }
-        
-        
     }
 }

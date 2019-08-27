@@ -2,16 +2,30 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Subject_model extends CI_Model {
-    
-    /*--------------------subject group-----------------------------------*/
    
     public function submitSubGroup($id,$data){
         if($id !=''){
             //------------update subject gorup-----------------
-            return $this->db->where('sg_id',$id)->update('sub_group',$data);
+             $this->db->where('sg_id',$id)->update('sub_group',$data);
+             
+             //-----------log report---------------
+             $event = 'Update Subject Group';
+             $user = $this->session->userdata('user_id');
+             $table_name = 'sub_group';
+             $table_id = $id;
+             $this->my_function->add_log($user,$event,$table_name,$table_id);
+             return true;
         }else{
             //------------insert subject gorup-----------------
-            return $this->db->insert('sub_group',$data);
+            $this->db->insert('sub_group',$data);
+            
+            //-----------log report---------------
+            $event = 'Add Subject Group';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'sub_group';
+            $table_id = $this->db->insert_id();
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            return true;
         }
     }
     
@@ -24,10 +38,26 @@ class Subject_model extends CI_Model {
     public function submitSubjectType($st_id,$data){
         if($st_id != ''){
             //------------update subject gorup-----------------
-            return $this->db->where('st_id',$st_id)->update('sub_type',$data);
+            $this->db->where('st_id',$st_id)->update('sub_type',$data);
+            
+            //-----------log report---------------
+            $event = 'Update Subject Type';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'sub_type';
+            $table_id = $st_id;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            return true;
         }else{
             //------------insert subject gorup-----------------
-            return $this->db->insert('sub_type',$data);
+            $this->db->insert('sub_type',$data);
+            
+            //-----------log report---------------
+            $event = 'Add New Subject Type';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'sub_type';
+            $table_id = $this->db->insert_id();
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            return true;
         }
     }
     
@@ -37,18 +67,30 @@ class Subject_model extends CI_Model {
         
     }
     
-    
-    
-    
-    
    /*-------------------subject------------------------------------*/
     public function subjectSubmit($sub_id,$data){
         if($sub_id != ''){
             //------------update subject gorup-----------------
-            return $this->db->where('sub_id',$sub_id)->update('subject',$data);
+            $this->db->where('sub_id',$sub_id)->update('subject',$data);
+            
+            //-----------log report---------------
+            $event = 'Update Subject';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'subject';
+            $table_id = $sub_id;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            return true;
         }else{
             //------------insert subject gorup-----------------
-            return $this->db->insert('subject',$data);
+            $this->db->insert('subject',$data);
+            
+            //-----------log report---------------
+            $event = 'Add New Subject';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'subject';
+            $table_id = $this->db->insert_id();
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            return true;
         }
     }
     

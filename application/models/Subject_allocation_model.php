@@ -26,10 +26,24 @@ class Subject_allocation_model extends CI_Model{
                 $this->db->where('sa_id',(int)$result[0]['sa_id']);
                 $this->db->update('subject_allocation',array('status'=>1));
             }
+            
+            //-----------log report---------------
+            $event = 'Update Subject Allocation';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'subject_allocation';
+            $table_id = (int)$result[0]['sa_id'];
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
         }//end of if count result condition
         else{
                 //-------if not record in data then entry-------------------
                 $this->db->insert('subject_allocation', $data);
+                
+                //-----------log report---------------
+                $event = 'Allocate new subject';
+                $user = $this->session->userdata('user_id');
+                $table_name = 'subject_allocation';
+                $table_id = $this->db->insert_id();
+                $this->my_function->add_log($user,$event,$table_name,$table_id);
             }
             
             if ($this->db->trans_status() === FALSE)
@@ -55,9 +69,22 @@ class Subject_allocation_model extends CI_Model{
                 $this->db->where('out_of_id', $result[0]['out_of_id']);
                 $this->db->update('out_of_marks',array('out_of'=>$data['out_of']));
                 
+                //-----------log report---------------
+                $event = 'Update Subject Out of Marks';
+                $user = $this->session->userdata('user_id');
+                $table_name = 'out_of_marks';
+                $table_id = $result[0]['out_of_id'];
+                $this->my_function->add_log($user,$event,$table_name,$table_id);
         }else{
             //-------data not in table then insert-----------------------
             $this->db->insert('out_of_marks',$data);
+            
+            //-----------log report---------------
+            $event = 'Update Subject Out of Marks';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'out_of_marks';
+            $table_id = $this->db->insert_id();
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
         }
         
         if ($this->db->trans_status() === FALSE)

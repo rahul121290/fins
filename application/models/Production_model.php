@@ -58,7 +58,6 @@ class Production_model extends CI_Model {
         }
         
         $result = $this->db->get_where('(SELECT * FROM subject_allocation WHERE 1=1'.$condition.' GROUP BY sub_id) as t1',array())->result_array();
-        //print_r($this->db->last_query());die;
         return $result;
     }
     

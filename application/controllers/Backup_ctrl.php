@@ -5,8 +5,7 @@ class Backup_ctrl extends CI_Controller {
         parent :: __construct();
         
     }
-
-    function index(){ 
+    function index(){
         $host="localhost";
         $user="root";
         $pass="";
@@ -80,6 +79,14 @@ class Backup_ctrl extends CI_Controller {
     header('Content-Type: application/octet-stream');
     header("Content-Transfer-Encoding: Binary");
     header("Content-disposition: attachment; filename=\"smis_".time().".sql\"");
+    
+    //-----------log report---------------
+    $event = 'Database Backup';
+    $user = $this->session->userdata('user_id');
+    $table_name = null;
+    $table_id = null;
+    $this->my_function->add_log($user,$event,$table_name,$table_id);
+    
     echo $content; exit;
     }
 

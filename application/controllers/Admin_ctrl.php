@@ -562,7 +562,7 @@ class Admin_ctrl extends CI_Controller {
     function student_fee(){
         if(in_array(25, $this->permission)){
             $school = $this->session->userdata('school_id');
-            
+            $this->data['fee_criteria'] = $this->db->select('*')->get_where('fee_criteria',array('status'=>1))->result_array();
             $this->data['school'] = $this->db->select('*')->get_where('school',array('status'=>1,'sch_id'=>$school))->result_array();
             $this->data['page_name'] = 'Student Fee';
             $this->data['main'] = 'student_fee/student_fee';

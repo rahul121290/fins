@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Fee_structure_model extends CI_Model {
     
     function submit_fee($master,$final){
-        
         $this->db->trans_begin();
         $this->db->select('fs_id');
         $check_master = $this->db->get_where('fee_structure_master',$master)->result_array();
@@ -20,6 +19,14 @@ class Fee_structure_model extends CI_Model {
             $this->db->insert('fee_structure_master',$master);
             
             $fs_id = $this->db->insert_id();
+            
+            //-----------log report---------------
+            $event = 'Add New Fee Structure';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'fee_structure_master';
+            $table_id = $fs_id;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            //----------------------------------
             
             $insert_data = [];
             foreach($final as $key => $fin){

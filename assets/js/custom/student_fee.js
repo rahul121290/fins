@@ -37,8 +37,6 @@ $(document).ready(function(){
 		}else{
 			$('#class_name_err').css('display','none');
 		}
-		
-		
 		studentList(session,school,medium,class_name,section,search_data);
 	});
 	

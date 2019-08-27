@@ -243,6 +243,4 @@ $(document).on('click','#submit',function(){
 		},
 	});
 });
-
-
 </script>

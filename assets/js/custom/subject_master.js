@@ -239,7 +239,7 @@ $(document).ready(function(){
 							'<td>'+value.sub_name+'</td>'+
 							'<td>'+value.short_order+'</td>'+
 							'<td><button type="button" id="'+value.sub_id +'" class="btn btn-primary btn-sm edit_subject"><span class="glyphicon glyphicon-edit"></span> Edit </button> &nbsp;'+
-	   					 	'<button type="button" id="'+value.sub_id +'" class="btn btn-danger btn-sm delete_subject"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
+	   					 	//'<button type="button" id="'+value.sub_id +'" class="btn btn-danger btn-sm delete_subject"><span class="glyphicon glyphicon-trash"></span> Delete </button></td>'+
 							'</tr>'+
 						i++;
 					});

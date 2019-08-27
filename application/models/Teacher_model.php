@@ -57,9 +57,22 @@ class Teacher_model extends CI_Model{
             $this->db->where('t_id',$tid);
             $this->db->update('teacher',$submitdata);
             
+            //-----------log----------------
+            $event = 'Update Teacher';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'teacher';
+            $table_id = $tid;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
         }else{
             //--------insert--------------
             $this->db->insert('teacher',$submitdata);
+            
+            //-----------log----------------
+            $event = 'Add Teacher';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'teacher';
+            $table_id = $this->db->insert_id();
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
         }
         
         
@@ -151,9 +164,21 @@ class Teacher_model extends CI_Model{
                 $this->db->where('st_id',$result[0]['st_id']);
                 $this->db->update('sub_teacher',array('status'=>0));
             }
+            
+            $event = 'Update Subject Teacher';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'sub_teacher';
+            $table_id = $result[0]['st_id'];
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
         }else{
             //--------insert--------------------
             $this->db->insert('sub_teacher',$data);
+            
+            $event = 'Add Subject Teacher';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'sub_teacher';
+            $table_id = $this->db->insert_id();
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
         }
         
         if ($this->db->trans_status() === FALSE)

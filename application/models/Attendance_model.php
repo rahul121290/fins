@@ -16,7 +16,15 @@ class Attendance_model extends CI_Model{
             $temp['created_at'] = date('Y-m-d H:i:s');
             $final[] = $temp;
         }
-        return $this->db->insert_batch('attendance_master',$final);
+         $this->db->insert_batch('attendance_master',$final);
+         
+         //-----------log report---------------
+         $event = 'Add Attendance Master';
+         $user = $this->session->userdata('user_id');
+         $table_name = 'attendance_master';
+         $table_id = $this->db->insert_id();
+         $this->my_function->add_log($user,$event,$table_name,$table_id);
+         return true;
     }
     
     public function deleteRecord($delete_id){
@@ -33,7 +41,16 @@ class Attendance_model extends CI_Model{
         $data1['total_days'] = $data['class_attendace'];
 
         $this->db->where('am_id',$id);
-        return $this->db->update('attendance_master',$data1);
+        $this->db->update('attendance_master',$data1);
+        
+        //-----------log report---------------
+        $event = 'Update Attendance Master';
+        $user = $this->session->userdata('user_id');
+        $table_name = 'attendance_master';
+        $table_id = $id;
+        $this->my_function->add_log($user,$event,$table_name,$table_id);
+        
+        return true;
         
     }
     

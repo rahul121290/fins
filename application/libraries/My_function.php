@@ -10,6 +10,21 @@ class My_function{
         $this->CI =& get_instance();
     }
     
+    
+    function add_log($user,$event_name,$table_name,$table_id){
+        $CI =& get_instance();
+        $CI->load->database();
+        
+        $data['user_id'] = $user;
+        $data['user_ip'] = $CI->input->ip_address();
+        $data['event_name'] = $event_name;
+        $data['event_time'] = date('Y-m-d H:i:s');
+        $data['table_name'] = $table_name;
+        $data['table_id'] = $table_id;
+        return $res = $CI->db->insert('log_report',$data);
+    }
+    
+    
     public function permission_link(){
         $CI =& get_instance();
         $CI->load->library('session');
@@ -22,6 +37,7 @@ class My_function{
         $result = $CI->db->get_where('users_groups ug',array('u.id'=>$user_id))->result_array();
         return $result[0]['name'];
     }
+    
     
     
     public function user_permission(){

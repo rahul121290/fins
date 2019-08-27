@@ -14,6 +14,14 @@ class User_role_model extends CI_Model{
                 $this->db->where('id',$ug_id);
                 $this->db->update('users_groups',array('user_id'=>$id,'group_id'=>$group));
             }
+            
+            
+            //-----------log report---------------
+            $event = 'Update User Role';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'users';
+            $table_id = $id;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
         }else{
             //---------insert----------------------
             $this->db->insert('users',$data);
@@ -22,6 +30,13 @@ class User_role_model extends CI_Model{
             //------------insert in user gruop table-----------
             $this->db->insert('users_groups',array('user_id'=>$last_id,'group_id'=>$group));
             
+            
+            //-----------log report---------------
+            $event = 'Add New User';
+            $user = $this->session->userdata('user_id');
+            $table_name = 'users';
+            $table_id = $this->db->insert_id();
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
         }
         
         if ($this->db->trans_status() === FALSE){

@@ -39,6 +39,14 @@ class Marks_entry_model extends CI_Model{
             $last_mm_id = $this->db->insert_id();//----------get last insert id-----------------------
         }
         
+        //-----------log report---------------
+        $event = 'Marks Entry';
+        $user = $this->session->userdata('user_id');
+        $table_name = 'marks_master';
+        $table_id = $last_mm_id;
+        $this->my_function->add_log($user,$event,$table_name,$table_id);
+        
+        //------------**----------------------
         $marks = array();
         foreach($final as $final_marks){
             $temp = array(); 

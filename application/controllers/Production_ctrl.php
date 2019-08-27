@@ -17,8 +17,14 @@ class Production_ctrl extends CI_Controller{
         $data['section'] = $this->input->post('section');
         
         $result = $this->production_model->marks_entry_check($data);
-        
-        if(count($result)>0){
+        if(count($result)>0){    
+            //-----------log report---------------
+            $event = 'Check Marks Entry ';
+            $user = $this->session->userdata('user_id');
+            $table_name = null;
+            $table_id = null;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
             echo json_encode(array('feedback'=>'something getting worong.','status'=>500));
@@ -196,6 +202,14 @@ class Production_ctrl extends CI_Controller{
         $result['org_details'] = $this->production_model->org_details($data);
         
         if(count($result)>0){
+            
+            //-----------log report---------------
+            $event = 'Generate Furd';
+            $user = $this->session->userdata('user_id');
+            $table_name = null;
+            $table_id = null;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
             echo json_encode(array('feedback'=>'record not found.','status'=>500));
@@ -230,6 +244,14 @@ class Production_ctrl extends CI_Controller{
         
         $result = $this->production_model->TeacherAbstract($data);
         if(count($result)>0){
+            
+            //-----------log report---------------
+            $event = 'Search Teacher Abstract';
+            $user = $this->session->userdata('user_id');
+            $table_name = null;
+            $table_id = null;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
             echo json_encode(array('feedback'=>'record not found.','status'=>500));
@@ -350,7 +372,15 @@ class Production_ctrl extends CI_Controller{
         $result['org_details'] = $this->production_model->org_details($data);
         
         if(count($result) > 0){
-            //print_r($result);die;
+            
+            //-----------log report---------------
+            $event = 'Generate Mid Marksheet';
+            $user = $this->session->userdata('user_id');
+            $table_name = null;
+            $table_id = null;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            
+            
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
             echo json_encode(array('feedback'=>'something getting wrong.','status'=>500));
@@ -785,7 +815,15 @@ class Production_ctrl extends CI_Controller{
         $result['org_details'] = $this->production_model->org_details($data);
         //print_r($result);die;
         if(count($result) > 0){
-            // print_r($result);die;
+            
+            //-----------log report---------------
+            $event = 'Generate Final Marksheet';
+            $user = $this->session->userdata('user_id');
+            $table_name = null;
+            $table_id = null;
+            $this->my_function->add_log($user,$event,$table_name,$table_id);
+            
+            
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
             echo json_encode(array('feedback'=>'something getting wrong.','status'=>500));
