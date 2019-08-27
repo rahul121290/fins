@@ -9,7 +9,6 @@ $(document).ready(function(){
 		dateFormat: 'dd-mm-yy'
 	});
 
-	
 	$(document).on('click','#verify_sibling_related_adm_no',function(){
 		$('#sibling_verification').modal('show');
 	});
@@ -80,7 +79,31 @@ $(document).ready(function(){
 			});
 		}		
 	});
-	
+//------------------------------------------------------------------------
+	$(document).on('keyup','#related_adm_no',function(){
+		var related_adm_no = $('#related_adm_no').val();
+		$.ajax({
+			type:'POST',
+			url:base_url+'New_admission_ctrl/check_related',
+			data:{'adm_no':related_adm_no},
+			dataType:'json',
+			beforeSend:function(){},
+			success:function(response){
+				if(response.status == 200){
+					var x='<table>'+
+						'<tr><td> Student Name: '+response.data[0].name+'</td></tr>'+
+						'<tr><td> Father\s Name: '+response.data[0].f_name+'</td></tr>'+
+						'<tr><td> Adm No.: '+response.data[0].adm_no+'</td></tr>'+
+						'<tr><td> Class/Sec: '+response.data[0].class_name+'/'+response.data[0].section_name+'</td></tr>'+
+						'<tr><td> School: '+response.data[0].school_name+'</td></tr>'+
+						'</table>';
+					$('#related_student_details').html(x).css('display','block');
+				}else{
+					$('#related_student_details').html('Student Not Found.').css('display','block');
+				}
+			},
+		});
+	});
 	
 //--------------check existing admission no--------------------------------
 	$(document).on('keyup','#admission_no',function(){

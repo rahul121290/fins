@@ -24,7 +24,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Registration No.<span style="color:red;">*</span></label>
 						<div class="col-sm-6">
-							<input type="text" name="reg_no" id="reg_no" class="form-control only_text" value="<?php echo $reg_no[0]['reg_no'];?>" placeholder="Enter Registration Number" />
+							<input disabled="disabled" type="text" name="reg_no" id="reg_no" class="form-control only_text" value="<?php echo $reg_no[0]['reg_no'];?>" placeholder="Enter Registration Number" />
 							<div id="reg_no_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>

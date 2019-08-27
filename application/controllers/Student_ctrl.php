@@ -91,7 +91,7 @@ class Student_ctrl extends CI_Controller{
         }
     
        function getAdmNoRecord(){
-		$sch_id = $this->session->userdata('school_id'); 
+		$sch_id = $this->session->userdata('school_id');
         $adm_no = $this->input->post('adm_no');
         $this->db->select('s.std_id,s.photo,s.aadhar_no,s.name,s.roll_no,s.adm_no,
                            DATE_FORMAT(s.admission_date, "%d-%M-%Y") as admission_date,
@@ -108,6 +108,7 @@ class Student_ctrl extends CI_Controller{
         $this->db->join('sub_group sg','sg.sg_id = s.sub_group','LEFT');
         $this->db->join('subject sb','sb.sub_id = s.elective','LEFT');
         $result = $this->db->get_where('students s',array('s.status'=>1,'s.adm_no'=>$adm_no,'s.sch_id'=>$sch_id))->result_array();
+        //print_r($this->db->last_query());die;
         if(count($result) > 0 ){
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{

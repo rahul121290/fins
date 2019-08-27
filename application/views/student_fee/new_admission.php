@@ -52,9 +52,14 @@
 				  </div>
 				  
                   <div class="col-sm-3">
-					<button class="btn btn-sm btn-success" id="verify_sibling_related_adm_no">Verify</button>
+					<button class="btn btn-success" id="verify_sibling_related_adm_no">Find Students</button>
 				  </div>
              	</div>
+             	
+             	<div class="form-group">
+                  <div id="related_student_details"></div>
+             	</div>
+             	
              	
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>

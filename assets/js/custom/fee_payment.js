@@ -126,12 +126,12 @@ $(document).ready(function(){
     	var fee_total = $('#fee_total').val();
     	var formvalidate = true;
     	
-    	if(fee_waiver_remark == ''){
-    		$('#fee_waiver_remark_err').html('This is Required.').css('display','block');
-    		formvalidate = false;
-    	}else{
-    		$('#fee_waiver_remark_err').css('display','none');
-    	}
+//    	if(fee_waiver_remark == ''){
+//    		$('#fee_waiver_remark_err').html('This is Required.').css('display','block');
+//    		formvalidate = false;
+//    	}else{
+//    		$('#fee_waiver_remark_err').css('display','none');
+//    	}
     	
     	if(fee_waiver_amount == ''){
     		$('#fee_waiver_amount_err').html('This is Required.').css('display','block');

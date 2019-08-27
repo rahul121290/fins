@@ -196,6 +196,17 @@ $permission = $this->my_function->user_permission();
     					</li>
 					<?php } ?>
 					
+					<?php if(in_array(28, $permission)){ ?>
+						<li class="dropdown">
+    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">Synchronization<span class="caret"></span></a>
+    						<ul class="dropdown-menu">
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/sync-master-data"><i class="fa fa-user text-blue" aria-hidden="true"></i>Sync Master Data</a></li>
+    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/upload-student-marks"><i class="fa fa-user text-blue" aria-hidden="true"></i>Upload Student Marks</a></li>
+    						</ul>
+    					</li>
+					<?php } ?>
+					
+					
 					<?php if(in_array(24, $permission)){ ?>
 						<li class="dropdown"><a href="<?php echo base_url();?>Backup_ctrl">BackUp</a></li>
 					<?php } ?>

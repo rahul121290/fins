@@ -107,7 +107,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Update Student Details</h4>
+        <h4 class="modal-title"></h4>
       </div>
       <div class="modal-body">
         	<div class="box-body">
@@ -349,6 +349,7 @@ $(document).on('click','.edit',function(){
 					var bus_id = response.data[0].bus_id;
 				}
 				$('#bus_stoppage').val(bus_id);
+				$('.modal-title').html('Update '+response.data[0].name+' Details');
 				$('#std_update_form').modal('show');
 			}else{
 				alert(response.msg);

@@ -14,6 +14,23 @@ class New_admission_ctrl extends CI_Controller {
         }
     }
     
+    function check_related(){
+        $session = $this->session->userdata('session_id');
+        $school = $this->session->userdata('school_id');
+        $adm_no = $this->input->post('adm_no');
+        
+        $this->db->select('s.name,s.f_name,s.adm_no,c.class_name,sec.section_name,sch.school_name');
+        $this->db->join('class c','c.c_id = s.class_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('school sch','sch.sch_id = s.sch_id');
+        $result = $this->db->get_where('students s',array('s.status'=>1,'s.adm_no'=>$adm_no,'s.ses_id'=>$session,'s.sch_id'=>$school))->result_array();
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'record not found','status'=>500));
+        }
+    }
+    
     function student_record(){
         $data['ses_id'] = $this->session->userdata('session_id');
         $data['sch_id'] = $this->input->post('school');

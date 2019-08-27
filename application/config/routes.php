@@ -18,6 +18,10 @@ $route['(:any)/(:any)/master-record/define-user-role'] = 'Admin_ctrl/define_user
 $route['(:any)/(:any)/master-record/add-student'] = 'Admin_ctrl/add_student';
 $route['(:any)/(:any)/master-record/student-records'] = 'Admin_ctrl/student_records';
 
+$route['(:any)/(:any)/master-record/sync-master-data'] = 'Admin_ctrl/sync_master_data';
+$route['(:any)/(:any)/master-record/upload-student-marks'] = 'Admin_ctrl/upload_student_marks';
+
+
 $route['(:any)/(:any)/transaction-record/attendance-entry'] = 'Admin_ctrl/attendance_entry';
 $route['(:any)/(:any)/transaction-record/student-attendance'] = 'Admin_ctrl/student_attendance';
 $route['(:any)/(:any)/transaction-record/daily-attendance'] = 'Admin_ctrl/daily_attendance';
@@ -58,8 +62,6 @@ $route['(:any)/(:any)/fee-structure/add-new'] = 'Admin_ctrl/fee_structure';
 $route['(:any)/(:any)/fee-structure/online-fee'] = 'Admin_ctrl/online_fee';
 $route['(:any)/(:any)/fee-structure/data-sync'] = 'Admin_ctrl/data_sync';
 $route['(:any)/(:any)/students/recycle-bin'] = 'Admin_ctrl/recycle_bin';
-
-
 
 //----------hostel fee--------------------------------
 $route['(:any)/(:any)/hostel/add-hostel-details'] = 'Admin_ctrl/add_hostel_details';
