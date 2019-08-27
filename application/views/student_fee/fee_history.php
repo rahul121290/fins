@@ -13,7 +13,7 @@
 <div class="col-md-12">	
   	<div class="box box-primary">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
-			<div class="col-md-4">
+			<div class="col-md-4" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Total Amount</b><br>
 					<b>Rs. </b><b id="total_fee"></b>/-
 				</div>
@@ -22,7 +22,7 @@
 					<b style="color:#5d5c5c;">Received Amount</b><br>
 					<b>Rs. </b><b id="received_fee"></b>/-
 				</div>
-				<div class="col-md-4" style="border-right:1px solid #ddd;">
+				<div class="col-md-4" >
 					<b style="color:#5d5c5c;">Pending Amount</b><br>
 					<b>Rs. </b><b id="pending_fee"></b>/-
 				</div>

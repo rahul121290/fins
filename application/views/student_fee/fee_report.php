@@ -94,7 +94,7 @@
 		
 		<div class="box box-primary">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
-    				<div class="col-md-4">
+    				<div class="col-md-4" style="border-right:1px solid #ddd;">
     					<b style="color:#5d5c5c;">Total Fee</b><br>
     					<span id="total_fee"><b>0.00</b></span>
     				</div>
@@ -105,7 +105,7 @@
 					<span id="paid_fee"><b>0.00</b></span>
 				</div>
 				
-				<div class="col-md-4" style="border-right:1px solid #ddd;">
+				<div class="col-md-4">
 					<b style="color:#5d5c5c;">Pending Fee</b><br>
 					<span id="pending_fee"><b>0.00</b></span>
 				</div>
