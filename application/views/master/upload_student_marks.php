@@ -52,8 +52,18 @@ $(document).on('click','#submit_marks',function(){
 			url:baseUrl+'Upload_student_marks_ctrl/upload_student_marks',
 			data:formdata,
 			dataType:'json',
-			beforeSend:function(){},
+			beforeSend:function(){
+				$('#loader').modal('show');
+			},
 			success:function(response){
+				if(response.status == 200){
+					alert('Import successfully');
+					$('#loader').modal('hide');
+					location.reload();
+				}else{
+					alert('failed, Please try again.');
+					$('#loader').modal('hide');
+				}
 				
 			},
 			cache:false,

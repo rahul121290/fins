@@ -488,4 +488,146 @@ class Student_ctrl extends CI_Controller{
 	    }
 	}
     
+	function csv_update(){
+	    if(!empty($_FILES['csv_file']['name'])){
+	        $path = $_FILES['csv_file']['tmp_name'];
+	        $object = PHPExcel_IOFactory::load($path);
+	        
+	        foreach($object->getWorksheetIterator() as $worksheet){
+	            $highestRow = $worksheet->getHighestRow();
+	            $highestColumn = $worksheet->getHighestColumn();
+	            
+	            for($row=2; $row <= $highestRow; $row++){
+	                $col = 0;
+	                $school = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                if($school == 'shakuntala'){
+	                    $school = 1;
+	                }
+	                $medium = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                if($medium == 'English'){
+	                    $medium = 1;
+	                }else if($medium == 'Hindi'){
+	                    $medium = 2;
+	                }
+	                $class = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                if($class == 'NURSERY' || $class == 'Nursery'){
+	                    $class = 1;
+	                }else if($class == 'LKG'){
+	                    $class = 2;
+	                }else if($class == 'UKG'){
+	                    $class = 3;
+	                }else if($class == 'I'){
+	                    $class = 4;
+	                }else if($class == 'II'){
+	                    $class = 5;
+	                }else if($class == 'III'){
+	                    $class = 6;
+	                }else if($class == 'IV'){
+	                    $class = 7;
+	                }else if($class == 'V'){
+	                    $class = 8;
+	                }else if($class == 'VI'){
+	                    $class = 9;
+	                }else if($class == 'VII'){
+	                    $class = 10;
+	                }else if($class == 'VIII'){
+	                    $class = 11;
+	                }else if($class == 'IX'){
+	                    $class = 12;
+	                }else if($class == 'X'){
+	                    $class = 13;
+	                }else if($class == 'XI'){
+	                    $class = 14;
+	                }else if($class == 'XII'){
+	                    $class = 15;
+	                }
+	                $section = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                if($section == 'A'){
+	                    $section = 1;
+	                }else if($section == 'B'){
+	                    $section = 2;
+	                }else if($section == 'C'){
+	                    $section = 3;
+	                }else if($section == 'D'){
+	                    $section = 4;
+	                }else if($section == 'E'){
+	                    $section = 5;
+	                }else if($section == 'F'){
+	                    $section = 6;
+	                }else if($section == 'G'){
+	                    $section = 7;
+	                }else if($section == 'H'){
+	                    $section = 8;
+	                }else if($section == 'I'){
+	                    $section = 9;
+	                }else if($section == 'J'){
+	                    $section = 10;
+	                }
+	                $adm_no = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                $adm_status = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                
+	                if($adm_status == 'New'){
+	                    $adm_status = 'new_student';
+	                }else if($adm_status == 'Old'){
+	                    $adm_status = 'old_student';
+	                }
+	                $fee_criteria = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                if($fee_criteria == 'general'){
+	                    $fee_criteria = 1;
+	                }else if($fee_criteria == 'sibling'){
+	                    $fee_criteria = 2;
+	                }else if($fee_criteria == 'RTE'){
+	                    $fee_criteria = 3;
+	                }else if($fee_criteria == 'staff'){
+	                    $fee_criteria = 4;
+	                }
+	                $sibling_adm_no = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                $staff_child = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                if($staff_child == 'first_child'){
+	                    $staff_child = 1;
+	                }else if($staff_child == 'second_child'){
+	                    $staff_child = 2;
+	                }
+	                $hostller = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+	                if($hostller == 'YES'){
+	                    $hostller = 'Yes';
+	                }else if($hostller == 'NO'){
+	                    $hostller = 'No';
+	                }
+	                
+	                $data[] = array(
+	                    'school'=>$school,
+	                    'medium'=>$medium,
+	                    'class'=>$class,
+	                    'section'=>$section,
+	                    'adm_no'=>(int)$adm_no,
+	                    'adm_status'=>$adm_status,
+	                    'fee_criteria'=>$fee_criteria,
+	                    'sibling_adm_no'=>$sibling_adm_no,
+	                    'staff_child'=>$staff_child,
+	                    'hostller'=>$hostller
+	                );
+	            }//end of for loop
+	        }
+	     // print_r($data);die;
+	        $this->db->trans_begin();
+	        foreach($data as $data1){
+	            $this->db->where(array('ses_id'=>3,'sch_id'=>$data1['school'],'medium'=>$data1['medium'],'adm_no'=>$data1['adm_no']));
+	            $this->db->update('students',array('std_status'=>$data1['adm_status'],'fee_criteria'=>$data1['fee_criteria'],'staff_child'=>$data1['staff_child'],'related_std'=>$data1['sibling_adm_no'],'hostler'=>$data1['hostller'],'status'=>1));
+	         //   print_r($this->db->last_query());die;
+	        }
+	        if ($this->db->trans_status() === FALSE)
+	        {
+	            $this->db->trans_rollback();
+	            echo json_encode(array('msg'=>'Update Failed, Please try again.','status'=>500));
+	        }
+	        else
+	        {
+	            $this->db->trans_commit();
+	            echo json_encode(array('msg'=>'Students Update Successfully','status'=>200));
+	        }
+	        
+	    }
+	}
+	
 }

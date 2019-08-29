@@ -112,6 +112,7 @@ $permission = $this->my_function->user_permission();
 					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">REPORTS (Records)<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/student-records"><i class="fa fa-user-circle-o text-blue" aria-hidden="true"></i>Student Records</a></li>
+							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/csv-update"><i class="fa fa-user-circle-o text-blue" aria-hidden="true"></i>CSV Update</a></li>
 						</ul>
 					</li>
 					<?php } ?>

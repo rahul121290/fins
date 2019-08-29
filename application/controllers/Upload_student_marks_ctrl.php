@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Upload_student_marks_ctrl extends CI_Controller {
     function __construct(){
         parent :: __construct();
-       // $this->server = $this->load->database('server',true);
+       $this->server = $this->load->database('server',true);
     }
     
     function upload_student_marks(){
@@ -88,30 +88,67 @@ class Upload_student_marks_ctrl extends CI_Controller {
                             if($temp['class'] <= 13){
                                 $temp['marks_out_of'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
                             }
+                            
                             if($temp['class'] > 13){
                                 $temp['practical_marks'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
-                                if($temp['practical_marks'] == 'NULL'){
+                                if($temp['practical_marks'] == 'NULL' || $temp['practical_marks'] == ''){
                                     $temp['practical_marks'] = NULL;
                                 }
-                                $temp['marks_out_of'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
-                                $temp['practical_out_of'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
-                                $temp['created_at'] = date('Y-m-d H:i:s');
-                                $temp['ip'] = $this->input->ip_address();
+                                
+                                if($temp['subject'] == 'Bio'){
+                                    $temp['subject'] = 19;
+                                }
+                                if($temp['subject'] == 'Maths(opt)'){
+                                    $temp['subject'] = 16;
+                                }
+                                if($temp['subject'] == 'B.st'){
+                                    $temp['subject'] = 28;
+                                }
+                                
+                                
+                                
+                                if($temp['subject'] == 14 || $temp['subject'] == 1){
+                                    $temp['marks_out_of'] = 90;
+                                    $temp['practical_out_of'] = 10;
+                                }else if($temp['subject'] == 15){
+                                    $temp['marks_out_of'] = 70;
+                                    $temp['practical_out_of'] = 30;
+                                }else if($temp['subject'] == 16 || $temp['subject'] == 6){
+                                    $temp['marks_out_of'] = 100;
+                                    $temp['practical_out_of'] = null;
+                                }else if($temp['subject'] == 17 || $temp['subject'] == 18 || $temp['subject'] == 19 || $temp['subject'] == 23){
+                                    $temp['marks_out_of'] = 70;
+                                    $temp['practical_out_of'] = 30;
+                                }else if($temp['subject'] == 20 || $temp['subject'] == 2){
+                                    $temp['marks_out_of'] = 80;
+                                    $temp['practical_out_of'] = 20;
+                                }else if($temp['subject'] == 27){
+                                    $temp['marks_out_of'] = 90;
+                                    $temp['practical_out_of'] = 10;
+                                }else if($temp['subject'] == 27 || $temp['subject'] == 28){
+                                    $temp['marks_out_of'] = 90;
+                                    $temp['practical_out_of'] = 10;
+                                }else if($temp['sub_type'] == 2){
+                                    $temp['marks_out_of'] = 5;
+                                    $temp['practical_out_of'] = null;
+                                }
                             }
+                            $temp['creatred_by'] = $this->session->userdata('user_id');
+                            $temp['created_at'] = date('Y-m-d H:i:s');
+                            $temp['ip'] = $this->input->ip_address();
                             $final[] = $temp;
                 }
             }
-            
-            print_r($final);die;
+          //print_r($final);die;
             $this->server->trans_begin();
-            $this->server->insert_batch('student_marks',$final);
+            $this->server->insert_batch('graph_student_marks',$final);
             if ($this->server->trans_status() === FALSE){
                 $this->server->trans_rollback();
-                return false;
+                echo json_encode(array('msg'=>'Import failed','status'=>500));
             }
             else{
                 $this->server->trans_commit();
-                return true;
+                echo json_encode(array('msg'=>'Import successfully','status'=>200));
             }
         }
     }

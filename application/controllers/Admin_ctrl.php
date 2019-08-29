@@ -315,6 +315,17 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
+    function csv_update(){
+        if(in_array(19, $this->permission)){
+            $this->data['page_name'] = 'CSV Update';
+            $this->data['main'] = 'report/csv_update';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
     function attendance_entry(){
         if(in_array(11, $this->permission)){
             $session = $this->session->userdata('session_id');

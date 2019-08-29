@@ -17,6 +17,7 @@ $route['(:any)/(:any)/master-record/subject-teacher'] = 'Admin_ctrl/subject_teac
 $route['(:any)/(:any)/master-record/define-user-role'] = 'Admin_ctrl/define_user_role';
 $route['(:any)/(:any)/master-record/add-student'] = 'Admin_ctrl/add_student';
 $route['(:any)/(:any)/master-record/student-records'] = 'Admin_ctrl/student_records';
+$route['(:any)/(:any)/master-record/csv-update'] = 'Admin_ctrl/csv_update';
 
 $route['(:any)/(:any)/master-record/sync-master-data'] = 'Admin_ctrl/sync_master_data';
 $route['(:any)/(:any)/master-record/upload-student-marks'] = 'Admin_ctrl/upload_student_marks';
