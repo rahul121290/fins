@@ -1,8 +1,8 @@
 <div class="content-wrapper">
 <section class="content-header">
-      <h1>Reception <small>Student List</small></h1>
+      <h1>Discontinue List</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Student Discontinue List</li>
       </ol>
     </section>
@@ -46,17 +46,21 @@
 								<div id="medium_err" style="display:none; color:red;"></div>
 							</div>
 							
+							
+						
+							<div class="col-md-1 mb-3" style="padding:0px 0px;">
+								<button type="button" name="search" id="search" class="btn btn-success pull-left">Search</button>
+							</div>
+							<div class="col-md-1 mb-3" style="padding:0px 0px;">
+								<b>OR</b>
+							</div>
 							<div class="col-sm-3 mb-3" style="padding-left:0px;">
 								<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Admission Number / Student Name">	
 							</div>
-						
-							<div class="col-md-2 mb-3" style="padding:0px 0px;">
-								<button type="button" name="search" id="search" class="btn btn-warning pull-left">Search</button>
-							</div>
 					    </div>
-						 
+						
 					    
-					   
+						
             		</form>	
         		</div><!-- end box body -->
      			</div>

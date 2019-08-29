@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 <section class="content-header">
-      <h1>School Fee <small>MIS</small></h1>
+      <h1>School Fee MIS</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">School Fee</li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">School Fee MIS</li>
       </ol>
     </section>
     <section class="content-header">

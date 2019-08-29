@@ -1,8 +1,8 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Reception<small>Prospectus Selling</small></h1>
+      <h1>Prospectus Selling</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Prospectus Selling</li>
       </ol>
     </section>
@@ -117,13 +117,13 @@
 						<input type="checkbox" name="enable_amount" id="enable_amount"> Enable Box
 					</div>
                 </div>
-                
+				<div class="form-group">
+					<div class="col-md-4 col-md-offset-3 ">
+					<button type="button" id="submit" class="btn btn-success btn-space">Submit</button>
+					</div>
+				</div>
 			</div>
-			<div class="col-xs-12">
-				<div class="box-footer text-center">
-                        <button type="button" id="submit" class="btn btn-success">Submit</button>
-        			</div>
-			</div>
+			
 			</form>
 		</div>
         </section>

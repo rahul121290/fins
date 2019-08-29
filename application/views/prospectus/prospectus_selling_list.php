@@ -1,16 +1,16 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Reception<small>Prospectus Selling</small></h1>
+      <h1>Prospectus Purchased List</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Prospectus Selling</li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Prospectus Purchased List</li>
       </ol>
     </section>
     <!-- Main content -->
 	<section class="content">
 		<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
 			<div class="box-header with-border ui-sortable-handle" style="cursor: move;">
-			  <h3 class="box-title">Prospectus</h3>
+			  <h3 class="box-title">Prospectus Purchased Filter</h3>
 			</div>
 			<div class="box-body">
 			
@@ -65,7 +65,7 @@
 				
 				<div class="col-sm-2">
 					<div class="form-group">
-						<button id="search" class="btn btn-warning">Search</button> &nbsp; 
+						<button id="search" class="btn btn-success">Search</button> &nbsp; 
 						<button id="print" class="btn btn-primary">Print</button>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
                 			<tr>
                 				<th>S.No.</th>
                 				<th>Registration No.</th>
-                				<th>Selling Date</th>
+                				<th>Date</th>
                 				<th>Session</th>
                 				<th>Board</th>
                 				<th>Class</th>
@@ -201,7 +201,7 @@
                 </div>
 			</div>
 					<div class="box-footer text-center">
-                        <button type="button" id="update" class="btn btn-info">Update</button>
+                        <button type="button" id="update" class="btn btn-success">Update</button>
         			</div>
 			</form>
       </div>
@@ -258,8 +258,8 @@ function alllist(sch_id,med_id,class_id,from_date,to_date){
 						'<td>'+value.phone+'</td>'+
 						'<td>'+value.alternate_no+'</td>'+
 						'<td>'+value.address+'</td>'+
-						'<td><button class="btn btn-primary btn-sm edit" id="'+value.p_id+'"><i class="fa fa-edit"></i></button>&nbsp;&nbsp;'+
-							'<button class="btn btn-danger btn-sm delete" id="'+value.p_id+'"><i class="fa fa-trash"></i></button></td>'+
+						'<td><button title="Edit" class="btn btn-primary btn-sm edit" id="'+value.p_id+'"><i class="fa fa-edit"></i></button>&nbsp;&nbsp;'+
+							'<button title="Delete" class="btn btn-danger btn-sm delete" id="'+value.p_id+'"><i class="fa fa-trash"></i></button></td>'+
 						'</tr>';
 				});
 				$('#prospectus_list').html(x);
@@ -309,7 +309,7 @@ $(document).on('click','#print',function(){
                 			'<tr>'+
                 				'<th>Sr No.</th>'+
                 				'<th>Reg. No.</th>'+
-                				'<th>Selling Date</th>'+
+                				'<th>Date</th>'+
                 				'<th>Session</th>'+
                 				'<th>Board</th>'+
                 				'<th>Class</th>'+

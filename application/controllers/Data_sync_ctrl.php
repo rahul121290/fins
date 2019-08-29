@@ -65,7 +65,7 @@ class Data_sync_ctrl extends CI_Controller {
         else
         {
             $this->db->trans_commit();
-            echo json_encode(array('msg'=>'Student fee sync successfully','status'=>200));
+            echo json_encode(array('msg'=>'Fee records synchronized successfully.','status'=>200));
         }
         
     }

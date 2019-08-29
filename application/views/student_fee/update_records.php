@@ -4,10 +4,10 @@
 </style>
 <div class="content-wrapper">
 <section class="content-header">
-      <h1>Reception</h1>
+      <h1>Update Student Record</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Student Fee</li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Update Student Record</li>
       </ol>
     </section>
 <section class="content-header">
@@ -61,7 +61,7 @@
 							<div id="section_err" style="display:none; color:red;"></div>
 						</div>
 						<div class="col-md-2 mb-3" style="padding:0px 0px;">
-							<button type="button" name="search" id="search" class="btn btn-warning pull-left">Search</button>
+							<button type="button" name="search" id="search" class="btn btn-success pull-left">Search</button>
 						</div>
 				    </div>
 					 

@@ -1,8 +1,8 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Reception<small>New Admission</small></h1>
+      <h1>New Admission</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"></i>Dashboard</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"></i>Home</a></li>
         <li class="active">New Admission</li>
       </ol>
     </section>
@@ -11,7 +11,7 @@
 	<section class="content">
 		<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
 			<div class="box-header with-border ui-sortable-handle" style="cursor: move;">
-			  <h3 class="box-title">New Admission</h3>
+			  <h3 class="box-title">Add New Admission Entry</h3>
 			  <div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
 				  <i class="fa fa-minus"></i></button>
@@ -402,13 +402,13 @@
                   <div class="col-sm-6"><input type="file" name="std_image" id="std_image"></div>
                   <div id="std_image_err"></div>
                 </div>
-			
-			</div>
-					<div class="box-footer">
-                      	<div class="col-sm-offset-8">
-                            <button type="button" id="submit" class="btn btn-success">Submit</button>
+				<div class="form-group">
+                      	<div class="col-sm-offset-3 col-sm-6">
+                            <button type="button" id="submit" class="btn btn-success btn-space">Submit</button>
                         </div>
         			</div>
+			</div>
+					
 			</form>
 		</div>
         </section>

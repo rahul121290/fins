@@ -2,7 +2,7 @@
     <section class="content-header">
       <h1>Generate Online Month Fee</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Online Month Fee</li>
       </ol>
     </section>
@@ -19,7 +19,7 @@
 			<form role="form" class="form-horizontal" id="fee_generate" method="POST">
 			<div class="box-body">
                 <div class="form-group">
-                  <div class="col-sm-6">
+                  <div class="col-sm-4">
 					<select id="school" name="school" class="form-control">
 						<option value="">Select School</option>
 						<option value="1">Shakuntala CBSE</option>
@@ -28,8 +28,9 @@
 					</select>
 					<div id="school_err" class="error" style="display:none;"></div>
 				</div>
-				
-				<div class="col-sm-6" style="display: none;" id="class_row">
+				</div>
+				<div class="form-group">
+				<div class="col-sm-4" style="display: none;" id="class_row">
 					<select id="class_id" name="class_id" class="form-control">
 						<option value="">Select Class</option>
 						<?php foreach($class as $cls){?>
@@ -38,8 +39,9 @@
 					</select>
 					<div id="class_err" class="error" style="display:none;"></div>
 				</div>
-				
-				<div class="col-md-6">
+				</div>
+				<div class="form-group">
+				<div class="col-md-4">
 					<button type="button" id="submit" class="btn btn-info">Submit</button>
                     <button type="button" id="send_sms" style="display: none;" class="btn btn-info">Send SMS</button>
 				</div>

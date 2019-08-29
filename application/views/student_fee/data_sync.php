@@ -1,24 +1,26 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Fee Synchronization</h1>
+      <h1>Synchronize Fee Records </h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Data Synchronization</li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Data Synchronize</li>
       </ol>
     </section>
     <!-- Main content -->
 	<section class="content">
 		<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
 			<div class="box-header with-border ui-sortable-handle" style="cursor: move;">
-			  <h3 class="box-title">Synchronization Fee details  <b>Online to Offline</b> and <b>Offline to Online</b></h3>
+			  <h3 class="box-title">Click the button below to start Synchronization</h3>
 			  <div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
 				  <i class="fa fa-minus"></i></button>
 			  </div>
 			</div>
-			<div class="text-center " style="margin-top:25px;padding-bottom:25px;">
-			<button id="sync" class="btn btn-primary btn-lg">Synchronization Fee Details</button>
+			<div class="text-left box-body" style="margin-top:25px;margin-left:20px;border: 1px solid #bdb8b8;margin-bottom: 20px;width: 530px;padding:0px;">
+			<button id="sync" class="btn btn-primary btn-lg" style="float:left;">Start Synchronization</button>
+			<p style="float:left;font-size:16px;margin-top:10px;margin-left:16px;"><b>Last Synchronize on 28-08-2019</b></p>
 			</div>
+			<br>
 		</div>
         </section>
 	</div>

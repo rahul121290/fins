@@ -14,7 +14,7 @@ $permission = $this->my_function->user_permission();
 		<?php } ?>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li class="active"><a href="<?=base_url().$school.'/'.$permission_link;?>/dashbord">DASHBOARD</a></li>
+			<li class="active"><a href="<?=base_url().$school.'/'.$permission_link;?>/dashbord">HOME</a></li>
 			<?php if(in_array(1, $permission) || in_array(2, $permission) || in_array(3, $permission) || in_array(4, $permission) || in_array("5", $permission) || in_array(6, $permission) || in_array(7, $permission) || in_array(8, $permission) || in_array(9, $permission) || in_array(10, $permission)){ ?>
 				<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown"  href="#">MASTER RECORDS<span class="caret"></span></a>
@@ -179,18 +179,20 @@ $permission = $this->my_function->user_permission();
 							
 					<?php if(in_array(25, $permission)){ ?>
 						<li class="dropdown">
-    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">STUDENTS<span class="caret"></span></a>
+    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">FEE<span class="caret"></span></a>
     						<ul class="dropdown-menu">
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/new-admission"><i class="fa fa-user text-blue" aria-hidden="true"></i>New Admission</a></li>
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/update-records"><i class="fa fa-user text-blue" aria-hidden="true"></i>Update Students</a></li>
+								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/payment"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Student Fee</a></li>
+    							
     						</ul>
     					</li>
     					
     					<li class="dropdown">
-    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">RECEPTION<span class="caret"></span></a>
+    					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">REPORT<span class="caret"></span></a>
     						<ul class="dropdown-menu">
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/payment"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Student Fee</a></li>
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/fee-mis"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Fee MIS</a></li>
+								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/student-fee/update-records"><i class="fa fa-user text-blue" aria-hidden="true"></i>Update Students</a></li>
+    							
     						</ul>
     					</li>
 					<?php } ?>

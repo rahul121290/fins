@@ -1,8 +1,8 @@
 <div class="content-wrapper">
 <section class="content-header">
-      <h1>Reception <small>Student Classwise Fee</small></h1>
+      <h1>Student Classwise Fee</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Student Classwise Fee</li>
       </ol>
     </section>
@@ -77,14 +77,14 @@
 					</div>
 					
 					<div class="col-md-2 mb-3">
-						<button type="button" id="search" class="btn btn-warning pull-left">Search</button>	
+						<button type="button" id="search" class="btn btn-success pull-left">Search</button>	
 					</div>
 			    </div>
     		</form>	
 		</div><!-- end box body -->
 		
 		 <div class="box-body form-horizontal">
-            <div class="col-sm-3 mb-3">
+            <div class="col-sm-3 mb-3 row">
     			<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Adm No / Student Name" />
     			<div id="seach_box_err" style="display:none; color:red;"></div>
     		</div>

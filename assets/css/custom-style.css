@@ -321,6 +321,7 @@ input [type="file"]{border:1px solid #eee;padding:2px;}
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+.btn-space{padding:8px 40px;}
 /*custom respo*/
 
 

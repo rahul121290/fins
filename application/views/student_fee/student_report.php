@@ -1,8 +1,8 @@
 <div class="content-wrapper">
 <section class="content-header">
-      <h1>Reception</h1>
+      <h1>Student Fee Details</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Student Fee Details</li>
       </ol>
     </section>
