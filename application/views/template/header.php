@@ -9,9 +9,11 @@ $permission = $this->my_function->user_permission();
       	<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
       	
       	<li style="margin-right:20px;"><img alt="" src="<?php echo base_url()?>assets/images/shakuntala/header-logo.png" height="50"></li>
-      	<?php } else{ $school = 'sharda';?>
+      	<?php } else if($this->session->userdata('school_id') == 2){ $school = 'sharda';?>
       	<li style="margin-right:20px;"><img alt="" src="<?php echo base_url()?>assets/images/sharda/header-logo.png" height="50"></li>
-		<?php } ?>
+		<?php }else{ $school = 'cg-board';?>
+		<li style="margin-right:20px;"><img alt="" src="<?php echo base_url()?>assets/images/shakuntala/header-logo.png" height="50"></li>
+		<?php }?>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li class="active"><a href="<?=base_url().$school.'/'.$permission_link;?>/dashbord">HOME</a></li>

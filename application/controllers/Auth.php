@@ -86,11 +86,15 @@ class Auth extends CI_Controller{
 				$permission = $this->my_function->permission_link();
 				
 				$path ='';
+				//print_r($this->session->userdata('school_id'));die;
 				if($this->session->userdata('school_id') == 1){
 				    $path = 'shakuntala/'.$permission.'/dashbord';
 				    redirect($path);
-				}else{
+				}else if($this->session->userdata('school_id') == 2){
 				    $path = 'sharda/'.$permission.'/dashbord';
+				    redirect($path);
+				}else{
+				    $path = 'cg-board/'.$permission.'/dashbord';
 				    redirect($path);
 				}
 				

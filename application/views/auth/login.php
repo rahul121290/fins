@@ -16,11 +16,13 @@
         <h1><?php //echo lang('login_heading'); ?></h1>
       <p><?php //echo lang('login_subheading'); ?></p> 
     	<div class="text-center">
-    	<?php if($this->uri->segment(1) == 'sharda'){ $school_id = 2;?>
-    		<img alt="" src="<?php echo base_url();?>assets/images/sharda/login-logo.png">
-    	<?php }else{ $school_id = 1;?>
+    	<?php if($this->uri->segment(1) == 'shakuntala'){ $school_id = 1;?>
     		<img alt="" src="<?php echo base_url();?>assets/images/shakuntala/login-logo.png">
-    	<?php } ?>
+    	<?php }else if($this->uri->segment(1) == 'sharda'){ $school_id = 2;?>
+    		<img alt="" src="<?php echo base_url();?>assets/images/sharda/login-logo.png">
+    	<?php }else{ $school_id = 3;?>
+    		<img alt="" src="<?php echo base_url();?>assets/images/shakuntala/login-logo.png">
+    	<?php }?>
     	</div>
     	
     	<div id="infoMessage" style="text-align: center;"><?php echo $message;?></div>
@@ -53,7 +55,6 @@
            <!-- <label class="pull-left checkbox-inline"><?php echo form_checkbox('remember', '1', FALSE, 'id="remember"');?> <?php echo lang('login_remember_label', 'remember');?></label>
              <a href="<?php echo base_url();?>auth/registration" class="pull-right">New Registration</a> -->
         </div>
-        
         <?php echo form_close();?>  
 	</div>
 	</div>
