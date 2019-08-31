@@ -19,10 +19,10 @@
 			<div class="text-left box-body" style="margin-top:25px;margin-left:20px;border: 1px solid #bdb8b8;margin-bottom: 20px;width: 530px;padding:0px;">
 			<button id="sync" class="btn btn-primary btn-lg" style="float:left;">Start Synchronization</button>
 			<?php
-			$this->db->select('DATE_FORMAT(MAX(sync_date),"%d-%M-%Y %H:%i:%s") sync_date');
+			$this->db->select('DATE_FORMAT(MAX(sync_date),"%d-%M-%Y %H:%i") sync_date');
 			$sync_date = $this->db->get_where('last_sync',array('status'=>1,'table_name'=>'student_fee'))->result_array();
 			?>
-			<p style="float:left;font-size:16px;margin-top:10px;margin-left:16px;" id="last_sync_date"><?php if(count($sync_date) > 0) {?><b><?php echo $sync_date[0]['sync_date'];?></b><?php }?></p>
+			<p style="float:left;font-size:16px;margin-top:10px;margin-left:16px;" id="last_sync_date"><?php if(count($sync_date) > 0) {?><b>Last Synchronize on <?php echo $sync_date[0]['sync_date'];?></b><?php }?></p>
 			</div>
 			<br>
 		</div>
