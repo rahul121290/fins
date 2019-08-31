@@ -3,6 +3,7 @@ $(document).ready(function(){
 	var userUrl = $('#user_url').val();
 	
 	$(document).on('click','#search',function(){
+		alert('hello');
 		var session = $('#session').val();
 		var school = $('#school').val();
 		var medium = $('#medium').val();

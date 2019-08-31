@@ -43,6 +43,66 @@
 			<form role="form" class="form-horizontal" id="student_form" method="POST">
 			<div class="box-body">
                 
+                             <div class="form-group">
+            	<label class="col-sm-3 control-label">Admission Status</label>
+            	<div class="col-sm-6">
+            		<select class="form-control" name="admission_status" id="admission_status">
+            			<option value="">Select Admission Status</option>
+            			<option value="new_student">New Admission</option>
+            			<option value="old_student">Old Admission</option>
+            		</select>
+            		<div id="admission_status_err" class="text-danger" style="display:none;"></div>
+            	</div>
+            </div>
+                
+                <div class="form-group">
+            	<label class="col-sm-3 control-label">Fee Criteria</label>
+            	<div class="col-sm-6">
+            		<select class="form-control" name="fee_criteria" id="fee_criteria">
+            			<option value="">Select Criteria</option>
+            			<?php foreach($fee_criteria as $fee_crit){?>
+            				<option value="<?php echo $fee_crit['fc_id'];?>"><?php echo $fee_crit['fc_name'];?></option>
+            			<?php } ?>
+            		</select>
+            		<div id="fee_criteria_err" class="text-danger" style="display:none;"></div>
+            	</div>
+            </div>
+            
+            
+             <div class="form-group" style="display: none;" id="staff_child_row">
+            	<label class="col-sm-3 control-label">Staff Child</label>
+            	<div class="col-sm-6">
+            		<select class="form-control" name="staff_child" id="staff_child">
+            			<option value="">Select Staff Child</option>
+            			<?php foreach($staff_child as $staff_childs){?>
+            				<option value="<?php echo $staff_childs['sc_id'];?>"><?php echo $staff_childs['name'];?></option>
+            			<?php } ?>
+            		</select>
+            		<div id="staff_child_err" class="text-danger" style="display:none;"></div>
+            	</div>
+            </div>
+                
+            <div class="form-group" style="display: none;" id="related_student_row">
+            	<label class="col-sm-3 control-label">Related Student</label>
+            	<div class="col-sm-6">
+            		<input type="text" id="related_std" name="related_std" placeholder="Related Student Admission Number" class="form-control">
+            		<div id="related_std_err" class="text-danger" style="display:none;"></div>
+            		<div id="related_std_details" style="display: none;"></div>
+            	</div>
+            </div>
+            
+            <div class="form-group" style="display: none;" id="related_std_board_row">
+            	<label class="col-sm-3 control-label">Related Student Board</label>
+            	<div class="col-sm-6">
+            		<select id="related_std_board" name="related_std_board" class="form-control">
+            			<option value="">Select Board</option>
+            			<option value="1">CBSE</option>
+            			<option value="2">CG Board</option>
+            		</select>
+            	</div>
+            </div>
+                
+                
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>
                   <div class="col-sm-6">

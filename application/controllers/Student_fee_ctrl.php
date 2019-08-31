@@ -35,6 +35,10 @@ class Student_fee_ctrl extends CI_Controller {
             $data['staff_child'] = null;
         }
         $data['related_std'] = $this->input->post('related_std');
+        $data['related_std_board'] = $this->input->post('related_std_board');
+        if(empty($data['related_std_board'])){
+            $data['related_std_board'] = null;
+        }
         if(empty($data['related_std'])){
             $data['related_std'] = null;
         }

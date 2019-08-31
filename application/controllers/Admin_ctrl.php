@@ -62,7 +62,12 @@ class Admin_ctrl extends CI_Controller {
                 $this->data['group'] = $this->db->select('sg_id,sg_name')->where($group)->get_where('sub_group',array('status'=>1))->result_array();
                 $this->data['elective'] = $this->db->select('sub_id,sub_name')->join('sub_type st','st.st_id=s.st_id')->where('st.st_name','elective')->get_where('subject s',array('s.status'=>1))->result_array();
                 $this->data['hostel'] = $this->db->select('hid,hostel_name')->get_where('hostel',array('sch_id'=>$school,'status'=>1))->result_array();
-                $this->data['bus'] = $this->db->select('bs_id,bus_stoppage')->get_where('bus_structure',array('status'=>1,'school_id'=>$school))->result_array();
+                if($school == 3 || $school == 1){
+                    $school_bus = 1;
+                }else{
+                    $school_bus = $school;
+                }
+                $this->data['bus'] = $this->db->select('bs_id,bus_stoppage')->get_where('bus_structure',array('status'=>1,'school_id'=>$school_bus))->result_array();
                 $this->data['month'] = $this->db->select('m_id,m_name')->get_where('month',array('status'=>1))->result_array();
                 $this->load->view("template/temp", $this->data);
             }else{
@@ -247,6 +252,8 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(7, $this->permission)){
             $this->data['page_name'] = 'Add Student';
             $this->data['main'] = 'master/add_student';
+            $this->data['fee_criteria'] = $this->db->get_where('fee_criteria',array('status'=>1))->result_array();
+            $this->data['staff_child'] = $this->db->get_where('staff_child',array('status'=>1))->result_array();
             $this->_admin_class_teacher_access();
         }else{
             $this->data['page_name'] = 'Error';
@@ -307,6 +314,8 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(19, $this->permission)){
             $this->data['page_name'] = 'Student Records';
             $this->data['main'] = 'report/student_records';
+            $this->data['fee_criteria'] = $this->db->get_where('fee_criteria',array('status'=>1))->result_array();
+            $this->data['staff_child'] = $this->db->get_where('staff_child',array('status'=>1))->result_array();
             
             $this->_admin_class_teacher_access();
         }else{

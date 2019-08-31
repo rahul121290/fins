@@ -115,6 +115,8 @@ $(document).ready(function(){
     								'<td><button type="button" id="'+value.std_id+'" class="btn btn-info btn-sm edit"><span class="glyphicon glyphicon-edit"></span></button>'+
     								'<button type="button" id="'+value.std_id+'" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span></button></td>'+
     								'<td><img src="'+path+value.photo+'?'+Math.random()+'" style="height:50px;" width="50px;"></td>'+
+    								'<td>'+value.fee_criteria+'</td>'+
+    								'<td>'+value.staff_child+'</td>'+
     								'<td>'+value.adm_no+'</td>'+
     								'<td>'+value.roll_no+'</td>'+
     								'<td>'+value.class_name+'/'+value.section_name+'</td>'+
@@ -253,7 +255,33 @@ $(document).ready(function(){
     		   success: function (response){
         		   console.log(response);
         		   if(response.status == 200){
+        			   $('#related_std_details').html('').css('display','none');
+        			   
             		   $('#std_id').val(response.result[0].std_id);
+            		   
+            		   $('#admission_status').val(response.result[0].std_status);
+            		   $('#fee_criteria').val(response.result[0].fee_criteria);
+            		   
+            		   if(parseInt(response.result[0].fee_criteria) == 2){
+            			   $('#related_std').val(response.result[0].related_std);
+            			   $('#related_std_board').val(response.result[0].related_std_board);
+            			   $('#related_student_row').css('display','block');
+            			   $('#related_std_board_row').css('display','block');
+            		   }else{
+            			   $('#related_student_row').css('display','none');
+            			   $('#related_std_board_row').css('display','none');
+            			   $('#related_std').val('');
+            			   $('#related_std_board').prop('selectedIndex','');
+            		   }
+            		   if(parseInt(response.result[0].fee_criteria) == 4){
+            			   $('#staff_child_row').css('display','block');
+            			   $('#staff_child').val(response.result[0].staff_child);
+            		   }else{
+            			   $('#staff_child_row').css('display','none');
+            			   $('#staff_child').val('');
+            		   }
+            		   
+            		   
             		   $('#admission_no').val(response.result[0].adm_no);
             		   $('#roll_no').val(response.result[0].roll_no);
             		   $('#student_name').val(response.result[0].name);
@@ -313,6 +341,29 @@ $(document).ready(function(){
 //----------------update student records-----------------------------
 $('#student_form').validate({
 	rules:{
+		admission_status:{required:true},
+		fee_criteria:{required:true},
+		staff_child:{required: function(element) {
+	        if ($("#fee_criteria").val() == 4) {
+	        	return true;
+	        } else {
+	        	return false;
+	        }
+	    },},
+		related_std:{required: function(element) {
+	        if ($("#fee_criteria").val() == 2) {
+	        	return true;
+	        } else {
+	        	return false;
+	        }
+	    },},
+	    related_std_board:{required: function(element) {
+	        if ($("#fee_criteria").val() == 2) {
+	        	return true;
+	        } else {
+	        	return false;
+	        }
+	    },},
 		admission_no:{required:true},
 		roll_no:{required:true},
 		student_name:{required:true},
@@ -337,7 +388,17 @@ $('#student_form').validate({
 //			weight:{required:true},
 		transfer:{required:true},
 //			house:{required:true},
-//			hostler:{required:true},
+			hostler:{required:true},
+			bus:{required:true},
+			bus_stoppage: {
+			    required: function(element) {
+			        if ($("#bus").val() == "Yes") {
+			        	return true;
+			        } else {
+			        	return false;
+			        }
+			    },
+			},
 //			std_image:{required:true},
 		},
 	messages:{
@@ -393,6 +454,13 @@ $(document).on('click','#submit',function(){
     	}
 		formdata = new FormData();
 		formdata.append('std_id',$('#std_id').val());
+		
+		formdata.append('admission_status',$('#admission_status').val());
+		formdata.append('fee_criteria',$('#fee_criteria').val());
+		formdata.append('staff_child',$('#staff_child').val());
+		formdata.append('related_std',$('#related_std').val());
+		formdata.append('related_std_board',$('#related_std_board').val());
+		
 		formdata.append('adm_no',$('#admission_no').val());
 		formdata.append('roll_no',$('#roll_no').val());
 		formdata.append('name',$('#student_name').val());
@@ -527,5 +595,48 @@ $(document).on('click','#submit',function(){
 			});
 		}
 	});
+	
+	//----------------------*****------------------------
+	$(document).on('keyup','#related_std',function(){
+		var adm_no = $(this).val();
+		$.ajax({
+			type:'POST',
+			url:base_url+'Student_fee_ctrl/related_std_details',
+			data:{'adm_no':adm_no},
+			dataType:'json',
+			beforeSend:function(){},
+			success:function(response){
+				if(response.status == 200){
+					$('#related_std_details').html('Name : '+response.data[0].name+'<br/>Father\'s Name : '+response.data[0].f_name+'<br/>Class/Sec : '+response.data[0].class_name+'/'+response.data[0].section_name).css('display','block');
+				}else{
+					$('#related_std_details').css('display','none');
+				}
+			},
+		});
+	});
+
+	//----------------------*****------------------------
+	$(document).on('click','#fee_criteria',function(){
+		var fee_criteria = $(this).val();
+
+		if(fee_criteria == 2){
+			$('#related_student_row').css('display','block');
+			$('#related_std_board_row').css('display','block');
+		}else{
+			$('#related_student').val('');
+			$('#related_std_board').prop('selectedIndex','');
+			$('#related_student_row').css('display','none');
+			$('#related_std_board_row').css('display','none');
+		}
+		
+		if(fee_criteria == 4){
+			$('#staff_child_row').css('display','block');
+		}else{
+			$('#staff_child').prop('selectedIndex','');
+			$('#staff_child_row').css('display','none');
+		}
+	});
+	
+	
 	
 });

@@ -161,6 +161,18 @@
             	</div>
             </div>
             
+              <div class="form-group" style="display: none;" id="related_std_board_row">
+            	<label class="col-sm-3 control-label">Related Student Board</label>
+            	<div class="col-sm-6">
+            		<select id="related_std_board" name="related_std_board" class="form-control">
+            			<option value="">Select Board</option>
+            			<option value="1">CBSE</option>
+            			<option value="2">CG Board</option>
+            		</select>
+            		<div id="related_std_board_err" class="error" style="display:none;"></div>
+            	</div>
+            </div>
+            
             <div class="form-group">
             	<label class="col-sm-3 control-label">Class</label>
             	<div class="col-sm-6">
@@ -326,12 +338,33 @@ $(document).on('click','.edit',function(){
 		beforeSend:function(){},
 		success:function(response){
 			if(response.status == 200){
+				$('#related_std_details').html('').css('display','none');
+				
 				$('#std_id').val(response.data[0].std_id);
+				$('#admission_status').val(response.data[0].std_status);
+				
 				$('#fee_criteria').val(response.data[0].fee_criteria);
+
+				if(parseInt(response.data[0].fee_criteria) == 2){
+     			   $('#related_std').val(response.data[0].related_std);
+     			   $('#related_std_board').val(response.data[0].related_std_board);
+     			   $('#related_student_row').css('display','block');
+     			   $('#related_std_board_row').css('display','block');
+     		   }else{
+     			   $('#related_student_row').css('display','none');
+     			   $('#related_std_board_row').css('display','none');
+     			   $('#related_std').val('');
+     			   $('#related_std_board').prop('selectedIndex','');
+     		   }
+
+
 				if(response.data[0].fee_criteria == 4){
 					$('#staff_child').val(response.data[0].staff_child);
 					$('#staff_child').css('display','block');
-				}
+				}else{
+					$('#staff_child').prop('selectedIndex','');
+					$('#staff_child').css('display','block');
+					}
 				$('#edit_class').val(response.data[0].class_id);
 				$('#edit_section').val(response.data[0].sec_id);
 				$('#edit_hostler').val(response.data[0].hostler);
@@ -373,6 +406,7 @@ $(document).on('click','#update',function(){
 	var fee_criteria = $('#fee_criteria').val();
 	var staff_child = $('#staff_child').val();
 	var related_std = $('#related_std').val();
+	var related_std_board = $('#related_std_board').val();
 	var class_id = $('#edit_class').val();
 	var section = $('#edit_section').val();
 	var hostler = $('#edit_hostler').val();
@@ -391,6 +425,13 @@ $(document).on('click','#update',function(){
 		return false;
 	}else{
 		$('#related_std_err').css('display','none');
+	}
+
+	if(fee_criteria == 2 && related_std_board == ''){
+		$('#related_std_board_err').html('This is Required.').css('display','block');
+		return false;
+	}else{
+		$('#related_std_board_err').css('display','none');
 	}
 	
 	if(fee_criteria == 4 && staff_child == ''){
@@ -423,6 +464,7 @@ $(document).on('click','#update',function(){
 			'fee_criteria':fee_criteria,
 			'staff_child':staff_child,
 			'related_std':related_std,
+			'related_std_board':related_std_board,
 			'class_id':class_id,
 			'section':section,
 			'hostler':hostler,
@@ -473,8 +515,11 @@ $(document).on('click','#fee_criteria',function(){
 
 	if(fee_criteria == 2){
 		$('#related_student_row').css('display','block');
+		$('#related_std_board_row').css('display','block');
 	}else{
 		$('#related_student').val('');
+		$('#related_std_board').prop('selectedIndex','');
+		$('#related_std_board_row').css('display','none');
 		$('#related_student_row').css('display','none');
 	}
 	

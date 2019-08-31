@@ -149,8 +149,8 @@ $('#class_wise_fee_details').validate({
 	rules:{
 		session:{required:true},
 		school:{required:true},
-		medium:{required:true},
-		class_name:{required:true},
+		//medium:{required:true},
+		//class_name:{required:true},
 		//section:{required:true},
 		//fee_criteria:{required:true},
 	},
@@ -199,7 +199,9 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 			'search_box':search_box
 		},
 		dataType:'json',
-		beforeSend:function(){},
+		beforeSend:function(){
+			$('#loader').modal('show');
+		},
 		success:function(response){
 			if(response.status == 200){
 				$('#paid_fee').html('<b>'+parseFloat(response.paid_fee).toFixed(2)+'</b>');
@@ -208,20 +210,20 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 				
 				var x='';
 				$.each(response.data,function(key,value){
-					if(value.pending_fee == '' || value.pending_fee == null){
-						pending_fee = '0.00';
+					if(value.pending_fee == '' || value.pending_fee == null || parseFloat(value.total) == parseFloat(0)){
+						pending_fee = '-';
 					}else{
 						pending_fee = parseFloat(value.pending_fee).toFixed(2);
 					}
 
-					if(value.paid_fee == '' || value.paid_fee == null){
-						paid_fee = '0.00';
+					if(value.paid_fee == '' || value.paid_fee == null || parseFloat(value.total) == parseFloat(0)){
+						paid_fee = '-';
 					}else{
 						paid_fee = parseFloat(value.paid_fee).toFixed(2);
 					}
 
-					if(value.total == '' || value.total == null){
-						total = '0.00';
+					if(value.total == '' || value.total == null || parseFloat(value.total) == parseFloat(0) ){
+						total = '-';
 					}else{
 						total = parseFloat(value.total).toFixed(2);
 					}
@@ -240,7 +242,7 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 						'<td>'+paid_fee+'</td>'+
 						'<td>'+pending_fee+'</td>';
 						if(value.fc_name == 'RTE'){
-							x=x+'<td colspan="2"><button class="btn btn-success">RTE</button>&nbsp;';
+							x=x+'<td colspan="2"><button class="btn btn-warning">RTE</button>&nbsp;';
 						}else{
 							x=x+'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-med_id="'+value.medium+'" data-adm_no="'+value.adm_no+'" class="btn btn-success payment"><span class="glyphicon glyphicon-check"></span></button>&nbsp;'+
 							'<button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-primary view_details"><span class="glyphicon glyphicon-eye-open"></span></button>&nbsp;';
@@ -249,6 +251,7 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 						'</tr>';
 				});
 				$('#student_list').html(x);
+				$('#loader').modal('hide');
 			}else{
 				$('#paid_fee').html('<b>0.00</b>');
 				$('#pending_fee').html('<b>0.00</b>');

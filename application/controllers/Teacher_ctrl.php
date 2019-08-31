@@ -15,6 +15,74 @@ class Teacher_ctrl extends CI_Controller{
         }
     }
     
+    function export_teacher_records(){
+        $session = $this->session->userdata('session_id');
+        $school = $this->session->userdata('school_id');
+        
+        $this->db->select('*');
+        $this->db->order_by('teacher_name','ASC');
+        $result = $this->db->get_where('teacher',array('status'=>1,'session_id'=>$session,'school_id'=>$school))->result_array();
+        
+        if(count($result) > 0){
+            
+            $phpExcel = new PHPExcel();
+            $prestasi = $phpExcel->setActiveSheetIndex(0);
+            
+            //----------put index name-------------------
+            $prestasi->setCellValue('A1', 'S. No.');
+            $prestasi->setCellValue('B1', 'Teacher Name');
+            $prestasi->setCellValue('C1', 'Gender');
+            $prestasi->setCellValue('D1', 'Date of Birth');
+            $prestasi->setCellValue('E1', 'Phone');
+            $prestasi->setCellValue('F1', 'Email');
+            $prestasi->setCellValue('G1', 'Prmt Address');
+            $prestasi->setCellValue('H1', 'Alter Address');
+            $prestasi->setCellValue('I1', 'Designation');
+            $prestasi->setCellValue('J1', 'Qualifications');
+            
+            //---------------------put data in excel----------------------------
+            $no=0;
+            $rowexcel = 1;
+            foreach($result as $row){
+                $no++;
+                $rowexcel++;
+                $prestasi->setCellValue('A'.$rowexcel, $no);
+                $prestasi->setCellValue('B'.$rowexcel, $row["teacher_name"]);
+                $prestasi->setCellValue('C'.$rowexcel, $row["gender"]);
+                $prestasi->setCellValue('D'.$rowexcel, $row["dob"]);
+                $prestasi->setCellValue('E'.$rowexcel, $row["phone"]);
+                $prestasi->setCellValue('F'.$rowexcel, $row["email"]);
+                $prestasi->setCellValue('G'.$rowexcel, $row["prmt_address"]);
+                $prestasi->setCellValue('H'.$rowexcel, $row["alter_address"]);
+                $prestasi->setCellValue('I'.$rowexcel, $row["designation"]);
+                $prestasi->setCellValue('J'.$rowexcel, $row["qualifications"]);
+            }
+            
+            $date =date('U');
+            $objWriter = PHPExcel_IOFactory::createWriter($phpExcel, 'Excel2007');
+            
+            if(!is_dir('./teacher_record')){
+                mkdir('./teacher_record');
+            }
+            if($school == 1){
+                $sch_name = 'shakuntala';
+            }else if($school == 2){
+                $sch_name = 'sharda';
+            }else{
+                $sch_name = 'cg-board';
+            }
+            $filename = "teacher_record/".$sch_name."_teacher_record_".time().".xlsx";
+            //----------save excel file----------------------------
+            $res = $objWriter->save($filename);
+            if($filename){
+                echo json_encode(array('file'=>$filename,'status'=>200));
+            }else{
+                echo json_encode(array('msg'=>'something went wrong','status'=>500));
+            }
+        }
+        
+    }
+    
     public function eidtData(){
         $id = $this->input->post('id');
         $result = $this->db->select('*')->get_where('teacher',array('t_id'=>$id,'status'=>1))->result_array();

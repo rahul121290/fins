@@ -250,4 +250,24 @@ $(document).ready(function(){
 			$('#section_div').css('display','block');
 			}
 	});
+	
+	//----------export teacher records-----------------
+	$(document).on('click','#export_teacher_record',function(){
+		$.ajax({
+			type:'POST',
+			url:base_url+'Teacher_ctrl/export_teacher_records',
+			dataType:'json',
+			beforeSend:function(){},
+			success:function(response){
+				if(response.status == 200){
+					window.location.href = base_url+response.file;
+				}else{
+					alert(response.msg);
+				}
+			},
+		});
+	});
+	
+	
+	
 });

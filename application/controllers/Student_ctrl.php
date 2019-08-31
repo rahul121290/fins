@@ -45,6 +45,12 @@ class Student_ctrl extends CI_Controller{
         $std_id = $this->input->post('std_id');
         $old_image = $this->input->post('old_image');
         
+        $data['std_status'] = $this->input->post('admission_status');
+        $data['fee_criteria'] = $this->input->post('fee_criteria');
+        $data['staff_child'] = $this->input->post('staff_child');
+        $data['related_std'] = $this->input->post('related_std');
+        $data['related_std_board'] = $this->input->post('related_std_board');
+        
         $data['adm_no'] = $this->input->post('adm_no');
         $data['roll_no'] = $this->input->post('roll_no');
         $data['name'] = $this->input->post('name');
@@ -117,7 +123,6 @@ class Student_ctrl extends CI_Controller{
         }
     }
     
-    
     public function getStudentData(){
         $session = $this->session->userdata('session_id');
         $school = $this->session->userdata('school_id');
@@ -158,8 +163,10 @@ class Student_ctrl extends CI_Controller{
                            s.gender,s.contact_no,s.tc,s.address,
                            c.class_name,
                            sec.section_name,
-                           m.med_name,sg.sg_name,s.fit,sb.sub_name,s.blood_group,s.guardian,s.address,s.local_address,s.medical,s.cast,s.height,s.weight,s.hostler,h.hostel_name,bs.bus_stoppage,s.bus
+                           fc.fc_name fee_criteria,IFNULL(sc.name,"-") staff_child,m.med_name,sg.sg_name,s.fit,sb.sub_name,s.blood_group,s.guardian,s.address,s.local_address,s.medical,s.cast,s.height,s.weight,s.hostler,h.hostel_name,bs.bus_stoppage,s.bus
                         ');
+        $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
+        $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
         $this->db->join('class c','c.c_id=s.class_id');
         $this->db->join('section sec','sec.sec_id=s.sec_id');
         $this->db->join('medium m','m.med_id=s.medium');

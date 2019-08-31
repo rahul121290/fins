@@ -141,8 +141,10 @@ class Auth extends CI_Controller{
 		$path ='';
 		if($this->session->userdata('school_id') == 1){
 		    $path = 'shakuntala/login';
-		}else{
+		}else if($this->session->userdata('school_id') == 2){
 		    $path = 'sharda/login';
+		}else{
+		    $path = 'cg-board/login';
 		}
 		
 		$event = 'Logout';

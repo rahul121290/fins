@@ -185,6 +185,7 @@
                 	<div class="box-header">
                   		<h3 class="box-title">List of Teachers</h3>
                 	</div>
+                	<button class="btn btn-info pull-right" id="export_teacher_record">Export Excel</button>
                 	<table id="example1" class="table table-bordered table-striped">
                 		<thead>
                 			<tr>

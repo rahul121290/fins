@@ -77,7 +77,7 @@
     </section>
 	<hr>
 		
-		<div class="col-md-2 text-center"><a title="Add Students" href="<?php echo base_url().$this->uri->segment(1);?>/reception/student-fee/new-admission"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/student-add.png"><br> <h4 style="font-weight:600;color:#524d4d;font-size:16px;">Add Students</h4></a></div>
+		<div class="col-md-2 text-center"><a title="Add Students" href="<?php echo base_url().$this->uri->segment(1);?>/reception/student-fee/new-admission"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/student-add.png"><br> <h4 style="font-weight:600;color:#524d4d;font-size:16px;">New Admission</h4></a></div>
 		
 		<div class="col-md-2 text-center"><a title="Student Fee" href="<?php echo base_url().$this->uri->segment(1);?>/reception/student-fee/payment"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/student-fee.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Student Fee</h4></a></div>
 		
