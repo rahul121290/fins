@@ -43,8 +43,7 @@ $( document ).ready(function() {
 					'<tr><td><b>Lab Fee</b></td><td>'+response.data.student_fee[0].lab_fee+'</td></tr>'+
 					'<tr><td><b>Late Fee</b></td><td>'+response.data.student_fee[0].late_fee+'</td></tr>'+
 					'<tr><td><b>Optional Sub</b></td><td>'+response.data.student_fee[0].optional_sub+'</td></tr>'+
-					'<tr><td><b>Tuition Fee</b></td><td>'+response.data.student_fee[0].tuition_fee+'</td></tr>'+
-					
+					//'<tr><td><b>Tuition Fee</b></td><td>'+response.data.student_fee[0].tuition_fee+'</td></tr>'+
 					'<tr><td colspan="2" style="text-align:center;"><b>Pay Method</b></td></tr>'+
 					'<tr><td><b>Cash</b></td><td>'+response.data.pay_method[0].cash+'</td></tr>'+
 					'<tr><td><b>Cheque</b></td><td>'+response.data.pay_method[0].cheque+'</td></tr>'+
