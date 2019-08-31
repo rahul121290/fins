@@ -551,12 +551,12 @@ class Student_fee_ctrl extends CI_Controller {
             $this->db->join('(SELECT fsm.ses_id,cfs.amount
                              FROM class_fee_structure cfs
                              JOIN fee_structure_master fsm ON fsm.fs_id = cfs.fsm_id
-                             WHERE fsm.status = 1 AND fsm.ses_id = '.$ses_id.' AND fsm.sch_id = '.$sch_id.' AND fsm.med_id = '.$med_id.' AND fsm.class_id = '.$class_id.' AND cfs.fc_id = 1
+                             WHERE fsm.status = 1 AND fsm.ses_id = '.$ses_id.' AND fsm.sch_id = '.$sch_id.' AND fsm.med_id = '.$med_id.' AND fsm.class_id = '.$class_id.'
                              AND cfs.ft_id = 5 AND cfs.fc_id = '.$fee_criteria.$where_con.') t1','t1.ses_id = fm.ses_id',false);
             $this->db->where('fm_id IN ('.$month_ids.')');
             $fee_month = $this->db->get_where('fee_month fm',array('fm.status'=>1))->result_array();
             
-            //print_r($this->db->last_query());die;
+           // print_r($this->db->last_query());die;
             
             $result['month_fee'] = array();
             if(count($fee_month) > 0){
