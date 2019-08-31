@@ -107,8 +107,10 @@ class Student_ctrl extends CI_Controller{
                            s.gender,s.contact_no,s.tc,s.address,
                            c.class_name,
                            sec.section_name,
-                           m.med_name,sg.sg_name,s.fit,sb.sub_name
+                           m.med_name,sg.sg_name,s.fit,sb.sub_name,fc.fc_name fee_criteria,IFNULL(s.related_std,"-") related_std,IFNULL(s.related_std_board,"-") related_std_board,IFNULL(sc.name,"-") staff_child
                         ');
+        $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
+        $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
         $this->db->join('class c','c.c_id=s.class_id');
         $this->db->join('section sec','sec.sec_id=s.sec_id');
         $this->db->join('medium m','m.med_id=s.medium');
@@ -163,7 +165,7 @@ class Student_ctrl extends CI_Controller{
                            s.gender,s.contact_no,s.tc,s.address,
                            c.class_name,
                            sec.section_name,
-                           fc.fc_name fee_criteria,IFNULL(sc.name,"-") staff_child,m.med_name,sg.sg_name,s.fit,sb.sub_name,s.blood_group,s.guardian,s.address,s.local_address,s.medical,s.cast,s.height,s.weight,s.hostler,h.hostel_name,bs.bus_stoppage,s.bus
+                           fc.fc_name fee_criteria,IFNULL(s.related_std,"-") related_std,IFNULL(s.related_std_board,"-") related_std_board,IFNULL(sc.name,"-") staff_child,m.med_name,sg.sg_name,s.fit,sb.sub_name,s.blood_group,s.guardian,s.address,s.local_address,s.medical,s.cast,s.height,s.weight,s.hostler,h.hostel_name,bs.bus_stoppage,s.bus
                         ');
         $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
         $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');

@@ -115,8 +115,12 @@ $(document).ready(function(){
     								'<td><button type="button" id="'+value.std_id+'" class="btn btn-info btn-sm edit"><span class="glyphicon glyphicon-edit"></span></button>'+
     								'<button type="button" id="'+value.std_id+'" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span></button></td>'+
     								'<td><img src="'+path+value.photo+'?'+Math.random()+'" style="height:50px;" width="50px;"></td>'+
+    								
     								'<td>'+value.fee_criteria+'</td>'+
     								'<td>'+value.staff_child+'</td>'+
+    								'<td>'+value.related_std+'</td>'+
+    								'<td>'+value.related_std_board+'</td>'+
+    								
     								'<td>'+value.adm_no+'</td>'+
     								'<td>'+value.roll_no+'</td>'+
     								'<td>'+value.class_name+'/'+value.section_name+'</td>'+
@@ -181,6 +185,12 @@ $(document).ready(function(){
 							'<td><button type="button" id="'+value.std_id+'" class="btn btn-info btn-sm edit"><span class="glyphicon glyphicon-edit"></span></button>'+
 							'<button type="button" id="'+value.std_id+'" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span></button></td>'+
 							'<td><img src="'+path+value.photo+'?'+Math.random()+'" style="height:50px;" width="50px;"></td>'+
+							
+							'<td>'+value.fee_criteria+'</td>'+
+							'<td>'+value.staff_child+'</td>'+
+							'<td>'+value.related_std+'</td>'+
+							'<td>'+value.related_std_board+'</td>'+
+							
 							'<td>'+value.adm_no+'</td>'+
 							'<td>'+value.roll_no+'</td>'+
 							'<td>'+value.class_name+'/'+value.section_name+'</td>'+
