@@ -815,6 +815,7 @@ class Student_fee_ctrl extends CI_Controller {
                            IFNULL(SUM(sf.late_fee),0) late_fee,
                            IFNULL(SUM(sf.paid_amount),0) paid_amount,
                            IFNULL(SUM(sf.fee_waiver),0) fee_waiver,
+                           IFNULL(SUM(sf.tuition_fee),0) tuition_fee,
                            IFNULL((SELECT SUM(paid_amount) FROM student_fee WHERE '.$condition1.' AND pay_mode = "Offline"),0) total_offline,
                            IFNULL((SELECT SUM(paid_amount) FROM student_fee WHERE '.$condition1.' AND pay_mode = "Online"),0) total_online
                 ');
