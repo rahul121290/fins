@@ -11,7 +11,7 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/custom/fee_history.js"></script>
     	<!-- main section -->
 <div class="col-md-12">	
-  	<div class="box box-primary">
+  	<div class="box box-primary no-print">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
 			<div class="col-md-4" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Total Amount</b><br>
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		
-	<div class="box box-danger">
+	<div class="box box-danger no-print">
         <div class="box-header">
           <h3 class="box-title">Search Filter</h3>
         </div>
@@ -94,12 +94,18 @@
 		
 		<div class="col-md-6 col-md-offset-3">
 		<div class="box box-danger">
-            <div class="box-header" style="background-color: #881e1e;color: #fff;">
+            <div class="box-header fee-table-head" style="background-color: #881e1e;color: #fff;">
               <h3 class="box-title"><b>Shakuntala Vidyalaya (2019-20)</b></h3>
 			  <span class="pull-right"><b>Date Range: <span id="date_range"></span></b></span>
             </div>
-      		     <div class="box-body" id="fee_report_table"></div>
+      		     <div class="box-body fee-table-body" id="fee_report_table"></div>
  		</div>
+		<div class="text-center"><button class="btn btn-space btn-primary no-print" style="margin-bottom:50px;" onclick="myFunction()">Print this page</button></div>
  		</div>
 	</div>
+<script>
+function myFunction() {
+  window.print();
+}
+</script>
 </div>

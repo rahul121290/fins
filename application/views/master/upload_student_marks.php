@@ -2,7 +2,7 @@
     <section class="content-header">
       <h1>Upload Students Marks<small></small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="">Master-record</li>
         <li class="active">Upload Student Marks In Server</li>
       </ol>
@@ -16,17 +16,20 @@
 			  	<i class="fa fa-minus"></i></button>
 			  </div>
 			</div>
-    		<div class="form-horizontal">
-        		<div class="col-sm-offset-2 col-sm-3">
+    		<div class="box-body">
+			<div class="form-horizontal">
+        		<div class="col-sm-3">
         			<input type="file" id="student_marks" name="student_marks" class="form-control">
         			<div id="student_marks_err" style="display:none;color:red;"></div>
         		</div>
         		
-            	<div class="col-sm-offset-8">
+            	<div class="col-sm-3">
                 	<button type="button" id="submit_marks" class="btn btn-info">Import CSV</button>
                     <button type="reset" class="btn btn-default">Reset</button>
                 </div>
-    		</div><br>
+    		</div>
+			</div>
+			<br>
     	</div>
 	</section>	
 </div>
