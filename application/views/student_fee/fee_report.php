@@ -36,6 +36,16 @@
 						<div id="school_err" style="display:none; color:red;"></div>
 					</div>
 					
+					<div class="col-sm-2 mb-3">
+						<select name="fee_criteria" id="fee_criteria" class="form-control">
+							<option value="">Select Criteria</option>
+							<?php foreach($fee_criteria as $feecriteria){?>
+    							<option value="<?php echo $feecriteria['fc_id'];?>"><?php echo $feecriteria['fc_name'];?></option>
+    						<?php }?>
+						</select>
+						<div id="fee_criteria_err" style="display:none; color:red;"></div>
+					</div>
+					
 					<div class="col-sm-1 mb-3" >
 						<select name="medium" id="medium" class="form-control">
 							<option value="">Select Medium</option>
@@ -66,18 +76,29 @@
 						<div id="section_err" style="display:none; color:red;"></div>
 					</div>
 					
+					
+					
 					<div class="col-sm-2 mb-3">
-						<select name="fee_criteria" id="fee_criteria" class="form-control">
-							<option value="">Select Criteria</option>
-							<?php foreach($fee_criteria as $feecriteria){?>
-    							<option value="<?php echo $feecriteria['fc_id'];?>"><?php echo $feecriteria['fc_name'];?></option>
+						<select name="fee_month" id="fee_month" class="form-control">
+							<option value="">Select Fee Month</option>
+							<?php foreach($fee_month as $feemonth){?>
+    							<option value="<?php echo $feemonth['fm_id'];?>"><?php echo $feemonth['name'];?></option>
     						<?php }?>
 						</select>
-						<div id="fee_criteria_err" style="display:none; color:red;"></div>
+						<div id="fee_month_err" style="display:none; color:red;"></div>
+					</div>
+					
+					<div class="col-sm-2 mb-3">
+						<select name="fee_status" id="fee_status" class="form-control">
+							<option value="">Select Fee Status</option>
+							<option value="1">Paid</option>
+							<option value="0">Pending</option>
+						</select>
+						<div id="fee_month_err" style="display:none; color:red;"></div>
 					</div>
 					
 					<div class="col-md-2 mb-3">
-						<button type="button" id="search" class="btn btn-warning pull-left">Search</button>	
+						<button type="button" id="search" class="btn btn-success pull-left">Search</button>	
 					</div>
 			    </div>
     		</form>	
@@ -121,20 +142,18 @@
 						<thead><tr>
 						<th>S.No.</th>
 						<th>Admission No.</th>
+						<th>Fee Criteria</th>
+                        <th>Related Students</th>
 						<th>Class/Sec</th>
 						<th>Student Name</th>
                           <th>Father's Name</th>
                           <th>Bus</th>
                           <th>Pending Month</th>
-                          <th>Fee Criteria</th>
-                          <th>Staff Child</th>
-                          <th>Total Fee</th>
-                          <th>Received Fee</th>
-                          <th>Pending Fee</th>
-                          <th>Action</th>
+                          <th>Fee Status</th>
+                          <!-- >th>Action</th -->
                         </tr>
                     </thead>
-					<tbody id="student_list"></tbody>
+					<tbody id="student_list"><tr><td colspan="13" style="text-align:center;">Record not found.</td></tr></tbody>
 				</table>
       		</div>
  		</div>
@@ -149,8 +168,8 @@ $('#class_wise_fee_details').validate({
 	rules:{
 		session:{required:true},
 		school:{required:true},
-		medium:{required:true},
-		class_name:{required:true},
+		//medium:{required:true},
+		//class_name:{required:true},
 		//section:{required:true},
 		//fee_criteria:{required:true},
 	},
@@ -166,7 +185,9 @@ $(document).on('click','#search',function(){
     	var section = $('#section').val();
 		var fee_criteria = $('#fee_criteria').val();
 		var search_box = '';
-		student_details_list(session,school,medium,class_name,section,fee_criteria,search_box);
+		var fee_month = $('#fee_month').val();
+		var fee_status = $('#fee_status').val();
+		student_details_list(session,school,medium,class_name,section,fee_criteria,fee_month,fee_status,search_box);
 	}
 });
 
@@ -179,16 +200,17 @@ $(document).on('keyup','#search_box',function(){
 	var class_name = '';
 	var section = '';
 	var fee_criteria = '';
-
+	var fee_month = $('#fee_month').val();
+	var fee_status = '';
 	if(search_box != ''){
-		student_details_list(session,school,medium,class_name,section,fee_criteria,search_box);
+		student_details_list(session,school,medium,class_name,section,fee_criteria,fee_month,fee_status,search_box);
 	}
 });
 
-function student_details_list(session,school,medium,class_name,section,fee_criteria,search_box){
+function student_details_list(session,school,medium,class_name,section,fee_criteria,fee_month,fee_status,search_box){
 	$.ajax({
 		type:'POST',
-		url:baseUrl+'Student_fee_ctrl/class_wise_report',
+		url:baseUrl+'Student_fee_ctrl/fee_report',
 		data:{
 			'session':session,
 			'school':school,
@@ -196,7 +218,9 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 			'class_name':class_name,
 			'section':section,
 			'fee_criteria':fee_criteria,
-			'search_box':search_box
+			'search_box':search_box,
+			'fee_month':fee_month,
+			'fee_status':fee_status
 		},
 		dataType:'json',
 		beforeSend:function(){},
@@ -208,39 +232,19 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 				
 				var x='';
 				$.each(response.data,function(key,value){
-					if(value.pending_fee == '' || value.pending_fee == null){
-						pending_fee = '0.00';
-					}else{
-						pending_fee = parseFloat(value.pending_fee).toFixed(2);
-					}
-
-					if(value.paid_fee == '' || value.paid_fee == null){
-						paid_fee = '0.00';
-					}else{
-						paid_fee = parseFloat(value.paid_fee).toFixed(2);
-					}
-
-					if(value.total == '' || value.total == null){
-						total = '0.00';
-					}else{
-						total = parseFloat(value.total).toFixed(2);
-					}
-					
 					x=x+'<tr>'+
 						'<td>'+parseInt(key+1)+'</td>'+
 						'<td>'+value.adm_no+'</td>'+
+						'<td>'+value.fc_name+' '+value.staff_child+'</td>'+
+						'<td>'+value.related_std+'</td>'+
 						'<td>'+value.class_name+'/'+value.section_name+'</td>'+
 						'<td>'+value.name+'</td>'+
 						'<td>'+value.f_name+'</td>'+
 						'<td>'+value.bus+'</td>'+
 						'<td>'+value.pending_month+'</td>'+
-						'<td>'+value.fc_name+'</td>'+
-						'<td>'+value.staff_child+'</td>'+
-						'<td>'+total+'</td>'+
-						'<td>'+paid_fee+'</td>'+
-						'<td>'+pending_fee+'</td>'+
-						'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-primary view_details">View Details</button>&nbsp;'+
-						'<button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-danger discontinue">Discontinue</button></td>'+
+						'<td>'+value.fee_status+'</td>'+
+						//'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-primary view_details">View Details</button>&nbsp;'+
+						//'<button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-danger discontinue">Discontinue</button></td>'+
 						'</tr>';
 				});
 				$('#student_list').html(x);

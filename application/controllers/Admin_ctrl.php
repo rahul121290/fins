@@ -624,7 +624,7 @@ class Admin_ctrl extends CI_Controller {
         }
     }
    
-    function class_wise(){
+    function fee_report(){
         if(in_array(25, $this->permission)){
             $school = $this->session->userdata('school_id');
             $this->data['session'] = $this->db->select('*')->get_where('session',array('status'=>1))->result_array();
@@ -634,6 +634,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['sub_group'] = $this->db->select('*')->get_where('sub_group',array('status'=>1))->result_array();
             $this->data['section'] = $this->db->select('*')->get_where('section',array('status'=>1))->result_array();
             $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
+            $this->data['fee_month'] = $this->db->select('fm_id,name')->get_where('fee_month',array('status'=>1))->result_array();
             $this->data['fee_criteria'] = $this->db->select('*')->get_where('fee_criteria',array('status'=>1))->result_array();
             
             $this->data['page_name'] = 'Fee Receipt';
@@ -811,6 +812,15 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(28, $this->permission)){
             $this->data['page_name'] = 'Import Hostel Details';
             $this->data['main'] = 'student_fee/hostel/add_hostel_details';
+            $this->data['hostel_details'] = $this->db->select('hd_id,hostel_name')->get_where('hostel_details',array('status'=>1))->result_array();
+            $this->data['school'] = $this->db->select('sch_id,school_name')->get_where('school',array('status'=>1))->result_array();
+            $this->data['medium'] = $this->db->select('med_id,med_name')->get_where('medium',array('status'=>1))->result_array();
+            $this->data['class'] = $this->db->select('c_id,class_name')->get_where('class',array('status'=>1))->result_array();
+            $this->data['section'] = $this->db->select('sec_id,section_name')->get_where('section',array('status'=>1))->result_array();
+            $this->data['sub_group'] = $this->db->select('sg_id,sg_name')->get_where('sub_group',array('status'=>1))->result_array();
+            $this->data['medium'] = $this->db->select('med_id,med_name')->get_where('medium',array('status'=>1))->result_array();
+            $this->data['class_name'] = $this->db->select('c_id,class_name')->get_where('class',array('status'=>1))->result_array();
+            $this->data['section'] = $this->db->select('sec_id,section_name')->get_where('section',array('status'=>1))->result_array();
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
@@ -818,10 +828,15 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
-    function hostel_fee(){
+    function hostel_fee($ses_id,$sch_id,$adm_no){
         if(in_array(28, $this->permission)){
             $this->data['page_name'] = 'Hostel Fee';
             $this->data['main'] = 'student_fee/hostel/hostel_fee';
+            
+            $this->db->select('*');
+            $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no));
+            $this->data['student_details'] = $this->db->get_where('students s',array('status'=>1))->result_array();
+            
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';

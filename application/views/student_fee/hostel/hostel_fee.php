@@ -6,8 +6,41 @@
         <li class="active">Student Hostel Fee</li>
       </ol>
     </section>
-<form role="form" action="javascript:void(0);" class="form-horizontal" id="" method="POST">
-<div class="col-md-12">
+    
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/custom/hostel_fee_payment.js"></script>
+    <input type="hidden" id="ses_id" value="<?php echo $this->uri->segment(5);?>">
+    <input type="hidden" id="sch_id" value="<?php echo $this->uri->segment(6);?>">
+    <input type="hidden" id="medium" value="<?php echo $student_details[0]['medium'];?>">
+    <input type="hidden" id="adm_no" value="<?php echo $this->uri->segment(7);?>">
+    
+    <div class="col-md-12">
+	<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
+			<div class="box-header ui-sortable-handle" style="cursor: move;">
+			  <h3 class="box-title">Student Details</h3>
+			  <hr>
+			</div>
+			
+			<div class="box-body">
+				<div class="col-md-6">
+					<table>
+						<thead>
+							<tr>
+								<th>Student Name: </th>
+								<td><?php echo $student_details[0]['name'];?></td>
+							</tr>
+							<tr>
+								<th>Student Name: </th>
+								<td><?php echo $student_details[0]['name'];?></td>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+</div>
+    
+    <form role="form" action="javascript:void(0);" class="form-horizontal" id="hostel_fee_form" method="POST">
+    <div class="col-md-12">
 	<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
 			<div class="box-header ui-sortable-handle" style="cursor: move;">
 			  <h3 class="box-title">Payment</h3>
@@ -16,52 +49,59 @@
 			
 			<div class="box-body">
 				<div class="col-md-6">
+				
 					<div class="form-group mb-3">
-						<label class="col-sm-6">Details of amount</label>
+						<label class="col-sm-6">Pay Month</label>
 						<div class="col-sm-6">
-							<select class="form-control" name="transfer">
-								<option value="">Select One</option>
-								<option value="">Payable in March/April 2019</option>
-								<option value="">Payable in September 2019</option>
+							<select class="form-control" name="pay_month" id="pay_month">
+								<option value="">Select Month</option>
+								<option value="1">March/April <?php echo date('Y');?></option>
+								<option value="2">September <?php echo date('Y');?></option>
 							</select>
-							<div id="" class="text-danger" style="display:none;"></div>
+							<div id="pay_month_err" class="text-danger" style="display:none;"></div>
 						</div>
 					</div>
+					
 					<div class="form-group mb-3">
-					  <label class="col-sm-6">Details of payable amount</label>
+						<label class="col-sm-6">Total Amount</label>
 						<div class="col-sm-6">
-							<input type="text" name="" class="form-control" placeholder="Enter amount" />
-							<div id="" class="text-danger" style="display:none;"></div>
+							<input type="number" id="total_fee" name="total_fee" class="form-control" placeholder="Total Amount" disabled="disabled">
+							<div id="total_fee_err" class="text-danger" style="display:none;"></div>
 						</div>
 					</div>
-					<div class="form-group">
-					  <label class="col-sm-6">Lodging & Boarding Charges</label>
+					
+					<div class="form-group mb-3">
+						<label class="col-sm-6">Previus Paid</label>
 						<div class="col-sm-6">
-							<input type="text" name="" class="form-control" placeholder="Enter amount" />
-							<div id="" class="text-danger" style="display:none;"></div>
+							<input type="number" id="previous_paid" name="previous_paid" value="0.00" class="form-control" placeholder="previous Paid" disabled="disabled">
+							<div id="previous_paid_err" class="text-danger" style="display:none;"></div>
 						</div>
 					</div>
-					<div class="form-group">
-					  <label class="col-sm-6">Laundry Charges</label>
+					
+					<div class="form-group mb-3">
+						<label class="col-sm-6">Pay Amount</label>
 						<div class="col-sm-6">
-							<input type="text" name="" class="form-control" placeholder="Enter amount" />
-							<div id="" class="text-danger" style="display:none;"></div>
+							<input type="number" id="pay_amount" name="pay_amount" class="form-control" placeholder="Pay Amount">
+							<div id="pay_amount_err" class="text-danger" style="display:none;"></div>
 						</div>
 					</div>
-					<div class="form-group">
-					  <label class="col-sm-6">Caution Money</label>
+					
+					<div class="form-group mb-3" id="check_box_row" style="display: none;">
+						<label class="col-sm-6"></label>
+    					<div class="col-sm-6" id="check_box_div"></div>
+    					<div class="col-sm-6" id="otp_div"></div>
+					</div>
+					
+					<div class="form-group mb-3">
+						<label class="col-sm-6">Pending Amount</label>
 						<div class="col-sm-6">
-							<input type="text" name="" class="form-control" placeholder="Enter amount" />
-							<div id="" class="text-danger" style="display:none;"></div>
+							<input type="number" id="pending_amount" name="pending_amount" class="form-control" placeholder="Pending Amount" disabled="disabled">
+							<div id="pending_amount_err" class="text-danger" style="display:none;"></div>
 						</div>
 					</div>
+					
 				</div>
 			</div>
-			<div class="box-footer">
-                      	<div class="col-md-12 text-center">
-                            <button type="button" id="submit" class="btn btn-info">Submit</button>
-                        </div>
-        			</div>
 		</div>
 </div>
 
@@ -81,7 +121,6 @@
 						<td></td>
 						<td></td>
 						<td></td>
-						
 					</tr>
 					<tr>
 						<td class="pm-box"><input class="form-check-input pay_method" id="cheque" type="checkbox" /><span class="checkmark"></span><td>
@@ -123,7 +162,7 @@
 					<div class="pull-left" style="padding-top:5px;"><b>GRAND TOTAL FEE</b></div>
 					<div class="pull-right"><input type="text" class="form-control totalinput" id="grand_total" value="0.00" disabled="disabled" /></div>
 					</div>
-					<button id="submit" class="btn btn-lg btn-success pull-right">Submit</button>
+					<button id="hostel_fee_submit" class="btn btn-lg btn-success pull-right">Submit</button>
 				</div>
 				
 			</div>

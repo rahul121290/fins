@@ -100,6 +100,7 @@ class Student_ctrl extends CI_Controller{
        function getAdmNoRecord(){
 		$sch_id = $this->session->userdata('school_id');
         $adm_no = $this->input->post('adm_no');
+        
         $this->db->select('s.std_id,s.photo,s.aadhar_no,s.name,s.roll_no,s.adm_no,
                            DATE_FORMAT(s.admission_date, "%d-%M-%Y") as admission_date,
                            s.f_name,s.m_name,

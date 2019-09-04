@@ -48,7 +48,7 @@ $route['(:any)/(:any)/helth/health-activity'] = 'Admin_ctrl/health_activity';
 $route['(:any)/(:any)/student-fee/payment'] = 'Admin_ctrl/student_fee';
 $route['(:any)/(:any)/student-fee/payment/(:num)/(:num)/(:num)/(:any)'] = 'Admin_ctrl/fee_payment';
 
-$route['(:any)/(:any)/report/class-wise'] = 'Admin_ctrl/class_wise';
+$route['(:any)/(:any)/report/students-report'] = 'Admin_ctrl/fee_report';
 $route['(:any)/(:any)/report/student/(:num)/(:num)/(:any)'] = 'Admin_ctrl/student_report';
 $route['(:any)/(:any)/report/fee-mis'] = 'Admin_ctrl/fee_histroy';
 
@@ -66,7 +66,7 @@ $route['(:any)/(:any)/students/recycle-bin'] = 'Admin_ctrl/recycle_bin';
 
 //----------hostel fee--------------------------------
 $route['(:any)/(:any)/hostel/add-hostel-details'] = 'Admin_ctrl/add_hostel_details';
-$route['(:any)/(:any)/hostel/student-fee'] = 'Admin_ctrl/hostel_fee';
+$route['(:any)/(:any)/hostel/fee-payment/(:num)/(:num)/(:num)'] = 'Admin_ctrl/hostel_fee/$3/$4/$5';
 $route['(:any)/(:any)/hostel/fee-payment'] = 'Admin_ctrl/hostel_student_list';
 $route['(:any)/(:any)/hostel/receipt'] = 'Admin_ctrl/hostel_receipt';
 $route['(:any)/(:any)/hostel/report'] = 'Admin_ctrl/hostel_report';

@@ -422,8 +422,10 @@ $(document).ready(function(){
 		if(pos_amount != '' && pos_card != ''){
 			if(pos_card == 'credit_card'){
 				var card_charge = 2;
-			}else{
+			}else if(parseFloat(pos_amount) >= parseFloat(2000)){
 				var card_charge = 0.75;
+			}else{
+				card_charge = 0;
 			}
 			var trns_charge = parseFloat((parseFloat(pos_amount) * parseFloat(card_charge)) / parseFloat(100));
 			$('#trns_charge').val(trns_charge.toFixed(2));
@@ -520,6 +522,9 @@ $(document).ready(function(){
 				bus_fee += parseFloat($(this).data('bus_fee'));
 			}
 		});
+		
+		
+		alert(tuition_fee);return false;
 		
 		if(month_ids == '' && formvalidate == true){
 			alert('Please select which month payment. You want to pay.');

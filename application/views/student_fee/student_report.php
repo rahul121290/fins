@@ -82,7 +82,6 @@ var ses_id = $('#ses_id').val();
 var sch_id = $('#sch_id').val();
 var adm_no = $('#adm_no').val();
 
-
 student_report();
 function student_report(){
 	$.ajax({
