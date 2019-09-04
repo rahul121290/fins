@@ -296,10 +296,14 @@
                 </div>
 				
 				<div class="form-group">
-                  <label class="col-sm-12" for="exampleInputFile">If any real cousin brother/sister(s) is /are living in the Hostel </label>
-                  <input type="radio" class="cousin" name="cousin" value="Yes" checked>Yes
-                  <input type="radio" class="cousin" name="cousin" value="No" >No
-                  <div class="col-sm-12" id="cousin_details">
+                  <label class="col-sm-8" for="exampleInputFile">If any real cousin brother/sister(s) is /are living in the Hostel </label>
+                  
+				  <div class="col-md-8"><input type="radio" class="cousin" name="cousin" value="Yes" checked />Yes
+                  <input type="radio" class="cousin" name="cousin" value="No" />No</div>
+                  
+                </div>
+			</div>
+			<div class="col-sm-12 table-responsive" id="cousin_details">
 					<table style="border:1px solid #999;" class="table table-bordered text-center s-b-table">
 					<style>.s-b-table > thead > tr > th{border:1px solid #d8c6c6 !important;}.s-b-table > tbody > tr > td{border:1px solid #d8c6c6 !important;}</style>
 						<thead class="thead-dark">
@@ -378,32 +382,30 @@
 						</tbody>
 					</table>
 				  </div>
-                </div>
-			</div>
 		</div>
 		</div>
 		
 		<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
 			<div class="box-header ui-sortable-handle" style="cursor: move;">
-			  <h3 class="box-title">Photos</h3>
+			  <h3 class="box-title">Upload Photos</h3>
 			  <hr>
 			</div>
 			
 			<div class="box-body">
-				<div class="col-md-3 text-center">
+				<div class="col-md-3 text-left">
 					<h5><b>Student Photo</b></h5>
 					<div id="std_image_preview"></div>
 					<input class="form-control" type="file" id="student_image" name="student_image" disabled="disabled"/>
 				</div>
-				<div class="col-md-3 text-center">
+				<div class="col-md-3 text-left">
 					<h5><b>Student Father's Photo</b></h5>
 					<input class="form-control" type="file" id="father_image" name="father_image" />
 				</div>
-				<div class="col-md-3 text-center">
+				<div class="col-md-3 text-left">
 					<h5><b>Student Mother's Photo</b></h5>
 					<input class="form-control" type="file" id="mother_image" name="mother_image"/>
 				</div>
-				<div class="col-md-3 text-center">
+				<div class="col-md-3 text-left">
 					<h5><b>Student Gurardian's Photo</b></h5>					
 					<input class="form-control" type="file" id="gurardian_image" name="gurardian_image"/>
 				</div>
@@ -411,7 +413,7 @@
 		</div>
     	<div class="box-footer">
           	<div class="col-md-12 text-center">
-                <button type="button" id="submit_details" class="btn btn-info">Submit</button>
+                <button type="button" id="submit_details" class="btn btn-info btn-space">Submit</button>
             </div>
     	</div>
 	</form>

@@ -13,28 +13,70 @@
     <input type="hidden" id="medium" value="<?php echo $student_details[0]['medium'];?>">
     <input type="hidden" id="adm_no" value="<?php echo $this->uri->segment(7);?>">
     
-    <div class="col-md-12">
+    <div class="col-md-6">
 	<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
 			<div class="box-header ui-sortable-handle" style="cursor: move;">
 			  <h3 class="box-title">Student Details</h3>
-			  <hr>
 			</div>
 			
 			<div class="box-body">
-				<div class="col-md-6">
-					<table>
-						<thead>
-							<tr>
-								<th>Student Name: </th>
-								<td><?php echo $student_details[0]['name'];?></td>
-							</tr>
-							<tr>
-								<th>Student Name: </th>
-								<td><?php echo $student_details[0]['name'];?></td>
-							</tr>
-						</thead>
+					<table class="table">
+						<tbody>
+						<tr>
+						<td><b>Student Name</b></td><td>: <?php echo $student_details[0]['name'];?></td>
+						<td><b>Father Name</b></td><td>: lakhan lal</td>
+						</tr>
+						<tr>
+						<td><b>Admission No.</b></td><td>: </td>
+						<td><b>Roll No.</b></td><td>: </td>
+						</tr>
+						<tr>
+						<td><b>Class</b></td><td>: </td>
+						<td><b>Student Fee Category</b></td><td>:  </td>
+						</tr>
+						<tr>
+						<td><b>Medium</b></td><td>:  </td>
+						<td><b>Contact No.</b></td><td>: </td>
+						</tr>
+						<tr>
+						<td><b>Allotted Hostel</b></td><td>:  </td>
+						<td><b>Board</b></td><td>: </td>
+						</tr>
+						
+						</tbody>
+						
+        		
+						
 					</table>
-				</div>
+				
+			</div>
+		</div>
+</div>
+<div class="col-md-6">
+	<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
+			<div class="box-header ui-sortable-handle" style="cursor: move;">
+			  <h3 class="box-title">Student Paid Fee Detail</h3>
+			</div>
+			
+			<div class="box-body">
+					<table class="table">
+						<tbody>
+						<tr>
+						<td><b>Pay Month</b></td><td>: March/April 2019</td>
+						<td><b>Paid Amount</b></td><td>: 1428</td>
+						</tr>
+						<tr>
+						<td><b>Pending Amount</b></td><td>: 1524 </td>
+						<td><b>Total Amount</b></td><td>: 1524</td>
+						</tr>
+						
+						
+						</tbody>
+						
+        		
+						
+					</table>
+
 			</div>
 		</div>
 </div>
@@ -74,7 +116,7 @@
 					</div>
 					
 					<div class="form-group mb-3">
-						<label class="col-sm-6">previous Paid</label>
+						<label class="col-sm-6">Previous Paid</label>
 						<div class="col-sm-6">
 							<input type="number" id="previous_paid" name="previous_paid" value="0.00" class="form-control" placeholder="previous Paid" disabled="disabled">
 							<div id="previous_paid_err" class="text-danger" style="display:none;"></div>
