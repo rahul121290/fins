@@ -222,7 +222,6 @@ class Student_fee_ctrl extends CI_Controller {
             $result['session_fee'] = $this->db->get_where('class_fee_structure cfs')->result_array();
             //print_r($this->db->last_query());die;
             
-            
             $this->db->select('fm.*,DATE_FORMAT(fm.due_date,"%d-%m-%Y") as show_due_date,t1.amount tution_fee');
             $this->db->join('(SELECT fsm.ses_id,cfs.amount,cfs.staff_child
                              FROM class_fee_structure cfs
@@ -255,9 +254,9 @@ class Student_fee_ctrl extends CI_Controller {
                 $fee_month_id = 9;
             }
             
+            //$fee_month = $this->db->get_where('fee_month fm',array('fm.status'=>1,'fm_id <='=>$fee_month_id))->result_array();
             
-            
-            $fee_month = $this->db->get_where('fee_month fm',array('fm.status'=>1,'fm_id <='=>$fee_month_id))->result_array();
+            $fee_month = $this->db->get_where('fee_month fm',array('fm.status'=>1))->result_array();
             
             $result['fee_month'] = array();
             if(count($fee_month) > 0){
@@ -295,7 +294,7 @@ class Student_fee_ctrl extends CI_Controller {
             $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'med_id'=>$med_id,'month_id'=>date('m'),'adm_no'=>$adm_no));
             $result['fee_waiver'] = $this->db->get_where('fee_waiver',array('status'=>1))->result_array();
             
-            echo json_encode(array('data'=>$result,'status'=>200));
+            echo json_encode(array('data'=>$result,'fee_month'=>$fee_month_id,'status'=>200));
         }else{
             echo json_encode(array('msg'=>'Student record not found.','status'=>500));
         }

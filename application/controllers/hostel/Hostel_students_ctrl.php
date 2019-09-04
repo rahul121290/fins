@@ -168,35 +168,19 @@ class Hostel_students_ctrl extends CI_Controller {
             $this->db->join('hostel_fee_structure hfs','hfs.ses_id = hs.ses_id AND hfs.sch_id = hs.sch_id AND hfs.student_status = hs.std_status AND hfs.status = 1');
             $student_fee = $this->db->get_where('hostel_students hs',array('hs.ses_id'=>$ses_id,'hs.sch_id'=>$sch_id,'hs.adm_no'=>$adm_no,'hs.status'=>1))->result_array();
             
-            $this->db->select('*');
-            $this->db->order_by('hfp_id','DESC');
-            $this->db->limit(1);
+            $this->db->select('SUM(paid_amount) paid_amount');
             $result = $this->db->get_where('hostel_fee_payment',array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no,'status'=>1))->result_array();
+            //print_r($this->db->last_query());die;;
             if(count($result) > 0){
                 $result[0]['total'] = $student_fee[0]['total'];
                 $result[0]['previous_paid'] = $result[0]['paid_amount'];
-                $result[0]['pay_amount'] = $result[0]['pending_amount'];
+                $result[0]['pay_amount'] = $student_fee[0]['total'] - $result[0]['paid_amount'];
                 $result[0]['pending_amount'] = 0.00;
                 echo json_encode(array('data'=>$result,'status'=>200));
             }else{
                 echo json_encode(array('data'=>$this->lang->line('hostel_record_not_found'),'status'=>500));
             }
         }
-        
-//         $this->db->select('*');
-//         $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no,'status'=>1));
-//         $this->db->order_by('hfp_id','DESC');
-//         $payment_details = $this->db->get_where('hostel_fee_payment')->result_array();
-//         if(count($payment_details) > 0){
-            
-//         }else{
-//             $this->data['fee_details']['total_amount'] = $student_fee[0]['total'];
-//             $this->data['fee_details']['paid_amount'] = 0;
-//             $this->data['fee_details']['pending_amount'] = 0;
-//             $this->data['fee_details']['installment'] = 1;
-//         }
-        
-        
     }
     
     function paymentHostelFee(){
@@ -208,43 +192,42 @@ class Hostel_students_ctrl extends CI_Controller {
            $data['receipt_no'] = 1;
        }
         
-        $data['ses_id'] = $this->input->post('ses_id');
-        $data['sch_id'] = $this->input->post('sch_id');
-        $data['med_id'] = $this->input->post('medium');
-        $data['adm_no'] = $this->input->post('adm_no');
-        $data['installment'] = $this->input->post('pay_month');
-        $data['paid_amount'] = $this->input->post('pay_amount');
-        $data['pending_amount'] = $this->input->post('pending_amount');
-        $data['pay_date'] = date('Y-m-d');
-        $data['created_at'] = date('Y-m-d H:i:s');
-        $data['created_by'] = $this->session->userdata('user_id');
+       $data['ses_id'] = $this->input->post('ses_id');
+       $data['sch_id'] = $this->input->post('sch_id');
+       $data['med_id'] = $this->input->post('medium');
+       $data['adm_no'] = $this->input->post('adm_no');
+       $data['installment'] = $this->input->post('pay_month');
+       $data['paid_amount'] = $this->input->post('pay_amount');
+       $data['pending_amount'] = $this->input->post('pending_amount');
+       $data['pay_date'] = date('Y-m-d');
+       $data['created_at'] = date('Y-m-d H:i:s');
+       $data['created_by'] = $this->session->userdata('user_id');
         
-        //------------------*****--------------------------
-        $pay_option = $this->input->post('pay_option');
+       //------------------*****--------------------------
+       $pay_option = $this->input->post('pay_option');
         
-        $final = [];
-        foreach($pay_option as $pay_opt){
-            $temp = [];
-            $temp['receipt_no'] = $data['receipt_no'];
-            $temp['method_name'] = $pay_opt[0]['pay_method'];
-            $temp['amount'] = $pay_opt[1]['amount'];
-            $temp['card_name'] = $pay_opt[2]['card'];
-            $temp['trans_amount'] = $pay_opt[3]['trns_amount'];
-            $temp['method_no'] = $pay_opt[4]['method_no'];
-            $temp['method_date'] = $pay_opt[5]['date'];
-            $temp['bank_name'] = $pay_opt[6]['bank_name'];
-            $temp['created_at'] = date('Y-m-d H:i:s');
-            $temp['created_by'] = $this->session->userdata('user_id');
-            $final[] = $temp; 
-        }
+       $final = [];
+       foreach($pay_option as $pay_opt){
+           $temp = [];
+           $temp['receipt_no'] = $data['receipt_no'];
+           $temp['method_name'] = $pay_opt[0]['pay_method'];
+           $temp['amount'] = $pay_opt[1]['amount'];
+           $temp['card_name'] = $pay_opt[2]['card'];
+           $temp['trans_amount'] = $pay_opt[3]['trns_amount'];
+           $temp['method_no'] = $pay_opt[4]['method_no'];
+           $temp['method_date'] = $pay_opt[5]['date'];
+           $temp['bank_name'] = $pay_opt[6]['bank_name'];
+           $temp['created_at'] = date('Y-m-d H:i:s');
+           $temp['created_by'] = $this->session->userdata('user_id');
+           $final[] = $temp; 
+       }
         
-        $result = $this->hostel_students_model->paymentHostelFee($data,$final);
-        if($result){
-            echo json_encode(array('msg'=>$this->lang->line('payment_success'),'status'=>200));
-        }else{
-            echo json_encode(array('msg'=>$this->lang->line('payment_success_failed'),'status'=>500));
-        }
-        
+       $result = $this->hostel_students_model->paymentHostelFee($data,$final);
+       if($result){
+           echo json_encode(array('msg'=>$this->lang->line('payment_success'),'status'=>200));
+       }else{
+           echo json_encode(array('msg'=>$this->lang->line('payment_success_failed'),'status'=>500));
+       }   
     }
     
     function enablePayAmount(){
@@ -257,13 +240,66 @@ class Hostel_students_ctrl extends CI_Controller {
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $this->session->userdata('user_id');
         
-        $result = $this->db->insert('hostel_fee_installment',$data);
-        
-        if($result){
-            echo json_encode(array('msg'=>$this->lang->line('otp_success'),'status'=>200));
+        $this->db->trans_begin();
+        $this->db->select('hfi_id');
+        $check = $this->db->get_where('hostel_fee_installment',array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'adm_no'=>$data['adm_no'],'status'=>1))->result_array();
+        if(count($check) > 0){
+            //----------update---------------
+            $this->db->where('hfi_id',$check[0]['hfi_id']);
+            $this->db->update('hostel_fee_installment',$data);
         }else{
+            $this->db->insert('hostel_fee_installment',$data);
+        }
+        
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
             echo json_encode(array('msg'=>$this->lang->line('otp_failed'),'status'=>500));
-        } 
+        }
+        else
+        {
+            $this->db->trans_commit();
+            $sms = 'Increase hostel fee installment OTP is '.$data['otp'].' of adm no: '.$data['adm_no'].'.';
+            $mobile = '8817721954';
+           // $this->my_function->send_sms($mobile,$sms);
+            echo json_encode(array('msg'=>$this->lang->line('otp_success'),'status'=>200));
+        }
+        
     }
+    
+    function submit_otp(){
+        $data['ses_id'] = $this->input->post('ses_id');
+        $data['sch_id'] = $this->input->post('sch_id');
+        $data['adm_no'] = $this->input->post('adm_no');
+        $data['pay_month'] = $this->input->post('pay_month');
+        $data['otp'] = $this->input->post('otp');
+        
+        $this->db->trans_begin();
+        $reesult = $this->db->select('hfi_id')->get_where('hostel_fee_installment',array('otp'=>$data['otp'],'ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'adm_no'=>$data['adm_no'],'installment'=>$data['pay_month'],'status'=>1))->result_array();
+        if(count($reesult) > 0){
+            $this->db->where('hfi_id',$reesult[0]['hfi_id']);
+            $this->db->update('hostel_fee_installment',array('otp'=>null));
+            
+            $this->db->where(array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'adm_no'=>$data['adm_no'],'status'=>1));
+            $this->db->update('hostel_students',array('fee_installment'=>3));
+        }else{
+            echo json_encode(array('msg'=>$this->lang->line('otp_mismatch'),'status'=>500));
+            die;
+        }
+        
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+            echo json_encode(array('msg'=>$this->lang->line('otp_mismatch'),'status'=>500));
+        }
+        else
+        {
+            $this->db->trans_commit();
+            echo json_encode(array('msg'=>$this->lang->line('otp_submit_successfull'),'status'=>200));
+        }
+       
+        
+    }
+    
     
 }

@@ -10,6 +10,11 @@ $lang['payment_success_failed'] = 'payment success failed, please try again.';
 $lang['already_paid'] = 'This fee already paid';
 $lang['otp_success'] = 'OTP send successfully';
 $lang['otp_failed'] = 'OTP sending Failed';
+$lang['otp_submit_successfull'] = 'OTP Submit Successfull';
+$lang['otp_mismatch'] = 'OTP Missmatch';
+
+
+
 
 
 

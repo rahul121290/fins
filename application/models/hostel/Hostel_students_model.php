@@ -28,7 +28,7 @@ class Hostel_students_model extends CI_Model{
                 //----------insert new----------------
                 $this->db->insert_batch('cousin_details',$cusion_data);
             }else{
-                //-----------delete old records------------
+                //-----------delete old records---------------
                 $this->db->where('hs_id',$result[0]['hs_id']);
                 $this->db->delete('hostel_students');
             }

@@ -12,12 +12,7 @@ $(document).ready(function(){
 		$.ajax({
 			type:'POST',
 			url:baseUrl+'Student_fee_ctrl/feeDetailList',
-			data:{
-				'ses_id':ses_id,
-				'sch_id':sch_id,
-				'med_id':med_id,
-				'adm_no':adm_no
-				},
+			data:{'ses_id':ses_id,'sch_id':sch_id,'med_id':med_id,'adm_no':adm_no},
 			dataType:'json',
 			beforeSend:function(){
 				$('#loader').modal('show');
@@ -29,7 +24,8 @@ $(document).ready(function(){
 					$('#student_name').val(response.data.student[0].name);
 					$('#contact_no').val(response.data.student[0].contact_no);
 					$('#bus_id').val(response.data.student[0].bus_id);
-	//-----------------------------------student details----------------------
+					$('#fee_month').val(response.fee_month);
+					//-----------------------------------student details----------------------
 					x=x+'<table class="table">'+
 						'<tbody>'+
 						'<tr><td><b>Student Name</b></td><td>: '+response.data.student[0].name+'</td>'+
@@ -48,7 +44,7 @@ $(document).ready(function(){
 				'</table>';
 				
 				$('#student_details').html(x);
-	//------------------------session fee--------------------------------
+				//------------------------session fee--------------------------------
 					var f = '';
 					var flag = 1;
 					$.each(response.data.session_fee,function(key,value){
@@ -94,8 +90,13 @@ $(document).ready(function(){
 								var check_box = '';
 								var fee_status = '<b style="color:red;">Pending</b>';
 							}
+							
+							if( value.fm_id > response.fee_month){
+								var check_box = 'disabled';
+							}
+							
 							m=m+'<tr>'+
-								'<td class="pm-box"><input type="checkbox" '+check_box+'  data-tution_fee="'+value.fee+'" data-bus_fee="'+value.bus_fee+'"  data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
+								'<td class="pm-box"><input type="checkbox" '+check_box+' data-tution_fee="'+value.fee+'" data-bus_fee="'+value.bus_fee+'"  data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
 								'<td>'+value.name+'</td>'+
 								'<td>'+value.fee.toFixed(2)+'</td>'+
 								'<td>'+value.bus_fee.toFixed(2)+'</td>'+
@@ -117,6 +118,65 @@ $(document).ready(function(){
 			},
 		});
 	}	
+	
+	//-----------------all moth fee--------------------
+	$(document).on('click','#all_month_fee',function(){
+		if($(this).prop('checked') == true){
+			var session_fee = 0;
+			var all_month_fee = 0; 
+			var all_bus_fee = 0;
+			
+			//-----------count session fee---------------
+			$('.ones_in_session').each(function(){
+				if($(this).prop('checked') == true){
+					session_fee += parseFloat($(this).val());
+				}
+			});
+			
+			$('.month_fee_count').each(function(){
+				all_month_fee += $(this).data('tution_fee');
+				all_bus_fee += $(this).data('bus_fee');
+			});
+			
+			var discount_five_per = parseFloat(parseFloat(parseFloat(all_month_fee) * parseFloat(5)) / parseFloat(100));
+			var discounted_amount = parseFloat(parseFloat(all_month_fee) - parseFloat(discount_five_per));
+			var total_month_bus_fee = parseFloat(parseFloat(discounted_amount) + parseFloat(all_bus_fee));
+			
+			var main_amount = parseFloat(parseFloat(session_fee) + parseFloat(total_month_bus_fee));  
+			$('#fee_total').val(main_amount.toFixed(2));
+			
+			$('.month_fee_count').prop('disabled',true);
+			$('.month_fee_count').prop('checked',true);
+		}else{
+			//-----------------------------------------------------
+			
+			var all_month_fee = 0; 
+			var all_bus_fee = 0;
+			$('.month_fee_count').each(function(){
+				if($(this).data('month_id') <= $('#fee_month').val()){
+					$(this).prop('disabled',false);				
+				}
+				all_month_fee += $(this).data('tution_fee');
+				all_bus_fee += $(this).data('bus_fee');
+			});
+			
+			var discount_five_per = parseFloat(parseFloat(parseFloat(all_month_fee) * parseFloat(5)) / parseFloat(100));
+			var discounted_amount = parseFloat(parseFloat(all_month_fee) - parseFloat(discount_five_per));
+			var total_month_bus_fee = parseFloat(parseFloat(discounted_amount) + parseFloat(all_bus_fee));
+			
+			var fee_total = $('#fee_total').val();
+			var main_amount = parseFloat(parseFloat(fee_total) - parseFloat(total_month_bus_fee));  
+			$('#fee_total').val(main_amount.toFixed(2));
+			
+			$('.month_fee_count').prop('disabled',false);
+			$('.month_fee_count').prop('checked',false);
+		}
+		
+		
+		
+	});
+	
+	
 	
 //-----------apply fee waiver--------------------------
 

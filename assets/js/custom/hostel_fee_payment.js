@@ -15,8 +15,10 @@ $(document).ready(function(){
 			beforeSend:function(){},
 			success:function(response){
 				if(response.status == 200){
-					if(pay_month == 2){
+					if(pay_month != 1){
 						$('#pay_amount').attr('disabled',true);
+					}
+					if(pay_month == 2){
 						$('#check_box_row').css('display','block');
 						$('#check_box_div').html('<input type="checkbox" id="enable_pay_amount"> Enable Pay Amount');
 					}
@@ -24,7 +26,10 @@ $(document).ready(function(){
 					$('#previous_paid').val(parseFloat(response.data[0].previous_paid).toFixed(2));
 					$('#pay_amount').val(parseFloat(response.data[0].pay_amount).toFixed(2));
 					$('#grand_total').val(parseFloat(response.data[0].pay_amount).toFixed(2));
-					$('#pending_amount').val(parseFloat(response.data[0].pending_amount).toFixed(2));
+					if(parseFloat(response.data[0].pending_amount) > 0){
+						$('#pending_fee_row').css('display','block');
+						$('#pending_amount').val(parseFloat(response.data[0].pending_amount).toFixed(2));
+					}
 				}else{
 					alert(response.msg);
 					$('#pay_month').prop('selectedIndex','');
@@ -47,21 +52,58 @@ $(document).ready(function(){
 				dataType:'json',
 				beforeSend:function(){},
 				success:function(response){
-					
+					if(response.status == 200){
+						$('#otp_div').html('<input type="text" id="otp" name="otp" class="form-control" placeholder="Enter OTP"><div id="otp_err" class="error"></div><button id="submit_otp" class="btn btn-sm btn-success">Submit OTP</button>');
+						alert(response.msg);
+					}else{
+						alert(response.msg);
+					}
 				},
 			});
-			
-			$('#otp_div').html('<input type="text" id="otp" name="otp" class="form-control" placeholder="Enter OTP"><button id="submit_otp" class="btn btn-sm btn-success">Submit OTP</button>');
 		}else{
 			$('#otp_div').html('');
 		}
 	});
 	
 	//--------------submit otp-------------------------------------------
-	
+	$(document).on('click','#submit_otp',function(){
+		var otp = $('#otp').val();
+		var pay_month = $('#pay_month').val();
+		var ses_id = $('#ses_id').val();
+		var sch_id = $('#sch_id').val();
+		var adm_no = $('#adm_no').val();
+		var formvalid = true;
+		if(formvalid == ''){
+			$('#otp_err').html('This is Required.').css('display','block');
+			formvalid = false;
+		}else{
+			$('#otp_err').css('display','none');
+		}
+		if(formvalid){
+			$.ajax({
+				type:'POST',
+				url:baseUrl+'hostel/Hostel_students_ctrl/submit_otp',
+				data:{'ses_id':ses_id,'sch_id':sch_id,'adm_no':adm_no,'pay_month':pay_month,'otp':otp},
+				dataType:'json',
+				beforeSend:function(){},
+				success:function(response){
+					if(response.status == 200){
+						alert(response.msg);
+						$('#check_box_row').css('display','none');
+						$('#otp_div').css('display','none');
+						$('#pay_amount').prop('disabled',false);
+					}else{
+						alert(response.msg);
+					}
+				},
+			});
+		}
+		
+	});
 	
 	//-------------------change pay amount--------------------------------
 	$(document).on('keyup','#pay_amount',function(){
+		var previous_paid = $('#previous_paid').val();
 		var pay_amount = $(this).val();
 		var total_fee = $('#total_fee').val();
 		
@@ -75,7 +117,14 @@ $(document).ready(function(){
 		  	    $('#hostel_fee_submit').attr('disabled',false);
 		  	    $('#pay_amount_err').css('display','none');
 		  	    $('#grand_total').val(parseFloat(pay_amount).toFixed(2));
-		  	    $('#pending_amount').val(parseFloat(parseFloat(parseFloat(total_fee) - parseFloat(parseFloat(pay_amount) + parseFloat(pay_amount) ))).toFixed(2));
+		  	    
+		  	    var pending_fee = parseFloat(parseFloat(parseFloat(total_fee) - parseFloat(parseFloat(previous_paid) + parseFloat(pay_amount) ))).toFixed(2);
+		  	    if(pending_fee > 0){
+		  	    	$('#pending_fee_row').css('display','block');
+		  	    	$('#pending_amount').val(pending_fee);
+		  	    }else{
+		  	    	$('#pending_fee_row').css('display','none');
+		  	    }
 		  	}
 	});
 	

@@ -29,9 +29,9 @@
         		<input type="hidden" id="bus_id" value="" />
         		<input type="hidden" id="fw_id" value="" />
         		<input type="hidden"  id="all_late_fee" value="0.00" />
-        		
         		<input type="hidden"  id="student_name" value="" />
         		<input type="hidden"  id="contact_no" value="" />
+        		<input type="text" id="fee_month" value="">
         		
         		<div id="student_details"></div>
         		
@@ -65,7 +65,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>Select</th>
+							<th><input type="checkbox" id="all_month_fee"></th>
 							<th>Fee Month</th>
 							<th>Tution Fee</th>
 							<th>Bus Fee</th>

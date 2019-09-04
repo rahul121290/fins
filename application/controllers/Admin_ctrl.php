@@ -834,8 +834,9 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'student_fee/hostel/hostel_fee';
             
             $this->db->select('*');
-            $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no));
-            $this->data['student_details'] = $this->db->get_where('students s',array('status'=>1))->result_array();
+            $this->db->join('hostel_students hs','hs.adm_no = s.adm_no AND hs.ses_id = s.ses_id AND hs.sch_id = s.sch_id AND hs.status = 1');
+            $this->db->where(array('s.ses_id'=>$ses_id,'s.sch_id'=>$sch_id,'s.adm_no'=>$adm_no));
+            $this->data['student_details'] = $this->db->get_where('students s',array('s.status'=>1))->result_array();
             
             $this->_load_view();
         }else{

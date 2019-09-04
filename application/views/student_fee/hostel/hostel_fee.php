@@ -57,6 +57,9 @@
 								<option value="">Select Month</option>
 								<option value="1">March/April <?php echo date('Y');?></option>
 								<option value="2">September <?php echo date('Y');?></option>
+								<?php if($student_details[0]['fee_installment'] > 2){?>
+								<option value="3">Pay Pending Fee</option>
+								<?php } ?>
 							</select>
 							<div id="pay_month_err" class="text-danger" style="display:none;"></div>
 						</div>
@@ -71,7 +74,7 @@
 					</div>
 					
 					<div class="form-group mb-3">
-						<label class="col-sm-6">Previus Paid</label>
+						<label class="col-sm-6">previous Paid</label>
 						<div class="col-sm-6">
 							<input type="number" id="previous_paid" name="previous_paid" value="0.00" class="form-control" placeholder="previous Paid" disabled="disabled">
 							<div id="previous_paid_err" class="text-danger" style="display:none;"></div>
@@ -92,7 +95,7 @@
     					<div class="col-sm-6" id="otp_div"></div>
 					</div>
 					
-					<div class="form-group mb-3">
+					<div class="form-group mb-3" id="pending_fee_row" style="display: none;">
 						<label class="col-sm-6">Pending Amount</label>
 						<div class="col-sm-6">
 							<input type="number" id="pending_amount" name="pending_amount" class="form-control" placeholder="Pending Amount" disabled="disabled">
