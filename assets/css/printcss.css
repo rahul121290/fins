@@ -6,4 +6,6 @@
 		.box.box-danger {
     border-top-color: #fff !important;
 }
+
+.hostel-bil-table tr td{padding:2px !important;}
  }
