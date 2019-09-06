@@ -83,11 +83,11 @@
 		
 		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/report/fee-mis"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/fee-history.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Fee MIS</h4></a></div>
 		
-		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/fee-structure/online-fee"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/fee-history.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Generate Online Month fee</h4></a></div>
+		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/fee-structure/online-fee"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/generate-fee.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">Generate Online Month fee</h4></a></div>
 		
-		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/fee-structure/data-sync"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/fee-history.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">	Data Synchronization</h4></a></div>
+		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/fee-structure/data-sync"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/data-syc.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">	Data Synchronization</h4></a></div>
 		
-		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/students/recycle-bin"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/fee-history.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">	Recycle Bin</h4></a></div>
+		<div class="col-md-2 text-center"><a title="Fee History" href="<?php echo base_url().$this->uri->segment(1);?>/reception/students/recycle-bin"><img style="width:70px;" src="<?php echo base_url()?>assets/images/reception/recycle.png"><br><h4 style="font-weight:600;color:#524d4d;font-size:16px;">	Recycle Bin</h4></a></div>
 		<div class="col-md-2"></div>
 		</div>
 	</div>
