@@ -1,3 +1,4 @@
+<?php $path = base_url().'assets/images/sharda/teachers/'; ?>
 <div class="content-wrapper">
     <section class="content-header">
       <h1>Add Teacher</h1>
@@ -207,7 +208,6 @@
                     				<td><?php echo $teacher['designation'];?></td>
                     				
                     				<?php 
-                    				$path = base_url().'assets/images/sharda/teachers/';
                     				if($this->session->userdata('school_id') == 1){
                     				    $path = base_url().'assets/images/shakuntala/teachers/';
                     				}
