@@ -360,7 +360,7 @@ class Student_fee_ctrl extends CI_Controller {
             if(count($student)> 0 ){
                 //$mobile = '7999328025';
                 $mobile = '8817721954';
-                $msg = 'Fee waiver request OTP is '.$otp.' for '.$student[0]['name'].', Admn No. '.$data['adm_no'].'. Amt: '.$amount.' - '.$this->session->userdata('username');
+                $msg = 'Fee waiver request OTP is '.$otp.' for '.$student[0]['name'].', Adm No. '.$data['adm_no'].'. Amt: '.$amount.' - '.$this->session->userdata('username');
                 $this->my_function->send_sms($mobile,$msg);
             }else{
                 print_r('OTP Not Send.');die;
@@ -475,10 +475,11 @@ class Student_fee_ctrl extends CI_Controller {
        
       $result =  $this->Student_fee_model->fee_payment($data,$pay_method);
       if($result){
-          $mobile = $this->input->post('contact_no');
+          //$mobile = $this->input->post('contact_no');
+		  $mobile = '8817721954';
           $sms = 'Dear Parent, the fee payment of '.$this->input->post('student_name').' has been received. Amount : '.$data['paid_amount'].'. Regards SVR';
           // print_r($sms);die;
-          //$this->my_function->send_sms($mobile,$sms);
+          $this->my_function->send_sms($mobile,$sms);
           echo json_encode(array('msg'=>'Submit successfully','receipt_no'=>$data['receipt_no'],'status'=>200));
       }else{
           echo json_encode(array('msg'=>'Submit Failed, Please try again.','status'=>500));
