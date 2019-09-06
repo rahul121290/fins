@@ -224,7 +224,7 @@ class Hostel_students_ctrl extends CI_Controller {
         
        $result = $this->hostel_students_model->paymentHostelFee($data,$final);
        if($result){
-           echo json_encode(array('msg'=>$this->lang->line('payment_success'),'status'=>200));
+           echo json_encode(array('msg'=>$this->lang->line('payment_success'),'receipt_no'=>$data['receipt_no'],'status'=>200));
        }else{
            echo json_encode(array('msg'=>$this->lang->line('payment_success_failed'),'status'=>500));
        }   
@@ -296,10 +296,80 @@ class Hostel_students_ctrl extends CI_Controller {
         {
             $this->db->trans_commit();
             echo json_encode(array('msg'=>$this->lang->line('otp_submit_successfull'),'status'=>200));
-        }
-       
-        
+        } 
     }
     
+    function studentList(){
+        $data['session'] = $this->input->post('session');
+        $data['school'] = $this->input->post('school');
+        $data['medium'] = $this->input->post('medium');
+        $data['class_id'] = $this->input->post('class_id');
+        $data['hostel'] = $this->input->post('hostel');
+        $data['student_status'] = $this->input->post('student_status');
+        
+        
+        $condition = 's.status = 1';
+        if($data['session']){
+            $condition .= ' AND s.ses_id = '.$data['session'];
+        }
+        if($data['school']){
+            $condition .= ' AND s.sch_id = '.$data['school'];
+        }
+        if($data['medium']){
+            $condition .= ' AND s.medium = '.$data['medium'];
+        }
+        if($data['class_id']){
+            $condition .= ' AND s.class_id = '.$data['class_id'];
+        }
+        if($data['hostel']){
+            $condition .= ' AND s.hostler = "'.$data['hostel'].'"';
+        }
+        if($data['student_status']){
+            $condition .= ' AND hs.std_status = "'.$data['student_status'].'"';
+        }
+        
+        $this->db->select('s.ses_id,s.sch_id,s.adm_no,s.name,s.f_name,s.contact_no,IFNULL(hs.f_contact_no,"") f_contact_no,IFNULL(hs.m_contact_no,"") m_contact_no,
+                          IF(hs.hs_id IS null,"pending","updated") details_status,hs.std_status,
+                          IFNULL(hfs.total,0) hostel_fee,
+                          IFNULL((SELECT SUM(paid_amount) FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND status = 1),0) paid_fee
+                        ');
+        $this->db->join('hostel_students hs','hs.adm_no = s.adm_no AND hs.ses_id = s.ses_id AND hs.sch_id = s.sch_id AND hs.status = 1','LEFT');
+        $this->db->join('hostel_fee_structure hfs','hfs.ses_id = s.ses_id AND hfs.sch_id = s.sch_id AND hfs.student_status = hs.std_status AND hfs.status = 1','LEFT');
+        $this->db->where($condition);
+        $result = $this->db->get_where('students s')->result_array();
+        
+        $all_total_fee = 0;
+        $all_paid_fee = 0;
+        $all_pending_fee = 0;
+        
+        if(count($result) > 0){
+            
+            foreach($result as $res){
+                $all_total_fee += $res['hostel_fee'];
+                $all_paid_fee += $res['paid_fee'];
+            }
+            $all_pending_fee = $all_total_fee - $all_paid_fee;
+            
+            echo json_encode(array('data'=>$result,'all_total_fee'=>$all_total_fee,'all_paid_fee'=>$all_paid_fee,'all_pending_fee'=>$all_pending_fee,'status'=>200));
+        }else{
+            echo json_encode(array('data'=>$this->lang->line('hostel_record_not_found'),'status'=>500));
+        }
+    }
+    
+    function fee_receipt(){
+        $receipt_no = $this->input->post('receipt_no');
+        
+        $this->db->select('*');
+        $this->db->join('students s','s.adm_no = hfp.adm_no AND s.ses_id = hfp.ses_id AND s.sch_id = hfp.sch_id AND s.status = 1');
+        $this->db->join('school sch','sch.sch_id=s.sch_id');
+        $this->db->join('class c','c.c_id = s.class_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $result = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1,'hfp.receipt_no'=>$receipt_no))->result_array();
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'record not found.','status'=>500));
+        }
+    }
     
 }

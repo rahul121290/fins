@@ -31,7 +31,7 @@
         		<input type="hidden"  id="all_late_fee" value="0.00" />
         		<input type="hidden"  id="student_name" value="" />
         		<input type="hidden"  id="contact_no" value="" />
-        		<input type="text" id="fee_month" value="">
+        		<input type="hidden" id="fee_month" value="">
         		
         		<div id="student_details"></div>
         		
@@ -105,6 +105,8 @@
 					</div>
 				</div>
 				<div class="col-md-6">
+				<div id="discount_amount"></div>
+				
 					<div class="box-header">
 						 <h3 class="box-title"><b>TOTAL FEE</b></h3>
 					</div>

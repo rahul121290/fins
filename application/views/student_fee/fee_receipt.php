@@ -77,7 +77,7 @@
      			</div>
    			</div>   			
 		</div>
-
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/custom/number_to_word.js"></script>
 <script type="text/javascript">
 var baseUrl = $('#base_url').val();
 var receipt_no = $('#receipt_no').val();
@@ -170,7 +170,8 @@ function fee_details(){
     				'<td colspan="2" align="right"><b>'+response.data.student[0].paid_amount+'</b></td>'+
     			'</tr>'+
     			'<tr>'+
-    				'<td class="b-space" colspan="3" align="right"><b>'+response.data.word_amount+'</b></td>'+
+    				//'<td class="b-space" colspan="3" align="right"><b>'+response.data.word_amount+'</b></td>'+
+    				'<td class="b-space" colspan="3" align="right"><b>'+toWords(parseFloat(response.data.student[0].paid_amount))+'</b></td>'+
     			'</tr>'+
     			'<tr>'+
     				'<td colspan="2" align="left">Date: <?php echo date('d-M-Y h:i');?> / Ranjeet </td>'+

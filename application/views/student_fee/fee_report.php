@@ -192,7 +192,7 @@ $(document).on('click','#search',function(){
 });
 
 
-$(document).on('keyup','#search_box',function(){
+$(document).on('change','#search_box',function(){
 	var search_box = $(this).val();
 	var session = $('#session').val();
 	var school = $('#school').val(); 
@@ -223,7 +223,9 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 			'fee_status':fee_status
 		},
 		dataType:'json',
-		beforeSend:function(){},
+		beforeSend:function(){
+			$('#loader').modal('show');
+		},
 		success:function(response){
 			if(response.status == 200){
 				$('#paid_fee').html('<b>'+parseFloat(response.paid_fee).toFixed(2)+'</b>');
@@ -248,12 +250,14 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 						'</tr>';
 				});
 				$('#student_list').html(x);
+				$('#loader').modal('hide');
 			}else{
 				$('#paid_fee').html('<b>0.00</b>');
 				$('#pending_fee').html('<b>0.00</b>');
 				$('#total_fee').html('<b>0.00</b>');
 				
 				$('#student_list').html('<tr><td colspan="13" style="text-align:center;">Record not found.</td></tr>');
+				$('#loader').modal('hide');
 			}
 		},
 	});

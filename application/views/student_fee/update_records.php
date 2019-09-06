@@ -257,7 +257,7 @@
 var baseUrl = $('#base_url').val();
 
 
-$(document).on('keyup','#search_box',function(){
+$(document).on('change','#search_box',function(){
 	var school = $('#school').val();
 	var medium = $('#medium').val();
 	var class_name = $('#class_name').val();

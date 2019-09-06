@@ -18,6 +18,7 @@
   $(function () {
     $('#example1').DataTable()
     $('#example2').DataTable({
+    	"ajax": "data/arrays.txt",
       'paging'      : true,
       'lengthChange': false,
       'searching'   : false,

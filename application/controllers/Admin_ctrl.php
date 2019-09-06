@@ -23,6 +23,18 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
+    function sibling_details(){
+        if(in_array(29, $this->permission)){
+            $this->data['page_name'] = 'Student Report';
+            $this->data['main'] = 'print_section/sibling_details';
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    
     function _admin_class_teacher_access(){
         if ($this->ion_auth->logged_in()){
             $user_id = $this->session->userdata('user_id');
@@ -833,10 +845,19 @@ class Admin_ctrl extends CI_Controller {
             $this->data['page_name'] = 'Hostel Fee';
             $this->data['main'] = 'student_fee/hostel/hostel_fee';
             
-            $this->db->select('*');
+            $this->db->select('s.name,s.f_name,s.roll_no,s.adm_no,c.class_name,hs.std_status,s.medium,m.med_name,s.contact_no,hd.hostel_name,sch.school_name');
             $this->db->join('hostel_students hs','hs.adm_no = s.adm_no AND hs.ses_id = s.ses_id AND hs.sch_id = s.sch_id AND hs.status = 1');
+            $this->db->join('hostel_details hd','hd.hd_id = hs.hd_id');
+            $this->db->join('class c','c.c_id = s.class_id');
+            $this->db->join('section sec','sec.sec_id = s.sec_id');
+            $this->db->join('medium m','m.med_id = s.medium');
+            $this->db->join('school sch','sch.sch_id = s.sch_id' );
             $this->db->where(array('s.ses_id'=>$ses_id,'s.sch_id'=>$sch_id,'s.adm_no'=>$adm_no));
             $this->data['student_details'] = $this->db->get_where('students s',array('s.status'=>1))->result_array();
+            
+            $this->db->select('receipt_no,DATE_FORMAT(pay_date,"%d-%M-%Y") pay_date,installment,paid_amount,pending_amount');
+            $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no));
+            $this->data['paid_fee_details'] = $this->db->get_where('hostel_fee_payment',array('status'=>1))->result_array();
             
             $this->_load_view();
         }else{
@@ -849,6 +870,9 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(28, $this->permission)){
             $this->data['page_name'] = 'Hostel Fee';
             $this->data['main'] = 'student_fee/hostel/hostel_student_list';
+            $this->data['medium'] = $this->db->select('med_id,med_name')->get_where('medium',array('status'=>1))->result_array();
+            $this->data['class'] = $this->db->select('c_id,class_name')->get_where('class',array('status'=>1))->result_array();
+            $this->data['section'] = $this->db->select('sec_id,section_name')->get_where('section',array('status'=>1))->result_array();
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
@@ -856,7 +880,7 @@ class Admin_ctrl extends CI_Controller {
         }
     }
 
-    function hostel_receipt(){
+    function hostel_receipt($receipt_no){
         if(in_array(28, $this->permission)){
             $this->data['page_name'] = 'Hostel Receipt';
             $this->data['main'] = 'student_fee/hostel/hostel_receipt';

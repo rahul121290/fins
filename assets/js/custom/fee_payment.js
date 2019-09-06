@@ -68,14 +68,12 @@ $(document).ready(function(){
 					$('#one_time_fee').html(f);
 
 					//--------------fee waiver----------------------
-					
 //					if(response.data.fee_waiver[0].amount){
 //						$('#fee_waiver_amount').val(response.data.fee_waiver[0].amount);
 //						$('#fee_waiver_amount').prop('disabled',true);
 //						$('#fee_waiver_apply').prop('disabled',true);
 //						$('#fee_waiver_otp_row').css('display','block');
 //					}
-					
 					//--------------month fee-----------------------------------
 					var m ='';
 					if(response.data.fee_month.length > 0){
@@ -145,6 +143,7 @@ $(document).ready(function(){
 			var main_amount = parseFloat(parseFloat(session_fee) + parseFloat(total_month_bus_fee));  
 			$('#fee_total').val(main_amount.toFixed(2));
 			
+			$('#discount_amount').html('5% Discount amount of Tuition Fee: <b>'+parseFloat(discount_five_per).toFixed(2)+'</b>').css('display','block');
 			$('.month_fee_count').prop('disabled',true);
 			$('.month_fee_count').prop('checked',true);
 		}else{
@@ -153,9 +152,11 @@ $(document).ready(function(){
 			var all_month_fee = 0; 
 			var all_bus_fee = 0;
 			$('.month_fee_count').each(function(){
-				if($(this).data('month_id') <= $('#fee_month').val()){
-					$(this).prop('disabled',false);				
+				if(parseInt($(this).data('month_id')) <= parseInt($('#fee_month').val())){
+					$(this).prop('disabled',false);
 				}
+				
+				
 				all_month_fee += $(this).data('tution_fee');
 				all_bus_fee += $(this).data('bus_fee');
 			});
@@ -168,18 +169,13 @@ $(document).ready(function(){
 			var main_amount = parseFloat(parseFloat(fee_total) - parseFloat(total_month_bus_fee));  
 			$('#fee_total').val(main_amount.toFixed(2));
 			
-			$('.month_fee_count').prop('disabled',false);
+			$('#discount_amount').css('display','none');
 			$('.month_fee_count').prop('checked',false);
 		}
-		
-		
-		
 	});
 	
 	
-	
-//-----------apply fee waiver--------------------------
-
+  //-----------apply fee waiver--------------------------
     $(document).on('click','#fee_waiver_apply',function(){
     	var fee_waiver_amount = $('#fee_waiver_amount').val();
     	var fee_waiver_remark = $('#fee_waiver_remark').val();
@@ -376,6 +372,8 @@ $(document).ready(function(){
 			$('#grand_total').val(grand_total.toFixed(2));
 			//-----------*********---------------------
 	    }
+		
+		$('#cash_amount').trigger('keyup');
 	});
 
 	//----------paymethod section---------------------
@@ -583,20 +581,17 @@ $(document).ready(function(){
 			}
 		});
 		
-		
-		alert(tuition_fee);return false;
-		
-		if(month_ids == '' && formvalidate == true){
-			alert('Please select which month payment. You want to pay.');
-			formvalidate = false;
+		if(parseInt(month_ids.length) > parseInt(0)){
+			if(month_ids == '' && formvalidate == true){
+				alert('Please select which month payment. You want to pay.');
+				formvalidate = false;
+			}
 		}
-		
 		
 		var cal_pay_method_amount = 0;
 		$('.pay_method').each(function(){
 			var temp = [];
 			if($(this).prop('checked') == true){
-				
 				if($(this).attr('id') == 'cash'){
 					cal_pay_method_amount  = parseFloat(parseFloat(cal_pay_method_amount) + parseFloat($('#cash_amount').val()) );
 					var pay_method = 'cash';

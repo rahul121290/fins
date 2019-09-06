@@ -262,30 +262,35 @@ class Student_fee_ctrl extends CI_Controller {
             if(count($fee_month) > 0){
                 $current_date = date('Y-m-d');
                 foreach($fee_month as $month){
-                    $temp = array();
-                    $temp['fm_id'] =  $month['fm_id'];
-                    $temp['name'] =  $month['name'];
-                    $temp['fee'] =  $month['tution_fee'] * $month['total_month'];
-                    $temp['due_date'] = $month['show_due_date'];
-                    //------------class 10th and class 12 not march bus fee not include-------------
-                    if(($result['student'][0]['class_id'] == 13 && $month['fm_id'] == 9) || ($result['student'][0]['class_id'] == 15 && $month['fm_id'] == 9)){
-                        $temp['bus_fee'] = $result['student'][0]['bus_fee'] * 1;
-                    }else{
-                        $temp['bus_fee'] = $result['student'][0]['bus_fee'] * $month['bus_month'];
-                    }
-                    
-                    //--------------get late fee--------------
-                    $last_date_of_month =  date("Y-m-t", strtotime($month['due_date']));
-                    $temp['late_fee'] = 0;
-                    if(strtotime($current_date) > strtotime($last_date_of_month)){
-                        $temp['late_fee'] = 200;
-                    }else if(strtotime($current_date) > strtotime($month['due_date']) ){
-                        $datediff = strtotime($current_date) - strtotime($month['due_date']);
-                        $datediff =  round($datediff / (60 * 60 * 24));
-                        $temp['late_fee'] = 5 * $datediff;
+                    if($month['tution_fee'] > 0 ||  $result['student'][0]['bus_fee'] > 0){
+                        $temp = array();
+                        $temp['fm_id'] =  $month['fm_id'];
+                        $temp['name'] =  $month['name'];
+                        $temp['fee'] =  $month['tution_fee'] * $month['total_month'];
+                        $temp['due_date'] = $month['show_due_date'];
+                        //------------class 10th and class 12 not march bus fee not include-------------
+                        if(($result['student'][0]['class_id'] == 13 && $month['fm_id'] == 9) || ($result['student'][0]['class_id'] == 15 && $month['fm_id'] == 9)){
+                            $temp['bus_fee'] = $result['student'][0]['bus_fee'] * 1;
+                        }else{
+                            $temp['bus_fee'] = $result['student'][0]['bus_fee'] * $month['bus_month'];
+                        }
+                        
+                        //--------------get late fee--------------
+                        $last_date_of_month =  date("Y-m-t", strtotime($month['due_date']));
+                        $temp['late_fee'] = 0;
+                        if($temp['fee'] > 0){
+                            if(strtotime($current_date) > strtotime($last_date_of_month)){
+                                $temp['late_fee'] = 200;
+                            }else if(strtotime($current_date) > strtotime($month['due_date']) ){
+                                $datediff = strtotime($current_date) - strtotime($month['due_date']);
+                                $datediff =  round($datediff / (60 * 60 * 24));
+                                $temp['late_fee'] = 5 * $datediff;
+                            }
+                        }
+                        $result['fee_month'][] = $temp;
                     }
                     //--------------**********--------------
-                    $result['fee_month'][] = $temp;
+                    
                 }
             }
             
@@ -627,7 +632,7 @@ class Student_fee_ctrl extends CI_Controller {
         if($data['fee_status'] == 1){
             $condition .= ' AND sf.pay_status = '.$data['fee_status'];
         }else if($data['fee_status'] == 0){
-            $condition .= ' AND sf.pay_status ='.null;
+            $condition .= ' AND sf.pay_status IS NULL';
         }
         
         if($data['search_box']){
@@ -650,7 +655,7 @@ class Student_fee_ctrl extends CI_Controller {
         $this->db->where($condition);
         $this->db->group_by('s.adm_no');
         $result = $this->db->get_where('students s',array('s.status'=>1))->result_array();
-       // print_r($this->db->last_query());die;
+       //print_r($this->db->last_query());die;
         $final = [];
         if(count($result) > 0){
             if($data['fee_month']){

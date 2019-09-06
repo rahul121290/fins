@@ -28,7 +28,7 @@ $(document).ready(function(){
 	});
 
 
-	$(document).on('keyup','#search_box',function(){
+	$(document).on('change','#search_box',function(){
 		var search_box = $(this).val();
 		var session = $('#session').val();
 		var school = $('#school').val(); 
@@ -113,8 +113,8 @@ $(document).ready(function(){
 					$('#paid_fee').html('<b>0.00</b>');
 					$('#pending_fee').html('<b>0.00</b>');
 					$('#total_fee').html('<b>0.00</b>');
-					
 					$('#student_list').html('<tr><td colspan="13" style="text-align:center;">Record not found.</td></tr>');
+					$('#loader').modal('hide');
 				}
 			},
 		});

@@ -115,6 +115,9 @@ $permission = $this->my_function->user_permission();
 						<ul class="dropdown-menu">
 							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/student-records"><i class="fa fa-user-circle-o text-blue" aria-hidden="true"></i>Student Records</a></li>
 							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/csv-update"><i class="fa fa-user-circle-o text-blue" aria-hidden="true"></i>CSV Update</a></li>
+							<?php if(in_array(29, $permission)){ ?>
+    								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/sibling-details"><i class="fa fa-user text-blue" aria-hidden="true"></i>Sibling Details</a></li>
+    							<?php }?>
 						</ul>
 					</li>
 					<?php } ?>
@@ -170,8 +173,7 @@ $permission = $this->my_function->user_permission();
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">HOSTEL FEE<span class="caret"></span></a>
     						<ul class="dropdown-menu">
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/add-hostel-details"><i class="fa fa-user text-blue" aria-hidden="true"></i>Add Hostel Student</a></li>
-    							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/fee-payment"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Student Fee</a></li>
-								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/fee"><i class="fa fa-user text-blue" aria-hidden="true"></i>Fee Payment</a></li>
+								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/fee-payment"><i class="fa fa-user text-blue" aria-hidden="true"></i>Fee Payment</a></li>
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/report"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Report</a></li>
     						</ul>
     					</li>

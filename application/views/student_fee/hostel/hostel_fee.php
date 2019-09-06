@@ -1,3 +1,4 @@
+<?php if(count($student_details) > 0){?>
 <div class="content-wrapper">
 <section class="content-header">
       <h1>Hostel <small>Student Hostel Fee</small></h1>
@@ -12,6 +13,7 @@
     <input type="hidden" id="sch_id" value="<?php echo $this->uri->segment(6);?>">
     <input type="hidden" id="medium" value="<?php echo $student_details[0]['medium'];?>">
     <input type="hidden" id="adm_no" value="<?php echo $this->uri->segment(7);?>">
+    <input type="hidden" id="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>">
     
     <div class="col-md-6">
 	<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
@@ -24,29 +26,25 @@
 						<tbody>
 						<tr>
 						<td><b>Student Name</b></td><td>: <?php echo $student_details[0]['name'];?></td>
-						<td><b>Father Name</b></td><td>: lakhan lal</td>
+						<td><b>Father Name</b></td><td>: <?php echo $student_details[0]['f_name'];?></td>
 						</tr>
 						<tr>
-						<td><b>Admission No.</b></td><td>: </td>
-						<td><b>Roll No.</b></td><td>: </td>
+						<td><b>Admission No.</b></td><td>: <?php echo $student_details[0]['adm_no'];?></td>
+						<td><b>Roll No.</b></td><td>: <?php echo $student_details[0]['roll_no'];?></td>
 						</tr>
 						<tr>
-						<td><b>Class</b></td><td>: </td>
-						<td><b>Student Fee Category</b></td><td>:  </td>
+						<td><b>Class</b></td><td>: <?php echo $student_details[0]['class_name'];?></td>
+						<td><b>Student Fee Category</b></td><td>: <?php echo $student_details[0]['std_status'];?> </td>
 						</tr>
 						<tr>
-						<td><b>Medium</b></td><td>:  </td>
-						<td><b>Contact No.</b></td><td>: </td>
+						<td><b>Medium</b></td><td>:  <?php echo $student_details[0]['med_name'];?></td>
+						<td><b>Contact No.</b></td><td>: <?php echo $student_details[0]['contact_no'];?></td>
 						</tr>
 						<tr>
-						<td><b>Allotted Hostel</b></td><td>:  </td>
-						<td><b>Board</b></td><td>: </td>
+						<td><b>Allotted Hostel</b></td><td>: <?php echo $student_details[0]['hostel_name'];?></td>
+						<td><b>School</b></td><td>: <?php echo $student_details[0]['school_name'];?></td>
 						</tr>
-						
 						</tbody>
-						
-        		
-						
 					</table>
 				
 			</div>
@@ -60,21 +58,28 @@
 			
 			<div class="box-body">
 					<table class="table">
+						<thead>
+							<tr>
+								<th>Receipt No</th>
+								<th>Pay Date</th>
+								<th>Installment</th>
+								<th>Paid Amount</th>
+								<th>Pending Amount</th>
+							</tr>
+						</thead>
 						<tbody>
-						<tr>
-						<td><b>Pay Month</b></td><td>: March/April 2019</td>
-						<td><b>Paid Amount</b></td><td>: 1428</td>
-						</tr>
-						<tr>
-						<td><b>Pending Amount</b></td><td>: 1524 </td>
-						<td><b>Total Amount</b></td><td>: 1524</td>
-						</tr>
-						
-						
+							<?php if(count($paid_fee_details) > 0){ 
+							    foreach($paid_fee_details as $key => $paid_fee){
+							?>
+							<tr>
+								<td><?php echo $paid_fee['receipt_no'];?></td>
+								<td><?php echo $paid_fee['pay_date'];?></td>
+								<td><?php echo $paid_fee['installment'];?></td>
+								<td><?php echo $paid_fee['paid_amount'];?></td>
+								<td><?php if($paid_fee['pending_amount'] > 0){echo $paid_fee['pending_amount'];}else{ echo "NIL";}?></td>
+							</tr>
+							<?php } }?>
 						</tbody>
-						
-        		
-						
 					</table>
 
 			</div>
@@ -215,3 +220,6 @@
 	</div>
 	</form>
 </div>
+<?php }else{?>
+	<h2>Student Hostel Details not updated</h2>
+<?php }?>

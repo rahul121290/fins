@@ -640,4 +640,121 @@ class Student_ctrl extends CI_Controller{
 	    }
 	}
 	
+	function print_record(){
+	    $data['session'] = $this->session->userdata('session_id');
+	    $data['sibling'] = $this->input->post('sibling');
+	    $data['school'] = $this->input->post('school');
+	    $data['medium'] = $this->input->post('medium');
+	    $data['class_name'] = $this->input->post('class_name');
+	    $data['section'] = $this->input->post('section');
+	    $data['search_box'] = $this->input->post('search_box');
+	    
+	    $condition = 's.status = 1';
+	    
+	    if($data['sibling']){
+	        $condition .=' AND s.fee_criteria = '.$data['sibling'];
+	    }
+	    
+	    if($data['session']){
+	        $condition .=' AND s.ses_id = '.$data['session'];
+	    }
+	    if($data['school']){
+	        $condition .=' AND s.sch_id = '.$data['school'];
+	    }
+	    if($data['medium']){
+	        $condition .=' AND s.medium = '.$data['medium'];
+	    }
+	    if($data['class_name']){
+	        $condition .=' AND s.class_id = '.$data['class_name'];
+	    }
+	    if($data['section']){
+	        $condition .=' AND s.sec_id = '.$data['section'];
+	    }
+	    
+	    if($data['search_box']){
+	        $condition .=' AND (s.adm_no = '.$data['search_box'] .'OR s.name  LIKE "'.$data['search_box'].'%")';
+	    }
+	    
+	    $this->db->select('s.adm_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"") staff_child,sch.school_name,related_std,related_std_board');
+	    $this->db->join('school sch','sch.sch_id = s.sch_id');
+	    $this->db->join('class c','c.c_id = s.class_id');
+	    $this->db->join('section sec','sec.sec_id = s.sec_id');
+	    $this->db->join('fee_criteria fc','fc.fc_id = fee_criteria');
+	    $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
+	    $this->db->where($condition);
+	    $result = $this->db->get_where('students s')->result_array();
+	    
+	    $final = [];
+	    
+	    if(count($result) > 0){
+	        foreach($result as $key => $res){
+	            $flag = 1;
+	            $temp = [];
+	            $temp['adm_no'] = $res['adm_no'];
+	            $temp['name'] = $res['name'];
+	            $temp['f_name'] = $res['f_name'];
+	            $temp['contact_no'] = $res['contact_no'];
+	            $temp['class_name'] = $res['class_name'];
+	            $temp['section_name'] = $res['section_name'];
+	            $temp['fc_name'] = $res['fc_name'];
+	            $temp['staff_child'] = $res['staff_child'];
+	            $temp['school_name'] = $res['school_name'];
+	            $temp['related_std'] = $res['related_std'];
+	            $temp['related_std_board'] = $res['related_std_board'];
+	            
+	            if($res['related_std']){
+	                $this->db->select('s.adm_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"") staff_child,sch.school_name');
+	                $this->db->join('school sch','sch.sch_id = s.sch_id');
+	                $this->db->join('class c','c.c_id = s.class_id');
+	                $this->db->join('section sec','sec.sec_id = s.sec_id');
+	                $this->db->join('fee_criteria fc','fc.fc_id = fee_criteria');
+	                $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
+	                $this->db->where(array('s.ses_id'=>$data['session'],'s.adm_no'=>$res['related_std'],'s.sch_id'=>$res['related_std_board']));
+	                $result1 = $this->db->get_where('students s')->result_array();
+	               // print_r($this->db->last_query());die;
+	                
+	                if(count($result1) > 0){
+	                    $temp['related_adm_no'] = $result1[0]['adm_no'];
+	                    $temp['related_name'] = $result1[0]['name'];
+	                    $temp['related_f_name'] = $result1[0]['f_name'];
+	                    $temp['related_contact_no'] = $result1[0]['contact_no'];
+	                    $temp['related_class_name'] = $result1[0]['class_name'];
+	                    $temp['related_section_name'] = $result1[0]['section_name'];
+	                    $temp['related_fc_name'] = $result1[0]['fc_name'];
+	                    $temp['related_staff_child'] = $result1[0]['staff_child'];
+	                    $temp['related_school_name'] = $result1[0]['school_name'];
+	                }else{
+	                    $flag = 0;
+	                    $temp['related_adm_no'] = "";
+	                    $temp['related_name'] = "";
+	                    $temp['related_f_name'] = "";
+	                    $temp['related_contact_no'] = "";
+	                    $temp['related_class_name'] = "";
+	                    $temp['related_section_name'] = "";
+	                    $temp['related_fc_name'] = "";
+	                    $temp['related_staff_child'] = "";
+	                }
+	            }else{
+	                if($flag == 1){
+	                    $temp['related_adm_no'] = "";
+	                    $temp['related_name'] = "";
+	                    $temp['related_f_name'] = "";
+	                    $temp['related_contact_no'] = "";
+	                    $temp['related_class_name'] = "";
+	                    $temp['related_section_name'] = "";
+	                    $temp['related_fc_name'] = "";
+	                    $temp['related_staff_child'] = "";
+	                }   
+	            }
+	            $final[] = $temp;
+	        }
+	    }
+	    if(count($final) > 0){
+	        echo json_encode(array('data'=>$final,'status'=>200));
+	    }else{
+	        echo json_encode(array('msg'=>'record not found.','status'=>500));
+	    }
+	}
+	
+	
 }

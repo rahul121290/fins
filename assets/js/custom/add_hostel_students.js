@@ -73,7 +73,6 @@ $(document).ready(function(){
 	});
 	
 	/////////////////////////////////////////////////////////////
-	
 	$('#hostel_student_details').validate({
 		rules:{
 			std_status:{required:true},

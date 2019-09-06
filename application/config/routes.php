@@ -21,6 +21,7 @@ $route['(:any)/(:any)/master-record/csv-update'] = 'Admin_ctrl/csv_update';
 
 $route['(:any)/(:any)/master-record/sync-master-data'] = 'Admin_ctrl/sync_master_data';
 $route['(:any)/(:any)/master-record/upload-student-marks'] = 'Admin_ctrl/upload_student_marks';
+$route['(:any)/(:any)/master-record/sibling-details'] = 'Admin_ctrl/sibling_details';
 
 
 $route['(:any)/(:any)/transaction-record/attendance-entry'] = 'Admin_ctrl/attendance_entry';
@@ -68,7 +69,7 @@ $route['(:any)/(:any)/students/recycle-bin'] = 'Admin_ctrl/recycle_bin';
 $route['(:any)/(:any)/hostel/add-hostel-details'] = 'Admin_ctrl/add_hostel_details';
 $route['(:any)/(:any)/hostel/fee-payment/(:num)/(:num)/(:num)'] = 'Admin_ctrl/hostel_fee/$3/$4/$5';
 $route['(:any)/(:any)/hostel/fee-payment'] = 'Admin_ctrl/hostel_student_list';
-$route['(:any)/(:any)/hostel/receipt'] = 'Admin_ctrl/hostel_receipt';
+$route['(:any)/(:any)/hostel/receipt/(:num)'] = 'Admin_ctrl/hostel_receipt/$3';
 $route['(:any)/(:any)/hostel/report'] = 'Admin_ctrl/hostel_report';
 
 

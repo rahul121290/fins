@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	var baseUrl = $('#base_url').val();
+	var userUrl = $('#user_url').val();
 	//----------------------------------------------------------
 	$(document).on('change','#pay_month',function(){
 		var pay_month = $(this).val();
@@ -33,6 +34,11 @@ $(document).ready(function(){
 				}else{
 					alert(response.msg);
 					$('#pay_month').prop('selectedIndex','');
+					$('#total_fee').val('');
+					$('#previous_paid').val('');
+					$('#pay_amount').val('');
+					$('#grand_total').val('');
+					$('#pending_amount').val('');
 				}
 			},
 		});
@@ -383,6 +389,7 @@ $(document).ready(function(){
 				success:function(response){
 					if(response.status == 200){
 						alert(response.msg);
+						window.location.href = baseUrl+userUrl+'/hostel/receipt/'+response.receipt_no;
 					}else{
 						alert(response.msg);
 					}
