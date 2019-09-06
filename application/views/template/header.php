@@ -174,6 +174,7 @@ $permission = $this->my_function->user_permission();
     						<ul class="dropdown-menu">
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/add-hostel-details"><i class="fa fa-user text-blue" aria-hidden="true"></i>Add Hostel Student</a></li>
 								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/fee-payment"><i class="fa fa-user text-blue" aria-hidden="true"></i>Fee Payment</a></li>
+								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/student-report"><i class="fa fa-user text-blue" aria-hidden="true"></i>Student Report</a></li>
     							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/hostel/report"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Report</a></li>
     						</ul>
     					</li>

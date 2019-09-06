@@ -99,6 +99,7 @@
 					
 					<div class="col-md-2 mb-3">
 						<button type="button" id="search" class="btn btn-success pull-left">Search</button>	
+						<button type="button" id="print" class="btn btn-info pull-left"  onclick='printDiv();'>Print</button>
 					</div>
 			    </div>
     		</form>	
@@ -113,7 +114,7 @@
 		
 		</div>
 		
-		<div class="box box-primary">
+		<!-- <div class="box box-primary">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
     				<div class="col-md-4" style="border-right:1px solid #ddd;">
     					<b style="color:#5d5c5c;">Total Fee</b><br>
@@ -131,9 +132,9 @@
 					<span id="pending_fee"><b>0.00</b></span>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	
-		<div class="box box-info">
+		<div class="box box-info" id="DivIdToPrint">
             <div class="box-header">
               <h3 class="box-title">Student List</h3>
             </div>
@@ -143,12 +144,12 @@
 						<th>S.No.</th>
 						<th>Admission No.</th>
 						<th>Fee Criteria</th>
-                        <th>Related Students</th>
+                        <!--th>Related Students</th -->
 						<th>Class/Sec</th>
 						<th>Student Name</th>
                           <th>Father's Name</th>
                           <th>Bus</th>
-                          <th>Pending Month</th>
+                          <th>Month Name</th>
                           <th>Fee Status</th>
                           <!-- >th>Action</th -->
                         </tr>
@@ -228,9 +229,9 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 		},
 		success:function(response){
 			if(response.status == 200){
-				$('#paid_fee').html('<b>'+parseFloat(response.paid_fee).toFixed(2)+'</b>');
-				$('#pending_fee').html('<b>'+parseFloat(response.pending_fee).toFixed(2)+'</b>');
-				$('#total_fee').html('<b>'+parseFloat(response.total_fee).toFixed(2)+'</b>');
+// 				$('#paid_fee').html('<b>'+parseFloat(response.paid_fee).toFixed(2)+'</b>');
+// 				$('#pending_fee').html('<b>'+parseFloat(response.pending_fee).toFixed(2)+'</b>');
+// 				$('#total_fee').html('<b>'+parseFloat(response.total_fee).toFixed(2)+'</b>');
 				
 				var x='';
 				$.each(response.data,function(key,value){
@@ -238,7 +239,7 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 						'<td>'+parseInt(key+1)+'</td>'+
 						'<td>'+value.adm_no+'</td>'+
 						'<td>'+value.fc_name+' '+value.staff_child+'</td>'+
-						'<td>'+value.related_std+'</td>'+
+						//'<td>'+value.related_std+'</td>'+
 						'<td>'+value.class_name+'/'+value.section_name+'</td>'+
 						'<td>'+value.name+'</td>'+
 						'<td>'+value.f_name+'</td>'+
@@ -252,10 +253,9 @@ function student_details_list(session,school,medium,class_name,section,fee_crite
 				$('#student_list').html(x);
 				$('#loader').modal('hide');
 			}else{
-				$('#paid_fee').html('<b>0.00</b>');
-				$('#pending_fee').html('<b>0.00</b>');
-				$('#total_fee').html('<b>0.00</b>');
-				
+// 				$('#paid_fee').html('<b>0.00</b>');
+// 				$('#pending_fee').html('<b>0.00</b>');
+// 				$('#total_fee').html('<b>0.00</b>');
 				$('#student_list').html('<tr><td colspan="13" style="text-align:center;">Record not found.</td></tr>');
 				$('#loader').modal('hide');
 			}
@@ -297,10 +297,12 @@ $(document).on('click','.discontinue',function(){
 	}
 });
 
-$(document).on('click','.view_details',function(){
-	var ses_id = $(this).data('ses_id');
-	var sch_id = $(this).data('sch_id');
-	var adm_no = $(this).data('adm_no');
-	window.open(baseUrl+userUrl+'/report/student/'+ses_id+'/'+sch_id+'/'+adm_no);
-});
+function printDiv(){
+	  var divToPrint=document.getElementById('DivIdToPrint');
+	  var newWin=window.open('','Print-Window');
+	  newWin.document.open();
+	  newWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css"></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+	  newWin.document.close();
+	  setTimeout(function(){newWin.close();},10);
+	}
 </script>

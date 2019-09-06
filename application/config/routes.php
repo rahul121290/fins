@@ -71,6 +71,7 @@ $route['(:any)/(:any)/hostel/fee-payment/(:num)/(:num)/(:num)'] = 'Admin_ctrl/ho
 $route['(:any)/(:any)/hostel/fee-payment'] = 'Admin_ctrl/hostel_student_list';
 $route['(:any)/(:any)/hostel/receipt/(:num)'] = 'Admin_ctrl/hostel_receipt/$3';
 $route['(:any)/(:any)/hostel/report'] = 'Admin_ctrl/hostel_report';
+$route['(:any)/(:any)/hostel/student-report'] = 'Admin_ctrl/hostel_student_report';
 
 
 $route['(:any)/(:any)/profile'] = 'Admin_ctrl/profile';

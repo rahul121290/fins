@@ -16,7 +16,7 @@
           <h3 class="box-title">Hostel Fee Filter</h3>
         </div>
     	<div class="box-body form-horizontal">
-    	<form id="class_wise_fee_details" action="javascript:void(0);" method="POST" role="form">
+    	<form id="hostel_mis_form" action="javascript:void(0);" method="POST" role="form">
     	
     	<input type="hidden" id="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>">
     	
@@ -24,7 +24,6 @@
       				<div class="col-sm-2 mb-3">
 						<label>Select Session</label>
 						<select name="session" id="session" class="form-control">
-							<option value="">Select Session</option>
 							<option value="3" selected>2019-20</option>
 						</select>
 						<div id="session_err" style="display:none; color:red;"></div>
@@ -33,33 +32,26 @@
 						<label>Select Board</label>
 						<select name="school" id="school" class="form-control">
 							<option value="">Select Board</option>
+							<?php if($this->session->userdata('school_id')){?>
 							<option value="1" selected>Shakuntala CBSE</option>
 							<option value="3">CG State Board</option>
+							<?php }else{?>
 							<option value="2">Sharda</option>
+							<?php } ?>
 						</select>
 						<div id="school_err" style="display:none; color:red;"></div>
 					</div>					
-					
+				
 					<div class="col-sm-2 mb-3">
-						<label>Select Allotted Hostel</label>
-						<select name="section" id="" class="form-control">
-							<option value="">Select Allotted Hostel</option>
-								<option value="1">Hostel 1</option>
-								<option value="2">Hostel 2</option>
-						</select>
-						<div id="" style="display:none; color:red;"></div>
+						<label>From Date</label>
+						<input type="date" id="from_date" class="form-control" value="<?php echo date('Y-m-d');?>" min="2019-04-01" max="<?php echo date('Y-m-d');?>"/>
+						<div id="from_date_err" style="display:none; color:red;"></div>
 					</div>
 					<div class="col-sm-2 mb-3">
 						<label>To Date</label>
-						<input type="date" class="form-control" />
-						<div id="" style="display:none; color:red;"></div>
+						<input type="date" id="to_date" class="form-control" value="<?php echo date('Y-m-d');?>" min="2019-04-01" max="<?php echo date('Y-m-d');?>"/>
+						<div id="to_date_err" style="display:none; color:red;"></div>
 					</div>
-					<div class="col-sm-2 mb-3">
-						<label>From Date</label>
-						<input type="date" class="form-control" />
-						<div id="" style="display:none; color:red;"></div>
-					</div>
-					
 					
 					<div class="col-md-2 mb-3">
 						<button type="button" id="search" class="btn btn-info pull-left">Search</button>	
@@ -71,22 +63,29 @@
 		
 		<div class="box box-primary">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
-				<div class="col-md-4" style="border-right:1px solid #ddd;">
+			<div class="col-md-3">
+    					<b style="color:#5d5c5c;">Total Students</b><br>
+    					<span id="total_students"><b>0.00</b></span>
+    			</div>
+    			<div class="col-md-3">
+    					<b style="color:#5d5c5c;">Total Fee</b><br>
+    					<span id="total_fee"><b>0.00</b></span>
+    			</div>
+				
+				<div class="col-md-3" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Received Fee</b><br>
 					<span id="paid_fee"><b>0.00</b></span>
 				</div>
-				<div class="col-md-4" style="border-right:1px solid #ddd;">
+				
+				<div class="col-md-3" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Pending Fee</b><br>
 					<span id="pending_fee"><b>0.00</b></span>
 				</div>
-				<div class="col-md-4">
-					<b style="color:#5d5c5c;">Total Fee</b><br>
-					<span id="total_fee"><b>0.00</b></span>
-				</div>
+				
 			</div>
 		</div>
 	
-		<div class="box box-info">
+		<!-- <div class="box box-info">
             <div class="box-header">
               <h3 class="box-title"><b>Shakuntala Gurukul Fee</b></h3>
             </div>
@@ -142,8 +141,96 @@
 					</tbody>
 				</table>
       		</div>
-		</div>
+		</div>-->
 		
+		
+		<div class="col-md-6 col-md-offset-3">
+		<div class="box box-danger" id="DivIdToPrint">
+            <div class="box-header fee-table-head" style="background-color: #881e1e;color: #fff;">
+              <h3 class="box-title"><b>Shakuntala Vidyalaya (2019-20)</b></h3>
+			  <span class="pull-right"><b>Date Range: <span id="date_range"></span></b></span>
+            </div>
+      		     <div class="box-body fee-table-body" id="fee_report_table"></div>
+ 		</div>
+		<div class="text-center"><button class="btn btn-space btn-primary no-print" style="margin-bottom:50px;" onclick="printDiv()">Print this page</button></div>
+ 		</div>
 	</div>
 </div>
-		
+
+<script type="text/javascript">
+var baseUrl = $('#base_url').val();
+var session = $('#session').val();
+var school = $('#school').val();
+var from_date = $('#from_date').val();
+var to_date = $('#to_date').val();
+
+$('#hostel_mis_form').validate({
+	rules:{
+		session:{required:true},
+		school:{required:true}
+	},
+});
+
+$(document).on('click','#search',function(){
+	var formvaldate = $('#hostel_mis_form').valid();
+	var session = $('#session').val();
+	var school = $('#school').val();
+	var from_date = $('#from_date').val();
+	var to_date = $('#to_date').val();
+	 
+	if(formvaldate){
+		getMisDetails(session,school,from_date,to_date);	
+	}
+	
+});
+
+getMisDetails(session,school,from_date,to_date);
+function getMisDetails(session,school,from_date,to_date){
+	$.ajax({
+		type:'POST',
+		url:baseUrl+'hostel/Hostel_students_ctrl/hostel_mis_details',
+		data:{'session':session,'school':school,'from_date':from_date,'to_date':to_date},
+		dataType:'json',
+		beforeSend:function(){},
+		success:function(response){
+			if(response.status == 200){
+				$('#date_range').html('From '+ moment(from_date).format("DD-MM-YYYY")+' To ' +moment(to_date).format("DD-MM-YYYY"));
+				$('#total_students').html('<b>'+response.data.total_students+'</b>');
+				$('#total_fee').html('<b>'+response.data.total_fee+'</b>');
+				$('#paid_fee').html('<b>'+response.data.paid_fee+'</b>');
+				var pending_fee = parseFloat(parseFloat(response.data.total_fee) - parseFloat(response.data.paid_fee)).toFixed(2);
+				$('#pending_fee').html('<b>'+pending_fee+'</b>');
+
+				var x='<table class="table table-responsive"><tbody style="font-size:16px;">';
+				x=x+='<tr><td><b>Total Students</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.total_students+'</td></tr>'+
+				'<tr><td><b>Total Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.total_fee+'/-</td></tr>'+
+				'<tr><td><b>Received Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.paid_fee+'/-</td></tr>'+
+				'<tr><td><b>Pending Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+pending_fee+'/-</td></tr>'+
+				'<tr><td colspan="2" style="text-align:center;background-color:#ddd !important;"><b>Pay Method</b></td></tr>'+
+				'<tr><td><b>Cash</b></td><td>'+response.data.pay_method[0].cash+'</td></tr>'+
+				'<tr><td><b>Cheque</b></td><td>'+response.data.pay_method[0].cheque+'</td></tr>'+
+				'<tr><td><b>DD (Demand Draft)</b></td><td>'+response.data.pay_method[0].dd+'</td></tr>'+
+				'<tr><td><b>Credit Card</b></td><td>'+response.data.pay_method[0].credit_card+'</td></tr>'+
+				'<tr><td><b>Debit Card</b></td><td>'+response.data.pay_method[0].debit_card+'</td></tr>'+
+				
+				'</tbody></table>';
+				$('#fee_report_table').html(x);
+			}
+		},
+	});
+}
+
+$(document).on('change','#from_date',function(){
+	$('#search').trigger('click');
+});
+
+function printDiv(){
+	  var divToPrint=document.getElementById('DivIdToPrint');
+	  var newWin=window.open('','Print-Window');
+	  newWin.document.open();
+	  newWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css"></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+	  newWin.document.close();
+	  setTimeout(function(){newWin.close();},10);
+}
+
+</script>

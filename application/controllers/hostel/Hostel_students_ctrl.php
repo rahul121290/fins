@@ -356,9 +356,65 @@ class Hostel_students_ctrl extends CI_Controller {
         }
     }
     
-    function fee_receipt(){
-        $receipt_no = $this->input->post('receipt_no');
+    function studentPrintList(){
+        $data['session'] = $this->input->post('session');
+        $data['school'] = $this->input->post('school');
+        $data['medium'] = $this->input->post('medium');
+        $data['class_id'] = $this->input->post('class_id');
+        $data['installment'] = $this->input->post('installment');
+        $data['pay_status'] = $this->input->post('pay_status');
         
+        
+        $condition = 's.status = 1';
+        if($data['session']){
+            $condition .= ' AND s.ses_id = '.$data['session'];
+        }
+        if($data['school']){
+            $condition .= ' AND s.sch_id = '.$data['school'];
+        }
+        if($data['medium']){
+            $condition .= ' AND s.medium = '.$data['medium'];
+        }
+        if($data['class_id']){
+            $condition .= ' AND s.class_id = '.$data['class_id'];
+        }
+        
+        if($data['pay_status'] == 1){
+            $condition .= ' AND hfp.hfp_id IS NOT NULL';
+        }else if($data['pay_status'] == 0 && $data['pay_status'] != ''){
+            $condition .= ' AND hfp.hfp_id IS NULL';
+        }
+        
+        if($data['installment']){
+            $condition1 = ' AND hfp.installment = '.$data['installment'];
+        }
+        
+        $this->db->select('s.adm_no,hs.std_status,s.f_name,hs.f_contact_no,s.name,s.contact_no,hfs.total total_fee,sch.school_name,c.class_name,sec.section_name,
+                            IFNULL((SELECT SUM(paid_amount) FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND installment <= '.$data['installment'].' AND status = 1),0) paid_fee,
+                            IF(hfp_id is NULL,"Pending","Paid") pay_status,IFNULL(u.username,"-") username');
+        $this->db->join('hostel_fee_payment hfp','hfp.adm_no = s.adm_no AND hfp.ses_id = s.ses_id AND hfp.sch_id = s.sch_id '.$condition1.'','LEFT');
+        $this->db->join('users u','u.id = hfp.created_by','LEFT');
+        $this->db->join('hostel_students hs','hs.adm_no = s.adm_no AND hs.ses_id = s.ses_id AND hs.sch_id = s.sch_id');
+        $this->db->join('hostel_fee_structure hfs','hfs.ses_id = hs.ses_id AND hfs.sch_id = hs.sch_id AND hfs.student_status = hs.std_status');
+        $this->db->join('school sch','sch.sch_id=s.sch_id');
+        $this->db->join('class c','c.c_id = s.class_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->where($condition);
+        $result = $this->db->get_where('students s')->result_array();
+//         print_r($this->db->last_query());die;
+        
+        $this->db->select('username');
+        $user = $this->db->get_where('users',array('status'=>1,'id'=>$this->session->userdata('user_id')))->result_array();
+        
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'username'=>$user[0]['username'],'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+    }
+    
+    function fee_receipt(){
+        $receipt_no = $this->input->post('receipt_no');    
         $this->db->select('*');
         $this->db->join('students s','s.adm_no = hfp.adm_no AND s.ses_id = hfp.ses_id AND s.sch_id = hfp.sch_id AND s.status = 1');
         $this->db->join('school sch','sch.sch_id=s.sch_id');
@@ -371,5 +427,63 @@ class Hostel_students_ctrl extends CI_Controller {
             echo json_encode(array('msg'=>'record not found.','status'=>500));
         }
     }
+    
+    function hostel_mis_details(){
+        $data['session'] = $this->input->post('session');
+        $data['school'] = $this->input->post('school');
+        $data['from_date'] = $this->input->post('from_date');
+        $data['to_date'] = $this->input->post('to_date');
+        
+        
+        $this->db->select('COUNT(*) total_hostler');
+        $this->db->where(array('hs.ses_id'=>$data['session'],'hs.sch_id'=>$data['school']));
+        $total_students = $this->db->get_where('hostel_students hs',array('hs.status'=>1))->result_array();
+        if(count($total_students) > 0){
+            $result['total_students'] = $total_students[0]['total_hostler'];
+        }else{
+            $result['total_students'] = 0;
+        }
+        
+        $this->db->select('SUM(hfs.total) total_fee');
+        $this->db->join('hostel_fee_structure hfs','hfs.ses_id = hs.ses_id AND hfs.sch_id = hs.sch_id AND hfs.student_status = hs.std_status AND hfs.status = 1');
+        $this->db->where(array('hs.ses_id'=>$data['session'],'hs.sch_id'=>$data['school']));
+        $total_fee = $this->db->get_where('hostel_students hs',array('hs.status'=>1))->result_array();
+        if(count($total_fee) > 0){
+            $result['total_fee'] = $total_fee[0]['total_fee'];
+        }else{
+            $result['total_fee'] = 0;
+        }
+        
+        $this->db->select('SUM(paid_amount) paid_fee');
+        $this->db->where(array('pay_date >= '=>$data['from_date'],'pay_date <='=>$data['to_date']));
+        $this->db->where(array('hfp.ses_id'=>$data['session'],'hfp.sch_id'=>$data['school']));
+        $paid_fee = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1))->result_array();
+        if(count($paid_fee) > 0){
+            $result['paid_fee'] = $paid_fee[0]['paid_fee'];
+        }else{
+            $result['paid_fee'] = 0;
+        }
+        
+        $this->db->select('
+                           IFNULL(SUM(IF(hfpm.method_name = "cash",hfpm.amount,0)),0) cash,
+                           IFNULL(SUM(IF(hfpm.method_name = "cheque",hfpm.amount,0)),0) cheque,
+                           IFNULL(SUM(IF(hfpm.method_name = "dd",hfpm.amount,0)),0) dd,
+                           IFNULL(SUM(IF(hfpm.method_name = "pos",IF(hfpm.card_name = "credit_card",hfpm.amount,0),0)),0) credit_card,
+                           IFNULL(SUM(IF(hfpm.method_name = "pos",IF(hfpm.card_name = "debit_card",hfpm.amount,0),0)),0) debit_card
+        ');
+        $this->db->join('hostel_fee_payment hfp','hfp.receipt_no = hfpm.receipt_no');
+        $this->db->where(array('pay_date >= '=>$data['from_date'],'pay_date <='=>$data['to_date']));
+        $this->db->where(array('hfp.ses_id'=>$data['session'],'hfp.sch_id'=>$data['school']));
+        $result['pay_method'] = $this->db->get_where('hfp_method hfpm',array('hfpm.status'=>1))->result_array();
+        
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+        
+        
+    }
+    
     
 }

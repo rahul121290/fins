@@ -762,7 +762,7 @@ class Admin_ctrl extends CI_Controller {
     
     function online_fee(){
         if(in_array(27, $this->permission)){
-            $this->data['page_name'] = 'Generate fee for online';
+            $this->data['page_name'] = 'Generate online fee';
             $this->data['main'] = 'student_fee/online_fee';
             $this->_admin_class_teacher_access();
         }else{
@@ -870,6 +870,20 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(28, $this->permission)){
             $this->data['page_name'] = 'Hostel Fee';
             $this->data['main'] = 'student_fee/hostel/hostel_student_list';
+            $this->data['medium'] = $this->db->select('med_id,med_name')->get_where('medium',array('status'=>1))->result_array();
+            $this->data['class'] = $this->db->select('c_id,class_name')->get_where('class',array('status'=>1))->result_array();
+            $this->data['section'] = $this->db->select('sec_id,section_name')->get_where('section',array('status'=>1))->result_array();
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function hostel_student_report(){
+        if(in_array(28, $this->permission)){
+            $this->data['page_name'] = 'Hostel Fee';
+            $this->data['main'] = 'student_fee/hostel/hostel_student_report';
             $this->data['medium'] = $this->db->select('med_id,med_name')->get_where('medium',array('status'=>1))->result_array();
             $this->data['class'] = $this->db->select('c_id,class_name')->get_where('class',array('status'=>1))->result_array();
             $this->data['section'] = $this->db->select('sec_id,section_name')->get_where('section',array('status'=>1))->result_array();
