@@ -796,7 +796,7 @@ class Admin_ctrl extends CI_Controller {
     
     
     function sync_master_data(){
-        if(in_array(28, $this->permission)){
+        if(in_array(31, $this->permission)){
             $this->data['page_name'] = 'Data Sync';
             $this->data['main'] = 'master/sync_master_data';
             $this->_load_view();
@@ -807,7 +807,7 @@ class Admin_ctrl extends CI_Controller {
     }
     
     function upload_student_marks(){
-        if(in_array(28, $this->permission)){
+        if(in_array(31, $this->permission)){
             $this->data['page_name'] = 'Data Sync';
             $this->data['main'] = 'master/upload_student_marks';
             $this->_load_view();

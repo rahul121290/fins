@@ -201,7 +201,7 @@ $permission = $this->my_function->user_permission();
     					</li>
 					<?php } ?>
 					
-					<?php if(in_array(28, $permission)){ ?>
+					<?php if(in_array(31, $permission)){ ?>
 						<li class="dropdown">
     					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">Synchronization<span class="caret"></span></a>
     						<ul class="dropdown-menu">
