@@ -70,7 +70,7 @@ $route['(:any)/(:any)/hostel/add-hostel-details'] = 'Admin_ctrl/add_hostel_detai
 $route['(:any)/(:any)/hostel/fee-payment/(:num)/(:num)/(:num)'] = 'Admin_ctrl/hostel_fee/$3/$4/$5';
 $route['(:any)/(:any)/hostel/fee-payment'] = 'Admin_ctrl/hostel_student_list';
 $route['(:any)/(:any)/hostel/receipt/(:num)'] = 'Admin_ctrl/hostel_receipt/$3';
-$route['(:any)/(:any)/hostel/report'] = 'Admin_ctrl/hostel_report';
+$route['(:any)/(:any)/hostel/hostel-mis'] = 'Admin_ctrl/hostel_report';
 $route['(:any)/(:any)/hostel/student-report'] = 'Admin_ctrl/hostel_student_report';
 
 
