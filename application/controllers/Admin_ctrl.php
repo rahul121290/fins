@@ -761,7 +761,7 @@ class Admin_ctrl extends CI_Controller {
     }
     
     function online_fee(){
-        if(in_array(27, $this->permission)){
+        if(in_array(30, $this->permission)){
             $this->data['page_name'] = 'Generate online fee';
             $this->data['main'] = 'student_fee/online_fee';
             $this->_admin_class_teacher_access();
@@ -771,7 +771,7 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     function recycle_bin(){
-        if(in_array(27, $this->permission)){
+        if(in_array(30, $this->permission)){
             $this->data['page_name'] = 'Student Trash';
             $this->data['main'] = 'student_fee/recycle_bin.php';
             $this->_admin_class_teacher_access();
@@ -782,7 +782,7 @@ class Admin_ctrl extends CI_Controller {
     }
     
     function data_sync(){
-        if(in_array(27, $this->permission)){
+        if(in_array(30, $this->permission)){
             $this->data['page_name'] = 'Data Sync';
             $this->data['main'] = 'student_fee/data_sync';
             $this->_load_view();
