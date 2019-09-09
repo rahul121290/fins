@@ -2,7 +2,7 @@
 <section class="content-header">
       <h1>Hostel <small>Hostel Fee Report</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>shakuntala/reception/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="<?=base_url();?>shakuntala/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Hostel Fee Report</li>
       </ol>
     </section>
@@ -11,7 +11,7 @@
 
 <!-- main section -->
 <div class="col-md-12">	
-  	<div class="box box-danger">
+  	<div class="box box-danger no-print">
         <div class="box-header">
           <h3 class="box-title">Hostel Fee Filter</h3>
         </div>
@@ -61,7 +61,7 @@
 		</div><!-- end box body -->
 		</div>
 		
-		<div class="box box-primary">
+		<div class="box box-primary no-print">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
 			<div class="col-md-3">
     					<b style="color:#5d5c5c;">Total Students</b><br>
@@ -224,13 +224,8 @@ $(document).on('change','#from_date',function(){
 	$('#search').trigger('click');
 });
 
-function printDiv(){
-	  var divToPrint=document.getElementById('DivIdToPrint');
-	  var newWin=window.open('','Print-Window');
-	  newWin.document.open();
-	  newWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css"></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
-	  newWin.document.close();
-	  setTimeout(function(){newWin.close();},10);
-}
 
+function printDiv() {
+  window.print();
+}
 </script>

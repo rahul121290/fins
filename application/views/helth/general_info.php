@@ -25,7 +25,7 @@
 			</div>
 			<form role="form" class="form-horizontal">
 			<div class="box-body">
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-3">
                     <label class="col-sm-2 control-label">Session</label>
 					<div class="col-sm-10">
 						<select class="form-control" id="session" name="session">
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				
-				<div class="form-group col-sm-4">
+				<div class="form-group col-sm-3">
                     <label class="col-sm-2 control-label">Medium</label>
 					<div class="col-sm-10">
 							<select class="form-control" id="medium" name="medium">
@@ -47,7 +47,7 @@
 						<div class="text-danger" id="medium_err" style="display:none;"></div>
 					</div>
 				</div>
-				<div class="form-group col-sm-4">
+				<div class="form-group col-sm-3">
                     <label class="col-sm-2 control-label">Class</label>
 					<div class="col-sm-10">
 						<select class="form-control" id="class" name="class">
@@ -57,7 +57,7 @@
 					</div>
 				</div>
 				
-				<div class="form-group col-sm-4" id="s_group" style="display:none;">
+				<div class="form-group col-sm-3" id="s_group" style="display:none;">
                     <label class="col-sm-2 control-label">Sub Group</label>
 					<div class="col-sm-10">
 					<select class="form-control" id="sub_group" name="sub_group">
@@ -70,7 +70,7 @@
 					</div>
 				</div>	
 				
-				<div class="form-group col-sm-4">
+				<div class="form-group col-sm-3">
                     <label class="col-sm-2 control-label">Section</label>
 					<div class="col-sm-10">
 					<select class="form-control" id="section" name="section">
@@ -79,10 +79,8 @@
 					<div class="text-danger" id="section_err" style="display:none;"></div>
 					</div>
 				</div>	
-				
-				
-				<div class="box-footer">
-				<button type="button" id="search" name="search" class="btn pull-right btn-info btn-space">Search</button>
+				<div class="form-group col-sm-3">
+					<button type="button" id="search" name="search" class="btn btn-info btn-space">Search</button>
             	</div>
 				
 			</div>
@@ -100,7 +98,7 @@
         <section class="col-lg-12 connectedSortable">
 		<div class="box box-primary">
 			<div class="box-header with-border">
-			  <h3 class="box-title">Entry Primary helth report</h3>
+			  <h3 class="box-title">Entry Primary Health Report</h3>
 			  <div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
 				  <i class="fa fa-minus"></i></button>

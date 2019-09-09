@@ -25,7 +25,7 @@
 			</div>
 			<form role="form" class="form-horizontal">
 			<div class="box-body">	
-			<div class="form-group col-sm-4">
+			<div class="form-group col-sm-3">
                     <label class="col-sm-2 control-label">Medium</label>
 					<div class="col-sm-10">
 						<select class="form-control" id="session" name="session">
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 							
-				<div class="form-group col-sm-4">
+				<div class="form-group col-sm-3">
                     <label class="col-sm-2 control-label">Medium</label>
 					<div class="col-sm-10">
 						<select class="form-control" id="medium">
@@ -50,7 +50,7 @@
 						<div class="text-danger" id="medium_err" style="display:none;"></div>
 					</div>
 				</div>
-				<div class="form-group col-sm-4">
+				<div class="form-group col-sm-3">
                     <label class="col-sm-2 control-label">Class</label>
 					<div class="col-sm-10">
 						<select class="form-control" id="class">
@@ -59,7 +59,7 @@
 						<div class="text-danger" id="class_err" style="display:none;"></div>
 					</div>
 				</div>
-				<div class="form-group col-sm-4">
+				<div class="form-group col-sm-3">
                     <label class="col-sm-2 control-label">Section</label>
 					<div class="col-sm-10">
 					<select class="form-control" id="section">
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 				
-				<div class="form-group col-sm-4" style="display: none;">
+				<div class="form-group col-sm-3" style="display: none;">
                     <label class="col-sm-2 control-label">Subject Group</label>
 					<div class="col-sm-10">
 					<select class="form-control" id="s_group">
