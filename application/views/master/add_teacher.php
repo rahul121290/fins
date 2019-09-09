@@ -3,8 +3,8 @@
     <section class="content-header">
       <h1>Add Teacher</h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">add teacher</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Add Teacher</li>
       </ol>
     </section>
     <script src="<?php echo base_url();?>assets/js/custom/add_teacher.js"></script>
@@ -21,16 +21,16 @@
             			<input type="hidden" name="t_id" id="t_id">
 					    <input type="hidden" name="ct_id" id="ct_id">
 					    <div class="form-group">
-					    	<label class="control-label col-md-2">Class Teacher</label>
-							<div class="col-sm-8">
-								<input type="radio" name="is_class_teacher" id="is_class_teacher" value="yes" class="yes_check" checked>Yes
-								<input type="radio" name="is_class_teacher" id="is_class_teacher" class="no_check" value="no">No	
+					    	<label class="control-label col-md-4">Class Teacher</label>
+							<div class="col-sm-6">
+								<input type="radio" name="is_class_teacher" id="is_class_teacher" value="yes" class="yes_check" checked />&nbsp;&nbsp;Yes &nbsp;&nbsp;&nbsp;
+								<input type="radio" name="is_class_teacher" id="is_class_teacher" class="no_check" value="no" />&nbsp;&nbsp;No	
 							</div>
 					    </div>
 					    
 					    <div class="form-group" id="medium_div">
-							<label class="control-label col-md-2">Medium</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Medium</label>
+							<div class="col-sm-6">
 								<select name="medium" id="medium" class="form-control">
 									<option value="">Select Medium</option>
 									<?php foreach($medium as $med){?>
@@ -42,8 +42,8 @@
 					    </div>
 					    
 					    <div class="form-group" id="class_div">
-							<label class="control-label col-md-2">Class</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Class</label>
+							<div class="col-sm-6">
 								<select name="class" id="class" class="form-control">
 									<option value="">Select Class</option>
 									<?php foreach($class as $cls){?>
@@ -55,8 +55,8 @@
 					    </div>
 					    
 					    <div class="form-group" id="sub_group_form" style="display:none;">
-							<label class="control-label col-md-2">Subject Group</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Subject Group</label>
+							<div class="col-sm-6">
 								<select name="sub_group" id="sub_group" class="form-control">
 									<option value="">Select Subject Group</option>
 									<?php foreach ($sub_gorup as $subject_group){?>
@@ -68,8 +68,8 @@
 					    </div>
 					    
 					    <div class="form-group"id="section_div">
-							<label class="control-label col-md-2">Section</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Section</label>
+							<div class="col-sm-6">
 								<select name="section" id="section" class="form-control">
 									<option value="">Select Section</option>
 									<?php foreach ($section as $sec){?>
@@ -80,19 +80,19 @@
 							</div>
 					    </div>
 	
-	    <div class="col-sm-12" style="text-align:center; background-color:#00a65a;"><strong>Profile Section</strong></div><br/><br/>
+	    <div class="col-sm-12" style="text-align:left; background-color:#dedede;padding:6px;"><strong>Profile Section</strong></div><br/><br/>
 					    
 					    <div class="form-group">
-							<label class="control-label col-md-2">Teacher Name</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Teacher Name</label>
+							<div class="col-sm-6">
 								<input type="text" name="teacher_name" id="teacher_name" class="form-control only_text" placeholder="Enter Teacher Name">
 								<div id="staff_name_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>
 					    
 					    <div class="form-group">
-							<label class="control-label col-md-2">Gender</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Gender</label>
+							<div class="col-sm-6">
 								<select name="gender" id="gender" class="form-control">
 									<option value="">Select Gender</option>
 									<option value="Male">Male</option>
@@ -103,64 +103,64 @@
 					    </div>
 					    
 					      <div class="form-group">
-							<label class="control-label col-md-2">DOB</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">DOB</label>
+							<div class="col-sm-6">
 								<input type="date" max="<?php echo date('Y-m-d')?>" name="dob" id="dob" class="form-control" placeholder="date of birth">
 								<div id="dob_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>
 					    
 					    <div class="form-group">
-							<label class="control-label col-md-2">Phone</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Phone</label>
+							<div class="col-sm-6">
 								<input type="text" name="phone" id="phone" class="form-control" placeholder="Contact Number">
 								<div id="phone_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>
 					    
 					    <div class="form-group">
-							<label class="control-label col-md-2">Email</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Email</label>
+							<div class="col-sm-6">
 								<input type="text" name="email" id="email" class="form-control" placeholder="Enter Email Id">
 								<div id="email_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>
 					    
 					    <div class="form-group">
-							<label class="control-label col-md-2">Permanent Address</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Permanent Address</label>
+							<div class="col-sm-6">
 								<textarea name="prmt_address" id="prmt_address" rows="" cols="" placeholder="Permanent Address" class="form-control"></textarea>
 								<div id="prmt_address_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>
 					    
 					    <div class="form-group">
-							<label class="control-label col-md-2">Alternet Address</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Alternet Address</label>
+							<div class="col-sm-6">
 								<textarea name="alter_address" id="alter_address" rows="" cols="" placeholder="Alternet Address" class="form-control"></textarea>
 								<div id="alter_address_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>
 					    
 				 		<div class="form-group">
-							<label class="control-label col-md-2">Designation</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Designation</label>
+							<div class="col-sm-6">
 								<input type="text" name="designation" id="designation" placeholder="Enter Designation" class="form-control only_text">
 								<div id="designation_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>
 					    
 					    <div class="form-group">
-							<label class="control-label col-md-2">Qualifications</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Qualifications</label>
+							<div class="col-sm-6">
 								<input type="text" name="qualifications" id="qualifications" placeholder="Enter Qualifications" class="form-control">
 								<div id="qualifications_err" style="display: none; color:red;"></div>
 							</div>
 					    </div>
 					    
 					    <div class="form-group">
-							<label class="control-label col-md-2">Image</label>
-							<div class="col-sm-8">
+							<label class="control-label col-md-4">Upload Profile Photo</label>
+							<div class="col-sm-6">
 								<input type="hidden" name="old_image" id="old_image">
 								<div id="edit_preview"></div>
 								<input type="file" name="image" id="image" class="form-control">
@@ -169,9 +169,9 @@
 					    </div>
 				 		
     		  			<div class="box-footer">
-                          	<div class="col-sm-offset-8">
-                          		<button type="button" id="submit_teacher" class="btn btn-info hide teacher_update">Update</button>
-                                <button type="button" id="submit_teacher" class="btn btn-info teacher_submit">Submit</button>
+                          	<div class="text-center">
+                          		<button type="button" id="submit_teacher" class="btn btn-info hide teacher_update">Update</button>&nbsp;&nbsp;
+                                <button type="button" id="submit_teacher" class="btn btn-info teacher_submit">Submit</button>&nbsp;&nbsp;
                                 <button type="reset" class="btn btn-default">Reset</button>
                             </div>
             			</div>
@@ -182,11 +182,17 @@
    			</div>
    			
           	<div class="col-md-6">	
-          		<div class="box box-danger">
+          		<div class="box box-info">
                 	<div class="box-header">
                   		<h3 class="box-title">List of Teachers</h3>
                 	</div>
-                	<button class="btn btn-info pull-right" id="export_teacher_record">Export Excel</button>
+					<div class="box-body" style="padding:0 10px;">
+						<button class="btn btn-info pull-right" id="export_teacher_record">Export Excel</button>
+					</div>
+					<div class="box-body">
+                	
+					
+					
                 	<table id="example1" class="table table-bordered table-striped">
                 		<thead>
                 			<tr>
@@ -222,6 +228,7 @@
                     				<?php }?>
                 			</tbody>
                 	</table>
+					</div>
               		</div>   
      			</div>
    			</div>

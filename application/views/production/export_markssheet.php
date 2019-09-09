@@ -1,10 +1,10 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Export Excel<small></small></h1>
+      <h1>Result Export Excel<small></small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="">production-reports</li>
-        <li class="active">export-excel</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="">Production Reports</li>
+        <li class="active">Export Excel</li>
       </ol>
     </section>
 	<script src="<?php echo base_url();?>assets/js/custom/furd_report.js"></script>
@@ -14,7 +14,7 @@
         <div class="col-md-12">	
           	<div class="box box-danger">
                 <div class="box-header">
-                  <h3 class="box-title">Export Excel Sheet</h3>
+                  <h3 class="box-title">Export Result Excel Sheet</h3>
                 </div>
             	<div class="box-body">
             		<?php echo form_open("",['class'=>'form-horizontal','id'=>"export_form",'role'=>"form"]);?>
@@ -69,7 +69,7 @@
 							</div>
 			
                       	<div class="col-sm-2">
-                            <button type="button" id="export_excel" class="btn btn-info btn_submit">Export Excel</button>
+                            <button type="button" id="export_excel" class="btn btn-info btn_submit">Export Excel</button>&nbsp;&nbsp;&nbsp;
                             <button type="reset" class="btn btn-default">Reset</button>
                         </div>
         			</div>

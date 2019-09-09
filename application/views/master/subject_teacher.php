@@ -2,8 +2,8 @@
     <section class="content-header">
       <h1>Subject<small>Teacher</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">subject teacher</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Subject Teacher</li>
       </ol>
     </section>
 	<script src="<?php echo base_url();?>assets/js/custom/subject_teacher.js"></script>
@@ -83,14 +83,14 @@
 								<div id="sub_type_err" style="display:none; color:red;"></div>
 							</div>
 					    </div>
-					    
+					    <hr>
 					    <div class="form-group">
-					    	<label class="control-label col-md-2"></label>
-    					    <div class="col-sm-8">
+					    	<h4 class="box-title" style="padding-left:15px;">Update Subject Teacher</h4>
+    					    <div class="col-sm-12">
     					    	<table class="table table-responsive">
     					    		<thead>
     					    			<tr>
-    					    				<th>Sr. No.</th>
+    					    				<th>S.No.</th>
     					    				<th>Subject Name</th>
     					    				<th>Teacher Name</th>
     					    			</tr>
@@ -106,13 +106,13 @@
        		<div class="col-md-6">	
               	<div class="box box-info">
                     <div class="box-header">
-                      <h3 class="box-title">Class wise subject and teacher list</h3>
+                      <h3 class="box-title">Class Wise Subject Teacher List</h3>
                     </div>
               		     <div class="box-body">
           					<table class="table table-responsive">
     						<thead>
             					<tr>
-                    				<th>Sr No.</th>
+                    				<th>S.No.</th>
                     				<th>Class</th>
                     				<th id="table_sub_group" style="display:none;">Subject Group</th>
                     				<th>Section</th>

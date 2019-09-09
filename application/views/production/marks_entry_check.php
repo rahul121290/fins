@@ -2,9 +2,9 @@
     <section class="content-header">
       <h1>Marks Entry Check<small></small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="">production-reports</li>
-        <li class="active">marks-entry-check</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="">Production Reports</li>
+        <li class="active">Marks Entry Check</li>
       </ol>
     </section>
 	<script src="<?php echo base_url();?>assets/js/custom/marks_entry_check.js"></script>
@@ -82,8 +82,8 @@
 					    </div>
 			
 		  				<div class="box-footer">
-                      	<div class="col-sm-offset-8">
-                            <button type="button" id="search" class="btn btn-info btn_submit">Search</button>
+                      	<div class="text-center">
+                            <button type="button" id="search" class="btn btn-space btn-info btn_submit">Search</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                         </div>
         			</div>
@@ -101,7 +101,7 @@
           					<table class="table table-responsive">
     						<thead>
             					<tr>
-                    				<th>Sr No.</th>
+                    				<th>S.No.</th>
                     				<th>Subject Name</th>
                     				<th>Type</th>
                     				<th>Entry</th>

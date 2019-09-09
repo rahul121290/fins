@@ -69,7 +69,7 @@ $permission = $this->my_function->user_permission();
 					<a class="dropdown-toggle" data-toggle="dropdown"  href="#">TRANSACTION RECORDS<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 						<?php if(in_array(11, $permission)){ ?>	
-							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/transaction-record/attendance-entry"><i class="fa fa-address-book text-blue" aria-hidden="true"></i>Attendance Entey</a></li>
+							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/transaction-record/attendance-entry"><i class="fa fa-address-book text-blue" aria-hidden="true"></i>Attendance Entry</a></li>
 						<?php } ?>
 						
 						<?php if(in_array(12, $permission)){ ?>	

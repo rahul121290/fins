@@ -1,33 +1,36 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Student<small>master</small></h1>
+      <h1>Student<small>Master</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">add student</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Add Student</li>
       </ol>
     </section>
 	<script src="<?php echo base_url();?>assets/js/custom/add_student.js"></script>
     <!-- Main content -->
 	<section class="content">
 	<?php if($this->ion_auth->is_admin() == 1){?>
-		<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">
+		<div class="box box-danger" style="position: relative; left: 0px; top: 0px;">
 			<div class="box-header with-border ui-sortable-handle" style="cursor: move;">
-			  <h3 class="box-title">Csv Import</h3><input type="button" id="download_format" value="Download Sample File" class="btn btn-sm pull-right">
+			  <h3 class="box-title">Import Csv File</h3>
 			  <div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
 			  	<i class="fa fa-minus"></i></button>
 			  </div>
-		</div>
-    		<div class="form-horizontal">
-        		<div class="col-sm-offset-2 col-sm-3">
-        			<input type="file" id="students_csv" name="students_csv" class="form-control">
+			</div>
+    		<div class="box-body form-horizontal">
+        		<div class="col-sm-3">
+        			<input type="file" id="students_csv" name="students_csv" class="form-control" />
         			<div id="students_csv_err" style="display:none;color:red;"></div>
         		</div>
     			
-            	<div class="col-sm-offset-8">
-                	<button type="button" id="students_csv_submit" class="btn btn-info">Import CSV</button>
+            	<div class="col-sm-3">
+                	<button type="button" id="students_csv_submit" class="btn btn-info">Import CSV</button>&nbsp;&nbsp;&nbsp;
                     <button type="reset" class="btn btn-default">Reset</button>
                 </div>
+				<div class="col-sm-6">
+					<input type="button" id="download_format" value="Download Sample File" class="btn btn-sm pull-right" />
+				</div>
     		</div><br>
     	</div>
 	<?php } ?>
@@ -106,7 +109,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>
                   <div class="col-sm-6">
-					<input type="text" name="admission_no" id="admission_no" class="form-control only_int" placeholder="Enter admission no.">
+					<input type="text" name="admission_no" id="admission_no" class="form-control only_int" placeholder="Enter admission no." />
 					<div id="admission_no_err" style="display:none;color:red;"></div>
 				</div>
                 </div>
@@ -114,7 +117,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Roll No. <span style="color:red;">*</span></label>
                   <div class="col-sm-6">
-					<input type="text" name="roll_no" id="roll_no" class="form-control only_int" placeholder="Enter roll no.">
+					<input type="text" name="roll_no" id="roll_no" class="form-control only_int" placeholder="Enter roll no." />
 					<div id="roll_no_err"	 style="display:none;color:red;"></div>
 				  </div>
                 </div>
@@ -122,7 +125,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Student Name <span style="color:red;">*</span></label>
 						<div class="col-sm-6">
-							<input type="text" name="student_name" id="student_name" class="form-control only_text" placeholder="Enter student name">
+							<input type="text" name="student_name" id="student_name" class="form-control only_text" placeholder="Enter student name" />
 							<div id="student_name_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
@@ -207,7 +210,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Father's Name <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="father_name" id="father_name" class="form-control only_text" placeholder="Enter father's name">
+						<input type="text" name="father_name" id="father_name" class="form-control only_text" placeholder="Enter father's name" />
 						<div id="father_name_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -215,7 +218,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Mother's Name <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="mother_name" id="mother_name" class="form-control only_text" placeholder="Enter mother's name">
+						<input type="text" name="mother_name" id="mother_name" class="form-control only_text" placeholder="Enter mother's name" />
 						<div id="mother_name_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -223,7 +226,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Date Of Birth <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-					  <input type="date" max="<?php echo date('Y-m-d')?>"class="form-control" id="dob" name="dob" placeholder="dd/mm/yyyy"> 
+					  <input type="date" max="<?php echo date('Y-m-d')?>"class="form-control" id="dob" name="dob" placeholder="dd/mm/yyyy" /> 
 					<div id="dob_err" class="text-danger" style="display:none;"></div> 
 					</div>
 					<!-- /.input group -->
@@ -244,7 +247,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Date of Admission <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-					  <input type="date" max="<?php echo date('Y-m-d')?>" class="form-control" id="admission_date" name="admission_date" placeholder="dd/mm/yyyy">
+					  <input type="date" max="<?php echo date('Y-m-d')?>" class="form-control" id="admission_date" name="admission_date" placeholder="dd/mm/yyyy" />
 					<div id="admission_date_err" style="display:none; color:red;"></div>
 					</div>
 				</div>
@@ -284,7 +287,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Aadhaar Card Number <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="aadhaar" id="aadhaar" class="form-control only_int" placeholder="Enter aadhaar card no." maxlength="12">
+						<input type="text" name="aadhaar" id="aadhaar" class="form-control only_int" placeholder="Enter aadhaar card no." maxlength="12" />
 						<div id="aadhaar_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -300,7 +303,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Guardian Name</label>
 					<div class="col-sm-6">
-						<input type="text" name="guardian" id="guardian" class="form-control only_text" placeholder="Enter guardian name">
+						<input type="text" name="guardian" id="guardian" class="form-control only_text" placeholder="Enter guardian name" />
 						<div id="guardian_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -316,7 +319,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Contact No. <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="number" name="contact_no" id="contact_no" class="form-control only_int" placeholder="Enter contact no.">
+						<input type="number" name="contact_no" id="contact_no" class="form-control only_int" placeholder="Enter contact no." />
 						<div id="contact_no_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -324,7 +327,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Email ID</label>
 					<div class="col-sm-6">
-						<input type="text" name="email" id="email" class="form-control" placeholder="Enter email id">
+						<input type="text" name="email" id="email" class="form-control" placeholder="Enter email id" />
 						<div id="email_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -332,7 +335,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Medical History</label>
 					<div class="col-sm-6">
-						<input type="text" name="medical" id="medical" class="form-control" placeholder="Enter medical history">
+						<input type="text" name="medical" id="medical" class="form-control" placeholder="Enter medical history" />
 						<div id="medical_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -340,7 +343,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Height </label>
 					<div class="col-sm-6">
-						<input type="text" name="height" id="height" class="form-control" placeholder="Enter height in Inches">
+						<input type="text" name="height" id="height" class="form-control" placeholder="Enter height in Inches" />
 						<div id="height_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -348,7 +351,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Weight</label>
 					<div class="col-sm-6">
-						<input type="text" name="weight" id="weight" class="form-control" placeholder="Enter weight in KG">
+						<input type="text" name="weight" id="weight" class="form-control" placeholder="Enter weight in KG" />
 						<div id="weight_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -423,8 +426,8 @@
 			
 			</div>
 			<div class="box-footer">
-                      	<div class="col-sm-offset-8">
-                            <button type="button" name="submit" id="submit" class="btn btn-info">Submit</button>
+                      	<div class="text-center ">
+                            <button type="button" name="submit" id="submit" class="btn btn-info btn-space">Submit</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                         </div>
         			</div>

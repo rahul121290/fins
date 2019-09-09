@@ -2,9 +2,9 @@
     <section class="content-header">
       <h1>Teacher<small>Abstract</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="">production-reports</li>
-        <li class="active">teacher-abstract</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="">Production Reports</li>
+        <li class="active">Teacher Abstract</li>
       </ol>
     </section>
 	<script src="<?php echo base_url();?>assets/js/custom/teacher_abstract.js"></script>
@@ -44,7 +44,7 @@
 							</div>
 					    
                       	<div class="col-sm-2">
-                            <button type="button" id="search" class="btn btn-info submit">Search</button>
+                            <button type="button" id="search" class="btn btn-info submit">Search</button>&nbsp;&nbsp;&nbsp;
                             <button type="reset" class="btn btn-default">Reset</button>
                         </div>
         			</div>

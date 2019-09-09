@@ -178,7 +178,7 @@ $(document).ready(function(){
 					if(response.status == 200){
 						$.each(response.result,function(key,value){
 							x=x+'<tr>'+
-								'<td>'+i+'</td>'+
+								'<td>'+i+'.</td>'+
 								'<td>'+value.name+'</td>'+
 								'<td>'+value.adm_no+'</td>'+
 								'<td>'+value.roll_no+'</td>'+

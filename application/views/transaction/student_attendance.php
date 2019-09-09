@@ -2,9 +2,9 @@
     <section class="content-header">
       <h1>Student Attendance<small>Entry</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li>transaction-record</li>
-        <li class="active">attendance-entry</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li>Transaction Record</li>
+        <li class="active">Attendance Entry</li>
       </ol>
     </section>
 	<script src="<?php echo base_url();?>assets/js/custom/student_attendance.js"></script>
@@ -91,12 +91,13 @@
 					    </div>
           
               	
-		  			<div class="box-footer">
-                      	<div class="col-sm-offset-8">
-                            <button type="button" name="search" id="search" class="btn btn-info" style="display:none;">Search Students</button>
+		  			
+        		</div><!-- end box body -->
+				<div class="box-footer">
+                      	<div class="text-center">
+                            <button type="button" name="search" id="search" class="btn btn-info btn-space" style="display:none;">Search Students</button>
                         </div>
         			</div>
-        		</div><!-- end box body -->
      			</div>
    			</div>
    			
@@ -110,7 +111,7 @@
         				<table class="table table-responsive">
             				<thead>
             					<tr>
-            						<th>Sr. No.</th>
+            						<th>S.No.</th>
             						<th>Student Name</th>
             						<th>Addmition No</th>
             						<th>Roll No</th>
@@ -122,8 +123,8 @@
     			</div>
     		</div>
     		<div class="box-footer">
-              	<div class="col-sm-offset-8">
-                     <button type="button" name="submit" id="submit" class="btn btn-info" style="display:none;">Submit</button>
+              	<div class="text-center">
+                     <button type="button" name="submit" id="submit" class="btn btn-info btn-space" style="display:none;">Submit</button>
                 </div>
             </div>
     	</div>

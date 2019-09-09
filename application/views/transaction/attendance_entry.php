@@ -67,9 +67,9 @@
 					    </div>
             
 		  			<div class="box-footer">
-                      	<div class="col-sm-offset-8">
-                      		<button type="button" name="submit_session" id="submit_attendace" class="btn btn-info hide btn_update">Update</button>
-                            <button type="button" name="submit_session" id="submit_attendace" class="btn btn-info btn_submit">Submit</button>
+                      	<div class="text-center">
+                      		<button type="button" name="submit_session" id="submit_attendace" class="btn btn-info hide btn-space btn_update">Update</button>
+                            <button type="button" name="submit_session" id="submit_attendace" class="btn btn-info btn-space btn_submit">Submit</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                         </div>
         			</div>

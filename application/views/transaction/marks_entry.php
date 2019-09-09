@@ -2,9 +2,9 @@
     <section class="content-header">
       <h1>Students Marks<small>entry</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="">transaction-record</li>
-        <li class="active">marks-entry</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="">Transaction Record</li>
+        <li class="active">Marks Entry</li>
       </ol>
     </section>
     <script src="<?php echo base_url();?>assets/js/custom/marks_entry.js"></script>
@@ -120,8 +120,8 @@
 							</div>
 					    </div>
 						<div class="box-footer">
-                  			<div class="col-sm-offset-8">
-                        		<button type="button" id="search" class="btn btn-info">Search Students</button>
+                  			<div class="text-center">
+                        		<button type="button" id="search" class="btn btn-info btn-space">Search Students</button>
                     		</div>
                 		</div>	
         			</form>
@@ -142,24 +142,24 @@
           					<table class="table table-responsive">
     						<thead>
             					<tr>
-                    				<th>Sr No.</th>
+                    				<th>S.No.</th>
                     				<th>Student Name</th>
-                    				<th>Class/ Section</th>
-                    				<th>Admission No</th>
-                    				<th>Roll No</th>
+                    				<th>Class/Section</th>
+                    				<th>Admission No.</th>
+                    				<th>Roll No.</th>
                     				<th style="width: 50px;">Subject Marks</th>
-                    				<th id="notebook" style="display:none;">Notebook</th>
-                    				<th id="enrichment" style="display:none;width: 50px;">Subject Enrichment</th>
-                    				<th id="practical" style="display:none;">Practical</th>
-                    				<th id="academic" style="display:none;">Academic</th>
+                    				<th id="notebook" style="display:none;">1.Notebook</th>
+                    				<th id="enrichment" style="display:none;width: 50px;">2.Subject Enrichment</th>
+                    				<th id="practical" style="display:none;">3.Practical</th>
+                    				<th id="academic" style="display:none;">4.Academic</th>
             					</tr>
         					</thead>
     						<tbody id="list_of_students"></tbody>
     					</table>
               		</div>
                   	<div class="box-footer">
-                  	<div class="col-sm-offset-8">
-                        <button type="button" id="marks_submit" class="btn btn-info" style="display:none;" disabled>Submit</button>
+                  	<div class="text-center">
+                        <button type="button" id="marks_submit" class="btn btn-info btn-space" style="display:none;" disabled>Submit</button>
                     </div>
                 	</div>
          		</div>

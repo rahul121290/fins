@@ -2,9 +2,9 @@
     <section class="content-header">
       <h1>Generate<small>marksheet</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">production-report</li>
-        <li class="active">generate-marksheet</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Production Report</li>
+        <li class="active">Generate Marksheet</li>
       </ol>
     </section>
     <script src="<?php echo base_url();?>assets/js/custom/mid_marksheet.js" type="text/javascript"></script>
@@ -71,8 +71,8 @@
 						</div>
 							<div class="box-footer">
                           	<div class="col-sm-offset-9">
-                          		<button type="button" name="search" id="search" class="btn btn-info">Search</button>
-                          		<button type="button" data-std_id="" id="mid_marksheet" class="btn btn-info">Mid Marksheet</button>
+                          		<button type="button" name="search" id="search" class="btn btn-info">Search</button>&nbsp;&nbsp;
+                          		<button type="button" data-std_id="" id="mid_marksheet" class="btn btn-info">Mid Marksheet</button>&nbsp;&nbsp;
                                 <button type="button" data-std_id=""  id="final_marksheet" class="btn btn-info">Final Marksheet</button>
                             </div>
             			</div>

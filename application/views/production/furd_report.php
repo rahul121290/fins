@@ -2,9 +2,9 @@
     <section class="content-header">
       <h1>Furd Report<small></small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="">production-reports</li>
-        <li class="active">furd-report</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="">Production Reports</li>
+        <li class="active">Furd Report</li>
       </ol>
     </section>
 	<script src="<?php echo base_url();?>assets/js/custom/furd_report.js"></script>
@@ -69,7 +69,7 @@
 							</div>
 			
                       	<div class="col-sm-2">
-                            <button type="button" id="generate_report" class="btn btn-info btn_submit">Generate Report</button>
+                            <button type="button" id="generate_report" class="btn btn-info btn_submit">Generate Report</button>&nbsp;&nbsp;&nbsp;
                             <button type="reset" class="btn btn-default">Reset</button>
                         </div>
         			</div>
