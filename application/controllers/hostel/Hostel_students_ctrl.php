@@ -391,6 +391,7 @@ class Hostel_students_ctrl extends CI_Controller {
         
         $this->db->select('s.adm_no,hs.std_status,s.f_name,hs.f_contact_no,s.name,s.contact_no,hfs.total total_fee,sch.school_name,c.class_name,sec.section_name,
                             IFNULL((SELECT SUM(paid_amount) FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND installment <= '.$data['installment'].' AND status = 1),0) paid_fee,
+                            IFNULL((SELECT DATE_FORMAT(pay_date,"%d-%M-%Y") FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND installment <= '.$data['installment'].' AND status = 1 ORDER BY hfp_id DESC LIMIT 1),"-") paid_date,
                             IF(hfp_id is NULL,"Pending","Paid") pay_status,IFNULL(u.username,"-") username');
         $this->db->join('hostel_fee_payment hfp','hfp.adm_no = s.adm_no AND hfp.ses_id = s.ses_id AND hfp.sch_id = s.sch_id '.$condition1.'','LEFT');
         $this->db->join('users u','u.id = hfp.created_by','LEFT');
@@ -400,9 +401,11 @@ class Hostel_students_ctrl extends CI_Controller {
         $this->db->join('class c','c.c_id = s.class_id');
         $this->db->join('section sec','sec.sec_id = s.sec_id');
         $this->db->where($condition);
+        if($data['installment'] == 3){
+            $this->db->where('hfp.installment',$data['installment']);
+        }
         $result = $this->db->get_where('students s')->result_array();
-//         print_r($this->db->last_query());die;
-        
+        //print_r($this->db->last_query());die;
         $this->db->select('username');
         $user = $this->db->get_where('users',array('status'=>1,'id'=>$this->session->userdata('user_id')))->result_array();
         
@@ -448,7 +451,7 @@ class Hostel_students_ctrl extends CI_Controller {
         $this->db->join('hostel_fee_structure hfs','hfs.ses_id = hs.ses_id AND hfs.sch_id = hs.sch_id AND hfs.student_status = hs.std_status AND hfs.status = 1');
         $this->db->where(array('hs.ses_id'=>$data['session'],'hs.sch_id'=>$data['school']));
         $total_fee = $this->db->get_where('hostel_students hs',array('hs.status'=>1))->result_array();
-        if(count($total_fee) > 0){
+        if($total_fee[0]['total_fee'] > 0){
             $result['total_fee'] = $total_fee[0]['total_fee'];
         }else{
             $result['total_fee'] = 0;
@@ -458,7 +461,7 @@ class Hostel_students_ctrl extends CI_Controller {
         $this->db->where(array('pay_date >= '=>$data['from_date'],'pay_date <='=>$data['to_date']));
         $this->db->where(array('hfp.ses_id'=>$data['session'],'hfp.sch_id'=>$data['school']));
         $paid_fee = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1))->result_array();
-        if(count($paid_fee) > 0){
+        if($paid_fee[0]['paid_fee'] > 0){
             $result['paid_fee'] = $paid_fee[0]['paid_fee'];
         }else{
             $result['paid_fee'] = 0;

@@ -238,6 +238,7 @@ class Data_sync_ctrl extends CI_Controller {
         else{
             $this->db->trans_commit();
             $this->db->empty_table('temp_students');
+            $this->db->insert('last_sync',array('table_name'=>'master_data','sync_date'=>date('Y-m-d H:i:s'),'sync_by'=>$this->session->userdata('user_id')));
             echo json_encode(array('Sync Successfully','status'=>200));
         }
     }

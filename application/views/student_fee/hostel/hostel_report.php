@@ -147,7 +147,7 @@
 		<div class="col-md-6 col-md-offset-3">
 		<div class="box box-danger" id="DivIdToPrint">
             <div class="box-header fee-table-head" style="background-color: #881e1e;color: #fff;">
-              <h3 class="box-title"><b>Shakuntala Vidyalaya (2019-20)</b></h3>
+              <h3 class="box-title"><b>Shakuntala Gurukul (2019-20)</b></h3>
 			  <span class="pull-right"><b>Date Range: <span id="date_range"></span></b></span>
             </div>
       		     <div class="box-body fee-table-body" id="fee_report_table"></div>
@@ -202,7 +202,7 @@ function getMisDetails(session,school,from_date,to_date){
 				$('#pending_fee').html('<b>'+pending_fee+'</b>');
 
 				var x='<table class="table table-responsive"><tbody style="font-size:16px;">';
-				x=x+='<tr><td><b>Total Students</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.total_students+'</td></tr>'+
+				x=x+='<tr><td><b>Total Students</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">'+response.data.total_students+'</td></tr>'+
 				'<tr><td><b>Total Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.total_fee+'/-</td></tr>'+
 				'<tr><td><b>Received Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.paid_fee+'/-</td></tr>'+
 				'<tr><td><b>Pending Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+pending_fee+'/-</td></tr>'+
@@ -220,7 +220,7 @@ function getMisDetails(session,school,from_date,to_date){
 	});
 }
 
-$(document).on('change','#from_date',function(){
+$(document).on('change','#from_date,#to_date',function(){
 	$('#search').trigger('click');
 });
 
