@@ -205,7 +205,7 @@ $(document).ready(function(){
 	//--------delete record-------------------------
 	$(document).on('click','.delete',function(){
 		var delete_id = $(this).attr('id');
-		if(confirm('are you sure!')){
+		if(confirm('Delete selected Teacher?')){
 		$.ajax({
 				type:'POST',
 				url:base_url+'Teacher_ctrl/deleteRecord',

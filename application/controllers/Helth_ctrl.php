@@ -125,10 +125,10 @@ class Helth_ctrl extends CI_Controller{
 	    if(count($sutdent) > 0){
 	        echo json_encode(array('student'=>$sutdent,'health_activity'=>$health_activity,'result'=>$result,'status'=>200));
 	    }else{
-	        echo json_encode(array('msg'=>'record not submitted.!','status'=>500));
+	        echo json_encode(array('msg'=>'Print records not found.','status'=>500));
 	    }
 	    }else{
-	        echo json_encode(array('msg'=>'record not submitted.!','status'=>500));
+	        echo json_encode(array('msg'=>'Print records not found.','status'=>500));
 	    }
 	}
 	
@@ -283,7 +283,7 @@ class Helth_ctrl extends CI_Controller{
         if(count($result) > 0){
             echo json_encode(array('result'=>$result, 'status'=>200));
         }else{
-            echo json_encode(array('msg'=>'Student record updated!','status'=>500));
+            echo json_encode(array('msg'=>'Print records not found.','status'=>500));
         }
     }
        

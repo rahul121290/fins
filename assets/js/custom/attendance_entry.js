@@ -64,7 +64,7 @@ $(document).ready(function(){
 //-------------------delete process----------------------------------
 	$(document).on('click','.delete',function(){
 		var deleteId = $(this).attr('id');
-		if(confirm('are you sure!')){
+		if(confirm('Delete attendance record?')){
 			$.ajax({
 				type:'POST',
 				url:base_url+'Attendance_ctrl/deleteRecord',

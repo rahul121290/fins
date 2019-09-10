@@ -58,7 +58,7 @@ $(document).ready(function(){
 //--------------------delete--------------------------------------
 	$(document).on('click','.delete',function(){
 		var delete_id = $(this).attr('id');
-		if(confirm('are you sure!')){
+		if(confirm('Delete Teacher\'s role?')){
 			$.ajax({
 					type:'POST',
 					url:base_url+'User_role_ctrl/deleteRecord',

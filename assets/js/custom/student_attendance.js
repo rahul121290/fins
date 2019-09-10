@@ -95,7 +95,7 @@ $(document).ready(function(){
 					$('#search').css('display','block');
 					$('#reset').css('display','block');
 				}else{
-					alert('This exam type/class not define total days of attendacne');
+					alert('Total working day must be updated first.');
 					$('#loader').modal('hide');
 					$('#am_id').val('');
 					$('#total_days').val('');
@@ -305,7 +305,7 @@ $(document).ready(function(){
 //	});
 	//-----------------------------------------------------------
 	$(document).on('click','#submit',function(){
-		alert('Attendance submited successfully');
+		alert('Attendance updated!');
 		location.reload();
 	});
 });
