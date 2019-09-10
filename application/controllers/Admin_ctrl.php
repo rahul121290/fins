@@ -34,7 +34,6 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
-    
     function _admin_class_teacher_access(){
         if ($this->ion_auth->logged_in()){
             $user_id = $this->session->userdata('user_id');
@@ -910,6 +909,31 @@ class Admin_ctrl extends CI_Controller {
             $this->data['page_name'] = 'Hostel Fee';
             $this->data['main'] = 'student_fee/hostel/hostel_report';
             $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    //-------------------student feedback------------------------
+    function add_feedback(){
+        if(in_array(32, $this->permission)){
+            $this->data['page_name'] = 'Assessment Feedback';
+            $this->data['main'] = 'master/add_feedback';
+            $this->data['feedback_list'] = $this->db->select('af.af_id,m.med_id,m.med_name,af.feedback')->join('medium m','m.med_id = af.medium')->order_by('af.af_id','DESC')->get_where('assessment_feedback af',array('af.status'=>1))->result_array();
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function student_feedback(){
+        if(in_array(32, $this->permission)){
+            $this->data['page_name'] = 'Assessment Feedback';
+            $this->data['main'] = 'report/student_feedback';
+            $this->data['feedback_list'] = $this->db->select('af.af_id,m.med_id,m.med_name,af.feedback')->join('medium m','m.med_id = af.medium')->order_by('af.af_id','DESC')->get_where('assessment_feedback af',array('af.status'=>1))->result_array();
+            $this->_admin_class_teacher_access();
         }else{
             $this->data['page_name'] = 'Error';
             $this->_load_view('error_page');

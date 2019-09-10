@@ -756,5 +756,34 @@ class Student_ctrl extends CI_Controller{
 	    }
 	}
 	
+	function add_feedback(){
+	    $af_id = $this->input->post('af_id');
+	    $data['medium'] = $this->input->post('medium');
+	    $data['feedback'] = $this->input->post('feedback');
+	    $data['created_at'] = date('Y-m-d H:i:s');
+	    $data['created_by'] = $this->session->userdata('user_id');
+	    
+	    $this->db->trans_begin();
+	    if(!empty($af_id)){
+	        //-----------update---------------
+	        $this->db->where('af_id',$af_id);
+	        $this->db->update('assessment_feedback',$data);
+	    }else{
+	        //------------insert-------------
+	        $this->db->insert('assessment_feedback',$data);
+	    }
+	    
+	    if ($this->db->trans_status() === FALSE)
+	    {
+	        $this->db->trans_rollback();
+	        echo json_encode(array('msg'=>'Feedback adding failed, Please try again.','status'=>500));
+	    }
+	    else
+	    {
+	        $this->db->trans_commit();
+	        echo json_encode(array('msg'=>'Feedback added successfully','status'=>200));
+	    }
+	    
+	}
 	
 }

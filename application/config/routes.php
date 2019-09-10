@@ -5,6 +5,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['(:any)/(:any)/dashbord'] = 'Admin_ctrl/index';
 $route['(:any)/(:any)/test'] = 'Admin_ctrl/testing';
 
+
+$route['(:any)/(:any)/master-record/add-assessment-feedback'] = 'Admin_ctrl/add_feedback';
+$route['(:any)/(:any)/master-record/student-feedback'] = 'Admin_ctrl/student_feedback';
+
+
 $route['(:any)/(:any)/master-record/session-master'] = 'Admin_ctrl/session_master';
 $route['(:any)/(:any)/master-record/school-master'] = 'Admin_ctrl/school_master';
 $route['(:any)/(:any)/master-record/medium-master'] = 'Admin_ctrl/medium_master';
