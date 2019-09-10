@@ -283,7 +283,7 @@ class Helth_ctrl extends CI_Controller{
         if(count($result) > 0){
             echo json_encode(array('result'=>$result, 'status'=>200));
         }else{
-            echo json_encode(array('msg'=>'record not submited.!','status'=>500));
+            echo json_encode(array('msg'=>'Student record updated!','status'=>500));
         }
     }
        

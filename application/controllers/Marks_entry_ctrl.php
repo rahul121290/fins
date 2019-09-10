@@ -62,7 +62,7 @@ class Marks_entry_ctrl extends CI_Controller{
         if(count($result)>0){
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
-            echo json_encode(array('feedback'=>'This class not allotted any subjecs.','status'=>500));
+            echo json_encode(array('feedback'=>'No Subject found for the selected Class.','status'=>500));
         }
     }
    
@@ -151,7 +151,7 @@ class Marks_entry_ctrl extends CI_Controller{
         }
 
         $this->_ShowMsgs(
-            $this->marks_entry_model->marks_entry($data,$final),"Marks Entry Successfully.","Falied Proccess Marks Entry, Please try again."
+            $this->marks_entry_model->marks_entry($data,$final),"Marks Updated!.","Falied Proccess Marks Entry, Please try again."
             );       
     }
     

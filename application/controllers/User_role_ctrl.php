@@ -79,11 +79,11 @@ class User_role_ctrl extends CI_Controller{
         $data['active'] = 1;
         if($id != ''){
             $this->_ShowMsgs(
-                $this->user_role_model->userRollSubmit($id,$ug_id,$group,$data),"Update Successfully","Failed to Update,Please try again."
+                $this->user_role_model->userRollSubmit($id,$ug_id,$group,$data),"Teacher's role updated!","Failed to Update,Please try again."
                 );
         }else{
             $this->_ShowMsgs(
-                $this->user_role_model->userRollSubmit($id,$ug_id,$group,$data),"Insert Successfully.","Failed to Insert,Please try again."
+                $this->user_role_model->userRollSubmit($id,$ug_id,$group,$data),"Teacher's role added!","Failed to Insert,Please try again."
                 );
         }
     }

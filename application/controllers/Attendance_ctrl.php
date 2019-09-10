@@ -71,11 +71,11 @@ class Attendance_ctrl extends CI_Controller {
         
         if(empty($id)){
             $this->_ShowMsgs(
-                $this->attendance_model->class_attendance($data),"Insert Successfully.","Failed to Insert, Please try again."
+                $this->attendance_model->class_attendance($data),"Attendance record added!","Failed to Insert, Please try again."
                 );
         }else{
             $this->_ShowMsgs(
-                $this->attendance_model->updateAttendance($id,$data),"Update Successfully.","Failed to Update,Please try again."
+                $this->attendance_model->updateAttendance($id,$data),"Attendance record updated!","Failed to Update,Please try again."
                 );
         }
     }

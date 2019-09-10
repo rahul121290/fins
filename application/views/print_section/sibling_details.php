@@ -14,7 +14,7 @@
 </section>
 	<!-- main section -->
     <div class="col-md-12">	
-      	<div class="box box-danger">
+      	<div class="box box-danger no-print">
             <div class="box-header">
               <h3 class="box-title">Student Filter</h3>
             </div>
@@ -74,7 +74,7 @@
 							<div id="section_err" style="display:none; color:red;"></div>
 						</div>
 						<div class="col-md-2 mb-3" style="padding:0px 0px;">
-							<button type="button" id="search" class="btn btn-success pull-left">Search</button>
+							<button style="margin-right:10px;" type="button" id="search" class="btn btn-success pull-left">Search</button>&nbsp;&nbsp;&nbsp;
 							<button type="button" id="print" class="btn btn-info pull-left"  onclick='printDiv();'>Print</button>
 							
 						</div>
@@ -88,13 +88,13 @@
     		</div><!-- end box body -->
  			</div>
 			<div class="box box-info">
-                <div class="box-header">
+                <div class="box-header no-print">
                   <h3 class="box-title">Search Results</h3>
                 </div>
           		     <div class="box-body" id="DivIdToPrint">
       					<table class="table table-responsive">
 							<thead><tr>
-							<th>S No.</th>
+							<th>S.No.</th>
                               <th>Admission No.</th>
                               <th>Board</th>
                               <th>Class/ Section</th>
@@ -156,7 +156,7 @@ function studentList(sibling,school,medium,class_name,section,search_box){
 				$.each(response.data,function(key,value){
 					
 					x=x+'<tr>'+
-						'<td>'+parseInt(key+1)+'</td>'+
+						'<td>'+parseInt(key+1)+'.</td>'+
 						'<td>'+value.adm_no+'</td>'+
 						'<td>'+value.school_name+'</td>'+
 						'<td>'+value.class_name+'/'+value.section_name+'</td>'+

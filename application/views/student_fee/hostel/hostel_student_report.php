@@ -80,7 +80,7 @@
 					</div>
 					
 					<div class="col-md-2 mb-3">
-						<button type="button" id="search" class="btn btn-success pull-left">Search</button>&nbsp;&nbsp;
+						<button style="margin-right:10px;" type="button" id="search" class="btn btn-success pull-left">Search</button>&nbsp;&nbsp;
 						<button type="button" id="print" class="btn btn-info pull-left"  onclick='printDiv();'>Print</button>	
 					</div>
 			    </div>

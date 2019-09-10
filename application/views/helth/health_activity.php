@@ -24,10 +24,8 @@
 			  </div>
 			</div>
 			<form role="form" class="form-horizontal">
-			<div class="box-body">	
-			<div class="form-group col-sm-3">
-                    <label class="col-sm-2 control-label">Medium</label>
-					<div class="col-sm-10">
+			<div class="box-body form-group">	
+			<div class=" col-sm-2">
 						<select class="form-control" id="session" name="session">
 							<option value="0">Select session</option>
 							<option value="2">2018-19</option>
@@ -35,12 +33,9 @@
 							
 						</select>
 						<div class="text-danger" id="session_err" style="display:none;"></div>
-					</div>
 				</div>
 							
-				<div class="form-group col-sm-3">
-                    <label class="col-sm-2 control-label">Medium</label>
-					<div class="col-sm-10">
+				<div class="col-sm-2">
 						<select class="form-control" id="medium">
 							<option value="0">Select Medium</option>
 								<?php foreach ($medium as $med){?>
@@ -48,30 +43,21 @@
 								<?php }?>
 						</select>
 						<div class="text-danger" id="medium_err" style="display:none;"></div>
-					</div>
 				</div>
-				<div class="form-group col-sm-3">
-                    <label class="col-sm-2 control-label">Class</label>
-					<div class="col-sm-10">
+				<div class="col-sm-2">
 						<select class="form-control" id="class">
 						<option value="0">Select Class</option>
 						</select>
 						<div class="text-danger" id="class_err" style="display:none;"></div>
-					</div>
 				</div>
-				<div class="form-group col-sm-3">
-                    <label class="col-sm-2 control-label">Section</label>
-					<div class="col-sm-10">
+				<div class="col-sm-2">
 					<select class="form-control" id="section">
 						<option value="0">Select Section</option>
 					</select>
 					<div class="text-danger" id="section_err" style="display:none;"></div>
-					</div>
 				</div>
 				
-				<div class="form-group col-sm-3" style="display: none;">
-                    <label class="col-sm-2 control-label">Subject Group</label>
-					<div class="col-sm-10">
+				<div class="col-sm-2" style="display: none;">
 					<select class="form-control" id="s_group">
 						<option value="0" selected>Select Subject Group</option>
 						<?php foreach($sub_group as $group){?>
@@ -79,12 +65,13 @@
 						<?php }?>
 					</select>
 					<div class="text-danger" id="s_group_err" style="display:none;"></div>
-					</div>
 				</div>
-				
+				<div class="col-sm-2">
+				<button type="button" class="btn btn-info btn-space student_search" data-type="final_fard">Search</button>
+				</div>
 			</div>
 			<div class="box-footer">
-				<button type="button" class="btn pull-right btn-info btn-space student_search" data-type="final_fard">Search</button> 
+				 
             </div>
 			</form>
 		</div>
@@ -497,14 +484,13 @@
 			},
 			success:  function (response) {
 				if(response.status == 200){
-					var x = '<table class="table table-hover "><thead><tr><th>S.No.</th><th>Name</th><th>Print</th><th>Edit	</th> </tr></thead><tbody>';
+					var x = '<table class="table table-hover "><thead><tr><th>S.No.</th><th>Name</th><th>Action	</th> </tr></thead><tbody>';
 					$.each(response.data,function(key,value){
-						x = x + '<tr><td>'+ parseInt(key + 1) +'</td>'+
+						x = x + '<tr><td>'+ parseInt(key + 1) +'.</td>'+
 									'<td>'+ value.name +'</td>'+
 									'<td>'+
-										'<input type="button" value="Print" data-sid="'+ value.std_id +'" data-admission_no="'+ value.adm_no +'" class="student_activity_print btn btn-info btn-md">'+
-									'</td><td>'+
-										'<input type="button" value="Edit" data-school_id="'+value.sch_id+'" data-class_id="'+value.class_id+'" data-session="'+value.ses_id+'" data-medium="'+value.medium+'"  data-sid="'+ value.std_id +'" data-admission_no="'+ value.adm_no +'" class="student_activity_edit btn btn-info btn-md">'+
+										'<input type="button" value="Edit" data-school_id="'+value.sch_id+'" data-class_id="'+value.class_id+'" data-session="'+value.ses_id+'" data-medium="'+value.medium+'"  data-sid="'+ value.std_id +'" data-admission_no="'+ value.adm_no +'" class="student_activity_edit btn btn-info btn-md" style="margin-right:15px;">'+
+										'<input type="button" value="Print" data-sid="'+ value.std_id +'" data-admission_no="'+ value.adm_no +'" class="student_activity_print btn btn-success btn-md">'+
 									'</td>'+
 								'</tr>';
 					});

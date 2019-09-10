@@ -6,7 +6,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url();?><?php echo strtolower($this->session->userdata('school'));?>/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">General Infromation</li>
+        <li class="active">General Information</li>
       </ol>
     </section>
 
@@ -17,27 +17,25 @@
         <section class="col-lg-12 connectedSortable">
 		<div class="box box-primary">
 			<div class="box-header with-border">
-			  <h3 class="box-title">Search Marksheet</h3>
+			  <h3 class="box-title">Search Health Report</h3>
 			  <div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
 				  <i class="fa fa-minus"></i></button>
 			  </div>
 			</div>
 			<form role="form" class="form-horizontal">
-			<div class="box-body">
-                <div class="form-group col-sm-3">
-                    <label class="col-sm-2 control-label">Session</label>
-					<div class="col-sm-10">
+			<div class="box-body form-group">
+                <div class="col-sm-3 mb-3">
+                    
 						<select class="form-control" id="session" name="session">
 							<option value="0">Select Session</option>
 						</select>
 						<div class="text-danger" id="session_err" style="display:none;"></div>
-					</div>
+					
 				</div>
 				
-				<div class="form-group col-sm-3">
-                    <label class="col-sm-2 control-label">Medium</label>
-					<div class="col-sm-10">
+				<div class=" col-sm-3 mb-3">
+                   
 							<select class="form-control" id="medium" name="medium">
 								<option value="">Select Medium</option>
 								<?php foreach ($medium as $med){?>
@@ -45,21 +43,19 @@
 								<?php }?>
 							</select>
 						<div class="text-danger" id="medium_err" style="display:none;"></div>
-					</div>
+					
 				</div>
-				<div class="form-group col-sm-3">
-                    <label class="col-sm-2 control-label">Class</label>
-					<div class="col-sm-10">
+				<div class="col-sm-3 mb-3">
+                   
 						<select class="form-control" id="class" name="class">
 						<option value="0">Select Class</option>
 						</select>
 						<div class="text-danger" id="class_err" style="display:none;"></div>
-					</div>
+					
 				</div>
 				
-				<div class="form-group col-sm-3" id="s_group" style="display:none;">
-                    <label class="col-sm-2 control-label">Sub Group</label>
-					<div class="col-sm-10">
+				<div class="col-sm-3 mb-3" id="s_group" style="display:none;">
+                    
 					<select class="form-control" id="sub_group" name="sub_group">
 						<option value="">Select Subject Group</option>
 						<?php foreach($sub_group as $group){?>
@@ -67,19 +63,19 @@
 						<?php }?>
 					</select>
 					<div class="text-danger" id="sub_group_err" style="display:none;"></div>
-					</div>
+					
 				</div>	
 				
-				<div class="form-group col-sm-3">
-                    <label class="col-sm-2 control-label">Section</label>
-					<div class="col-sm-10">
+				<div class="col-sm-3 mb-3">
+                    
+					
 					<select class="form-control" id="section" name="section">
 						<option value="0">Select Section</option>
 					</select>
 					<div class="text-danger" id="section_err" style="display:none;"></div>
-					</div>
+					
 				</div>	
-				<div class="form-group col-sm-3">
+				<div class="col-sm-3 mb-3" >
 					<button type="button" id="search" name="search" class="btn btn-info btn-space">Search</button>
             	</div>
 				
@@ -88,17 +84,15 @@
 		</div>
         </section>
 	</div>
-    </section>
-    
-    
+   
      <!-- Main content -->
-    <section class="content">
+
       <div class="row">
         <!-- Left col -->
         <section class="col-lg-12 connectedSortable">
 		<div class="box box-primary">
 			<div class="box-header with-border">
-			  <h3 class="box-title">Entry Primary Health Report</h3>
+			  <h3 class="box-title">Primary Health Report</h3>
 			  <div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
 				  <i class="fa fa-minus"></i></button>
@@ -107,7 +101,7 @@
 				<table class="table table-hover text-center t-input-center">
 					<thead>
 					 <tr>
-    					<th>Sr No.</th>
+    					<th>S.No.</th>
     					<th>Student Name</th>
     					<th>Clsss</th>
     					<th>Section</th>
@@ -171,7 +165,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label class="col-sm-3 control-label">M F T</label>
+								<label class="col-sm-3 control-label">Gender</label>
 								<div class="col-sm-6">
 									<input type="text" name="mft" id="mft" value="" class="form-control" placeholder="M F T">
 								</div>
@@ -183,7 +177,7 @@
 									<input type="text" name="blood_group" id="blood_group" value="" class="form-control" placeholder="Bloop Group">
 								</div>
 							</div>
-							<t4>Mother's Details</t4>
+							<h4 class="p-p-box">Mother's Details</h4>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Mother Name</label>
 								<div class="col-sm-6">
@@ -228,7 +222,7 @@
 							</div>
 
 							
-									<t4>Father's Details</t4>
+									<h4 class="p-p-box">Father's Details</h4>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Father Name</label>
 								<div class="col-sm-6">
@@ -310,7 +304,7 @@
 
 							<div class="form-group m-b-0">
 								<div class="col-sm-offset-3 col-sm-9">
-									<button type="button" name="submit" id="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
+									<button type="button" name="submit" id="submit" class="btn btn-primary waves-effect btn-space waves-light">Submit</button>
 									<button type="reset" class="btn btn-default waves-effect waves-light">Reset</button>
 								</div>
 							</div>

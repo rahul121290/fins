@@ -157,11 +157,11 @@ class Teacher_ctrl extends CI_Controller{
             $data['old_image'] = $this->input->post('old_image');
             if($tid != ''){
                 $this->_ShowMsgs(
-                    $this->teacher_model->submitTeacherData($tid,$data,$ct_id,$class_teacher),"Teacher Update Successfully","Teacher Data Failed to Update, Please try again."
+                    $this->teacher_model->submitTeacherData($tid,$data,$ct_id,$class_teacher),"Teacher record updated!","Teacher Data Failed to Update, Please try again."
                     );
             }else{
                 $this->_ShowMsgs(
-                    $this->teacher_model->submitTeacherData($tid,$data,$ct_id,$class_teacher),"Teacher Insert Successfully","Teacher Data Failed to Insert, Please try again."
+                    $this->teacher_model->submitTeacherData($tid,$data,$ct_id,$class_teacher),"New Teacher added!","Teacher Data Failed to Insert, Please try again."
                     );    
             }
             

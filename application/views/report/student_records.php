@@ -2,8 +2,8 @@
     <section class="content-header">
       <h1>Student<small>Reports</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">student reports</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Student Reports</li>
       </ol>
     </section>
     	<script src="<?php echo base_url();?>assets/js/custom/student_records.js"></script>
@@ -16,7 +16,7 @@
             	<div class="box-body form-horizontal">
             		
               			<div class="form-group">
-							<div class="col-sm-3">
+							<div class="col-sm-2">
 								<select name="medium" id="medium" class="form-control">
 									<option value="">Select Medium</option>
 									<?php foreach($medium as $med){?>
@@ -27,7 +27,7 @@
 							</div>
 							
 							
-							<div class="col-sm-3">
+							<div class="col-sm-2">
 								<select class="form-control" id="class_name" name="class_name">
 									<option value="">Select Class</option>
 									<?php foreach($class as $classes){?>
@@ -37,7 +37,7 @@
 								<div id="class_name_err" style="display:none; color:red;"></div>
 							</div>
 							
-							<div class="col-sm-3" id="fit_table" style="display:none;">
+							<div class="col-sm-2" id="fit_table" style="display:none;">
 								<select name="fit_value" id="fit_value" class="form-control">
 									<option value="">Select Fit</option>
 										<option value="yes">Yes</option>
@@ -46,7 +46,7 @@
 								<div id="fit_err" style="display:none; color:red;"></div>
 							</div>
 							
-							<div class="col-sm-3" id="sub_group_table" style="display:none;">
+							<div class="col-sm-2" id="sub_group_table" style="display:none;">
 								<select name="sub_group" id="sub_group" class="form-control">
 									<option value="">Select Subject Group</option>
 									<?php foreach($group as $groups){?>
@@ -56,7 +56,7 @@
 								<div id="sub_group_err" style="display:none; color:red;"></div>
 							</div>
 							
-							<div class="col-sm-3">
+							<div class="col-sm-2">
 								<select name="section" id="section" class="form-control">
 									<option value="">Select Section</option>
 									<?php foreach($section1 as $sec){?>
@@ -65,18 +65,19 @@
 								</select>
 								<div id="section_err" style="display:none; color:red;"></div>
 							</div>
+							<div class="col-sm-3">
+								<button type="button" name="search" id="search" class="btn btn-info btn-space">Search</button>
+								<button type="button" style="" id="export_records" class="btn btn-primary">Export Records</button>
+							</div>
 					    </div>
 					    
-					    <div class="box-footer">
-                      		<div class="col-sm-offset-9">
-								<button type="button" name="search" id="search" class="btn btn-info">Search</button>
-								<button type="button" style="" id="export_records" class="btn btn-primary">Export Records</button>
-                        	</div>
-        				</div>
+					    <hr>
         				
         				<?php //if($this->uri->segment(2) == 'admin'){?>
-            			<div class="col-sm-3">
+            			<div class="row">
+						<div class="col-sm-3">
 							<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Admission Number">	
+						</div>
 						</div>
 						<?php //} ?>
         		</div><!-- end box body -->

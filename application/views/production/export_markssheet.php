@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Result Export Excel<small></small></h1>
+      <h1>Export Result Excel<small></small></h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="">Production Reports</li>

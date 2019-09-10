@@ -55,12 +55,21 @@
                </div>
                
                <div class="col-sm-3">
-    				<button id="search" class="btn btn-warning">Search</button>
+    				<button id="search" class="btn btn-info">Search</button>
                </div>
-               
-			   <div class="col-md-12">
-			   <h3 class="box-title" style="font-size:19px;">Fee Structure List</h3>
-			   <hr>
+            </div>
+</div>			
+			   
+
+              	
+			   
+			   <div class="box box-info" style="position: relative; left: 0px; top: 0px;">	
+			   <div class="box-body">
+			   
+                    <div class="box-header">
+                      <h3 class="box-title">Session List</h3>
+                    </div>
+			   
                <div class="table-responsive" style="min-height:300px;">
 			   <table class="table" >
                		<thead>
@@ -83,6 +92,7 @@
 				   <button class="btn btn-block btn-success " id="submit" style="display:none;">Submit</button>
 				   </div>
 			   </div>
+			  
 			   </div>
                </form>
 			</div>

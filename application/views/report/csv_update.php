@@ -1,9 +1,9 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Student<small>master</small></h1>
+      <h1>Student<small>Master</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">add student</li>
+        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Add CSV</li>
       </ol>
     </section>
 	<script src="<?php echo base_url();?>assets/js/custom/add_student.js"></script>
@@ -17,17 +17,19 @@
 			  	<i class="fa fa-minus"></i></button>
 			  </div>
 		</div>
-    		<div class="form-horizontal">
-        		<div class="col-sm-offset-2 col-sm-3">
+    		<div class="box-body">
+			<div class="form-horizontal">
+        		<div class="col-sm-3">
         			<input type="file" id="csv_file" name="csv_file" class="form-control">
         			<div id="csv_file_err" style="display:none;color:red;"></div>
         		</div>
     			
-            	<div class="col-sm-offset-8">
-                	<button type="button" id="csv_submit" class="btn btn-info">Import CSV</button>
+            	<div class="col-sm-3">
+                	<button type="button" id="csv_submit" class="btn btn-info">Import CSV</button>&nbsp;&nbsp;&nbsp;
                     <button type="reset" class="btn btn-default">Reset</button>
                 </div>
-    		</div><br>
+    		</div>
+			</div><br>
     	</div>
 	<?php } ?>
     </section>

@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Students Marks<small>entry</small></h1>
+      <h1>Students Marks<small>Entry</small></h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="">Transaction Record</li>

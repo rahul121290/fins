@@ -327,6 +327,12 @@ input [type="file"]{border:1px solid #eee;padding:2px;}
 /*custom respo*/
 .h-hostel-bil-table tr td{border:1px solid #f4f4f4;}
 .hostel-bil-table tr td{border:1px solid #ddd;}
+.content-wrapper{margin-top:25px;}
+	.p-p-box{    background-color: #d4d4d4;
+    padding: 5px;
+    font-size: 17px;
+    text-align: center;
+    font-weight: 500;}
 
 
 @media (min-width: 360px) {

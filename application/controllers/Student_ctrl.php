@@ -88,11 +88,11 @@ class Student_ctrl extends CI_Controller{
         
         if(!empty($std_id)){
             $this->_ShowMsgs(
-                $this->student_model->add_student($std_id,$old_image,$data),"Student Update Successfully.","Student Failed to Update, Please try again."
+                $this->student_model->add_student($std_id,$old_image,$data),"Student record updated.","Student Failed to Update, Please try again."
                 );
         }else{
             $this->_ShowMsgs(
-                $this->student_model->add_student($std_id,$old_image,$data),"Student Insert Successfully.","Student Failed to Insert, Please try again."
+                $this->student_model->add_student($std_id,$old_image,$data),"New student added!","Student Failed to Insert, Please try again."
                 );
             }
         }
