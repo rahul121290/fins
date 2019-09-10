@@ -147,7 +147,7 @@ class Data_sync_ctrl extends CI_Controller {
         $class_teacher = $this->db->get_where('temp_class_teacher')->result_array();
         if(count($class_teacher) > 0){
             foreach($class_teacher as $key => $data){
-                $this->server->select('t_id');
+                $this->server->select('ct_id');
                 $check = $this->server->get_where('class_teacher',array('ct_id'=>$data['ct_id']))->result_array();
                 if(count($check) > 0){
                     $this->server->where('ct_id',$check[0]['ct_id']);
@@ -239,7 +239,7 @@ class Data_sync_ctrl extends CI_Controller {
             $this->db->trans_commit();
             $this->db->empty_table('temp_students');
             $this->db->insert('last_sync',array('table_name'=>'master_data','sync_date'=>date('Y-m-d H:i:s'),'sync_by'=>$this->session->userdata('user_id')));
-            echo json_encode(array('Sync Successfully','status'=>200));
+            echo json_encode(array('msg'=>'Sync Successfully','status'=>200));
         }
     }
     

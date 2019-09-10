@@ -69,18 +69,23 @@ class Production_model extends CI_Model {
           $class_name = $data['class_name'];
           $sub_group = $data['sub_group'];
           $section = $data['section'];
-        
-          $this->db->select('sm.adm_no,sm.roll_no,s.subject_code,s.sub_name,sm.sub_marks,sm.practical,sm.notebook,sm.enrichment,sm.acadmic');
+          if($sub_group){
+              $sg_group = ' AND sa.sg_id = '.$sub_group;
+          }else{
+              $sg_group = '';
+          }
+          
+          $this->db->select('sm.adm_no,sm.roll_no,s.st_id,s.sub_id,sm.sub_marks,sm.practical,om.out_of,om.practical practical_out_of');
           $this->db->join('marks_master mm','mm.mm_id = sm.mm_id');
           $this->db->join('subject s','s.sub_id=mm.sub_id');
+          $this->db->join('subject_allocation sa','sa.sub_id = s.sub_id AND sa.ses_id = '.$session.' AND sa.sch_id = '.$school.' AND sa.med_id = '.$medium.' AND sa.class_id = '.$class_name.' AND sa.st_id = s.st_id'.$sg_group.'');
+          $this->db->join('out_of_marks om','om.sa_id = sa.sa_id AND om.et_id = '.$exam_type.'');
           if(!empty($sub_group)){
-              $this->db->where('sg_id',$sub_group);
+              $this->db->where('mm.sg_id',$sub_group);
           }
           $this->db->where(array('mm.ses_id' =>$session,'mm.sch_id' =>$school, 'mm.et_id' =>$exam_type,'mm.med_id' =>$medium,'mm.class_id' =>$class_name,'mm.sec_id' =>$section,'mm.status' => 1));
-          $this->db->order_by('sm.adm_no','ASC');
-          $this->db->order_by('s.short_order','ASC');
           $result = $this->db->get_where('student_marks sm',array('sm.status'=>1))->result_array();
-          //print_r($this->db->last_query());die;
+          
           
           //-------------generate csv file------------------------
           $phpExcel = new PHPExcel();
@@ -94,15 +99,14 @@ class Production_model extends CI_Model {
           $prestasi->setCellValue('E1', 'class');
           $prestasi->setCellValue('F1', 'subject_group');
           $prestasi->setCellValue('G1', 'section');
-		  $prestasi->setCellValue('H1', 'subject_code');
-		  $prestasi->setCellValue('I1', 'subject_name');
-          $prestasi->setCellValue('J1', 'admission_no');
-          $prestasi->setCellValue('K1', 'roll_no');
-          $prestasi->setCellValue('L1', 'sub_marks');
-          $prestasi->setCellValue('M1', 'practical');
-          $prestasi->setCellValue('N1', 'notebook');
-          $prestasi->setCellValue('O1', 'enrichment');
-          $prestasi->setCellValue('P1', 'acadmic');
+		  $prestasi->setCellValue('H1', 'admission_no');
+		  $prestasi->setCellValue('I1', 'sub_type');
+          $prestasi->setCellValue('J1', 'subject_id');
+          $prestasi->setCellValue('K1', 'sub_marks');
+          $prestasi->setCellValue('L1', 'practical');
+          $prestasi->setCellValue('M1', 'marks_out_of');
+          $prestasi->setCellValue('N1', 'practical_out_of');
+          
           
           //---------------------put data in excel----------------------------
           $no=0;
@@ -117,15 +121,13 @@ class Production_model extends CI_Model {
               $prestasi->setCellValue('E'.$rowexcel,  $class_name);
               $prestasi->setCellValue('F'.$rowexcel,  $sub_group);
               $prestasi->setCellValue('G'.$rowexcel,  $section);
-			  $prestasi->setCellValue('H'.$rowexcel,  $row['subject_code']);
-			  $prestasi->setCellValue('I'.$rowexcel,  $row['sub_name']);
-              $prestasi->setCellValue('J'.$rowexcel,  $row['adm_no']);
-              $prestasi->setCellValue('K'.$rowexcel,  $row['roll_no']);
-              $prestasi->setCellValue('L'.$rowexcel,  $row['sub_marks']);
-              $prestasi->setCellValue('M'.$rowexcel,  $row['practical']);
-              $prestasi->setCellValue('N'.$rowexcel,  $row['notebook']);
-              $prestasi->setCellValue('O'.$rowexcel,  $row['enrichment']);
-              $prestasi->setCellValue('P'.$rowexcel,  $row['acadmic']);
+              $prestasi->setCellValue('H'.$rowexcel,  $row['adm_no']);
+              $prestasi->setCellValue('I'.$rowexcel,  $row['st_id']);
+              $prestasi->setCellValue('J'.$rowexcel,  $row['sub_id']);
+              $prestasi->setCellValue('K'.$rowexcel,  $row['sub_marks']);
+              $prestasi->setCellValue('L'.$rowexcel,  $row['practical']);
+              $prestasi->setCellValue('M'.$rowexcel,  $row['out_of']);
+              $prestasi->setCellValue('N'.$rowexcel,  $row['practical_out_of']);
           }
           
           $date =date('U');

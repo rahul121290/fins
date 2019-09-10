@@ -7,7 +7,7 @@ class Upload_student_marks_ctrl extends CI_Controller {
        $this->server = $this->load->database('server',true);
     }
     
-    function upload_student_marks(){
+    function upload_student_marks_old(){
         if(!empty($_FILES['student_marks']['name'])){
             $path = $_FILES['student_marks']['tmp_name'];
             $object = PHPExcel_IOFactory::load($path);
@@ -15,9 +15,7 @@ class Upload_student_marks_ctrl extends CI_Controller {
             foreach($object->getWorksheetIterator() as $worksheet){
                 $highestRow = $worksheet->getHighestRow();
                 $highestColumn = $worksheet->getHighestColumn();
-                
                 $final = array();
-                
                     for($row=2; $row <= $highestRow; $row++){
                         $col = 0;
                             $col = 0;
@@ -104,9 +102,6 @@ class Upload_student_marks_ctrl extends CI_Controller {
                                 if($temp['subject'] == 'B.st'){
                                     $temp['subject'] = 28;
                                 }
-                                
-                                
-                                
                                 if($temp['subject'] == 14 || $temp['subject'] == 1){
                                     $temp['marks_out_of'] = 90;
                                     $temp['practical_out_of'] = 10;
@@ -153,5 +148,54 @@ class Upload_student_marks_ctrl extends CI_Controller {
         }
     }
     
-   
+    
+    function upload_student_marks(){
+        if(!empty($_FILES['student_marks']['name'])){
+            $path = $_FILES['student_marks']['tmp_name'];
+            $object = PHPExcel_IOFactory::load($path);
+            
+            foreach($object->getWorksheetIterator() as $worksheet){
+                $highestRow = $worksheet->getHighestRow();
+                $highestColumn = $worksheet->getHighestColumn();
+                $final = array();
+                for($row=2; $row <= $highestRow; $row++){
+                    $col = 0;
+                    $col = 0;
+                    $temp = array();
+                    $temp['session'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['school_id'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['medium'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['exam_type'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['class'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['sub_group'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['section'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['admission_no'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    
+                    $temp['sub_type'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['subject'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['marks'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['practical_marks'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['marks_out_of'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['practical_out_of'] = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
+                    $temp['creatred_by'] = $this->session->userdata('user_id');
+                    $temp['created_at'] = date('Y-m-d H:i:s');
+                    $temp['ip'] = $this->input->ip_address();
+                    $final[] = $temp;
+                }
+            }
+            //print_r($final);die;
+            $this->server->trans_begin();
+            $this->server->insert_batch('graph_student_marks',$final);
+            if ($this->server->trans_status() === FALSE){
+                $this->server->trans_rollback();
+                echo json_encode(array('msg'=>'Import failed','status'=>500));
+            }
+            else{
+                $this->server->trans_commit();
+                echo json_encode(array('msg'=>'Import successfully','status'=>200));
+            }
+        }
+    }
+    
+    
 }
