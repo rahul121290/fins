@@ -146,6 +146,18 @@
 							</div>
 					    </div>
 					    
+					    <div class="form-group">	
+							<div class="col-md-12">
+							<H4>Assessment Feedback</H4>
+					    	<?php foreach($permission as $prmis){ 
+					    	    if($prmis['category_name'] == 'Student-Feedback'){?>
+							<div class="col-sm-2">
+								<input style="float:left;margin-right:5px;margin-top:5px;" type="checkbox" name="permission[]" value="<?php echo $prmis['pid'];?>"><?php echo $prmis['p_name'];?>
+							</div>
+							<?php } } ?>
+							</div>
+					    </div>
+					    
     		  			<div class="box-footer">
                           	<div class="text-center">
                           		<button type="button" id="submit_user_role" class="btn btn-info hide btn-space user_update">Update</button>

@@ -112,9 +112,11 @@ $(document).ready(function(){
     							
     							x=x+'<tr>'+
     								'<td>'+i+'</td>'+
-    								'<td><button type="button" id="'+value.std_id+'" class="btn btn-info btn-sm edit"><span class="glyphicon glyphicon-edit"></span></button>'+
-    								'<button type="button" id="'+value.std_id+'" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span></button></td>'+
-    								'<td><img src="'+path+value.photo+'?'+Math.random()+'" style="height:50px;" width="50px;"></td>'+
+    								'<td><button type="button" id="'+value.std_id+'" class="btn btn-info btn-sm edit"><span class="glyphicon glyphicon-edit"></span></button>';
+    								if($('#checkadmin').val() == 1){
+    									x=x+'<button type="button" id="'+value.std_id+'" class="btn btn-danger btn-sm delete"><span class="glyphicon glyphicon-trash"></span></button></td>';
+    								}
+    								x=x+'<td><img src="'+path+value.photo+'?'+Math.random()+'" style="height:50px;" width="50px;"></td>'+
     								
     								'<td>'+value.fee_criteria+'</td>'+
     								'<td>'+value.staff_child+'</td>'+

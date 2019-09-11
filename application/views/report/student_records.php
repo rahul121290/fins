@@ -554,3 +554,9 @@
         }
         ?>
         <input type="hidden" id="path" value="<?php echo $path;?>">
+        
+        <input type="text" id="checkadmin" value="<?php echo $this->ion_auth->is_admin();?>" />
+        
+        
+        
+        
