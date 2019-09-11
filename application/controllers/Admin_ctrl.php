@@ -929,7 +929,7 @@ class Admin_ctrl extends CI_Controller {
     }
     
     function student_feedback(){
-        if(in_array(32, $this->permission)){
+        if(in_array(33, $this->permission)){
             $this->data['page_name'] = 'Assessment Feedback';
             $this->data['main'] = 'report/student_feedback';
             $this->data['feedback_list'] = $this->db->select('af.af_id,m.med_id,m.med_name,af.feedback')->join('medium m','m.med_id = af.medium')->order_by('af.af_id','DESC')->get_where('assessment_feedback af',array('af.status'=>1))->result_array();

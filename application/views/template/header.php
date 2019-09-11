@@ -122,7 +122,7 @@ $permission = $this->my_function->user_permission();
 							<?php if(in_array(29, $permission)){ ?>
     								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/sibling-details"><i class="fa fa-user text-blue" aria-hidden="true"></i>Sibling Details</a></li>
     							<?php }?>
-    						<?php if(in_array(32, $permission)){ ?>
+    						<?php if(in_array(33, $permission)){ ?>
     								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/student-feedback"><i class="fa fa-user text-blue" aria-hidden="true"></i>Add Student Feedback</a></li>
     							<?php }?>	
 						</ul>
