@@ -64,7 +64,7 @@
 		<div class="box box-primary no-print">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
 			<div class="col-md-3">
-    					<b style="color:#5d5c5c;">Total Students</b><br>
+    					<b style="color:#5d5c5c;">Total Hostler</b><br>
     					<span id="total_students"><b>0.00</b></span>
     			</div>
     			<div class="col-md-3">
@@ -198,13 +198,14 @@ function getMisDetails(session,school,from_date,to_date){
 				$('#total_students').html('<b>'+response.data.total_students+'</b>');
 				$('#total_fee').html('<b>'+response.data.total_fee+'</b>');
 				$('#paid_fee').html('<b>'+response.data.paid_fee+'</b>');
-				var pending_fee = parseFloat(parseFloat(response.data.total_fee) - parseFloat(response.data.paid_fee)).toFixed(2);
+				var pending_fee = parseFloat(parseFloat(response.data.total_fee) - parseFloat(response.data.total_paid_fee)).toFixed(2);
 				$('#pending_fee').html('<b>'+pending_fee+'</b>');
 
 				var x='<table class="table table-responsive"><tbody style="font-size:16px;">';
-				x=x+='<tr><td><b>Total Students</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">'+response.data.total_students+'</td></tr>'+
+				x=x+='<tr><td><b>Total Hostler</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">'+response.data.total_students+'</td></tr>'+
 				'<tr><td><b>Total Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.total_fee+'/-</td></tr>'+
 				'<tr><td><b>Received Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.paid_fee+'/-</td></tr>'+
+				//'<tr><td><b>Total Received Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.total_paid_fee+'/-</td></tr>'+
 				'<tr><td><b>Pending Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+pending_fee+'/-</td></tr>'+
 				'<tr><td colspan="2" style="text-align:center;background-color:#ddd !important;"><b>Pay Method</b></td></tr>'+
 				'<tr><td><b>Cash</b></td><td>'+response.data.pay_method[0].cash+'</td></tr>'+

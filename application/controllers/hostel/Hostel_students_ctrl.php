@@ -458,6 +458,16 @@ class Hostel_students_ctrl extends CI_Controller {
         }
         
         $this->db->select('SUM(paid_amount) paid_fee');
+        $this->db->where(array('hfp.ses_id'=>$data['session'],'hfp.sch_id'=>$data['school']));
+        $total_paid_fee = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1))->result_array();
+        if($total_paid_fee[0]['paid_fee'] > 0){
+            $result['total_paid_fee'] = $total_paid_fee[0]['paid_fee'];
+        }else{
+            $result['total_paid_fee'] = 0;
+        }
+        
+        
+        $this->db->select('SUM(paid_amount) paid_fee');
         $this->db->where(array('pay_date >= '=>$data['from_date'],'pay_date <='=>$data['to_date']));
         $this->db->where(array('hfp.ses_id'=>$data['session'],'hfp.sch_id'=>$data['school']));
         $paid_fee = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1))->result_array();
