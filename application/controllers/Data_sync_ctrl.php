@@ -205,6 +205,40 @@ class Data_sync_ctrl extends CI_Controller {
         else{
             $this->db->trans_commit();
             $this->db->empty_table('temp_sub_teacher');
+            $this->student_feedback_sync();
+        }
+    }
+    
+    function student_feedback_sync(){
+        $this->db->trans_begin();
+        $this->db->select('*');
+        $sub_feedback = $this->db->get_where('temp_student_feedback')->result_array();
+        if(count($sub_feedback) > 0){
+            foreach($sub_feedback as $key => $data){
+                $this->server->select('sfb_id');
+                $check = $this->server->get_where('student_feedback',array('sfb_id'=>$data['sfb_id']))->result_array();
+                if(count($check) > 0){
+                    $this->server->where('sfb_id',$check[0]['sfb_id']);
+                    unset($sub_feedback[$key]['tsf_id']);
+                    $this->server->update('student_feedback',$sub_feedback[$key]);
+                }else{
+                    unset($sub_feedback[$key]['tsf_id']);
+                    $this->server->insert('student_feedback',$sub_feedback[$key]);
+                }
+            }
+            
+        }
+        //         else{
+        //             echo json_encode(array('sub teacher record not found.','status'=>500));
+        //         }
+        
+        if ($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            echo json_encode(array('student_feedback something went wrong.','status'=>500));
+        }
+        else{
+            $this->db->trans_commit();
+            $this->db->empty_table('temp_student_feedback');
             $this->student_sync();
         }
     }

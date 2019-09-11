@@ -259,4 +259,104 @@ class Teacher_ctrl extends CI_Controller{
         }
     }
     
+    function student_feedback(){
+       $data['ses_id'] = $this->session->userdata('session_id');
+       $data['sch_id'] = $this->session->userdata('school_id');
+       $data['medium'] = $this->input->post('medium');
+       $data['class_id'] = $this->input->post('class_id');
+       $data['sec_id'] = $this->input->post('section');
+       
+       $condition = 's.status = 1';
+       if($data['ses_id']){
+           $condition .= ' AND s.ses_id ='.$data['ses_id'];
+       }
+       if($data['sch_id']){
+           $condition .= ' AND s.sch_id ='.$data['sch_id'];
+       }
+       if($data['medium']){
+           $condition .= ' AND s.medium ='.$data['medium'];
+       }
+       if($data['class_id']){
+           $condition .= ' AND s.class_id ='.$data['class_id'];
+       }
+       if($data['sec_id']){
+           $condition .= ' AND s.sec_id ='.$data['sec_id'];
+       }
+       
+       $this->db->select('s.std_id,s.medium,s.adm_no,s.roll_no,s.name,c.class_name,sec.section_name,IF(sf.sfb_id IS NULL,"Pending","Added") feedback_status');
+       $this->db->join('class c','c.c_id = s.class_id');
+       $this->db->join('section sec','sec.sec_id = s.sec_id');
+       $this->db->join('student_feedback sf','sf.adm_no = s.adm_no AND sf.ses_id = s.ses_id AND sf.sch_id = s.sch_id AND sf.med_id = s.medium AND sf.status = 1','LEFT');
+       $this->db->where($condition);
+       $this->db->order_by('s.roll_no','ASC');
+       $result = $this->db->get_where('students s')->result_array();
+       if(count($result) > 0){
+           echo json_encode(array('data'=>$result,'status'=>200));
+       }else{
+           echo json_encode(array('msg'=>'Record not found.','status'=>500));
+       }
+    }
+    
+    
+    function feedback_list(){
+        $data['ses_id'] = $this->session->userdata('session_id');
+        $data['sch_id'] = $this->session->userdata('school_id');
+        $data['medium'] = $this->input->post('medium');
+        $data['adm_no'] = $this->input->post('adm_no');
+        
+        $this->db->select('*');
+        $result['feedback_list'] = $this->db->get_where('assessment_feedback',array('status'=>1,'medium'=>$data['medium']))->result_array();
+        
+        $this->db->select('feedback_ids');
+        $this->db->where(array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'med_id'=>$data['medium'],'adm_no'=>$data['adm_no']));
+        $student_feedback = $this->db->get_where('student_feedback',array('status'=>1))->result_array();
+        if(count($student_feedback) > 0){
+            $result['student_feedback'] = $student_feedback[0]['feedback_ids'];
+        }else{
+            $result['student_feedback'] = '';
+        }
+        
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+    }
+    
+    function submit_feedback(){
+        $data['ses_id'] = $this->session->userdata('session_id');
+        $data['sch_id'] = $this->session->userdata('school_id');
+        $data['med_id'] = $this->input->post('medium');
+        $data['adm_no'] = $this->input->post('adm_no');
+        $data['feedback_ids'] = $this->input->post('assesment_feedback');
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $data['created_by'] = $this->session->userdata('user_id');
+        
+        $this->db->trans_begin();
+        $this->db->select('sfb_id');
+        $this->db->where(array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'med_id'=>$data['med_id'],'adm_no'=>$data['adm_no']));
+        $check = $this->db->get_where('student_feedback',array('status'=>1))->result_array();
+        
+        if(count($check) > 0){
+            //-------------update------------
+            $this->db->where('sfb_id',$check[0]['sfb_id']);
+            $this->db->update('student_feedback',$data);
+        }else{
+            //-------------insert------------
+            $this->db->insert('student_feedback',$data);
+        }
+        
+        if ($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            echo json_encode(array('msg'=>'Feedback Adding Faild, Please try again.','status'=>500));
+        }
+        else{
+            $this->db->trans_commit();
+            echo json_encode(array('msg'=>'Feedback Added Successfully','status'=>200));
+        }
+        
+        
+        
+    }
+    
 }
