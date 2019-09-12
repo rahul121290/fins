@@ -49,8 +49,9 @@ $(document).ready(function(){
 					$('#contact_no').val(response.data[0].contact_no);
 					
 					$('#std_image_preview').html('<img style="border:1px solid #ddd;width:120px;height:120px;margin-bottom:20px;" src="'+response.img_path+response.data[0].photo+'" />');
-					
+					$('#admission_no_err').css('display','none');
 				}else{
+					$('#admission_no_err').html(response.msg).css('display','block');
 					$('#student_name').val('');
 					$('#roll_no').val('');
 					$('#medium').prop('selectedIndex','');
@@ -84,9 +85,9 @@ $(document).ready(function(){
 			m_contact_no:{minlength:10,maxlength:10},
 			guardian_pin_code:{minlength:6,maxlength:6},
 			g_contact_no:{minlength:10,maxlength:10},
-			student_image:{required:true,extension: "jpg|png|jpeg"},
-			father_image:{required:true,extension: "jpg|png|jpeg"},
-			mother_image:{required:true,extension: "jpg|png|jpeg"},
+			//student_image:{required:true,extension: "jpg|png|jpeg"},
+			//father_image:{required:true,extension: "jpg|png|jpeg"},
+			//mother_image:{required:true,extension: "jpg|png|jpeg"},
 			//gurardian_image:{required:true,accept: "jpg,png,jpeg"},
 		}
 	});

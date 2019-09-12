@@ -675,7 +675,7 @@ class Student_ctrl extends CI_Controller{
 	        $condition .=' AND (s.adm_no = '.$data['search_box'] .'OR s.name  LIKE "'.$data['search_box'].'%")';
 	    }
 	    
-	    $this->db->select('s.adm_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"") staff_child,sch.school_name,related_std,related_std_board');
+	    $this->db->select('s.adm_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"") staff_child,sch.sch_id,sch.school_name,related_std,related_std_board');
 	    $this->db->join('school sch','sch.sch_id = s.sch_id');
 	    $this->db->join('class c','c.c_id = s.class_id');
 	    $this->db->join('section sec','sec.sec_id = s.sec_id');
@@ -698,12 +698,17 @@ class Student_ctrl extends CI_Controller{
 	            $temp['section_name'] = $res['section_name'];
 	            $temp['fc_name'] = $res['fc_name'];
 	            $temp['staff_child'] = $res['staff_child'];
-	            $temp['school_name'] = $res['school_name'];
+	            if($res['sch_id'] == 3){
+	                $temp['school_name'] = 'CG Board';
+	            }else{
+	                $temp['school_name'] = 'CBSE';
+	            }
+	             
 	            $temp['related_std'] = $res['related_std'];
 	            $temp['related_std_board'] = $res['related_std_board'];
 	            
 	            if($res['related_std']){
-	                $this->db->select('s.adm_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"") staff_child,sch.school_name');
+	                $this->db->select('s.adm_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name,fc.fc_name,IFNULL(sc.name,"") staff_child,sch.sch_id,sch.school_name');
 	                $this->db->join('school sch','sch.sch_id = s.sch_id');
 	                $this->db->join('class c','c.c_id = s.class_id');
 	                $this->db->join('section sec','sec.sec_id = s.sec_id');
@@ -722,7 +727,13 @@ class Student_ctrl extends CI_Controller{
 	                    $temp['related_section_name'] = $result1[0]['section_name'];
 	                    $temp['related_fc_name'] = $result1[0]['fc_name'];
 	                    $temp['related_staff_child'] = $result1[0]['staff_child'];
-	                    $temp['related_school_name'] = $result1[0]['school_name'];
+	                    
+	                    if($result1[0]['sch_id'] == 3){
+	                        $temp['related_school_name'] = 'CG Board';
+	                    }else{
+	                        $temp['related_school_name'] = 'CBSE';
+	                    }
+	                    
 	                }else{
 	                    $flag = 0;
 	                    $temp['related_adm_no'] = "";
@@ -749,6 +760,7 @@ class Student_ctrl extends CI_Controller{
 	            $final[] = $temp;
 	        }
 	    }
+	  //  print_r($final);die;
 	    if(count($final) > 0){
 	        echo json_encode(array('data'=>$final,'status'=>200));
 	    }else{
