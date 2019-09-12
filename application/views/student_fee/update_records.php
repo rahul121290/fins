@@ -167,7 +167,7 @@
             		<select id="related_std_board" name="related_std_board" class="form-control">
             			<option value="">Select Board</option>
             			<option value="1">CBSE</option>
-            			<option value="2">CG Board</option>
+            			<option value="3">CG Board</option>
             		</select>
             		<div id="related_std_board_err" class="error" style="display:none;"></div>
             	</div>
