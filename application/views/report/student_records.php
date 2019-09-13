@@ -283,6 +283,7 @@
 					</div>
 				</div>
 				
+				<?php if($this->session->userdata('school_id') != 3) {?>
 				<div class="form-group" id="elective_section">
                     <label class="col-sm-3 control-label">Elective Subject</label>
 					<div class="col-sm-6">
@@ -295,7 +296,7 @@
 					<div id="elective_subject_err" style="display:none; color:red;"></div>
 					</div>
 				</div>
-				
+				<?php } ?>
 				<div class="form-group" id="sub_group_section">
                     <label class="col-sm-3 control-label">Subject Group</label>
 					<div class="col-sm-6">
@@ -554,8 +555,8 @@
         }
         ?>
         <input type="hidden" id="path" value="<?php echo $path;?>">
-        
-        <input type="text" id="checkadmin" value="<?php echo $this->ion_auth->is_admin();?>" />
+        <input type="hidden" id="checkadmin" value="<?php echo $this->ion_auth->is_admin();?>" />
+        <input type="hidden" id="school_id" value="<?php echo $this->session->userdata('school_id');?>" />
         
         
         

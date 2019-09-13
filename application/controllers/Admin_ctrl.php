@@ -72,7 +72,7 @@ class Admin_ctrl extends CI_Controller {
                 $this->data['section1'] = $this->db->select('sec_id,section_name')->where($section1)->get_where('section',array('status'=>1))->result_array();
                 $this->data['group'] = $this->db->select('sg_id,sg_name')->where($group)->get_where('sub_group',array('status'=>1))->result_array();
                 $this->data['elective'] = $this->db->select('sub_id,sub_name')->join('sub_type st','st.st_id=s.st_id')->where('st.st_name','elective')->get_where('subject s',array('s.status'=>1))->result_array();
-                $this->data['hostel'] = $this->db->select('hid,hostel_name')->get_where('hostel',array('sch_id'=>$school,'status'=>1))->result_array();
+                $this->data['hostel'] = $this->db->select('hid,hostel_name')->get_where('hostel',array('status'=>1))->result_array();
                 if($school == 3 || $school == 1){
                     $school_bus = 1;
                 }else{
@@ -821,6 +821,7 @@ class Admin_ctrl extends CI_Controller {
     
     function add_hostel_details(){
         if(in_array(28, $this->permission)){
+            $school = $this->session->userdata('school_id');
             $this->data['page_name'] = 'Import Hostel Details';
             $this->data['main'] = 'student_fee/hostel/add_hostel_details';
             $this->data['hostel_details'] = $this->db->select('hd_id,hostel_name')->get_where('hostel_details',array('status'=>1))->result_array();

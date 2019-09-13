@@ -180,7 +180,7 @@
 					<div id="fit_err" style="display:none; color:red;"></div>
 					</div>
 				</div>
-				
+				<?php if($this->session->userdata('school_id') != 3) {?>
 				<div class="form-group" id="elective_section" style="display: none;">
                     <label class="col-sm-3 control-label">Elective Subject <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
@@ -193,7 +193,7 @@
 					<div id="elective_subject_err" style="display:none; color:red;"></div>
 					</div>
 				</div>
-				
+				<?php } ?>
 				<div class="form-group" id="sub_group_section" style="display: none;">
                     <label class="col-sm-3 control-label">Subject Group <span style="color:red;">*</span></label>
 					<div class="col-sm-6">

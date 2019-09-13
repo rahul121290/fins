@@ -141,7 +141,8 @@ class Data_sync_ctrl extends CI_Controller {
     }
     
     
-    function class_teacher_sync(){//-----------------class teacher-----------------------
+    function class_teacher_sync(){
+        //-----------------class teacher-----------------------
         $this->db->trans_begin();
         $this->db->select('*');
         $class_teacher = $this->db->get_where('temp_class_teacher')->result_array();

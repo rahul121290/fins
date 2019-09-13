@@ -35,9 +35,12 @@
 						<div class="col-sm-6">
 							<select class="form-control" name="school" id="school">
 								<option value="">Select Board</option>
-								<?php foreach($school as $sch){?>
-									<option value="<?php echo $sch['sch_id'];?>"><?php echo $sch['school_name'];?></option>
-								<?php }?>
+								<?php if($this->session->userdata('school_id') == 1){?>
+								<option value="1">CBSE</option>
+								<option value="2">CG Board</option>
+								<?php }else{ ?>
+								<option value="3">CBSE</option>
+								<?php } ?>
 							</select>
 							<div id="school_err" class="text-danger" style="display:none;"></div>
 						</div>

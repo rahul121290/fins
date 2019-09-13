@@ -430,20 +430,23 @@ $(document).on('click','#submit',function(){
     				$('#fit_err').css('display','none');
     			}		
     	}
-    	if(class_id == 14 || class_id == 15){
-    		if($('#elective_subject').val() == ''){
-    			$('#elective_subject_err').html('Elective subject is required.').css('display','block');
-    			return false;
-    			}else{
-    				$('#elective_subject_err').css('display','none');
-    				}
-    		if($('#subject_group_modal').val() == ''){
-    			$('#subject_group_err').html('Subject Group is required.').css('display','block');
-    			return false;
-    			}else{
-    				$('#subject_group_err').css('display','none');
-    				}	
+    	if($('#school_id').val() != 3){
+    		if(class_id == 14 || class_id == 15){
+        		if($('#elective_subject').val() == ''){
+        			$('#elective_subject_err').html('Elective subject is required.').css('display','block');
+        			return false;
+        			}else{
+        				$('#elective_subject_err').css('display','none');
+        				}
+        		if($('#subject_group_modal').val() == ''){
+        			$('#subject_group_err').html('Subject Group is required.').css('display','block');
+        			return false;
+        			}else{
+        				$('#subject_group_err').css('display','none');
+        				}	
+        	}
     	}
+    	
     //--------------validation for image-------------------------------------------------		
     	var img = $('#std_image').val();
     	if(img){

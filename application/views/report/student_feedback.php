@@ -3,8 +3,8 @@
       <h1>Students Feedback<small>Entry</small></h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li class="">Transaction Record</li>
-        <li class="active">Feedback Entry</li>
+        <li class="">Reports</li>
+        <li class="active">Delinquents Entry</li>
       </ol>
     </section>
     <!-- Main content -->

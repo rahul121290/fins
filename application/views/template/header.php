@@ -22,7 +22,7 @@ $permission = $this->my_function->user_permission();
 				<a class="dropdown-toggle" data-toggle="dropdown"  href="#">MASTER RECORDS<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 						<?php if(in_array(32, $permission)){ ?>
-							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/add-assessment-feedback"><i class="fa fa-calendar text-blue" aria-hidden="true"></i> Add feedback</a></li>
+							<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/add-assessment-feedback"><i class="fa fa-calendar text-blue" aria-hidden="true"></i> Add Delinquents</a></li>
 						<?php }?>
 						
 						<?php if(in_array(1, $permission)){ ?>
@@ -123,7 +123,7 @@ $permission = $this->my_function->user_permission();
     								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/sibling-details"><i class="fa fa-user text-blue" aria-hidden="true"></i>Sibling Details</a></li>
     							<?php }?>
     						<?php if(in_array(33, $permission)){ ?>
-    								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/student-feedback"><i class="fa fa-user text-blue" aria-hidden="true"></i>Add Student Feedback</a></li>
+    								<li><a href="<?=base_url().$school.'/'.$permission_link;?>/master-record/student-feedback"><i class="fa fa-user text-blue" aria-hidden="true"></i>Add Student Delinquents</a></li>
     							<?php }?>	
 						</ul>
 					</li>

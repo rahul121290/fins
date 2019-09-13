@@ -244,7 +244,6 @@ class Production_ctrl extends CI_Controller{
         
         $result = $this->production_model->TeacherAbstract($data);
         if(count($result)>0){
-            
             //-----------log report---------------
             $event = 'Search Teacher Abstract';
             $user = $this->session->userdata('user_id');
@@ -263,7 +262,6 @@ class Production_ctrl extends CI_Controller{
         $data = array();
         $data['session'] = $this->input->post('session');
         $data['school'] = $this->session->userdata('school_id');
-        
         $data['medium'] = $this->input->post('medium');
         $data['class'] = $this->input->post('class_name');
         $data['sub_group'] = $this->input->post('sub_group');
@@ -272,10 +270,9 @@ class Production_ctrl extends CI_Controller{
         
         $pre_result = $this->Mid_marksheet_model->preResult($data);
         $mid_result = $this->Mid_marksheet_model->midResult($data);
-        
         $co_scholistic = $this->Mid_marksheet_model->midCoScholistic($data);
         $result = array();
-        //---------9th,10th FOIT or Computer application--------------------
+        //---------9th,10th IT or Computer application--------------------
         if($data['class'] == 12 || $data['class'] == 13){
             $mid_extra_result = $this->Mid_marksheet_model->midExtra($data);
             $result['extra_sub'] = $mid_extra_result['subjects'];
@@ -286,7 +283,6 @@ class Production_ctrl extends CI_Controller{
            $result['co_scholistic_sub'] = $co_scholistic['subjects'];     
         
         $final = array();
-        
         foreach($pre_result['pre'] as $pre){
             foreach ($mid_result['mid'] as $mid){
                     if($pre['adm_no'] == $mid['adm_no']){
@@ -315,6 +311,7 @@ class Production_ctrl extends CI_Controller{
                         }
                         
                         //----get pre and mid subjects marks in temp--------------
+                        //print_r($pre);die;
                         foreach($result['mid_sub'] as $subject){
                             if($subject['st_id'] = 1){
                                 $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
@@ -364,7 +361,7 @@ class Production_ctrl extends CI_Controller{
                             }
                         }
                         $final[] = $temp;
-                        $result['final'] =$final;
+                        $result['final'] = $final;
                     }
                 }
             }
@@ -379,8 +376,7 @@ class Production_ctrl extends CI_Controller{
             $table_name = null;
             $table_id = null;
             $this->my_function->add_log($user,$event,$table_name,$table_id);
-            
-            
+            //-----------*****--------------------
             echo json_encode(array('result'=>$result,'status'=>200));
         }else{
             echo json_encode(array('feedback'=>'something getting wrong.','status'=>500));
@@ -397,11 +393,10 @@ class Production_ctrl extends CI_Controller{
         $data['section'] = $this->input->post('section');
         $data['std_id'] = $this->input->post('std_id');
         
-        if($data['class'] >13){ //generate marksheet for XI and XII------
+        if($data['class'] >13){ //--------generate marksheet for XI and XII-----------
             $this->final_marksheet_XI_XII($data);
             die;
         }
-        
         
         $pre_result = $this->Mid_marksheet_model->preResult($data);
         $mid_result = $this->Mid_marksheet_model->midResult($data);

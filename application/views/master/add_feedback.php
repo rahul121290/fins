@@ -1,9 +1,9 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Student<small>Feedback</small></h1>
+      <h1>Student<small>Delinquents</small></h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li class="active">Add Feedback</li>
+        <li class="active">Add Delinquents</li>
       </ol>
     </section>
     <!-- Main content -->
@@ -13,7 +13,7 @@
         <div class="col-md-6">	
           	<div class="box box-danger">
                 <div class="box-header">
-                  <h3 class="box-title">Add New Feedback</h3>
+                  <h3 class="box-title">Add New Delinquents</h3>
                 </div>
             	<div class="box-body">
             		<form role="form" class="form-horizontal" id="feedback_form" method="POST">
@@ -36,7 +36,7 @@
                         	<div class="form-group">
                         	<label class="col-sm-3 control-label">Feedback</label>
                         	<div class="col-sm-6">
-                        		<textarea rows="" cols="" id="feedback" name="feedback" placeholder="Write Feedback" class="form-control"></textarea>
+                        		<textarea rows="" cols="" id="feedback" name="feedback" placeholder="Write Delinquents" class="form-control"></textarea>
                         		<div id="feedback_err" class="text-danger" style="display:none;"></div>
                         	</div>
                         	</div>
@@ -64,7 +64,7 @@
                 			<tr>
                 				<th>Sr No.</th>
                 				<th>Medium</th>
-                				<th>Feedback</th>
+                				<th>Delinquents</th>
                 				<th>Action</th>
                 			</tr>
                 			</thead>

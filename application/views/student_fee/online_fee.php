@@ -78,6 +78,7 @@ $(document).on('click','#submit',function(){
 			success:function(response){
 				if(response.status == 200){
 					alert(response.msg);
+					$('#loader').modal('hide');
 					$('#school').prop('disabled',true);
 					$('#submit').css('display','none');
 					$('#class_row').css('display','block');
@@ -98,7 +99,6 @@ $(document).on('click','#submit',function(){
 $(document).on('click','#send_sms',function(){
 	var school = $('#school').val();
 	var class_id = $('#class_id').val();
-
 	$.ajax({
 		type:'POST',
 		url:baseUrl+'Generate_fee_ctrl/send_fee_sms',
@@ -109,8 +109,8 @@ $(document).on('click','#send_sms',function(){
 		},
 		success:function(response){
 			if(response.status == 200){
-				alert(response.msg);
 				$('#loader').modal('hide');
+				alert(response.msg);
 			}else{
 				alert(response.msg);
 				$('#loader').modal('hide');
@@ -119,10 +119,4 @@ $(document).on('click','#send_sms',function(){
 	});
 	
 });
-
-
-
 </script>
-
-
-
