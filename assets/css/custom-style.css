@@ -138,7 +138,19 @@ background-color: #d6cbcb;}
      }
 	 .fee-table-head{background-color:#eee !important;border:1px solid #ccc !important;}
 	 .fee-table-body{border:1px solid #ccc !important;}
+	 .print-s-logo{display:block !important;}
+	 .p-sibling-report table thead tr th{padding:3px !important;font-size:11px !important;background-color:#f3f3f3 !important;}
+.p-sibling-report table tbody tr td{padding:3px !important;font-size:11px !important;}
+.p-sibling-report table{border:2px solid #ddd !important;}
+.box-info{border-top-color:transparent !important;}
 }
+.p-sibling-report table{border:0px solid #ddd;}
+.print-s-logo{display:none;}
+.print-s-name{float:left;margin-left:10px;text-align:left;}
+.print-s-name h4{margin-top:3px;margin-bottom:2px;}
+.print-s-name p{margin-bottom:0px;}
+
+
 /*--------------------- css new file*/
 #exTab1 .tab-content {
   color : white;

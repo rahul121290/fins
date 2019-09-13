@@ -3,7 +3,7 @@
 .mb-3{margin-bottom:15px;}
 </style>
 <div class="content-wrapper">
-<section class="content-header">
+<section class="content-header no-print">
       <h1>Update Student Record</h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
@@ -87,25 +87,55 @@
         		</form>	
     		</div><!-- end box body -->
  			</div>
-			<div class="box box-info">
+			<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;">
+				<div class="text-center" style="float:left;">
+					<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+      	<?php } else if($this->session->userdata('school_id') == 2){ $school = 'sharda';?>
+      	<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Sharda Vidyalaya</b></h4>
+			<p>Risali Bhilai(C.G.)</p>
+		</div>
+		<?php }else{ $school = 'cg-board';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya No. 2</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+		<?php }?>
+				</div>
+				<div class="text-right">
+					<h4 style="margin-bottom:0px;"><b>Student Sibling Report</b></h4>
+				</div>
+				
+			</div>
+			
+			<div class="box box-info" style="float:left;">
                 <div class="box-header no-print">
                   <h3 class="box-title">Search Results</h3>
                 </div>
-          		     <div class="box-body" id="DivIdToPrint">
-      					<table class="table table-responsive">
+          		     <div class="box-body p-sibling-report" id="DivIdToPrint">
+      					<table style="border:2px solid #ddd;" class="table table-responsive">
 							<thead><tr>
 							<th>S.No.</th>
-                              <th>Admission No.</th>
+                              <th>Adm. No.</th>
+							   <th>Student Name</th>
                               <th>Board</th>
-                              <th>Class/ Section</th>
-                              <th>Student Name</th>
+                              <th>Class/Section</th>
+                             
 							  <th>Father Name</th>
                               <th>Fee Criteria</th>
                              
-                              <th>Rel Admission No.</th>
+                              <th>SIB Adm. No.</th>
+							  <th>Student Name</th>
                               <th>Board</th>
-                              <th>Class/ Section</th>
-                              <th>Student Name</th>
+                              <th>Class/Section</th>
+                              
 							  <th>Father Name</th>
                               <th>Fee Criteria</th>
                              
@@ -158,16 +188,18 @@ function studentList(sibling,school,medium,class_name,section,search_box){
 					x=x+'<tr>'+
 						'<td>'+parseInt(key+1)+'.</td>'+
 						'<td>'+value.adm_no+'</td>'+
+						'<td>'+value.name+'</br>'+value.contact_no+'</td>'+
 						'<td>'+value.school_name+'</td>'+
 						'<td>'+value.class_name+'/'+value.section_name+'</td>'+
-						'<td>'+value.name+'</br>'+value.contact_no+'</td>'+
+						
 						'<td>'+value.f_name+'</td>'+
 						'<td>'+value.fc_name+'</td>'+
 						
 						'<td>'+value.related_adm_no+'</td>'+
+						'<td>'+value.related_name+'</br>'+value.related_contact_no+'</td>'+
 						'<td>'+value.related_school_name+'</td>'+
 						'<td>'+value.related_class_name+'/'+value.related_section_name+'</td>'+
-						'<td>'+value.related_name+'</br>'+value.related_contact_no+'</td>'+
+						
 						'<td>'+value.related_f_name+'</td>'+
 						'<td>'+value.related_fc_name+'</td>'+
 						'</tr>';
@@ -184,9 +216,23 @@ function printDiv(){
   var divToPrint=document.getElementById('DivIdToPrint');
   var newWin=window.open('','Print-Window');
   newWin.document.open();
-  newWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css"></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+  newWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/custom-style.css"><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css"><style>.p-sibling-report table thead tr th{padding:3px !important;font-size:11px !important;background-color:#f3f3f3 !important;}'+
+'.p-sibling-report table tbody tr td{padding:3px !important;font-size:11px !important;}</style></head><body onload="window.print()">'+
+  '<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0;width:100%;">'+
+				'<div class="text-center" style="float:left;">'+
+		'<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />'+
+		'<div class="print-s-name" >'+
+			'<h4><b>Shakuntala Vidyalaya</b></h4>'+
+			'<p>Ram Nagar Bhilai(C.G.)</p>'+
+		'</div></div><div class="text-right">'+
+					'<h4><b>Student Sibling Report</b></h4>'+
+				'</div></div>'+divToPrint.innerHTML+'</body></html>');
   newWin.document.close();
   setTimeout(function(){newWin.close();},10);
 }
+
+/*function printDiv() {
+  window.print();
+}*/
 
 </script>
