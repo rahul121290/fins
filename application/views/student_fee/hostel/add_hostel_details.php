@@ -421,4 +421,4 @@
     	</div>
 	</form>
  </section>
-<input type="text" id="user_url" name="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>"/>
+<input type="hidden" id="user_url" name="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>"/>
