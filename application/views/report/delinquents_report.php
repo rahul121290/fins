@@ -170,6 +170,10 @@ function studentList(medium,class_name,section,warning,search_box){
 						$.each(value.delinquents,function(dkay,dval){
 							x=x+'<p><b>'+parseInt(dkay+1)+')</b> '+dval.feedback+'</p>';
 						});
+						if(value.custom_msg != ''){
+							x=x+'<p><b>Custom Msg: </b>'+value.custom_msg+'</p>';
+						}
+						
 						x=x+'</td>'+
 						'<td>';
 						$.each(value.action_taken,function(atKey,atVal){
@@ -223,6 +227,9 @@ $(document).on('click','.view_details',function(){
 						$.each(value.delinquents,function(dkey,dval){
 							x=x+'<p><b>'+parseInt(dkey+1)+')</b> '+dval.feedback+'</p>';
 						});
+						if(value.custom_msg != ''){
+							x=x+'<p><b>Custom Msg: </b>'+value.custom_msg+'</p>';
+						}
 						x=x+'</td><td>';
 						$.each(value.action_taken,function(atKey,atVal){
 							x=x+'<p><b>'+parseInt(atKey+1)+')</b> '+atVal.description+'</p>';

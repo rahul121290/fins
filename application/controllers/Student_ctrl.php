@@ -825,7 +825,7 @@ class Student_ctrl extends CI_Controller{
     	    $condition .=' AND sf.warning_no = '.$data['warning'];
     	}
     	
-    	$this->db->select('s.ses_id,s.sch_id,s.medium,s.class_id,s.sec_id,s.adm_no,s.roll_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name,DATE_FORMAT(sf.created_at,"%d-%M-%Y") submit_date,sf.warning_no,IFNULL(sf.feedback_ids,0) feedback_ids,IFNULL(sf.action_taken,0) action_taken');
+    	$this->db->select('sf.custom_msg,s.ses_id,s.sch_id,s.medium,s.class_id,s.sec_id,s.adm_no,s.roll_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name,DATE_FORMAT(sf.created_at,"%d-%M-%Y") submit_date,sf.warning_no,IFNULL(sf.feedback_ids,0) feedback_ids,IFNULL(sf.action_taken,0) action_taken');
     	$this->db->join('class c','c.c_id = s.class_id');
     	$this->db->join('section sec','sec.sec_id = s.sec_id');
     	$this->db->join('student_feedback sf','sf.adm_no = s.adm_no AND sf.ses_id = s.ses_id AND sf.sch_id = s.sch_id AND s.medium = sf.med_id AND sf.status = 1');
@@ -871,6 +871,7 @@ class Student_ctrl extends CI_Controller{
 	            $temp = [];
 	            $temp['warning_no'] = $res['warning_no'];
 	            $temp['created_at'] = $res['created_at'];
+	            $temp['custom_msg'] = $res['custom_msg'];
 	            //----------------delinquents------------------------
 	            if($res['feedback_ids'] == ''){
 	                $res['feedback_ids'] = 0;

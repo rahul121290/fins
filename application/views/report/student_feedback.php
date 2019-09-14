@@ -116,6 +116,7 @@
       </select>
       
       	<div class="box-body" id="feedback_list"></div>
+      	<textarea rows="" cols="" id="custom_msg" class="form-control" style="display: none;"></textarea>
       	<div class="box-body" id="action_taken"></div>
       	<div class="box-footer">
   			<div class="text-center">
@@ -188,6 +189,8 @@ $(document).on('click','#search',function(){
 $(document).on('click','.feedback',function(){
 	$('#feedback_list').html('');
 	$('#action_taken').html('');
+	$('#custom_msg').val('');
+	$('#custom_msg').css('display','none');
 	var medium = $(this).data('medium');
 	var adm_no = $(this).data('adm_no');
 	var name = $(this).data('std_name');
@@ -234,6 +237,8 @@ $(document).on('change','#warning_no',function(){
 				}else{
 					var student_feedback = [];
 				}
+
+				$('#custom_msg').val(response.data.custom_msg);
 				//---------------feedback list----------------------------
 				$.each(response.data.feedback_list,function(key,value){
 					var flag = 1;
@@ -253,6 +258,8 @@ $(document).on('change','#warning_no',function(){
 					'</div></div>';
 					}
 				});
+				
+				$('#custom_msg').css('display','block');
 				$('#feedback_list').html(x);
 
 				var y='<b>Action Taken</b> <br/>';
@@ -322,6 +329,7 @@ $(document).on('click','#submit_feedback',function(){
 		formdata.append('warning_no',$('#warning_no').val());
 		formdata.append('assesment_feedback',assesment_feedback);
 		formdata.append('action_taken',action_taken);
+		formdata.append('custom_msg',$('#custom_msg').val());
 	$.ajax({
 		type:'POST',
 		url:baseUrl+'Teacher_ctrl/submit_feedback',

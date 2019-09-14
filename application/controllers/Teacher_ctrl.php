@@ -337,15 +337,20 @@ class Teacher_ctrl extends CI_Controller{
         $this->db->select('*');
         $result['action_taken'] = $this->db->get_where('action_taken',array('status'=>1))->result_array();
         
-        $this->db->select('feedback_ids,action_taken');
+        $this->db->select('feedback_ids,action_taken,custom_msg');
         $this->db->where(array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'med_id'=>$data['medium'],'adm_no'=>$data['adm_no'],'warning_no'=>$data['warning_no']));
         $student_feedback = $this->db->get_where('student_feedback',array('status'=>1))->result_array();
+        
+        
         if(count($student_feedback) > 0){
+            $result['custom_msg'] = $student_feedback[0]['custom_msg'];
+            
             $result['student_feedback'] = $student_feedback[0]['feedback_ids'];
             $result['teacher_action_taken'] = $student_feedback[0]['action_taken'];
         }else{
             $result['student_feedback'] = '';
             $result['teacher_action_taken'] = '';
+            $result['custom_msg'] = '';
         }
         
         if(count($result) > 0){
@@ -363,6 +368,7 @@ class Teacher_ctrl extends CI_Controller{
         $data['warning_no'] = $this->input->post('warning_no');
         $data['feedback_ids'] = $this->input->post('assesment_feedback');
         $data['action_taken'] = $this->input->post('action_taken');
+        $data['custom_msg'] = $this->input->post('custom_msg');
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $this->session->userdata('user_id');
         
