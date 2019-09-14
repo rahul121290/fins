@@ -46,7 +46,11 @@ $(document).on('click','#sync',function(){
 				$('#loader').modal('hide');
 				alert(response.msg);
 			}
-		}
+		},
+		error:function(){
+			alert('Connection Error, Please try again.');
+			$('#loader').modal('hide');
+		},
 	});
 });
 

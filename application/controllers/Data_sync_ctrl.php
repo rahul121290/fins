@@ -7,7 +7,6 @@ class Data_sync_ctrl extends CI_Controller {
         $this->server = $this->load->database('server',true);
     }
     
-    
     function sync_fee_details(){
         $this->db->trans_begin();
         //------------server to local------------------------

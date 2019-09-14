@@ -392,8 +392,8 @@ class Student_fee_ctrl extends CI_Controller {
     }
     
     function fee_payment(){
-        $this->db->select('MAX(receipt_no) as receipt_no');
-        $receipt = $this->db->get_where('student_fee',array('pay_mode'=>'Offline'))->result_array();
+        $this->db->select('max(receipt_no) as receipt_no');
+        $receipt = $this->db->get_where('student_fee')->result_array();
         
         $this->db->select('MAX(offline_fee_id) as offline_fee_id');
         $offline_fee_id = $this->db->get_where('student_fee',array('pay_mode'=>'Offline'))->result_array();
@@ -490,7 +490,7 @@ class Student_fee_ctrl extends CI_Controller {
     function fee_receipt(){
         $receipt = $this->input->get('receipt_no');
         $this->db->select('DATE_FORMAT(sf.created_at,"%d-%m-%Y") receipt_date,sf.receipt_no,sf.payment_date,s.ses_id,s.sch_id,s.medium,s.class_id,
-                    c.class_name,sec.section_name,s.fee_criteria,s.staff_child,s.adm_no,s.name,s.f_name,
+                    c.class_name,IFNULL(sec.section_name,"") section_name,s.fee_criteria,s.staff_child,s.adm_no,s.name,s.f_name,
                     sf.session_fee_ids,
                     sf.month_ids,
                     sf.late_fee,
@@ -504,7 +504,7 @@ class Student_fee_ctrl extends CI_Controller {
         $this->db->join('students s','s.ses_id = sf.ses_id AND s.sch_id = sf.sch_id AND s.medium = sf.med_id AND s.adm_no = sf.adm_no AND s.status = 1');
         $this->db->join('bus_structure bs','bs.bs_id = sf.bus_id AND bs.ses_id = sf.ses_id AND bs.status = 1','LEFT');
         $this->db->join('class c','c.c_id = s.class_id');
-        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id','LEFT');
         $result['student'] = $this->db->get_where('student_fee sf',array('sf.status'=>1,'sf.receipt_no'=>$receipt))->result_array();
         //print_r($this->db->last_query());die;
         if(count($result['student']) > 0){
@@ -539,7 +539,6 @@ class Student_fee_ctrl extends CI_Controller {
             $result['session_fee'] = $this->db->get_where('class_fee_structure cfs')->result_array();
             
             //-----------------month fee--------------------------
-
             $month_ids = '0';
             if($result['student'][0]['month_ids'] != '' || $result['student'][0]['month_ids'] != null){
                 $month_ids = $result['student'][0]['month_ids'];
@@ -630,12 +629,12 @@ class Student_fee_ctrl extends CI_Controller {
         }else{
             $condition1 = '';
         }
+		
         if($data['fee_status'] == 1){
             $condition .= ' AND sf.pay_status = '.$data['fee_status'];
-        }else if($data['fee_status'] == 0){
+        }else if($data['fee_status'] != ''){
             $condition .= ' AND sf.pay_status IS NULL';
         }
-        
         if($data['search_box']){
             $condition .= ' AND (s.adm_no = "'.$data['search_box'].'" OR s.name LIKE "'.$data['search_box'].'%")';
         }
@@ -644,13 +643,13 @@ class Student_fee_ctrl extends CI_Controller {
                         IFNULL(s.related_std,"-") related_std,
                         IFNULL(s.bus,"No") bus,
                         c.class_name,
-                        sec.section_name,
+                        IFNULL(sec.section_name,"") section_name,
                         fc.fc_name,
                         IFNULL(sc.name,"") staff_child,
                         GROUP_CONCAT(sf.month_ids) month_ids,IF(sf.pay_status IS NULL,"Pending","Paid") fee_status');
         $this->db->join('student_fee sf','sf.adm_no = s.adm_no AND sf.ses_id = s.ses_id AND sf.sch_id = s.sch_id AND sf.status = 1 '.$condition1.'','LEFT');
         $this->db->join('class c','c.c_id = s.class_id');
-        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id','LEFT');
         $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
         $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
         $this->db->where($condition);
@@ -772,7 +771,7 @@ class Student_fee_ctrl extends CI_Controller {
         $this->db->join('class_fee_structure cfs','cfs.fc_id = s.fee_criteria AND (cfs.staff_child  = s.staff_child OR cfs.staff_child  IS NULL) AND cfs.fc_id = s.fee_criteria AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND med_id = s.medium AND class_id = s.class_id AND status = 1 ORDER BY fs_id DESC LIMIT 1)');
         $this->db->join('fee_type ft','ft.ft_id = cfs.ft_id');
         $this->db->join('class c','c.c_id = s.class_id');
-        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id','LEFT');
         $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
         $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
         $this->db->where($condition);
@@ -1138,7 +1137,7 @@ class Student_fee_ctrl extends CI_Controller {
         AND sch_id = '.$data['sch_id'].' AND med_id = s.medium AND class_id = s.class_id AND status = 1 ORDER BY fs_id DESC LIMIT 1)');
         $this->db->join('fee_type ft','ft.ft_id = cfs.ft_id');
         $this->db->join('class c','c.c_id = s.class_id');
-        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id','LEFT');
         $this->db->join('fee_criteria fc','fc.fc_id = s.fee_criteria');
         $this->db->join('staff_child sc','sc.sc_id = s.staff_child','LEFT');
         $this->db->where(array('s.ses_id'=>$data['ses_id'],'s.sch_id'=>$data['sch_id'],'s.adm_no'=>$data['adm_no']));
