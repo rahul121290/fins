@@ -35,7 +35,7 @@ class Hostel_students_model extends CI_Model{
             }
             
             //--------------log---------------------------
-            $user = $this->session->userdata('username');
+            $user = $this->session->userdata('user_id');
             $event_name = 'Update Hostel Details';
             $table_name = 'hostel_students';
             $table_id = $result[0]['hs_id'];
@@ -57,7 +57,7 @@ class Hostel_students_model extends CI_Model{
             }
             
             //--------------log---------------------------
-            $user = $this->session->userdata('username');
+            $user = $this->session->userdata('user_id');
             $event_name = 'Add Hostel Details';
             $table_name = 'hostel_students';
             $table_id = $hsd_id;
