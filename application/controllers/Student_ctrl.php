@@ -798,4 +798,190 @@ class Student_ctrl extends CI_Controller{
 	    
 	}
 	
+	function delinquents_report(){
+    	$data['ses_id'] = $this->session->userdata('session_id');
+    	$data['sch_id'] = $this->session->userdata('school_id');
+    	$data['medium'] = $this->input->post('medium');
+    	$data['class_id'] = $this->input->post('class_name');
+    	$data['sec_id'] = $this->input->post('section');
+    	$data['warning'] = $this->input->post('warning');
+    	$condition = 's.status = 1';
+    	if($data['ses_id']){
+    	    $condition .=' AND s.ses_id = '.$data['ses_id'];
+    	}
+    	if($data['sch_id']){
+    	    $condition .=' AND s.sch_id = '.$data['sch_id'];
+    	}
+    	if($data['medium']){
+    	    $condition .=' AND s.medium = '.$data['medium'];
+    	}
+    	if($data['class_id']){
+    	    $condition .=' AND s.class_id = '.$data['class_id'];
+    	}
+    	if($data['sec_id']){
+    	    $condition .=' AND s.sec_id = '.$data['sec_id'];
+    	}
+    	if($data['warning']){
+    	    $condition .=' AND sf.warning_no = '.$data['warning'];
+    	}
+    	
+    	$this->db->select('s.ses_id,s.sch_id,s.medium,s.class_id,s.sec_id,s.adm_no,s.roll_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name,DATE_FORMAT(sf.created_at,"%d-%M-%Y") submit_date,sf.warning_no,IFNULL(sf.feedback_ids,0) feedback_ids,IFNULL(sf.action_taken,0) action_taken');
+    	$this->db->join('class c','c.c_id = s.class_id');
+    	$this->db->join('section sec','sec.sec_id = s.sec_id');
+    	$this->db->join('student_feedback sf','sf.adm_no = s.adm_no AND sf.ses_id = s.ses_id AND sf.sch_id = s.sch_id AND s.medium = sf.med_id AND sf.status = 1');
+    	$this->db->where($condition);
+    	$this->db->order_by('s.class_id,s.sec_id');
+    	$students = $this->db->get_where('students s')->result_array();
+    	
+    	if(count($students) > 0){
+    	   $final = [];
+    	   foreach($students as $key => $std){
+    	       $final[$key] = $std;
+    	       $final[$key]['delinquents'] = $this->db->select('*')->where('af_id IN ('.$std['feedback_ids'].')')->get_where('assessment_feedback')->result_array();
+    	       $final[$key]['action_taken'] = $this->db->select('*')->where('at_id IN ('.$std['action_taken'].')')->get_where('action_taken')->result_array();
+    	   }
+    	   if(count($final) > 0){
+    	       echo json_encode(array('data'=>$final,'status'=>200));
+    	   }else{
+    	       echo json_encode(array('msg'=>'Record not found.','status'=>500));
+    	   }
+    	}else{
+    	    echo json_encode(array('msg'=>'Record not found.','status'=>500));
+    	}
+    	
+	}
+	
+	function student_delinquents_details(){
+	    $data['ses_id'] = $this->session->userdata('session_id');
+	    $data['sch_id'] = $this->session->userdata('school_id');
+	    $data['adm_no'] = $this->input->post('adm_no');
+	    
+	    $this->db->select('*');
+	    $this->db->where($data);
+	    $student = $this->db->get_where('students',array('status'=>1))->result_array();
+	    
+	    
+	    $this->db->select('*,DATE_FORMAT(created_at,"%d-%M-%Y") created_at');
+	    $this->db->where($data);
+	    $result = $this->db->get_where('student_feedback',array('status'=>1))->result_array();
+	    
+	    $final = [];
+	    if(count($result) > 0){
+	        foreach($result as $res){
+	            $temp = [];
+	            $temp['warning_no'] = $res['warning_no'];
+	            $temp['created_at'] = $res['created_at'];
+	            //----------------delinquents------------------------
+	            if($res['feedback_ids'] == ''){
+	                $res['feedback_ids'] = 0;
+	            }
+	            $delinquents = $this->db->select('*')->where('af_id IN('.$res['feedback_ids'].')')->get_where('assessment_feedback',array('status'=>1))->result_array();
+	            $temp['delinquents'] = $delinquents;
+	            
+	            //----------------action_taken------------------------
+	            if($res['action_taken'] == ''){
+	                $res['action_taken'] = 0;
+	            }
+	            $action_taken = $this->db->select('*')->where('at_id IN('.$res['action_taken'].')')->get_where('action_taken',array('status'=>1))->result_array();
+	            $temp['action_taken'] = $action_taken;
+	            $final[] = $temp;
+	        }
+	    }
+	    
+	    if(count($final) > 0){
+	        echo json_encode(array('data'=>$final,'student'=>$student,'status'=>200));
+	    }else{
+	        echo json_encode(array('msg'=>'Record not found.','status'=>500));
+	    }    
+	}
+	
+// 	function delinquents_report(){
+// 	    $data['ses_id'] = $this->session->userdata('session_id');
+// 	    $data['sch_id'] = $this->session->userdata('school_id');
+// 	    $data['medium'] = $this->input->post('medium');
+// 	    $data['class_id'] = $this->input->post('class_name');
+// 	    $data['sec_id'] = $this->input->post('section');
+	    
+// 	    $condition = 's.status = 1';
+// 	    if($data['ses_id']){
+// 	        $condition .=' AND s.ses_id = '.$data['ses_id'];
+// 	    }
+// 	    if($data['sch_id']){
+// 	        $condition .=' AND s.sch_id = '.$data['sch_id'];
+// 	    }
+// 	    if($data['medium']){
+// 	        $condition .=' AND s.medium = '.$data['medium'];
+// 	    }
+// 	    if($data['class_id']){
+// 	        $condition .=' AND s.class_id = '.$data['class_id'];
+// 	    }
+// 	    if($data['sec_id']){
+// 	        $condition .=' AND s.sec_id = '.$data['sec_id'];
+// 	    }
+	    
+// 	    $this->db->select('s.ses_id,s.sch_id,s.medium,s.class_id,s.sec_id,s.adm_no,s.roll_no,s.name,s.f_name,s.contact_no,c.class_name,sec.section_name');
+// 	    $this->db->join('class c','c.c_id = s.class_id');
+// 	    $this->db->join('section sec','sec.sec_id = s.sec_id');
+// 	    $this->db->where($condition);
+// 	    $students = $this->db->get_where('students s')->result_array();
+	   
+// 	    $final = [];
+// 	    if(count($students) > 0){
+// 	        foreach($students as  $std){
+// 	            $temp = [];
+// 	            $temp['adm_no'] = $std['adm_no'];
+// 	            $temp['roll_no'] = $std['roll_no'];
+// 	            $temp['class_name'] = $std['class_name'];
+// 	            $temp['section_name'] = $std['section_name'];
+// 	            $temp['name'] = $std['name'];
+// 	            $temp['f_name'] = $std['f_name'];
+// 	            $temp['contact_no'] = $std['contact_no']; 
+	            
+// 	            $this->db->select('*');
+// 	            $this->db->where(array('ses_id'=>$std['ses_id'],'sch_id'=>$std['sch_id'],'med_id'=>$std['medium'],'adm_no'=>$std['adm_no']));
+// 	            $student_feedback = $this->db->get_where('student_feedback',array('status'=>1))->result_array();
+	            
+// 	            if(count($student_feedback) > 0){
+// 	                foreach($student_feedback as $s_feedback){
+// 	                    $temp_delinq = [];
+// 	                    $temp_act_taken = [];
+// 	                    $temp_delinq['date'] = $s_feedback['created_at'];
+// 	                    $temp_delinq['warning_no'] = $s_feedback['warning_no'];
+// 	                    //-----------delinquents-----------------
+// 	                    if($s_feedback['feedback_ids'] == ''){
+// 	                        $s_feedback['feedback_ids'] = 0;
+// 	                    }
+// 	                    $this->db->select('*');
+// 	                    $this->db->where('af_id IN ('.$s_feedback['feedback_ids'].')');
+// 	                    $delinquents = $this->db->get_where('assessment_feedback',array('status'=>1))->result_array();
+// 	                    $temp_delinq['data'] = $delinquents;
+	                    
+// 	                    //-----------Action taken-----------------
+// 	                    if($s_feedback['action_taken'] == ''){
+// 	                        $s_feedback['action_taken'] = 0;
+// 	                    }
+	                    
+// 	                    $this->db->select('*');
+// 	                    $this->db->where('at_id IN ('.$s_feedback['action_taken'].')');
+// 	                    $action_taken = $this->db->get_where('action_taken',array('status'=>1))->result_array();
+// 	                    $temp_act_taken = $action_taken;
+	                    
+// 	                    $temp['delinquents'][] = $temp_delinq;
+// 	                    $temp['action_taken'][] = $temp_act_taken;
+// 	                }
+	                
+// 	            }
+// 	            $final[] = $temp;
+// 	        }
+	        
+// 	        if(count($final) > 0){
+// 	            echo json_encode(array('data'=>$final,'status'=>200));
+// 	        }else{
+// 	            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+// 	        }
+	        
+// 	    }
+	    
+// 	}
+	
 }

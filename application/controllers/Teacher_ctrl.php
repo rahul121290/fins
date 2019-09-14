@@ -283,10 +283,11 @@ class Teacher_ctrl extends CI_Controller{
            $condition .= ' AND s.sec_id ='.$data['sec_id'];
        }
        
-       $this->db->select('s.std_id,s.medium,s.adm_no,s.roll_no,s.name,c.class_name,sec.section_name,IF(sf.sfb_id IS NULL,"Pending","Added") feedback_status');
+       $this->db->select('s.std_id,s.medium,s.adm_no,s.roll_no,s.name,c.class_name,sec.section_name,
+                IFNULL((SELECT MAX(warning_no) FROM student_feedback WHERE ses_id = '.$data['ses_id'].' AND sch_id = '.$data['sch_id'].' AND med_id = '.$data['medium'].' AND adm_no = s.adm_no),"-") warning_no
+         ');
        $this->db->join('class c','c.c_id = s.class_id');
        $this->db->join('section sec','sec.sec_id = s.sec_id');
-       $this->db->join('student_feedback sf','sf.adm_no = s.adm_no AND sf.ses_id = s.ses_id AND sf.sch_id = s.sch_id AND sf.med_id = s.medium AND sf.status = 1','LEFT');
        $this->db->where($condition);
        $this->db->order_by('s.roll_no','ASC');
        $result = $this->db->get_where('students s')->result_array();
@@ -297,23 +298,54 @@ class Teacher_ctrl extends CI_Controller{
        }
     }
     
+    function warning_list(){
+        $data['ses_id'] = $this->session->userdata('session_id');
+        $data['sch_id'] = $this->session->userdata('school_id');
+        $data['medium'] = $this->input->post('medium');
+        $data['adm_no'] = $this->input->post('adm_no');
+        
+        $this->db->select('MAX(warning_no) warning_no');
+        $this->db->where(array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'med_id'=>$data['medium'],'adm_no'=>$data['adm_no']));
+        $warning_no = $this->db->get_where('student_feedback',array('status'=>1))->result_array();
+        
+        $see_warning = 1;
+        if($warning_no[0]['warning_no'] > 0){
+            $see_warning = $warning_no[0]['warning_no']+1;
+        }
+        
+        $this->db->select('*');
+        $result = $this->db->get_where('warning_no',array('status'=>1,'w_id <= '=>$see_warning))->result_array();
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+        
+    }
+    
     
     function feedback_list(){
         $data['ses_id'] = $this->session->userdata('session_id');
         $data['sch_id'] = $this->session->userdata('school_id');
         $data['medium'] = $this->input->post('medium');
         $data['adm_no'] = $this->input->post('adm_no');
+        $data['warning_no'] = $this->input->post('warning_no');
         
         $this->db->select('*');
         $result['feedback_list'] = $this->db->get_where('assessment_feedback',array('status'=>1,'medium'=>$data['medium']))->result_array();
         
-        $this->db->select('feedback_ids');
-        $this->db->where(array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'med_id'=>$data['medium'],'adm_no'=>$data['adm_no']));
+        $this->db->select('*');
+        $result['action_taken'] = $this->db->get_where('action_taken',array('status'=>1))->result_array();
+        
+        $this->db->select('feedback_ids,action_taken');
+        $this->db->where(array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'med_id'=>$data['medium'],'adm_no'=>$data['adm_no'],'warning_no'=>$data['warning_no']));
         $student_feedback = $this->db->get_where('student_feedback',array('status'=>1))->result_array();
         if(count($student_feedback) > 0){
             $result['student_feedback'] = $student_feedback[0]['feedback_ids'];
+            $result['teacher_action_taken'] = $student_feedback[0]['action_taken'];
         }else{
             $result['student_feedback'] = '';
+            $result['teacher_action_taken'] = '';
         }
         
         if(count($result) > 0){
@@ -328,13 +360,15 @@ class Teacher_ctrl extends CI_Controller{
         $data['sch_id'] = $this->session->userdata('school_id');
         $data['med_id'] = $this->input->post('medium');
         $data['adm_no'] = $this->input->post('adm_no');
+        $data['warning_no'] = $this->input->post('warning_no');
         $data['feedback_ids'] = $this->input->post('assesment_feedback');
+        $data['action_taken'] = $this->input->post('action_taken');
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['created_by'] = $this->session->userdata('user_id');
         
         $this->db->trans_begin();
         $this->db->select('sfb_id');
-        $this->db->where(array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'med_id'=>$data['med_id'],'adm_no'=>$data['adm_no']));
+        $this->db->where(array('ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'med_id'=>$data['med_id'],'adm_no'=>$data['adm_no'],'warning_no'=>$data['warning_no']));
         $check = $this->db->get_where('student_feedback',array('status'=>1))->result_array();
         
         if(count($check) > 0){

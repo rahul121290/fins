@@ -931,7 +931,7 @@ class Admin_ctrl extends CI_Controller {
     
     function student_feedback(){
         if(in_array(33, $this->permission)){
-            $this->data['page_name'] = 'Assessment Feedback';
+            $this->data['page_name'] = 'Delinquents Entry';
             $this->data['main'] = 'report/student_feedback';
             $this->data['feedback_list'] = $this->db->select('af.af_id,m.med_id,m.med_name,af.feedback')->join('medium m','m.med_id = af.medium')->order_by('af.af_id','DESC')->get_where('assessment_feedback af',array('af.status'=>1))->result_array();
             $this->_admin_class_teacher_access();
@@ -940,6 +940,25 @@ class Admin_ctrl extends CI_Controller {
             $this->_load_view('error_page');
         }
     }
+    
+    function delinquents_report(){
+        if(in_array(34, $this->permission)){
+            $this->data['page_name'] = 'Delinquents Report';
+            $this->data['main'] = 'report/delinquents_report';
+            $this->data['warning'] = $this->db->select('*')->get_where('warning_no',array('status'=>1))->result_array();
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function student_delinquents(){
+            $this->data['page_name'] = 'Delinquents Report';
+            $this->data['main'] = 'report/student_delinquents';
+            $this->_load_view();
+    }
+    
     
     function error_page(){
         $this->data['page_name'] = 'Error';

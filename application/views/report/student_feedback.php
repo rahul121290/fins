@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Students Feedback<small>Entry</small></h1>
+      <h1>Students Delinquents<small>Entry</small></h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="">Reports</li>
@@ -85,7 +85,7 @@
                     				<th>Class/Section</th>
                     				<th>Admission No.</th>
                     				<th>Roll No.</th>
-                    				<th>Status</th>
+                    				<th>Warning No.</th>
                     				<th>Action</th>
             					</tr>
         					</thead>
@@ -110,7 +110,13 @@
       <div class="modal-body">
       <input type="hidden" id="modal_medium" value="">
       <input type="hidden" id="modal_adm_no" value="">
+      
+      <select id="warning_no" name="warning_no" class="form-control">
+      	<option value="">Select Warning</option>
+      </select>
+      
       	<div class="box-body" id="feedback_list"></div>
+      	<div class="box-body" id="action_taken"></div>
       	<div class="box-footer">
   			<div class="text-center">
         		<button type="button" id="submit_feedback" class="btn btn-info btn-space">Submit</button>
@@ -151,7 +157,6 @@ $(document).on('click','#search',function(){
 	}else{
 		$('#section_err').css('display','none');
 	}
-
 	if(formvalidate){
 		$.ajax({
 			type:'POST',
@@ -169,7 +174,7 @@ $(document).on('click','#search',function(){
 							'<td>'+value.class_name+'/'+value.section_name+'</td>'+
 							'<td>'+value.adm_no+'</td>'+
 							'<td>'+value.roll_no+'</td>'+
-							'<td>'+value.feedback_status+'</td>'+
+							'<td>'+value.warning_no+'</td>'+
 							'<td><button class="btn btn-success feedback" data-std_name="'+value.name+'" data-medium="'+value.medium+'" data-adm_no="'+value.adm_no+'">Feedback</button></td>'+
 						'</tr>';
 					});	
@@ -181,13 +186,14 @@ $(document).on('click','#search',function(){
 });
 
 $(document).on('click','.feedback',function(){
+	$('#feedback_list').html('');
+	$('#action_taken').html('');
 	var medium = $(this).data('medium');
 	var adm_no = $(this).data('adm_no');
 	var name = $(this).data('std_name');
-
 	$.ajax({
 		type:'POST',
-		url:baseUrl+'Teacher_ctrl/feedback_list',
+		url:baseUrl+'Teacher_ctrl/warning_list',
 		data:{'medium':medium,'adm_no':adm_no},
 		dataType:'json',
 		beforeSend:function(){},
@@ -196,14 +202,39 @@ $(document).on('click','.feedback',function(){
 				$('.modal-title').html(name+' Important assessment feedback');
 				$('#modal_medium').val(medium);
 				$('#modal_adm_no').val(adm_no);
-				var x='';
-				if(response.data.student_feedback.length > 0){
+				var x = '<option value="">Select Warning No</option>';
+				$.each(response.data,function(key,value){
+					x=x+'<option value="'+value.w_id+'">'+value.warning+'</option>';
+				});
+				$('#warning_no').html(x);
+				$('#feedback_modal').modal('show');
+			}else{
+				alert(response.msg);
+			}
+		},
+	});
+});
+
+$(document).on('change','#warning_no',function(){
+	var warning_no = $(this).val();
+	var medium = $('#modal_medium').val();
+	var adm_no = $('#modal_adm_no').val();
+	$.ajax({
+		type:'POST',
+		url:baseUrl+'Teacher_ctrl/feedback_list',
+		data:{'medium':medium,'adm_no':adm_no,'warning_no':warning_no},
+		dataType:'json',
+		beforeSend:function(){},
+		success:function(response){
+			if(response.status == 200){
+				var x='<b>Feedback</b> <br/>';
+				if(response.data.student_feedback != ''){
 					var str = response.data.student_feedback;
 					var student_feedback = str.split(",");
 				}else{
 					var student_feedback = [];
 				}
-				
+				//---------------feedback list----------------------------
 				$.each(response.data.feedback_list,function(key,value){
 					var flag = 1;
 					$.each(student_feedback,function(k,v){
@@ -221,9 +252,35 @@ $(document).on('click','.feedback',function(){
 							'<input type="checkbox" id="'+value.af_id+'" name="assesment_feedback">'+value.feedback+
 					'</div></div>';
 					}
-					
 				});
 				$('#feedback_list').html(x);
+
+				var y='<b>Action Taken</b> <br/>';
+				if(response.data.teacher_action_taken != ''){
+					var str = response.data.teacher_action_taken;
+					var teacher_action_taken = str.split(",");
+				}else{
+					var teacher_action_taken = [];
+				}
+				$.each(response.data.action_taken,function(key,value){
+					var flag = 1;
+					$.each(teacher_action_taken,function(k,v){
+						if(v == value.at_id){
+							flag = 0;
+							y=y+'<div class="form-group">'+
+							'<div class="col-sm-9">'+
+								'<input type="checkbox" id="'+value.at_id+'" name="action_taken" checked>'+value.description+
+						'</div></div>';
+						}
+					});
+					if(flag){
+						y=y+'<div class="form-group">'+
+						'<div class="col-sm-9">'+
+							'<input type="checkbox" id="'+value.at_id+'" name="action_taken">'+value.description+
+					'</div></div>';
+					}
+				});
+				$('#action_taken').html(y);
 				$('#feedback_modal').modal('show');	
 			}else{
 				alert(response.msg);
@@ -233,6 +290,7 @@ $(document).on('click','.feedback',function(){
 });
 
 
+
 $(document).on('click','#submit_feedback',function(){
 	var adm_no = $('#modal_adm_no').val();
 	var medium = $('#modal_medium').val();
@@ -240,14 +298,30 @@ $(document).on('click','#submit_feedback',function(){
     $.each($("input[name='assesment_feedback']:checked"), function(){            
 		assesment_feedback.push($(this).attr('id'));
     });
+
+    
 	if(assesment_feedback.length == 0){
-		alert('Please Select At Least one feedback');
+		alert('Please Select feedback');
 		return false;
 	}
+	
+    var action_taken = [];
+    $.each($("input[name='action_taken']:checked"), function(){            
+    	action_taken.push($(this).attr('id'));
+    });
+
+   
+	if(action_taken.length == 0){
+		alert('Please Select Action Taken');
+		return false;
+	}
+
 	var formdata = new FormData();
 		formdata.append('medium',medium);
 		formdata.append('adm_no',adm_no);
+		formdata.append('warning_no',$('#warning_no').val());
 		formdata.append('assesment_feedback',assesment_feedback);
+		formdata.append('action_taken',action_taken);
 	$.ajax({
 		type:'POST',
 		url:baseUrl+'Teacher_ctrl/submit_feedback',

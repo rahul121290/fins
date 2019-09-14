@@ -8,6 +8,9 @@ $route['(:any)/(:any)/test'] = 'Admin_ctrl/testing';
 
 $route['(:any)/(:any)/master-record/add-assessment-feedback'] = 'Admin_ctrl/add_feedback';
 $route['(:any)/(:any)/master-record/student-feedback'] = 'Admin_ctrl/student_feedback';
+$route['(:any)/(:any)/master-record/delinquents-report'] = 'Admin_ctrl/delinquents_report';
+$route['(:any)/(:any)/master-record/student-delinquents'] = 'Admin_ctrl/student_delinquents';
+
 
 
 $route['(:any)/(:any)/master-record/session-master'] = 'Admin_ctrl/session_master';
