@@ -26,8 +26,8 @@ class Hostel_students_ctrl extends CI_Controller {
         
         $this->db->select('*');
         $result = $this->db->get_where('students',array('ses_id'=>$data['session'],'sch_id'=>$data['school'],'adm_no'=>$data['admission_no'],'status'=>1))->result_array();
+		//print_r($this->db->last_query());die;
         if(count($result) > 0){
-            
             echo json_encode(array('data'=>$result,'img_path'=>$path,'status'=>200));
         }else{
             echo json_encode(array('msg'=>$this->lang->line('hostel_record_not_found'),'status'=>500));

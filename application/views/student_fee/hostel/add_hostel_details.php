@@ -37,9 +37,9 @@
 								<option value="">Select Board</option>
 								<?php if($this->session->userdata('school_id') == 1){?>
 								<option value="1">CBSE</option>
-								<option value="2">CG Board</option>
+								<option value="3">CG Board</option>
 								<?php }else{ ?>
-								<option value="3">CBSE</option>
+								<option value="2">CBSE</option>
 								<?php } ?>
 							</select>
 							<div id="school_err" class="text-danger" style="display:none;"></div>

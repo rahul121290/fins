@@ -359,7 +359,7 @@ class Student_fee_ctrl extends CI_Controller {
             
             if(count($student)> 0 ){
                 //$mobile = '7999328025';
-                $mobile = '8817721954';
+                $mobile = '9691365626';
                 $msg = 'Fee waiver request OTP is '.$otp.' for '.$student[0]['name'].', Adm No. '.$data['adm_no'].'. Amt: '.$amount.' - '.$this->session->userdata('username');
                 $this->my_function->send_sms($mobile,$msg);
             }else{
