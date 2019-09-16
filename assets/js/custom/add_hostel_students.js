@@ -41,7 +41,7 @@ $(document).ready(function(){
 					}
 					
 					$('#father_name').val(response.data[0].f_name);
-					$('#mother_name').val(response.data[0].f_name);
+					$('#mother_name').val(response.data[0].m_name);
 					$('#dob').val(response.data[0].dob);
 					$('#gender').val(response.data[0].gender);
 					$('#aadhaar').val(response.data[0].aadhar_no);
