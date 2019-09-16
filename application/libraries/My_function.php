@@ -56,20 +56,36 @@ class My_function{
     }
  
     function send_sms($mobile,$sms){
-        $api_key = '25D105E607A4B8';
         $contacts = $mobile;
-        $from = 'SHKVID';
         $sms_text = urlencode($sms);
-        //Submit to server
+        $sms_username = 'shakuntala';
+        $password = '7810c37c3rl2ttygs';
+        $from = 'SHKNTL';
         $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL, "http://login.aronixcreativepoint.com/app/smsapi/index.php");
+        curl_setopt($ch,CURLOPT_URL, "http://sms.medialab.in/pushsms.php");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "key=".$api_key."&campaign=0&routeid=31=TRANS(31)&type=text&contacts=".$contacts."&senderid=".$from."&msg=".$sms_text);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "username=".$sms_username."&api_password=".$password."&sender=".$from."&to=".$contacts."&message=".$sms_text.'&priority=11');
         $response = curl_exec($ch);
         curl_close($ch);
         return true;
     }
+    
+//     function send_sms($mobile,$sms){
+//         $api_key = '25D105E607A4B8';
+//         $contacts = $mobile;
+//         $from = 'SHKVID';
+//         $sms_text = urlencode($sms);
+//         //Submit to server
+//         $ch = curl_init();
+//         curl_setopt($ch,CURLOPT_URL, "http://login.aronixcreativepoint.com/app/smsapi/index.php");
+//         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//         curl_setopt($ch, CURLOPT_POST, 1);
+//         curl_setopt($ch, CURLOPT_POSTFIELDS, "key=".$api_key."&campaign=0&routeid=31=TRANS(31)&type=text&contacts=".$contacts."&senderid=".$from."&msg=".$sms_text);
+//         $response = curl_exec($ch);
+//         curl_close($ch);
+//         return true;
+//     }
     
     function generateNumericOTP() {
         $generator = "1357902468";

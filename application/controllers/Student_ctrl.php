@@ -5,6 +5,7 @@ class Student_ctrl extends CI_Controller{
         parent::__construct();
         $this->load->model('student_model');
         $this->load->library('My_function');
+                
     }
     
     private function _ShowMsgs($successfull, $successMsg, $failureMsg){
