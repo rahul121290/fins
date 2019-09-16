@@ -849,12 +849,13 @@ class Admin_ctrl extends CI_Controller {
             $this->db->join('hostel_students hs','hs.adm_no = s.adm_no AND hs.ses_id = s.ses_id AND hs.sch_id = s.sch_id AND hs.status = 1');
             $this->db->join('hostel_details hd','hd.hd_id = hs.hd_id');
             $this->db->join('class c','c.c_id = s.class_id');
-            $this->db->join('section sec','sec.sec_id = s.sec_id');
+            $this->db->join('section sec','sec.sec_id = s.sec_id','LEFT');
             $this->db->join('medium m','m.med_id = s.medium');
             $this->db->join('school sch','sch.sch_id = s.sch_id' );
             $this->db->where(array('s.ses_id'=>$ses_id,'s.sch_id'=>$sch_id,'s.adm_no'=>$adm_no));
             $this->data['student_details'] = $this->db->get_where('students s',array('s.status'=>1))->result_array();
-            
+            //print_r($this->db->last_query());die;
+			
             $this->db->select('receipt_no,DATE_FORMAT(pay_date,"%d-%M-%Y") pay_date,installment,paid_amount,pending_amount');
             $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no));
             $this->data['paid_fee_details'] = $this->db->get_where('hostel_fee_payment',array('status'=>1))->result_array();

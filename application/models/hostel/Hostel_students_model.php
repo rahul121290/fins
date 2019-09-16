@@ -22,16 +22,20 @@ class Hostel_students_model extends CI_Model{
                     $cusion_data[$key]['hsd_id'] = $result[0]['hs_id'];
                 }
                 //-----------delete old records------------
-                $this->db->where('hs_id',$result[0]['hs_id']);
-                $this->db->delete('hostel_students');
+                $this->db->where('hsd_id',$result[0]['hs_id']);
+                $this->db->delete('cousin_details');
                 
                 //----------insert new----------------
                 $this->db->insert_batch('cousin_details',$cusion_data);
                 
             }else{
-                //-----------delete old records---------------
-                $this->db->where('hs_id',$result[0]['hs_id']);
-                $this->db->delete('hostel_students');
+                //-----------delete old cousion records---------------
+				$check_cousion = $this->db->select('*')->get_where('cousin_details',array('hsd_id'=>$result[0]['hs_id']))->result_array();
+                if(count($check_cousion) > 0){
+					$this->db->where('hsd_id',$result[0]['hs_id']);
+					$this->db->delete('cousin_details');
+				}
+				
             }
             
             //--------------log---------------------------
@@ -43,10 +47,9 @@ class Hostel_students_model extends CI_Model{
             
         }else{
             $this->db->insert('hostel_students',$data);
-            
             $hsd_id = $this->db->insert_id();
             
-            if($data['cousin'] == 'Yes'){    
+            if($data['cousin'] == 'Yes'){
                 $cusion_data = [];
                 foreach($final as $key => $cusion){
                     $cusion_data[] = $cusion;
@@ -56,7 +59,7 @@ class Hostel_students_model extends CI_Model{
                 $this->db->insert_batch('cousin_details',$cusion_data);
             }
             
-            //--------------log---------------------------
+            //----------------log---------------------------
             $user = $this->session->userdata('user_id');
             $event_name = 'Add Hostel Details';
             $table_name = 'hostel_students';

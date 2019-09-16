@@ -418,11 +418,11 @@ class Hostel_students_ctrl extends CI_Controller {
     
     function fee_receipt(){
         $receipt_no = $this->input->post('receipt_no');    
-        $this->db->select('*');
+        $this->db->select('*,IFNULL(sec.section_name,"") section_name');
         $this->db->join('students s','s.adm_no = hfp.adm_no AND s.ses_id = hfp.ses_id AND s.sch_id = hfp.sch_id AND s.status = 1');
         $this->db->join('school sch','sch.sch_id=s.sch_id');
         $this->db->join('class c','c.c_id = s.class_id');
-        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id','LEFT');
         $result = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1,'hfp.receipt_no'=>$receipt_no))->result_array();
         if(count($result) > 0){
             echo json_encode(array('data'=>$result,'status'=>200));
