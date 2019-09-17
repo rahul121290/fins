@@ -35,11 +35,12 @@ function getReceiptData(){
 		beforeSend:function(){},
 		success:function(response){
 			if(response.status == 200){
-				var hostel_fee = parseFloat(parseFloat(response.data[0].paid_amount)-parseFloat(parseFloat(response.data[0].paid_amount)/parseFloat(2.5))).toFixed(2);
-				var mess_fee = parseFloat(parseFloat(response.data[0].paid_amount)/parseFloat(2.5)).toFixed(2);
-				var gst_charge = parseFloat(parseFloat(parseFloat(mess_fee)*parseFloat(2.5))/parseFloat(100)).toFixed(2);
-				var sub_total = parseFloat(parseFloat(hostel_fee)+parseFloat(mess_fee)+parseFloat(gst_charge)+parseFloat(gst_charge)).toFixed(2);
-				var mess_with_gst = parseFloat(parseFloat(mess_fee)+parseFloat(gst_charge)+parseFloat(gst_charge)).toFixed(2);
+				var hostel_fee = parseFloat(parseFloat(response.data[0].hostel_amount)-parseFloat(parseFloat(response.data[0].taxable_amount))).toFixed(2);
+				var mess_fee = parseFloat(response.data[0].taxable_amount).toFixed(2);
+				var cgst_charge = parseFloat(response.data[0].cgst).toFixed(2);
+				var sgst_charge = parseFloat(response.data[0].sgst).toFixed(2);
+				var sub_total = parseFloat(response.data[0].paid_amount).toFixed(2);
+				var total_gst =parseFloat(parseFloat(cgst_charge) +  parseFloat(cgst_charge)).toFixed(2);
 				var x='<table class="table h-hostel-bil-table">'+
 					'<tbody>'+
 				'<tr><td><b>Bill No.</b></td><td>: SG/19-20/ 073</td><td><b>Bill Date</b></td><td>: '+response.data[0].receipt_no+'</td></tr>'+
@@ -55,16 +56,16 @@ function getReceiptData(){
 			'<tbody>'+
 				'<tr><td>1.</td><td>Hostel Fees(During the Year- 12M)</td><td>996322</td><td>1</td><td>'+hostel_fee+'</td><td>'+hostel_fee+'</td></tr>'+
 				'<tr><td>2.</td><td>Mess/Canteen Charges</td><td>996333</td><td>1</td><td>'+mess_fee+'</td><td>'+mess_fee+'</td></tr>'+
-				'<tr><td colspan="2"></td><td><b>SUB TOTAL</b></td><td colspan="2"></td><td><b>'+response.data[0].paid_amount+'</b></td></tr>'+
-				'<tr><td colspan="3"></td><td>CGST @2.5%</td><td></td><td>'+gst_charge+'</td></tr>'+
-				'<tr><td colspan="3"></td><td>CGST @2.5%</td><td></td><td>'+gst_charge+'</td></tr>'+
+				'<tr><td colspan="2"></td><td><b>SUB TOTAL</b></td><td colspan="2"></td><td><b>'+response.data[0].hostel_amount+'</b></td></tr>'+
+				'<tr><td colspan="3"></td><td>CGST @2.5%</td><td></td><td>'+cgst_charge+'</td></tr>'+
+				'<tr><td colspan="3"></td><td>SGST @2.5%</td><td></td><td>'+sgst_charge+'</td></tr>'+
 				'<tr><td colspan="2"></td><td><b>TOTAL</b></td><td colspan="2"></td><td><b>'+sub_total+'</b></td></tr>'+
 				'<tr><td colspan="6" style="text-align:right;"><b>'+toWords(parseFloat(sub_total))+'</b></td></tr>'+
 				
 				'<tr><td colspan="2"></td><td><b>GST RATE</b></td><td><b>CGST @2.5%</b></td><td><b>SGST@2.5%</b></td><td><b>TOTAL GST</b></td></tr>'+
 				'<tr><td></td><td>Hostel Fees - 996322</td><td>Exempt</td><td>-</td><td>-</td><td>-</td></tr>'+
-				'<tr><td></td><td>Mess/Canteen - 996333</td><td>'+mess_fee+'</td><td>'+gst_charge+'</td><td>'+gst_charge+'</td><td>'+mess_with_gst+'</td></tr>'+
-				'<tr><td colspan="2"></td><td><b>TOTAL</b></td><td><b>'+gst_charge+'</b></td><td><b>'+gst_charge+'</b></td><td><b>'+mess_with_gst+'</b></td></tr>'+
+				'<tr><td></td><td>Mess/Canteen - 996333</td><td>'+mess_fee+'</td><td>'+cgst_charge+'</td><td>'+sgst_charge+'</td><td>'+total_gst+'</td></tr>'+
+				'<tr><td colspan="2"></td><td><b>TOTAL</b></td><td><b>'+cgst_charge+'</b></td><td><b>'+sgst_charge+'</b></td><td><b>'+total_gst+'</b></td></tr>'+
 			'</tbody>'+
 		'</table>'+
 		'<table class="table">'+

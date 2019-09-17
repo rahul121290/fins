@@ -150,6 +150,38 @@
 						</div>
 					</div>
 					
+					<div class="form-group mb-3">
+						<label class="col-sm-6">Taxable Amount</label>
+						<div class="col-sm-6">
+							<input type="number" id="taxable_amount" name="taxable_amount" class="form-control" placeholder="Taxable Amount" disabled="disabled">
+							<div id="taxable_amount_err" class="text-danger" style="display:none;"></div>
+						</div>
+					</div>
+					
+					<div class="form-group mb-3">
+						<label class="col-sm-6">CGST</label>
+						<div class="col-sm-6">
+							<input type="number" id="cgst" name="cgst" class="form-control" placeholder="CGST" disabled="disabled">
+							<div id="cgst_err" class="text-danger" style="display:none;"></div>
+						</div>
+					</div>
+					
+					<div class="form-group mb-3">
+						<label class="col-sm-6">SGST</label>
+						<div class="col-sm-6">
+							<input type="number" id="sgst" name="sgst" class="form-control" placeholder="SGST" disabled="disabled">
+							<div id="sgst_err" class="text-danger" style="display:none;"></div>
+						</div>
+					</div>
+					
+					<div class="form-group mb-3">
+						<label class="col-sm-6">Total Amount</label>
+						<div class="col-sm-6">
+							<input type="number" id="total_amount" name="total_amount" class="form-control" placeholder="Total Amount" disabled="disabled">
+							<div id="total_amount_err" class="text-danger" style="display:none;"></div>
+						</div>
+					</div>
+					
 				</div>
 			</div>
 		</div>

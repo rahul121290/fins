@@ -135,6 +135,10 @@
                       <div id="subject_msg"></div>
                       <div id="practical_msg"></div>
                       <div id="notebook_msg"></div>
+                      
+                      <div id="portfolio_msg"></div>
+                      <div id="multiple_assessment_msg"></div>
+                      
                       <div id="enrichment_msg"></div>
                       <div id="acadmic_msg"></div>
                     </div>
@@ -148,10 +152,14 @@
                     				<th>Admission No.</th>
                     				<th>Roll No.</th>
                     				<th style="width: 50px;">Subject Marks</th>
-                    				<th id="notebook" style="display:none;">1.Notebook</th>
-                    				<th id="enrichment" style="display:none;width: 50px;">2.Subject Enrichment</th>
-                    				<th id="practical" style="display:none;">3.Practical</th>
-                    				<th id="academic" style="display:none;">4.Academic</th>
+                    				<th id="notebook" style="display:none;">Notebook</th>
+                    				
+                    				<th id="multiple_assessment" style="display:none;">Multiple<br/>Assessment</th>
+                    				<th id="portfolio" style="display:none;">Portfolio</th>
+                    				
+                    				<th id="enrichment" style="display:none;width: 50px;">Subject<br/>Enrichment</th>
+                    				<th id="practical" style="display:none;">Practical</th>
+                    				<th id="academic" style="display:none;">Academic</th>
             					</tr>
         					</thead>
     						<tbody id="list_of_students"></tbody>

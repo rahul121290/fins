@@ -19,24 +19,49 @@ class Marks_entry_model extends CI_Model{
         $master['created_at'] = date('Y-m-d H:i:s');
         
         $this->db->trans_begin();
+        
+        //-------------check mark master table marks is alreay updated or not----------------
         $this->db->select('mm_id,status');
         if(!empty($master['sg_id'])){
             $this->db->where('sg_id',$master['sg_id']);
         }
-        $result_master = $this->db->get_where('marks_master',array('ses_id'=>$master['ses_id'],'sch_id'=>$master['sch_id'],'et_id'=>$master['et_id'],'med_id'=>$master['med_id'],'class_id'=>$master['class_id'],'sec_id'=>$master['sec_id'],'st_id'=>$master['st_id'],'sub_id'=>$master['sub_id'],'status'=>1))->result_array();
+        $result_master = $this->db->get_where('marks_master',array('ses_id'=>$master['ses_id'],
+            'sch_id'=>$master['sch_id'],
+            'et_id'=>$master['et_id'],
+            'med_id'=>$master['med_id'],
+            'class_id'=>$master['class_id'],
+            'sec_id'=>$master['sec_id'],
+            'st_id'=>$master['st_id'],
+            'sub_id'=>$master['sub_id'],'status'=>1))->result_array();
         
+        
+        //----------if marks already updated then Delete previous records---------
+        //////////////-------just use delete for status is ZERO------------
         if(count($result_master)>0){
-            $this->db->where(array('ses_id'=>$master['ses_id'],'sch_id'=>$master['sch_id'],'et_id'=>$master['et_id'],'med_id'=>$master['med_id'],'class_id'=>$master['class_id'],'sec_id'=>$master['sec_id'],'st_id'=>$master['st_id'],'sub_id'=>$master['sub_id'],'status'=>1));
+            $this->db->where(array('ses_id'=>$master['ses_id'],
+                'sch_id'=>$master['sch_id'],
+                'et_id'=>$master['et_id'],
+                'med_id'=>$master['med_id'],
+                'class_id'=>$master['class_id'],
+                'sec_id'=>$master['sec_id'],
+                'st_id'=>$master['st_id'],
+                'sub_id'=>$master['sub_id'],'status'=>1));
             if(!empty($master['sg_id'])){
                 $this->db->where('sg_id',$master['sg_id']); 
             }
             $this->db->update('marks_master',array('status'=>0));
             
-            $this->db->insert('marks_master',$master);//--------------insert marks master table---------
-            $last_mm_id = $this->db->insert_id();//----------get last insert id-----------------------
+            //--------------insert marks master table---------
+            $this->db->insert('marks_master',$master);
+            
+            //----------get last insert id-----------------------
+            $last_mm_id = $this->db->insert_id();
         }else{
-            $this->db->insert('marks_master',$master);//--------------insert marks master table---------
-            $last_mm_id = $this->db->insert_id();//----------get last insert id-----------------------
+            //--------------insert marks master table---------
+            $this->db->insert('marks_master',$master);
+            
+            //----------get last insert id-----------------------
+            $last_mm_id = $this->db->insert_id();
         }
         
         //-----------log report---------------
@@ -45,29 +70,20 @@ class Marks_entry_model extends CI_Model{
         $table_name = 'marks_master';
         $table_id = $last_mm_id;
         $this->my_function->add_log($user,$event,$table_name,$table_id);
-        
         //------------**----------------------
+        
+        
         $marks = array();
-        foreach($final as $final_marks){
-            $temp = array(); 
-            $temp['mm_id'] = $last_mm_id;
-            $temp['std_id'] = $final_marks['std_id'];
-            $temp['roll_no'] = $final_marks['roll_no'];
-            $temp['adm_no'] = $final_marks['adm_no'];
-            $temp['sub_marks'] = $final_marks['sub_marks'];
-            $temp['practical'] = $final_marks['practical'];
-            $temp['notebook'] = $final_marks['notebook'];
-            $temp['enrichment'] = $final_marks['enrichment'];
-            $temp['acadmic'] = $final_marks['acadmic'];
-            $temp['created_by'] = $this->session->userdata('user_id');
-            $temp['created_at'] = date('Y-m-d H:i:s');
-            $marks[] = $temp;
+        foreach($final as $key => $final_marks){
+            $marks[] = $final_marks;
+            $marks[$key]['mm_id'] = $last_mm_id;
+            $marks[$key]['created_by'] = $this->session->userdata('user_id');
+            $marks[$key]['created_at'] = date('Y-m-d H:i:s');
         }
         
         //-------------generate excel file------------------------
         $phpExcel = new PHPExcel();
         $prestasi = $phpExcel->setActiveSheetIndex(0);
-        
         //----------put index name-------------------
         $prestasi->setCellValue('A1', 'S. No.');
         $prestasi->setCellValue('B1', 'mm_id');
@@ -77,10 +93,14 @@ class Marks_entry_model extends CI_Model{
         $prestasi->setCellValue('F1', 'sub_marks');
         $prestasi->setCellValue('G1', 'practical');
         $prestasi->setCellValue('H1', 'notebook');
-        $prestasi->setCellValue('I1', 'enrichment');
-        $prestasi->setCellValue('J1', 'acadmic');
-        $prestasi->setCellValue('K1', 'created_by');
-        $prestasi->setCellValue('L1', 'created_at');
+        
+        $prestasi->setCellValue('I1', 'multiple_assessment');
+        $prestasi->setCellValue('J1', 'portfolio');
+        
+        $prestasi->setCellValue('K1', 'enrichment');
+        $prestasi->setCellValue('L1', 'acadmic');
+        $prestasi->setCellValue('M1', 'created_by');
+        $prestasi->setCellValue('N1', 'created_at');
         
         //---------------------put data in excel----------------------------
         $no=0;
@@ -96,10 +116,14 @@ class Marks_entry_model extends CI_Model{
             $prestasi->setCellValue('F'.$rowexcel, $row["sub_marks"]);
             $prestasi->setCellValue('G'.$rowexcel, $row["practical"]);
             $prestasi->setCellValue('H'.$rowexcel, $row["notebook"]);
-            $prestasi->setCellValue('I'.$rowexcel, $row["enrichment"]);
-            $prestasi->setCellValue('J'.$rowexcel, $row["acadmic"]);
-            $prestasi->setCellValue('K'.$rowexcel, $row["created_by"]);
-            $prestasi->setCellValue('L'.$rowexcel, $row["created_at"]);
+            
+            $prestasi->setCellValue('I'.$rowexcel, $row["multiple_assessment"]);
+            $prestasi->setCellValue('J'.$rowexcel, $row["portfolio"]);
+            
+            $prestasi->setCellValue('K'.$rowexcel, $row["enrichment"]);
+            $prestasi->setCellValue('L'.$rowexcel, $row["acadmic"]);
+            $prestasi->setCellValue('M'.$rowexcel, $row["created_by"]);
+            $prestasi->setCellValue('N'.$rowexcel, $row["created_at"]);
         }
         
         $date =date('U');

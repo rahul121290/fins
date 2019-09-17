@@ -82,11 +82,21 @@ class Marks_entry_ctrl extends CI_Controller{
             $sg_id = ' AND sg_id = '.$sub_group;
         }
         //--------------get studdet records with marks--------------------------------------
-        $this->db->select('s.std_id,s.name,s.adm_no,s.roll_no,c.class_name, sec.section_name, IFNULL(sm.sub_marks,"") as sub_marks,IFNULL(sm.practical,"") as practical,IFNULL(sm.notebook,"") as notebook,IFNULL(sm.enrichment,"") as enrichment,IFNULL(sm.acadmic,"") as acadmic');
+        $this->db->select('s.std_id,s.name,s.adm_no,s.roll_no,c.class_name, sec.section_name,
+                            IFNULL(sm.sub_marks,"") as sub_marks,
+                            IFNULL(sm.practical,"") as practical,
+                            IFNULL(sm.notebook,"") as notebook,
+                            IFNULL(sm.multiple_assessment,"") as multiple_assessment,
+                            IFNULL(sm.portfolio,"") as portfolio,
+                            IFNULL(sm.enrichment,"") as enrichment,
+                            IFNULL(sm.acadmic,"") as acadmic
+                        ');
         $this->db->join('class c','c.c_id=s.class_id');
         $this->db->join('section sec','sec.sec_id=s.sec_id');
-        $this->db->join('student_marks sm','sm.adm_no = s.adm_no AND sm.std_id = s.std_id AND sm.mm_id = (SELECT mm_id FROM marks_master WHERE ses_id = '.$session.' AND sch_id = '.$school.' AND et_id = '.$exam_type.' AND med_id = '.$medium.' AND class_id = '.$class_name.' AND sec_id = '.$section.' AND st_id = '.$sub_type.' AND sub_id = '.$subject.$sg_id.' AND status = 1 ORDER BY mm_id DESC LIMIT 1)','LEFT');
-        //$this->db->join('(SELECT * FROM student_marks WHERE '.$mm_id.') sm','sm.std_id=sd.std_id','LEFT');
+        $this->db->join('student_marks sm','sm.adm_no = s.adm_no AND sm.std_id = s.std_id 
+                        AND sm.mm_id = (SELECT mm_id FROM marks_master WHERE ses_id = '.$session.' AND sch_id = '.$school.' 
+                        AND et_id = '.$exam_type.' AND med_id = '.$medium.' AND class_id = '.$class_name.' AND sec_id = '.$section.' 
+                        AND st_id = '.$sub_type.' AND sub_id = '.$subject.$sg_id.' AND status = 1 ORDER BY mm_id DESC LIMIT 1)','LEFT');
         if(!empty($sub_group)){
            $this->db->where('s.sub_group',$sub_group);
         }
@@ -144,15 +154,17 @@ class Marks_entry_ctrl extends CI_Controller{
             $temp['roll_no'] = $std_mark[2]['roll_no'];
             $temp['sub_marks'] = $std_mark[3]['subject_marks'];
             $temp['notebook'] = $std_mark[4]['notebook'];
-            $temp['enrichment'] = $std_mark[5]['enrichment'];
-            $temp['practical'] = $std_mark[6]['practical'];
-            $temp['acadmic'] = $std_mark[7]['acadmic'];
+            
+            $temp['multiple_assessment'] = $std_mark[5]['multiple_assessment'];
+            $temp['portfolio'] = $std_mark[6]['portfolio'];
+            
+            $temp['enrichment'] = $std_mark[7]['enrichment'];
+            $temp['practical'] = $std_mark[8]['practical'];
+            $temp['acadmic'] = $std_mark[9]['acadmic'];
             $final[] = $temp;
         }
-
-        $this->_ShowMsgs(
-            $this->marks_entry_model->marks_entry($data,$final),"Marks Updated!.","Falied Proccess Marks Entry, Please try again."
-            );       
+        
+        $this->_ShowMsgs($this->marks_entry_model->marks_entry($data,$final),"Marks Updated!.","Falied Proccess Marks Entry, Please try again.");       
     }
     
     public function download_sample(){

@@ -26,11 +26,22 @@ $(document).ready(function(){
 					$('#total_fee').val(parseFloat(response.data[0].total).toFixed(2));
 					$('#previous_paid').val(parseFloat(response.data[0].previous_paid).toFixed(2));
 					$('#pay_amount').val(parseFloat(response.data[0].pay_amount).toFixed(2));
-					$('#grand_total').val(parseFloat(response.data[0].pay_amount).toFixed(2));
+					
 					if(parseFloat(response.data[0].pending_amount) > 0){
 						$('#pending_fee_row').css('display','block');
 						$('#pending_amount').val(parseFloat(response.data[0].pending_amount).toFixed(2));
 					}
+					
+					var taxable_amount =  parseFloat(parseFloat(response.data[0].pay_amount)*parseFloat(40)/parseFloat(100));
+					var sgst = parseFloat(parseFloat(taxable_amount)*parseFloat(2.5)/parseFloat(100));
+					var cgst = parseFloat(parseFloat(taxable_amount)*parseFloat(2.5)/parseFloat(100));
+					var total_amount = parseFloat(parseFloat(response.data[0].pay_amount)+parseFloat(sgst)+parseFloat(cgst));
+					
+					$('#taxable_amount').val(taxable_amount.toFixed(2));
+					$('#sgst').val(sgst.toFixed(2));
+					$('#cgst').val(cgst.toFixed(2));
+					$('#total_amount').val(total_amount.toFixed(2));
+					$('#grand_total').val(total_amount.toFixed(2));
 				}else{
 					alert(response.msg);
 					$('#pay_month').prop('selectedIndex','');
@@ -39,6 +50,10 @@ $(document).ready(function(){
 					$('#pay_amount').val('');
 					$('#grand_total').val('');
 					$('#pending_amount').val('');
+					$('#taxable_amount').val('');
+					$('#sgst').val('');
+					$('#cgst').val('');
+					$('#total_amount').val('');
 				}
 			},
 		});
@@ -104,8 +119,10 @@ $(document).ready(function(){
 				},
 			});
 		}
-		
 	});
+	
+	
+	
 	
 	//-------------------change pay amount--------------------------------
 	$(document).on('keyup','#pay_amount',function(){
@@ -122,8 +139,17 @@ $(document).ready(function(){
 		  	  	$(this).css('box-shadow','none');
 		  	    $('#hostel_fee_submit').attr('disabled',false);
 		  	    $('#pay_amount_err').css('display','none');
-		  	    $('#grand_total').val(parseFloat(pay_amount).toFixed(2));
-		  	    
+		  	    var taxable_amount =  parseFloat(parseFloat(pay_amount)*parseFloat(40)/parseFloat(100));
+				var sgst = parseFloat(parseFloat(taxable_amount)*parseFloat(2.5)/parseFloat(100));
+				var cgst = parseFloat(parseFloat(taxable_amount)*parseFloat(2.5)/parseFloat(100));
+				var total_amount = parseFloat(parseFloat(pay_amount)+parseFloat(sgst)+parseFloat(cgst));
+				
+				$('#taxable_amount').val(taxable_amount.toFixed(2));
+				$('#sgst').val(sgst.toFixed(2));
+				$('#cgst').val(cgst.toFixed(2));
+				$('#total_amount').val(total_amount.toFixed(2));
+				$('#grand_total').val(total_amount.toFixed(2));
+				
 		  	    var pending_fee = parseFloat(parseFloat(parseFloat(total_fee) - parseFloat(parseFloat(previous_paid) + parseFloat(pay_amount) ))).toFixed(2);
 		  	    if(pending_fee > 0){
 		  	    	$('#pending_fee_row').css('display','block');
@@ -224,7 +250,6 @@ $(document).ready(function(){
 		if(fieldvalidate){
 			var trns_charge = parseFloat((parseFloat(pos_amount) * parseFloat(card_charge)) / parseFloat(100));
 			$('#trns_charge').val(trns_charge.toFixed(2));
-			
 			$('#grand_total').val(parseFloat(parseFloat(trns_charge) + parseFloat($('#pay_amount').val())).toFixed(2) );
 		}
 	});
@@ -258,7 +283,7 @@ $(document).ready(function(){
 	
 	//-------------- focus on text box--------------------------------
 	$(document).on('keyup','.max_type',function(){
-		var max = $('#pay_amount').val();
+		var max = $('#total_amount').val();
 		
 		var val = parseFloat(0);
 		$('.max_type').each(function(){
@@ -266,7 +291,6 @@ $(document).ready(function(){
 		});
 	  	
 		$('#pay_method_amount').html(val);
-		
 	  	if (parseFloat(val) < parseFloat(0)){
 	  	  	$(this).val(0.00);
 	  	  	$('#pay_method_amount').html($(this).val(0.00));
@@ -286,7 +310,6 @@ $(document).ready(function(){
 	  	if(parseFloat(val) == parseFloat(max)){
 	  		$('#pay_method_amount').html('Currect amount <b>' +parseFloat(val)+'</b>');
 	  	}
-	  	
 	});
 	//-----------------hostel fee submit-----------------
 	
@@ -296,6 +319,10 @@ $(document).ready(function(){
 			total_fee:{required:true},
 			pay_amount:{required:true},
 			pending_amount:{required:true},
+			taxable_amount:{required:true},
+			cgst:{required:true},
+			sgst:{required:true},
+			total_amount:{required:true}
 		},
 	});
 	$(document).on('click','#hostel_fee_submit',function(){
@@ -307,7 +334,12 @@ $(document).ready(function(){
 		var pay_month = $('#pay_month').val();
 		var total_fee = $('#total_fee').val();
 		var pay_amount = $('#pay_amount').val();
+		var taxable_amount = $('#taxable_amount').val();
+		var cgst = $('#cgst').val();
+		var sgst = $('#sgst').val();
+		var total_amount = $('#total_amount').val();
 		var pending_amount = $('#pending_amount').val();
+		
 		var cal_pay_method_amount = 0;
 		var pay_option = [];
 		$('.pay_method').each(function(){
@@ -364,7 +396,7 @@ $(document).ready(function(){
 			}
 		});
 		
-		if(parseFloat(cal_pay_method_amount) != parseFloat(pay_amount)){
+		if(parseFloat(cal_pay_method_amount) != parseFloat(total_amount)){
 			alert('Pay amount missmatch.');
 			formvalidate = false;
 		}
@@ -381,6 +413,10 @@ $(document).ready(function(){
 					'pay_month':pay_month,
 					'total_fee':total_fee,
 					'pay_amount':pay_amount,
+					'taxable_amount':taxable_amount,
+					'cgst':cgst,
+					'sgst':sgst,
+					'total_amount':total_amount,
 					'pending_amount':pending_amount,
 					'pay_option':pay_option
 				},

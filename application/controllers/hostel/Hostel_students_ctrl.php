@@ -197,7 +197,13 @@ class Hostel_students_ctrl extends CI_Controller {
        $data['med_id'] = $this->input->post('medium');
        $data['adm_no'] = $this->input->post('adm_no');
        $data['installment'] = $this->input->post('pay_month');
-       $data['paid_amount'] = $this->input->post('pay_amount');
+       
+       $data['hostel_amount'] = $this->input->post('pay_amount');
+       $data['taxable_amount'] = $this->input->post('taxable_amount');
+       $data['cgst'] = $this->input->post('cgst');
+       $data['sgst'] = $this->input->post('sgst');
+       $data['paid_amount'] = $this->input->post('total_amount');
+       
        $data['pending_amount'] = $this->input->post('pending_amount');
        $data['pay_date'] = date('Y-m-d');
        $data['created_at'] = date('Y-m-d H:i:s');
@@ -364,7 +370,6 @@ class Hostel_students_ctrl extends CI_Controller {
         $data['installment'] = $this->input->post('installment');
         $data['pay_status'] = $this->input->post('pay_status');
         
-        
         $condition = 's.status = 1';
         if($data['session']){
             $condition .= ' AND s.ses_id = '.$data['session'];
@@ -390,7 +395,8 @@ class Hostel_students_ctrl extends CI_Controller {
         }
         
         $this->db->select('s.adm_no,hs.std_status,s.f_name,hs.f_contact_no,s.name,s.contact_no,hfs.total total_fee,sch.school_name,c.class_name,sec.section_name,
-                            IFNULL((SELECT SUM(paid_amount) FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND installment <= '.$data['installment'].' AND status = 1),0) paid_fee,
+                            IFNULL((SELECT SUM(hostel_amount) FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND installment <= '.$data['installment'].' AND status = 1),0) paid_fee,
+                            IFNULL((SELECT SUM(cgst+sgst) FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND installment <= '.$data['installment'].' AND status = 1),0) paid_gst,
                             IFNULL((SELECT DATE_FORMAT(pay_date,"%d-%M-%Y") FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND installment <= '.$data['installment'].' AND status = 1 ORDER BY hfp_id DESC LIMIT 1),"-") paid_date,
                             IF(hfp_id is NULL,"Pending","Paid") pay_status,IFNULL(u.username,"-") username');
         $this->db->join('hostel_fee_payment hfp','hfp.adm_no = s.adm_no AND hfp.ses_id = s.ses_id AND hfp.sch_id = s.sch_id '.$condition1.'','LEFT');
@@ -457,7 +463,7 @@ class Hostel_students_ctrl extends CI_Controller {
             $result['total_fee'] = 0;
         }
         
-        $this->db->select('SUM(paid_amount) paid_fee');
+        $this->db->select('SUM(hostel_amount) paid_fee');
         $this->db->where(array('hfp.ses_id'=>$data['session'],'hfp.sch_id'=>$data['school']));
         $total_paid_fee = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1))->result_array();
         if($total_paid_fee[0]['paid_fee'] > 0){
@@ -466,8 +472,17 @@ class Hostel_students_ctrl extends CI_Controller {
             $result['total_paid_fee'] = 0;
         }
         
+        $this->db->select('SUM(cgst+sgst) paid_gst');
+        $this->db->where(array('hfp.ses_id'=>$data['session'],'hfp.sch_id'=>$data['school']));
+        $total_paid_fee = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1))->result_array();
+        if($total_paid_fee[0]['paid_gst'] > 0){
+            $result['total_paid_gst'] = $total_paid_fee[0]['paid_gst'];
+        }else{
+            $result['total_paid_gst'] = 0;
+        }
         
-        $this->db->select('SUM(paid_amount) paid_fee');
+        
+        $this->db->select('SUM(hostel_amount) paid_fee');
         $this->db->where(array('pay_date >= '=>$data['from_date'],'pay_date <='=>$data['to_date']));
         $this->db->where(array('hfp.ses_id'=>$data['session'],'hfp.sch_id'=>$data['school']));
         $paid_fee = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1))->result_array();
@@ -475,6 +490,16 @@ class Hostel_students_ctrl extends CI_Controller {
             $result['paid_fee'] = $paid_fee[0]['paid_fee'];
         }else{
             $result['paid_fee'] = 0;
+        }
+        
+        $this->db->select('SUM(cgst+sgst) paid_gst');
+        $this->db->where(array('pay_date >= '=>$data['from_date'],'pay_date <='=>$data['to_date']));
+        $this->db->where(array('hfp.ses_id'=>$data['session'],'hfp.sch_id'=>$data['school']));
+        $paid_fee = $this->db->get_where('hostel_fee_payment hfp',array('hfp.status'=>1))->result_array();
+        if($paid_fee[0]['paid_gst'] > 0){
+            $result['paid_gst'] = $paid_fee[0]['paid_gst'];
+        }else{
+            $result['paid_gst'] = 0;
         }
         
         $this->db->select('
@@ -493,9 +518,7 @@ class Hostel_students_ctrl extends CI_Controller {
             echo json_encode(array('data'=>$result,'status'=>200));
         }else{
             echo json_encode(array('msg'=>'Record not found.','status'=>500));
-        }
-        
-        
+        }   
     }
     
     

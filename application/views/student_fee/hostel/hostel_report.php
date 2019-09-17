@@ -63,21 +63,26 @@
 		
 		<div class="box box-primary no-print">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
-			<div class="col-md-3">
+			<div class="col-md-2">
     					<b style="color:#5d5c5c;">Total Hostler</b><br>
     					<span id="total_students"><b>0.00</b></span>
     			</div>
-    			<div class="col-md-3">
+    			<div class="col-md-2">
     					<b style="color:#5d5c5c;">Total Fee</b><br>
     					<span id="total_fee"><b>0.00</b></span>
     			</div>
 				
-				<div class="col-md-3" style="border-right:1px solid #ddd;">
+				<div class="col-md-2" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Received Fee</b><br>
 					<span id="paid_fee"><b>0.00</b></span>
 				</div>
 				
-				<div class="col-md-3" style="border-right:1px solid #ddd;">
+				<div class="col-md-2" style="border-right:1px solid #ddd;">
+					<b style="color:#5d5c5c;">Received GST</b><br>
+					<span id="gst_fee"><b>0.00</b></span>
+				</div>
+				
+				<div class="col-md-2" style="border-right:1px solid #ddd;">
 					<b style="color:#5d5c5c;">Pending Fee</b><br>
 					<span id="pending_fee"><b>0.00</b></span>
 				</div>
@@ -197,7 +202,8 @@ function getMisDetails(session,school,from_date,to_date){
 				$('#date_range').html('From '+ moment(from_date).format("DD-MM-YYYY")+' To ' +moment(to_date).format("DD-MM-YYYY"));
 				$('#total_students').html('<b>'+response.data.total_students+'</b>');
 				$('#total_fee').html('<b>'+response.data.total_fee+'</b>');
-				$('#paid_fee').html('<b>'+response.data.paid_fee+'</b>');
+				$('#paid_fee').html('<b>'+response.data.total_paid_fee+'</b>');
+				$('#gst_fee').html('<b>'+response.data.total_paid_gst+'</b>');
 				var pending_fee = parseFloat(parseFloat(response.data.total_fee) - parseFloat(response.data.total_paid_fee)).toFixed(2);
 				$('#pending_fee').html('<b>'+pending_fee+'</b>');
 
@@ -205,6 +211,7 @@ function getMisDetails(session,school,from_date,to_date){
 				x=x+='<tr><td><b>Total Hostler</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">'+response.data.total_students+'</td></tr>'+
 				'<tr><td><b>Total Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.total_fee+'/-</td></tr>'+
 				'<tr><td><b>Received Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.paid_fee+'/-</td></tr>'+
+				'<tr><td><b>Received GST</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.paid_gst+'/-</td></tr>'+
 				//'<tr><td><b>Total Received Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+response.data.total_paid_fee+'/-</td></tr>'+
 				'<tr><td><b>Pending Fee</b></td><td style="font-size:20px;font-weight:600;color:#1b790f;">Rs. '+pending_fee+'/-</td></tr>'+
 				'<tr><td colspan="2" style="text-align:center;background-color:#ddd !important;"><b>Pay Method</b></td></tr>'+

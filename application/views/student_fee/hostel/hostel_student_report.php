@@ -103,6 +103,7 @@
                         <th>Hostel Status</th>
                         <th>Total Fee</th>
                         <th>Paid Fee</th>
+                        <th>Paid GST</th>
                         <th>Pending Fee</th>
                         <th>Due Date</th>                        
                         <th>Received By</th>
@@ -159,9 +160,11 @@ function studentList(session,school,medium,class_id,installment,pay_status){
 
 				var grand_total = 0;
 				var paid_total = 0;
+				var gst_total = 0;
 				$.each(response.data,function(key,value){
 					grand_total += parseFloat(value.total_fee);
 					paid_total += parseFloat(value.paid_fee);
+					gst_total +=parseFloat(value.paid_gst);
 					x=x+'<tr>'+
 						'<td>'+parseInt(key+1)+'</td>'+
 						'<td>'+value.adm_no+'</td>'+
@@ -171,6 +174,7 @@ function studentList(session,school,medium,class_id,installment,pay_status){
 						'<td>'+value.std_status+'</td>'+
 						'<td>'+value.total_fee+'</td>'+
 						'<td>'+value.paid_fee+'</td>'+
+						'<td>'+value.paid_gst+'</td>'+
 						//'<td>'+value.paid_date+'</td>'+
 						'<td>'+parseFloat(parseFloat(value.total_fee) - parseFloat(value.paid_fee)).toFixed(2)+'</td>';
 						if($('#installment').val() == 1){
@@ -192,10 +196,12 @@ function studentList(session,school,medium,class_id,installment,pay_status){
 				});
 
 				x=x+'<tr>'+
-				'<td colspan="6"></td>'+
-				'<td>'+grand_total.toFixed(2)+'</td>'+
-				'<td>'+paid_total.toFixed(2)+'</td>'+
-				'<td>'+parseFloat(parseFloat(grand_total) - parseFloat(paid_total)).toFixed(2)+'</td>'+
+				'<td colspan="5"></td>'+
+				'<td><b>Over All</b></td>'+
+				'<td><b>'+grand_total.toFixed(2)+'</b></td>'+
+				'<td><b>'+paid_total.toFixed(2)+'</b></td>'+
+				'<td><b>'+gst_total.toFixed(2)+'</b></td>'+
+				'<td><b>'+parseFloat(parseFloat(grand_total) - parseFloat(paid_total)).toFixed(2)+'</b></td>'+
 			  '</tr>';
 
 				$('#student_list').html(x);
