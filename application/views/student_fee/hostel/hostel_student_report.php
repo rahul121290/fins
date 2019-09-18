@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 <section class="content-header">
-      <h1>Hostel <small>Student Hostel Fee</small></h1>
+      <h1>Hostel <small>Student Hostel Fee List</small></h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>shakuntala/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li class="active">Student Hostel Fee</li>
+        <li class="active">Student Hostel Fee List</li>
       </ol>
     </section>
     <section class="content-header">
@@ -88,11 +88,12 @@
 		</div><!-- end box body -->
 		</div>
 		
-		<div class="box box-info" id="DivIdToPrint">
-            <div class="box-header">
-              <h3 class="box-title" id="title"></h3>
+		<div class="box box-info" >
+            <div class="box-header no-print">
+              <h3 class="box-title" id="title">Student Hostel Fee List</h3>
             </div>
-      		     <div class="box-body">
+      		    <div id="DivIdToPrint">
+				<div class="box-body p-sibling-report" >
   					<table class="table table-responsive">
 						<thead><tr>
 						<th>S.No.</th>
@@ -110,8 +111,9 @@
                         </tr>
                     </thead>
 					<tbody id="student_list"><tr><td colspan="11" style="text-align: center;">Record not found.</td></tr></tbody>
-				</table>
-      		</div>
+					</table>
+				</div>
+				</div>
  		</div>
  		
 	</div>
@@ -216,7 +218,17 @@ function printDiv(){
 	  var divToPrint=document.getElementById('DivIdToPrint');
 	  var newWin=window.open('','Print-Window');
 	  newWin.document.open();
-	  newWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css"></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+	  newWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/custom-style.css"><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css"><style>.p-sibling-report table thead tr th{padding:3px !important;font-size:11px !important;background-color:#f3f3f3 !important;}'+
+'.p-sibling-report table tbody tr td{padding:3px !important;font-size:11px !important;}</style></head><body onload="window.print()">'+
+  '<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0;width:100%;">'+
+				'<div class="text-center" style="float:left;">'+
+		'<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />'+
+		'<div class="print-s-name" >'+
+			'<h4><b>Shakuntala Gurukul</b></h4>'+
+			'<p>Ram Nagar Bhilai(C.G.)</p>'+
+		'</div></div><div class="text-right">'+
+					'<h4><b>Student Hostel Fee List</b></h4>'+
+				'</div></div>'+divToPrint.innerHTML+'</body></html>');
 	  newWin.document.close();
 	  setTimeout(function(){newWin.close();},10);
 }

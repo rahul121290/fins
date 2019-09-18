@@ -75,12 +75,12 @@
                 			<tr>
                 				<th>S.No.</th>
                 				<th>Registration No.</th>
+								<th>Name</th>
                 				<th>Date</th>
                 				<th>Session</th>
                 				<th>Board</th>
                 				<th>Class</th>
                 				<th>Medium</th>
-                				<th>Name</th>
                 				<th>Contact No.</th>
                 				<th>Alternate No.</th>
                 				<th>Address</th>
@@ -249,12 +249,12 @@ function alllist(sch_id,med_id,class_id,from_date,to_date){
 					x=x+'<tr>'+
 						'<td>'+parseInt(key+1)+'.</td>'+
 						'<td>'+value.reg_no+'</td>'+
+						'<td>'+value.name+'</td>'+
 						'<td>'+value.selling_date+'</td>'+
 						'<td>'+value.session_name+'</td>'+
 						'<td>'+school+'</td>'+
 						'<td>'+value.class_name+'</td>'+
 						'<td>'+value.med_name+'</td>'+
-						'<td>'+value.name+'</td>'+
 						'<td>'+value.phone+'</td>'+
 						'<td>'+value.alternate_no+'</td>'+
 						'<td>'+value.address+'</td>'+
@@ -304,17 +304,30 @@ $(document).on('click','#print',function(){
 			if(response.status == 200){
 				var win = window.open('Prospectus Report', "myWindowName", "scrollbars=1,width=1200, height=600");
 				var x = '<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css">'+
-        				'<table class="table table-bordered table-striped">'+
+						'<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/custom-style.css">'+
+						'<style>.p-sibling-report table thead tr th{padding:5px !important;font-size:12px !important;background-color:#f3f3f3 !important;}.p-sibling-report table tbody tr td{padding:5px !important;font-size:12px !important;}</style>'+
+        				'<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0;width:100%;margin-bottom:10px;">'+
+				'<div class="text-center" style="float:left;">'+
+		'<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />'+
+		'<div class="print-s-name" >'+
+			'<h4><b>Shakuntala Vidyalaya</b></h4>'+
+			'<p>Ram Nagar Bhilai(C.G.)</p>'+
+		'</div></div><div class="text-right">'+
+					'<h4><b>Prospectus Purchased List</b></h4>'+
+				'</div></div>'+
+				'<div class="p-sibling-report">'+
+						'<table class="table table-bordered table-striped">'+
                 		'<thead>'+
                 			'<tr>'+
-                				'<th>Sr No.</th>'+
+                				'<th>S.No.</th>'+
                 				'<th>Reg. No.</th>'+
+								'<th>Name</th>'+
                 				'<th>Date</th>'+
                 				'<th>Session</th>'+
                 				'<th>Board</th>'+
                 				'<th>Class</th>'+
                 				'<th>Medium</th>'+
-                				'<th>Name</th>'+
+                				
                 				'<th>Contact No.</th>'+
                 				'<th>Alternate No.</th>'+
                 				'<th>Address</th>'+
@@ -330,20 +343,21 @@ $(document).on('click','#print',function(){
 						var school = 'CG Board';
 					}
 					x=x+'<tr>'+
-						'<td>'+parseInt(key+1)+'</td>'+
+						'<td>'+parseInt(key+1)+'.</td>'+
 						'<td>'+value.reg_no+'</td>'+
+						'<td>'+value.name+'</td>'+
 						'<td>'+value.selling_date+'</td>'+
 						'<td>'+value.session_name+'</td>'+
 						'<td>'+school+'</td>'+
 						'<td>'+value.class_name+'</td>'+
 						'<td>'+value.med_name+'</td>'+
-						'<td>'+value.name+'</td>'+
+						
 						'<td>'+value.phone+'</td>'+
 						'<td>'+value.alternate_no+'</td>'+
 						'<td>'+value.address+'</td>'+
 						'</tr>';
 				});
-            		x=x+'</tbody></table>';
+            		x=x+'</tbody></table></div>';
             		with(win.document){open(); write(x);close();}
 			}else{
 				alert(response.msg);

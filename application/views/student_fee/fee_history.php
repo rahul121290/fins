@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-<section class="content-header">
+<section class="content-header no-print">
       <h1>School Fee MIS</h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
@@ -11,18 +11,44 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/custom/fee_history.js"></script>
     	<!-- main section -->
 <div class="col-md-12">	
-  	<div class="box box-primary no-print">
-			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
-			<div class="col-md-4" style="border-right:1px solid #ddd;">
+  	<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;margin-bottom:10px;">
+				<div class="text-center" style="float:left;">
+					<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Gurukul</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+      	<?php } else if($this->session->userdata('school_id') == 2){ $school = 'sharda';?>
+      	<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Sharda Vidyalaya</b></h4>
+			<p>Risali Bhilai(C.G.)</p>
+		</div>
+		<?php }else{ $school = 'cg-board';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya No. 2</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+		<?php }?>
+				</div>
+				<div class="text-right">
+					<h4 style="margin-bottom:0px;"><b>School Fee MIS</b></h4>
+				</div>
+		</div>
+	<div class="box box-primary" >
+			<div class="box-body text-center" style="font-size:18px;color:#e24e08;border:1px solid #ddd;float:left;width:100%;background-color:#fff;margin-bottom:20px;">
+			<div class="col-md-4" style="border-right:1px solid #ddd;width:33%;float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Total Amount</b><br>
 					<b>Rs. </b><b id="total_fee"></b>/-
 				</div>
 				
-				<div class="col-md-4" style="border-right:1px solid #ddd;">
+				<div class="col-md-4" style="border-right:1px solid #ddd;width:33%;float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Received Amount</b><br>
 					<b>Rs. </b><b id="received_fee"></b>/-
 				</div>
-				<div class="col-md-4" >
+				<div class="col-md-4" style="width:33%;float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Pending Amount</b><br>
 					<b>Rs. </b><b id="pending_fee"></b>/-
 				</div>
@@ -30,7 +56,7 @@
 			</div>
 		</div>
 		
-	<div class="box box-danger no-print">
+	<div class="box box-danger no-print" style="float:left;">
         <div class="box-header">
           <h3 class="box-title">Search Filter</h3>
         </div>
@@ -92,7 +118,7 @@
 		</div><!-- end box body -->
 		</div>
 		
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-md-6 col-md-offset-3 p-full-w" style="float:left;padding:0px;">
 		<div class="box box-danger">
             <div class="box-header fee-table-head" style="background-color: #881e1e;color: #fff;">
               <h3 class="box-title"><b>Shakuntala Vidyalaya (2019-20)</b></h3>

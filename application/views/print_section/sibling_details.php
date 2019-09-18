@@ -87,7 +87,7 @@
         		</form>	
     		</div><!-- end box body -->
  			</div>
-			<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;">
+			<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;margin-bottom:10px;">
 				<div class="text-center" style="float:left;">
 					<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
 		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
