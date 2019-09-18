@@ -87,32 +87,59 @@
 		</div><!-- end box body -->
 		</div>
 		
-		<div class="box box-primary no-print">
-			<div class="box-body text-center" style="font-size:18px;color:#e24e08;">
-				<div class="col-md-4">
+		<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;margin-bottom:10px;">
+				<div class="text-center" style="float:left;">
+					<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+      	<?php } else if($this->session->userdata('school_id') == 2){ $school = 'sharda';?>
+      	<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Sharda Vidyalaya</b></h4>
+			<p>Risali Bhilai(C.G.)</p>
+		</div>
+		<?php }else{ $school = 'cg-board';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya No. 2</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+		<?php }?>
+				</div>
+				<div class="text-right">
+					<h4 style="margin-bottom:0px;"><b>Shakuntala Student Fee List</b></h4>
+				</div>
+		</div>
+		
+		<div class="box box-primary">
+			<div class="box-body text-center" style="font-size:18px;color:#e24e08;border:1px solid #ddd;float:left;width:100%;background-color:#fff;margin-bottom:20px;">
+				<div class="col-md-4" style="border-right:1px solid #ddd;width:33%;float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Total Fee</b><br>
-					<span id="total_fee"><b>0.00</b></span>
+					<b>Rs. </b><span id="total_fee"><b>0.00</b></span>/-
 				</div>
 				
-				<div class="col-md-4" style="border-right:1px solid #ddd;">
+				<div class="col-md-4" style="border-right:1px solid #ddd;width:33%;float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Received Fee</b><br>
-					<span id="paid_fee"><b>0.00</b></span>
+					<b>Rs. </b><span id="paid_fee"><b>0.00</b></span>/-
 				</div>
 				
-				<div class="col-md-4" style="border-right:1px solid #ddd;">
+				<div class="col-md-4" style="width:33%;float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Pending Fee</b><br>
-					<span id="pending_fee"><b>0.00</b></span>
+					<b>Rs. </b><span id="pending_fee"><b>0.00</b></span>/-
 				</div>
 				
 			</div>
 		</div>
 	
-		<div class="box box-info">
-            <div class="box-header">
+		<div class="box box-info" style="float:left;">
+            <div class="box-header no-print">
               <h3 class="box-title"><b>Student List</b></h3>
             </div>
-      		     <div class="box-body">
-  					<table class="table table-responsive">
+      		     <div class="box-body p-table-body p-table-bg-head">
+  					<table class="table table-responsive ">
 						<thead><tr>
 						<th>S.No.</th>
 						<th>Admission No.</th>
@@ -123,16 +150,24 @@
                           <th>Received Fee</th>
                           <th>Pending Fee</th>
                           <th>Hostel Details</th>
-                          <th>Action</th>
+                          <th class="no-print">Action</th>
                         </tr>
                     </thead>
 					<tbody id="student_list"><tr><td colspan="9" style="text-align: center;">Record not found.</td></tr></tbody>
 				</table>
       		</div>
+			
  		</div>
+		<div class="col-md-12">
+				<div class="text-center"><button class="btn btn-space btn-primary no-print" style="margin-bottom:50px;" onclick="printDiv()">Print this page</button></div>
+			</div>
 	</div>
 </div>
-
+<script>
+function printDiv() {
+  window.print();
+}
+</script>
 <script type="text/javascript">
 var baseUrl = $('#base_url').val();
 var userUrl = $('#user_url').val();
@@ -177,7 +212,7 @@ function studentList(session,school,medium,class_id,hostel,student_status){
 							'<td>'+value.paid_fee+'</td>'+
 							'<td>'+parseFloat(parseFloat(value.hostel_fee) - parseFloat(value.paid_fee)).toFixed(2)+'</td>'+
 							'<td>'+details_status+'</td>'+
-							'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-success" id="pay_now">Pay Now</button></td>'+
+							'<td class="no-print"><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-success" id="pay_now">Pay Now</button></td>'+
 						  '</tr>';
 					});
 					$('#student_list').html(x);

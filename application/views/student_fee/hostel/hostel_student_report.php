@@ -11,7 +11,7 @@
 
 <!-- main section -->
 <div class="col-md-12">	
-  	<div class="box box-danger">
+  	<div class="box box-danger no-print">
         <div class="box-header">
           <h3 class="box-title">Student Filter</h3>
         </div>
@@ -87,7 +87,32 @@
     		</form>	
 		</div><!-- end box body -->
 		</div>
-		
+		<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;margin-bottom:10px;">
+				<div class="text-center" style="float:left;">
+					<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+      	<?php } else if($this->session->userdata('school_id') == 2){ $school = 'sharda';?>
+      	<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Sharda Vidyalaya</b></h4>
+			<p>Risali Bhilai(C.G.)</p>
+		</div>
+		<?php }else{ $school = 'cg-board';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya No. 2</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+		<?php }?>
+				</div>
+				<div class="text-right">
+					<h4 style="margin-bottom:0px;"><b>Shakuntala Student Fee List</b></h4>
+				</div>
+		</div>
 		<div class="box box-info" >
             <div class="box-header no-print">
               <h3 class="box-title" id="title">Student Hostel Fee List</h3>
@@ -110,15 +135,22 @@
                         <th>Received By</th>
                         </tr>
                     </thead>
-					<tbody id="student_list"><tr><td colspan="11" style="text-align: center;">Record not found.</td></tr></tbody>
+					<tbody id="student_list"><tr><td colspan="12" style="text-align: center;">Record not found.</td></tr></tbody>
 					</table>
 				</div>
 				</div>
  		</div>
+		<div class="col-md-12">
+			<div class="text-center"><button class="btn btn-space btn-primary no-print" style="margin-bottom:50px;" onclick="printDiv()">Print this page</button></div>
+		</div>
  		
 	</div>
 </div>
-
+<script>
+function printDiv() {
+  window.print();
+}
+</script>
 <script type="text/javascript">
 var baseUrl = $('#base_url').val();
 var userUrl = $('#user_url').val();

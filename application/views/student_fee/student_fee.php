@@ -11,11 +11,11 @@
 <script type="text/javascript" src="<?php echo base_url();?>/assets/js/custom/student_fee.js"></script>
 <!-- main section -->
 <div class="col-md-12">	
-  	<div class="box box-danger">
+  	<div class="box box-danger no-print">
         <div class="box-header">
           <h3 class="box-title">Student Filter</h3>
         </div>
-    	<div class="box-body form-horizontal">
+    	<div class="box-body form-horizontal no-print">
     	<form id="class_wise_fee_details" action="javascript:void(0);" method="POST" role="form">
     	<input type="hidden" id="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>">
       			<div class="form-group" style="margin-bottom:0px;">
@@ -83,7 +83,7 @@
     		</form>	
 		</div><!-- end box body -->
 		
-		 <div class="box-body form-horizontal">
+		 <div class="box-body form-horizontal no-print">
             <div class="col-sm-3 mb-3 row">
     			<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Adm No / Student Name" />
     			<div id="seach_box_err" style="display:none; color:red;"></div>
@@ -111,12 +111,37 @@
 				</div>
 			</div>
 		</div> -->
-	
+		<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;margin-bottom:10px;">
+				<div class="text-center" style="float:left;">
+					<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+      	<?php } else if($this->session->userdata('school_id') == 2){ $school = 'sharda';?>
+      	<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Sharda Vidyalaya</b></h4>
+			<p>Risali Bhilai(C.G.)</p>
+		</div>
+		<?php }else{ $school = 'cg-board';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya No. 2</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+		<?php }?>
+				</div>
+				<div class="text-right">
+					<h4 style="margin-bottom:0px;"><b>Student Classwise Fee List</b></h4>
+				</div>
+		</div>
 		<div class="box box-info">
-            <div class="box-header">
+            <div class="box-header no-print">
               <h3 class="box-title">Student List</h3>
             </div>
-      		     <div class="box-body">
+      		     <div class="box-body p-table-body p-table-bg-head">
   					<table class="table table-responsive">
 						<thead><tr>
 						<th>S.No.</th>
@@ -138,5 +163,14 @@
 				</table>
       		</div>
  		</div>
+		<div class="col-md-12">
+			<div class="text-center"><button class="btn btn-space btn-primary no-print" style="margin-bottom:50px;" onclick="printDiv()">Print this page</button></div>
+		</div>
 	</div>
 </div>
+
+<script>
+function printDiv() {
+  window.print();
+}
+</script>

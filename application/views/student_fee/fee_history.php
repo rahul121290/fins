@@ -126,11 +126,11 @@
             </div>
       		     <div class="box-body fee-table-body" id="fee_report_table"></div>
  		</div>
-		<div class="text-center"><button class="btn btn-space btn-primary no-print" style="margin-bottom:50px;" onclick="myFunction()">Print this page</button></div>
+		<div class="text-center"><button class="btn btn-space btn-primary no-print" style="margin-bottom:50px;" onclick="printDiv()">Print this page</button></div>
  		</div>
 	</div>
 <script>
-function myFunction() {
+function printDiv() {
   window.print();
 }
 </script>

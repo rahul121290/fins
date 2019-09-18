@@ -11,7 +11,7 @@
 
 <!-- main section -->
 <div class="col-md-12">	
-  	<div class="box box-danger">
+  	<div class="box box-danger no-print">
         <div class="box-header">
           <h3 class="box-title">Student Filter</h3>
         </div>
@@ -97,9 +97,9 @@
 						<div id="fee_month_err" style="display:none; color:red;"></div>
 					</div>
 					
-					<div class="col-md-2 mb-3">
-						<button type="button" id="search" class="btn btn-success pull-left">Search</button>	
-						<button type="button" id="print" class="btn btn-info pull-left"  onclick='printDiv();'>Print</button>
+					<div class="col-md-3 mb-3">
+						<button type="button" id="search" class="btn btn-success ">Search</button>&nbsp;&nbsp;
+						<button type="button" id="print" class="btn btn-info"  onclick='printDiv();'>Print</button>&nbsp;&nbsp;
 					</div>
 			    </div>
     		</form>	
@@ -133,12 +133,37 @@
 				</div>
 			</div>
 		</div> -->
-	
+		<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;margin-bottom:10px;">
+				<div class="text-center" style="float:left;">
+					<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
+					<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+					<div class="print-s-name" >
+						<h4><b>Shakuntala Gurukul</b></h4>
+						<p>Ram Nagar Bhilai(C.G.)</p>
+					</div>
+					<?php } else if($this->session->userdata('school_id') == 2){ $school = 'sharda';?>
+					<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" height="40" />
+					<div class="print-s-name" >
+						<h4><b>Sharda Vidyalaya</b></h4>
+						<p>Risali Bhilai(C.G.)</p>
+					</div>
+					<?php }else{ $school = 'cg-board';?>
+					<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+					<div class="print-s-name" >
+						<h4><b>Shakuntala Vidyalaya No. 2</b></h4>
+						<p>Ram Nagar Bhilai(C.G.)</p>
+					</div>
+					<?php }?>
+				</div>
+				<div class="text-right">
+					<h4 style="margin-bottom:0px;"><b>Student Classwise Fee</b></h4>
+				</div>
+		</div>
 		<div class="box box-info" id="DivIdToPrint">
-            <div class="box-header">
+            <div class="box-header no-print">
               <h3 class="box-title">Student List</h3>
             </div>
-      		     <div class="box-body">
+      		     <div class="box-body p-table-body p-table-bg-head">
   					<table class="table table-responsive">
 						<thead><tr>
 						<th>S.No.</th>
@@ -154,7 +179,7 @@
                           <!-- >th>Action</th -->
                         </tr>
                     </thead>
-					<tbody id="student_list"><tr><td colspan="13" style="text-align:center;">Record not found.</td></tr></tbody>
+					<tbody id="student_list"><tr><td colspan="9" style="text-align:center;">Record not found.</td></tr></tbody>
 				</table>
       		</div>
  		</div>
@@ -297,12 +322,15 @@ $(document).on('click','.discontinue',function(){
 	}
 });
 
-function printDiv(){
+/*function printDiv(){
 	  var divToPrint=document.getElementById('DivIdToPrint');
 	  var newWin=window.open('','Print-Window');
 	  newWin.document.open();
 	  newWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css"></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
 	  newWin.document.close();
 	  setTimeout(function(){newWin.close();},10);
-	}
+	}*/
+	function printDiv() {
+  window.print();
+}
 </script>
