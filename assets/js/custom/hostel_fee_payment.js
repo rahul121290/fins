@@ -62,25 +62,29 @@ $(document).ready(function(){
 	//--------------------********--------------------------
 	$(document).on('click','#enable_pay_amount',function(){
 		if($(this).prop('checked') == true){
-			var pay_month = $('#pay_month').val();
-			var ses_id = $('#ses_id').val();
-			var sch_id = $('#sch_id').val();
-			var adm_no = $('#adm_no').val();
-			$.ajax({
-				type:'POST',
-				url:baseUrl+'hostel/Hostel_students_ctrl/enablePayAmount',
-				data:{'ses_id':ses_id,'sch_id':sch_id,'adm_no':adm_no,'pay_month':pay_month},
-				dataType:'json',
-				beforeSend:function(){},
-				success:function(response){
-					if(response.status == 200){
-						$('#otp_div').html('<input type="text" id="otp" name="otp" class="form-control" placeholder="Enter OTP"><div id="otp_err" class="error"></div><button id="submit_otp" class="btn btn-sm btn-success">Submit OTP</button>');
-						alert(response.msg);
-					}else{
-						alert(response.msg);
-					}
-				},
-			});
+			if(confirm('Are you sure!')){
+				var pay_month = $('#pay_month').val();
+				var ses_id = $('#ses_id').val();
+				var sch_id = $('#sch_id').val();
+				var adm_no = $('#adm_no').val();
+				$.ajax({
+					type:'POST',
+					url:baseUrl+'hostel/Hostel_students_ctrl/enablePayAmount',
+					data:{'ses_id':ses_id,'sch_id':sch_id,'adm_no':adm_no,'pay_month':pay_month},
+					dataType:'json',
+					beforeSend:function(){},
+					success:function(response){
+						if(response.status == 200){
+							$('#otp_div').html('<input type="text" id="otp" name="otp" class="form-control" placeholder="Enter OTP"><div id="otp_err" class="error"></div><button id="submit_otp" class="btn btn-sm btn-success">Submit OTP</button>');
+							alert(response.msg);
+						}else{
+							alert(response.msg);
+						}
+					},
+				});
+			}else{
+				$(this).prop('checked',false);
+			}
 		}else{
 			$('#otp_div').html('');
 		}
