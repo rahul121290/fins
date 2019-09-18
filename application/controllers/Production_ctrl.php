@@ -282,6 +282,7 @@ class Production_ctrl extends CI_Controller{
            $result['mid_sub'] = $mid_result['subjects'];
            $result['co_scholistic_sub'] = $co_scholistic['subjects'];     
         
+           
         $final = array();
         foreach($pre_result['pre'] as $pre){
             foreach ($mid_result['mid'] as $mid){
@@ -313,21 +314,36 @@ class Production_ctrl extends CI_Controller{
                         //----get pre and mid subjects marks in temp--------------
                         //print_r($pre);die;
                         foreach($result['mid_sub'] as $subject){
-                            if($subject['st_id'] = 1){
+                            
+                            if($subject['st_id'] == 1 && $data['class'] < 12){
                                 $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
                                 $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
                                 $temp[$subject['sub_name'].'_notebook'] = $mid[$subject['sub_name'].'_notebook'];
                                 $temp[$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
-                            }else if($subject['st_id'] = 3 && $subject['st_id'] == $pre['elective']){
+                            }
+                            else if(($subject['st_id'] == 1 && $data['class'] == 12) || ($subject['st_id'] == 1 && $data['class'] == 13)){
+                                $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
+                                $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
+                                $temp[$subject['sub_name'].'_multiple_assessment'] = $mid[$subject['sub_name'].'_multiple_assessment'];
+                                $temp[$subject['sub_name'].'_portfolio'] = $mid[$subject['sub_name'].'_portfolio'];
+                                $temp[$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
+                            }
+                            else if($data['class'] > 13){
+                                $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
+                                $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
+                                $temp[$subject['sub_name'].'_notebook'] = $mid[$subject['sub_name'].'_notebook'];
+                                $temp[$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
+                                $temp[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
+                            }
+                            
+                            if($subject['st_id'] == 3 && $subject['st_id'] == $pre['elective']){
                                 $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
                                 $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
                                 $temp[$subject['sub_name'].'_notebook'] = $mid[$subject['sub_name'].'_notebook'];
                                 $temp[$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
                             }
                             
-                            if($data['class'] > 13){
-                                $temp[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
-                            }
+                           
                         }
                         //-----------get co-scholistic subject in temp------------------
                         foreach($co_scholistic['co_scholistc'] as $co_scholistc){
@@ -393,7 +409,7 @@ class Production_ctrl extends CI_Controller{
         $data['section'] = $this->input->post('section');
         $data['std_id'] = $this->input->post('std_id');
         
-        if($data['class'] >13){ //--------generate marksheet for XI and XII-----------
+        if($data['class'] > 13){ //--------generate marksheet for XI and XII-----------
             $this->final_marksheet_XI_XII($data);
             die;
         }
@@ -437,16 +453,38 @@ class Production_ctrl extends CI_Controller{
                         //----get pre and mid subjects marks in temp--------------
                         foreach($result['mid_sub'] as $subject){
                             if($subject['st_id'] = 1){
-                                if($pre[$subject['sub_name']] == 'A'){
-                                    $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
-                                }else{
-                                    $temp['pre_'.$subject['sub_name']] = round($pre[$subject['sub_name']]/20*10, 2);
+                                if($data['class'] < 12){
+                                    if($pre[$subject['sub_name']] == 'A'){
+                                        $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
+                                    }else{
+                                        $temp['pre_'.$subject['sub_name']] = round($pre[$subject['sub_name']]/20*10, 2);
+                                    }
+                                    $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
+                                    $temp['mid_'.$subject['sub_name'].'_notebook'] = $mid[$subject['sub_name'].'_notebook'];
+                                    $temp['mid_'.$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
+                                    
+                                }else if($data['class'] == 12 || $data['class'] == 13){
+                                    if($pre[$subject['sub_name']] == 'A'){
+                                        $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
+                                    }else{
+                                        $temp['pre_'.$subject['sub_name']] = round($pre[$subject['sub_name']]/20*5, 2);
+                                    }
+                                    $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
+                                    $temp['mid_'.$subject['sub_name'].'_multiple_assessment'] = $mid[$subject['sub_name'].'_multiple_assessment'];
+                                    $temp['mid_'.$subject['sub_name'].'_portfolio'] = $mid[$subject['sub_name'].'_portfolio'];
+                                    $temp['mid_'.$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
+                                    
+                                }else if($data['class'] > 13){
+                                    if($pre[$subject['sub_name']] == 'A'){
+                                        $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
+                                    }else{
+                                        $temp['pre_'.$subject['sub_name']] = round($pre[$subject['sub_name']]/20*10, 2);
+                                    }
+                                    $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
+                                    $temp['mid_'.$subject['sub_name'].'_notebook'] = $mid[$subject['sub_name'].'_notebook'];
+                                    $temp['mid_'.$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
+                                    $temp[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
                                 }
-                                
-                                $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
-                                $temp['mid_'.$subject['sub_name'].'_notebook'] = $mid[$subject['sub_name'].'_notebook'];
-                                $temp['mid_'.$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
-                                
                             }else if($subject['st_id'] = 3 && $subject['st_id'] == $pre['elective']){
                                 $temp['pre_'.$subject['sub_name']] = $pre[$subject['sub_name']];
                                 $temp['mid_'.$subject['sub_name']] = $mid[$subject['sub_name']];
@@ -454,9 +492,6 @@ class Production_ctrl extends CI_Controller{
                                 $temp['mid_'.$subject['sub_name'].'_enrichment'] = $mid[$subject['sub_name'].'_enrichment'];
                             }
                             
-                            if($data['class'] > 13){
-                                $temp[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
-                            }
                         }
                         
                         //-----------get co-scholistic subject in temp------------------
@@ -510,15 +545,42 @@ class Production_ctrl extends CI_Controller{
                         //----get pre and mid subjects marks in temp--------------
                         foreach($result['mid_sub'] as $subject){
                             if($subject['st_id'] = 1){
-                                if($post[$subject['sub_name']] == 'A'){
-                                    $temp['post_'.$subject['sub_name']] = $post[$subject['sub_name']];
-                                }else{
-                                    $temp['post_'.$subject['sub_name']] = round($post[$subject['sub_name']]/20*10, 2);
-                                }
                                 
-                                $temp['final_'.$subject['sub_name']] = $final[$subject['sub_name']];
-                                $temp['final_'.$subject['sub_name'].'_notebook'] = $final[$subject['sub_name'].'_notebook'];
-                                $temp['final_'.$subject['sub_name'].'_enrichment'] = $final[$subject['sub_name'].'_enrichment'];
+                                if($data['class'] < 12){
+                                    if($post[$subject['sub_name']] == 'A'){
+                                        //--------------class 1st to 8th---------------
+                                        $temp['post_'.$subject['sub_name']] = $post[$subject['sub_name']];
+                                    }else{
+                                        $temp['post_'.$subject['sub_name']] = round((float)$post[$subject['sub_name']]/20*10, 2);
+                                    }
+                                    
+                                    $temp['final_'.$subject['sub_name']] = $final[$subject['sub_name']];
+                                    $temp['final_'.$subject['sub_name'].'_notebook'] = $final[$subject['sub_name'].'_notebook'];
+                                    $temp['final_'.$subject['sub_name'].'_enrichment'] = $final[$subject['sub_name'].'_enrichment'];
+                                }else if($data['class'] == 12 || $data['class'] == 13){
+                                    if($post[$subject['sub_name']] == 'A'){
+                                        //--------------class 11th to 12th--------------
+                                        $temp['post_'.$subject['sub_name']] = $post[$subject['sub_name']];
+                                    }else{
+                                        
+                                        $temp['post_'.$subject['sub_name']] = round((float)$post[$subject['sub_name']]/20*5, 2);
+                                    }
+                                    $temp['final_'.$subject['sub_name']] = $final[$subject['sub_name']];
+                                    $temp['final_'.$subject['sub_name'].'_multiple_assessment'] = $final[$subject['sub_name'].'_multiple_assessment'];
+                                    $temp['final_'.$subject['sub_name'].'_portfolio'] = $final[$subject['sub_name'].'_portfolio'];
+                                    $temp['final_'.$subject['sub_name'].'_enrichment'] = $final[$subject['sub_name'].'_enrichment'];
+                                }else if($data['class'] > 13){ 
+                                    //--------------class 11th to 12th--------------------------
+                                    if($post[$subject['sub_name']] == 'A'){
+                                        $temp['post_'.$subject['sub_name']] = $post[$subject['sub_name']];
+                                    }else{
+                                        $temp['post_'.$subject['sub_name']] = round((float)$post[$subject['sub_name']]/20*10, 2);
+                                    }
+                                    $temp['final_'.$subject['sub_name']] = $final[$subject['sub_name']];
+                                    $temp['final_'.$subject['sub_name'].'_notebook'] = $final[$subject['sub_name'].'_notebook'];
+                                    $temp['final_'.$subject['sub_name'].'_enrichment'] = $final[$subject['sub_name'].'_enrichment'];
+                                    $temp[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
+                                }
                             }else if($subject['st_id'] = 3 && $subject['st_id'] == $pre['elective']){
                                 $temp['post_'.$subject['sub_name']] = $post[$subject['sub_name']];
                                 $temp['final_'.$subject['sub_name']] = $final[$subject['sub_name']];
@@ -526,9 +588,6 @@ class Production_ctrl extends CI_Controller{
                                 $temp['final_'.$subject['sub_name'].'_enrichment'] = $final[$subject['sub_name'].'_enrichment'];
                             }
                             
-                            if($data['class'] > 13){
-                                $temp[$subject['sub_name'].'_practical'] = $mid[$subject['sub_name'].'_practical'];
-                            }
                         }
                         
                         //-----------get co-scholistic subject in temp------------------
@@ -591,7 +650,7 @@ class Production_ctrl extends CI_Controller{
                             if($term1['mid_'.$subject['sub_name'].'_enrichment'] == 'A'){
                                 $term1['mid_'.$subject['sub_name'].'_enrichment'] = 0;
                             }
-                            $sub_marks['mid_'.$subject['sub_name'].'_obtain'] = round( $term1['pre_'.$subject['sub_name']] + $term1['mid_'.$subject['sub_name']] + $term1['mid_'.$subject['sub_name'].'_notebook'] + $term1['mid_'.$subject['sub_name'].'_enrichment'],2 );
+                            $sub_marks['mid_'.$subject['sub_name'].'_obtain'] = round( (float)$term1['pre_'.$subject['sub_name']] + (float)$term1['mid_'.$subject['sub_name']] + (float)$term1['mid_'.$subject['sub_name'].'_notebook'] + (float)$term1['mid_'.$subject['sub_name'].'_enrichment'],2 );
                             
                             if($term2['post_'.$subject['sub_name']] == 'A'){
                                 $term2['post_'.$subject['sub_name']] = 0;
@@ -606,7 +665,7 @@ class Production_ctrl extends CI_Controller{
                                 $term2['final_'.$subject['sub_name'].'_enrichment'] = 0;
                             }
                             
-                            $sub_marks['final_'.$subject['sub_name'].'_obtain'] = round($term2['post_'.$subject['sub_name']] + $term2['final_'.$subject['sub_name']] + $term2['final_'.$subject['sub_name'].'_notebook'] + $term2['final_'.$subject['sub_name'].'_enrichment'] , 2);
+                            $sub_marks['final_'.$subject['sub_name'].'_obtain'] = round((float)$term2['post_'.$subject['sub_name']] + (float)$term2['final_'.$subject['sub_name']] + (float)$term2['final_'.$subject['sub_name'].'_notebook'] + (float)$term2['final_'.$subject['sub_name'].'_enrichment'] , 2);
                             
                             if($sub_marks['final_'.$subject['sub_name'].'_obtain'] == '32.5'){
                                 $sub_marks['final_'.$subject['sub_name'].'_obtain'] = 33;
@@ -621,17 +680,41 @@ class Production_ctrl extends CI_Controller{
                                 $t1['name'] = $subject['sub_name'];
                                 $temp['back'][] = $t1;
                             }
-                            
                             $temp['marks_obtaint'][] = $sub_marks;
                         }
                         
+                        //---------------add compartment students-----------
+                        
+                        if(isset($temp['back'])){
+                            $back_insert = [];
+                            foreach($temp['back'] as $key => $back_sub){
+                                $back_insert[]['sub_id'] = $back_sub['sub_id'];
+                                $back_insert[$key]['ses_id'] = $this->session->userdata('session_id');
+                                $back_insert[$key]['sch_id'] = $this->session->userdata('school_id');
+                                $back_insert[$key]['adm_no'] = $temp['term1']['adm_no'];
+                                $back_insert[$key]['created_at'] = date('Y-m-d H:i:s');
+                                $back_insert[$key]['created_by'] = $this->session->userdata('user_id');
+                            }
+                            $this->db->where(array('ses_id'=>$this->session->userdata('session_id'),
+                                'sch_id'=>$this->session->userdata('school_id'),
+                                'adm_no'=>$temp['term1']['adm_no']));
+                            $this->db->update('compartment_students',array('status'=>0));
+                            
+                            $this->db->insert_batch('compartment_students',$back_insert);
+                            //------------------***--------------------------
+                        }
+                        
+                        
+                        
                         $class_1_to_8_result[] = $temp;
+                        //print_r($class_1_to_8_result);die;
                         $result['final'] = $class_1_to_8_result;
                         
                     }
                 }
             }
-        }elseif (($data['class'] > 11) && ($data['class'] < 14) ){ //for class 9th and 10th--------------
+        }else if (($data['class'] == 12) || ($data['class'] == 13) ){
+            //for class 9th and 10th--------------
             $class_9th_data = array();
             $min_marks = 33; // minimum passing marks
             $max_comp = 2;//how many subjects get compartment.
@@ -695,9 +778,15 @@ class Production_ctrl extends CI_Controller{
                             if($term1['mid_'.$subject['sub_name']] == 'A' || $term1['mid_'.$subject['sub_name']] == ''){
                                 $term1['mid_'.$subject['sub_name']] = 0;
                             }
-                            if($term1['mid_'.$subject['sub_name'].'_notebook'] == 'A' || $term1['mid_'.$subject['sub_name'].'_notebook'] == ''){
-                                $term1['mid_'.$subject['sub_name'].'_notebook'] = 0;
+                            
+                            if($term1['mid_'.$subject['sub_name'].'_multiple_assessment'] == 'A' || $term1['mid_'.$subject['sub_name'].'_multiple_assessment'] == ''){
+                                $term1['mid_'.$subject['sub_name'].'_multiple_assessment'] = 0;
                             }
+                            
+                            if($term1['mid_'.$subject['sub_name'].'_portfolio'] == 'A' || $term1['mid_'.$subject['sub_name'].'_portfolio'] == ''){
+                                $term1['mid_'.$subject['sub_name'].'_portfolio'] = 0;
+                            }
+                            
                             if($term1['mid_'.$subject['sub_name'].'_enrichment'] == 'A' || $term1['mid_'.$subject['sub_name'].'_enrichment'] == ''){
                                 $term1['mid_'.$subject['sub_name'].'_enrichment'] = 0;
                             }
@@ -708,8 +797,12 @@ class Production_ctrl extends CI_Controller{
                             if($term2['final_'.$subject['sub_name']] == 'A' || $term2['final_'.$subject['sub_name']] == ''){
                                 $term2['final_'.$subject['sub_name']] = 0;
                             }
-                            if($term2['final_'.$subject['sub_name'].'_notebook'] == 'A' || $term2['final_'.$subject['sub_name'].'_notebook'] == ''){
-                                $term2['final_'.$subject['sub_name'].'_notebook'] = 0;
+                            
+                            if($term2['final_'.$subject['sub_name'].'_multiple_assessment'] == 'A' || $term2['final_'.$subject['sub_name'].'_multiple_assessment'] == ''){
+                                $term2['final_'.$subject['sub_name'].'_multiple_assessment'] = 0;
+                            }
+                            if($term2['final_'.$subject['sub_name'].'_portfolio'] == 'A' || $term2['final_'.$subject['sub_name'].'_portfolio'] == ''){
+                                $term2['final_'.$subject['sub_name'].'_portfolio'] = 0;
                             }
                             if($term2['final_'.$subject['sub_name'].'_enrichment'] == 'A' || $term2['final_'.$subject['sub_name'].'_enrichment'] == ''){
                                 $term2['final_'.$subject['sub_name'].'_enrichment'] = 0;
@@ -729,17 +822,20 @@ class Production_ctrl extends CI_Controller{
                             $sub_marks['priodic_'.$subject['sub_name']] = round((($numbers[1] + $numbers[2])/2),2);
                             $compartment_marks['priodic_'.$subject['sub_name']] = round((($numbers[1] + $numbers[2])/2),2);
                             
-                            $sub_marks['notebook_'.$subject['sub_name']] = round(($term1['mid_'.$subject['sub_name'].'_notebook'] + $term2['final_'.$subject['sub_name'].'_notebook']) / 2, 2);
-                            $compartment_marks['notebook_'.$subject['sub_name']] = round(($term1['mid_'.$subject['sub_name'].'_notebook'] + $term2['final_'.$subject['sub_name'].'_notebook']) / 2, 2);
+                            $sub_marks['multiple_assessment_'.$subject['sub_name']] = round( ((float)$term1['mid_'.$subject['sub_name'].'_multiple_assessment'] + (float)$term2['final_'.$subject['sub_name'].'_multiple_assessment']) / 2, 2);
+                            $compartment_marks['multiple_assessment_'.$subject['sub_name']] = round(((float)$term1['mid_'.$subject['sub_name'].'_multiple_assessment'] + (float)$term2['final_'.$subject['sub_name'].'_multiple_assessment']) / 2, 2);
                             
-                            $sub_marks['enrichment_'.$subject['sub_name']] = round(($term1['mid_'.$subject['sub_name'].'_enrichment'] + $term2['final_'.$subject['sub_name'].'_enrichment']) / 2, 2);
-                            $compartment_marks['enrichment_'.$subject['sub_name']] = round(($term1['mid_'.$subject['sub_name'].'_enrichment'] + $term2['final_'.$subject['sub_name'].'_enrichment']) / 2, 2);
+                            $sub_marks['portfolio_'.$subject['sub_name']] = round(((float)$term1['mid_'.$subject['sub_name'].'_portfolio'] + (float)$term2['final_'.$subject['sub_name'].'_portfolio']) / 2, 2);
+                            $compartment_marks['portfolio_'.$subject['sub_name']] = round(((float)$term1['mid_'.$subject['sub_name'].'_portfolio'] + (float)$term2['final_'.$subject['sub_name'].'_portfolio']) / 2, 2);
                             
-                            $sub_marks['session_ending_'.$subject['sub_name']] = $term2['final_'.$subject['sub_name']];
-                            $compartment_marks['session_ending_'.$subject['sub_name']] = $term2['final_'.$subject['sub_name']];
+                            $sub_marks['enrichment_'.$subject['sub_name']] = round(((float)$term1['mid_'.$subject['sub_name'].'_enrichment'] + (float)$term2['final_'.$subject['sub_name'].'_enrichment']) / 2, 2);
+                            $compartment_marks['enrichment_'.$subject['sub_name']] = round(((float)$term1['mid_'.$subject['sub_name'].'_enrichment'] + (float)$term2['final_'.$subject['sub_name'].'_enrichment']) / 2, 2);
                             
-                            $sub_marks['marks_obtained_'.$subject['sub_name']] = round( $sub_marks['priodic_'.$subject['sub_name']] + $sub_marks['notebook_'.$subject['sub_name']] + $sub_marks['enrichment_'.$subject['sub_name']] + $sub_marks['session_ending_'.$subject['sub_name']],2 );
-                            $compartment_marks['marks_obtained_'.$subject['sub_name']] = round( $sub_marks['priodic_'.$subject['sub_name']] + $sub_marks['notebook_'.$subject['sub_name']] + $sub_marks['enrichment_'.$subject['sub_name']] + $sub_marks['session_ending_'.$subject['sub_name']],2 );
+                            $sub_marks['session_ending_'.$subject['sub_name']] = (float)$term2['final_'.$subject['sub_name']];
+                            $compartment_marks['session_ending_'.$subject['sub_name']] = (float)$term2['final_'.$subject['sub_name']];
+                            
+                            $sub_marks['marks_obtained_'.$subject['sub_name']] = round((float)$sub_marks['priodic_'.$subject['sub_name']] + (float)$sub_marks['multiple_assessment_'.$subject['sub_name']] + (float)$sub_marks['portfolio_'.$subject['sub_name']] + (float)$sub_marks['enrichment_'.$subject['sub_name']] + (float)$sub_marks['session_ending_'.$subject['sub_name']],2 );
+                            $compartment_marks['marks_obtained_'.$subject['sub_name']] = round((float)$sub_marks['priodic_'.$subject['sub_name']] + (float)$sub_marks['multiple_assessment_'.$subject['sub_name']]+ (float)$sub_marks['portfolio_'.$subject['sub_name']] + (float)$sub_marks['enrichment_'.$subject['sub_name']] + (float)$sub_marks['session_ending_'.$subject['sub_name']],2 );
                                 
                             if($sub_marks['marks_obtained_'.$subject['sub_name']] == '32.5'){ // increse 32.5 to 33--------
                                 $sub_marks['marks_obtained_'.$subject['sub_name']] = 33;
@@ -785,10 +881,28 @@ class Production_ctrl extends CI_Controller{
                             $comp_marks[] = $compartment_marks;
                             
                         }
-                        //print_r($comp_marks);die;
+                        //print_r($temp['back']);die;
                         
                         if(isset($temp['back']) ){
                             if(count($temp['back']) <= $max_comp){
+                                //-----------generate compartment----------------
+                                $back_insert = [];
+                                foreach($temp['back'] as $key => $back_sub){
+                                    $back_insert[]['sub_id'] = $back_sub['sub_id'];
+                                    $back_insert[$key]['ses_id'] = $this->session->userdata('session_id');
+                                    $back_insert[$key]['sch_id'] = $this->session->userdata('school_id');
+                                    $back_insert[$key]['adm_no'] = $temp['std_details'][0]['adm_no'];
+                                    $back_insert[$key]['created_at'] = date('Y-m-d H:i:s');
+                                    $back_insert[$key]['created_by'] = $this->session->userdata('user_id');
+                                }
+                                $this->db->where(array('ses_id'=>$this->session->userdata('session_id'),
+                                    'sch_id'=>$this->session->userdata('school_id'),
+                                    'adm_no'=>$temp['std_details'][0]['adm_no']));
+                                $this->db->update('compartment_students',array('status'=>0));
+                                
+                                $this->db->insert_batch('compartment_students',$back_insert);
+                                //------------------***--------------------------
+                                
                                 $temp['main_marks'] = $comp_marks;
                                 $temp['aggregate'] = round($aggregate_with_comp,2);
                             }else{
@@ -800,17 +914,17 @@ class Production_ctrl extends CI_Controller{
                             $temp['aggregate'] = round($aggregate,2);
                         }
                         
+                        
                         $class_9th_data[] = $temp;
                         $result['final'] = $class_9th_data;
                     }
                 }
             }
          }
-        //print_r($result);die;
+        
         $result['org_details'] = $this->production_model->org_details($data);
-        //print_r($result);die;
+        
         if(count($result) > 0){
-            
             //-----------log report---------------
             $event = 'Generate Final Marksheet';
             $user = $this->session->userdata('user_id');
@@ -830,7 +944,9 @@ class Production_ctrl extends CI_Controller{
         $mid_result = $this->Mid_marksheet_model->midResult($data);
         $mid_co_scholistic = $this->Mid_marksheet_model->midCoScholistic($data);
         $post_result = $this->Final_marksheet_model->postResult($data);
+        
         $final_result = $this->Final_marksheet_model->finalResult($data);
+        
         $final_co_scholistic = $this->Final_marksheet_model->finalCoScholistic($data);
         $grade = $this->db->select('min_no,max_no,grade,grade_point')->get_where('grade',array('status'=>1))->result_array();
         //print_r($final_co_scholistic);die;
@@ -1008,7 +1124,7 @@ class Production_ctrl extends CI_Controller{
                 if(($subject['st_id'] == 1) || ($subject['st_id'] == 3 && $subject['sub_id'] == $pre['elective']) ){
                     $grand_total = array();
                     $grand_total['sub_id'] = $subject['sub_id'];
-
+                    
                     foreach($temp['pre_marks'] as $pre_marks){
                         if($subject['sub_id'] == $pre_marks['sub_id']){
                             if(($pre_marks[$subject['sub_name']] == 'Abst.') || ($pre_marks[$subject['sub_name']] == '')){
@@ -1080,14 +1196,22 @@ class Production_ctrl extends CI_Controller{
                         $grand_total['total_star'] = '';
                     }
                     //---------------------------------------
+                    $rd_flag = 1;
                     foreach($grade as $marks_grade){
                         if($marks_grade['min_no'] <= $grand_total[$subject['sub_name']] && $marks_grade['max_no'] >= $grand_total[$subject['sub_name']] ){
+                            $rd_flag = 0;
                             $grand_total['grade'] = $marks_grade['grade'];
+                        }else{
+                            if($rd_flag){
+                                $grand_total['grade'] = '-';
+                            }
                         }
                     }
                     $temp['grand_total'][] = $grand_total;
                 }
             }
+            
+            //print_r($temp['grand_total']);die;
             
             $co_scholastic = array();
             foreach($mid_co_scholistic['subjects'] as $co_subject){
@@ -1126,11 +1250,31 @@ class Production_ctrl extends CI_Controller{
                 }
             }
             $temp['co_scholastic'] = $co_scholastic;
+            
             if(isset($temp['back'])){
                 if(count($temp['back']) > 0 && count($temp['back']) < 3){
                     $temp['result'] = 'Compartment';
                     $temp['aggregate'] = round($aggregate,2);
                     $temp['percentage'] = '-';
+                    
+                    //-----------generate compartment----------------
+                    $back_insert = [];
+                    foreach($temp['back'] as $key => $back_sub){
+                        $back_insert[]['sub_id'] = $back_sub['sub_id'];
+                        $back_insert[$key]['ses_id'] = $this->session->userdata('session_id');
+                        $back_insert[$key]['sch_id'] = $this->session->userdata('school_id');
+                        $back_insert[$key]['adm_no'] = $temp['adm_no'];
+                        $back_insert[$key]['created_at'] = date('Y-m-d H:i:s');
+                        $back_insert[$key]['created_by'] = $this->session->userdata('user_id');
+                    }
+                    $this->db->where(array('ses_id'=>$this->session->userdata('session_id'),
+                        'sch_id'=>$this->session->userdata('school_id'),
+                        'adm_no'=>$temp['adm_no']));
+                    $this->db->update('compartment_students',array('status'=>0));
+                    
+                    $this->db->insert_batch('compartment_students',$back_insert);
+                    //------------------*****------------------------
+                    
                 }else if(count($temp['back']) > 2){
                     $temp['result'] = 'Detained';
                     $temp['aggregate'] = '-';

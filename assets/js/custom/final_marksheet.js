@@ -497,8 +497,9 @@ $(document).ready(function() {
                 '<thead>' +
                 '<tr>' +
                 '<th style="width:18%;text-align:left;">Subjects</th>' +
-                '<th>Periodic Test: 10</th>' +
-                '<th>Note Book: 05</th>' +
+                '<th>Periodic Test: 05</th>' +
+                '<th>Multiple Assessment: 05</th>' +
+                '<th>Portfolio: 05</th>' +
                 '<th>Sub Enrichment: 05</th>' +
                 '<th>Session Ending Exam: 80</th>' +
                 '<th>Marks Obtained: 100</th>' +
@@ -513,7 +514,8 @@ $(document).ready(function() {
                         x = x + '<tr>' +
                             '<td style="text-align:left;">' + mid_sub.sub_name + '</td>' +
                             '<td>' + marks["priodic_" + mid_sub.sub_name] + '</td>' +
-                            '<td>' + marks["notebook_" + mid_sub.sub_name] + '</td>' +
+                            '<td>' + marks["multiple_assessment_" + mid_sub.sub_name] + '</td>' +
+                            '<td>' + marks["portfolio_" + mid_sub.sub_name] + '</td>' +
                             '<td>' + marks["enrichment_" + mid_sub.sub_name] + '</td>' +
                             '<td>' + marks["session_ending_" + mid_sub.sub_name] + '</td>' +
                             '<td>' + marks["marks_obtained_" + mid_sub.sub_name] + marks["marks_obtained_" + mid_sub.sub_name + '_star'] + '</td>' +
@@ -828,7 +830,7 @@ $(document).ready(function() {
                             x = x + '<td>' + post[subjects['sub_name']+'_out_of_5'] + '</td>';
                         }
                     });
-
+                   
                     x = x + '<td>' + subjects.out_of + '</td>';
 
                     $.each(value.final_marks, function(mk, final) {
@@ -950,7 +952,6 @@ $(document).ready(function() {
                 x=x+'</tbody>' +
                 '</table>' +
                 '</div>';
-                
                 	x=x+'<div class="results-information p-results-information-f-c col-md-6">' +
                     '<div class="academic-result-t" style="background-color:rgba(241,241,241,0.2)!important;"><b><b>Result</b></b></div>' +
                     '<table class="table" width="50%">' +

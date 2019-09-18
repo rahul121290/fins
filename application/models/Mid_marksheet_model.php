@@ -61,7 +61,7 @@ class Mid_marksheet_model extends CI_Model{
         $this->db->order_by('sa.st_id','ASC');
         $this->db->order_by('s.short_order','ASC');
         $result['subjects'] = $this->db->get_where('subject_allocation sa')->result_array();
-
+        
         //-----------------------------------***********----------------------------------------------------------------
         $con_sg_st = '';
         $out_of_mark= '';
@@ -201,8 +201,15 @@ class Mid_marksheet_model extends CI_Model{
             $condition = '';
             foreach($result['subjects'] as $subject){
                 $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.sub_marks, '')) as '". $subject['sub_name']."'," ;
-                $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.notebook, '')) as '". $subject['sub_name'].'_notebook'."'," ;
-                $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.enrichment, '')) as '". $subject['sub_name'].'_enrichment'."'," ;
+                
+                if($class_name == 12 || $class_name == 13){
+                    $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.multiple_assessment, '')) as '". $subject['sub_name'].'_multiple_assessment'."'," ;
+                    $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.portfolio, '')) as '". $subject['sub_name'].'_portfolio'."'," ;
+                    $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.enrichment, '')) as '". $subject['sub_name'].'_enrichment'."'," ;
+                }else{
+                    $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.notebook, '')) as '". $subject['sub_name'].'_notebook'."'," ;
+                    $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.enrichment, '')) as '". $subject['sub_name'].'_enrichment'."'," ;
+                }
                 if($class_name > 13){
                     $condition.="MAX(IF(sub.sub_id ='".$subject['sub_id']."', t1.practical, '')) as '". $subject['sub_name'].'_practical'."'," ;
                 }
@@ -234,7 +241,7 @@ class Mid_marksheet_model extends CI_Model{
         $sub_group = $data['sub_group'];
         $section = $data['section'];
         
-        $sub_allocation = '';
+        $sub_allocation = 'sa.status = 1';
         if($session){
             $sub_allocation.=' AND sa.ses_id='.$session;
         }
@@ -259,11 +266,11 @@ class Mid_marksheet_model extends CI_Model{
         
         $this->db->select('sa.sa_id,sa.sub_id,s.sub_name');
         $this->db->join('subject s','s.sub_id=sa.sub_id');
-        $this->db->where('1=1'.$sub_allocation);
+        $this->db->where($sub_allocation);
         $this->db->order_by('sa.st_id','ASC');
         $this->db->order_by('s.short_order','ASC');
         $result['subjects'] = $this->db->get_where('subject_allocation sa')->result_array();
-        
+        //print_r($this->db->last_query());die;
         //-----------------------------------***********----------------------------------------------------------------
         $con_sg_st = '';
         if(!empty($sub_group)){

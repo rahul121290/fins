@@ -242,52 +242,79 @@ $(document).ready(function(){
 									   '<td><input type="text" id="subject_marks_'+std.std_id+'" data-std_id="'+std.std_id+'" data-roll_no="'+std.roll_no+'" data-adm_no="'+std.adm_no+'" data-max="'+response.max_marks[0].sub_marks+'" value="'+std.sub_marks+'" name="subject_marks[]" class="subject_marks marks_entry_validation" style="width:50px;"></td>';
 
 									 //---------------notebook marks & enrichment marks-----------------------
-									   if((class_name < 12 && exam_type == 2 && sub_type == 1) ||(class_name < 12 && exam_type == 2 && sub_type == 3) || (class_name < 12 && exam_type == 4 && sub_type == 1)|| (class_name < 12 && exam_type == 4 && sub_type == 3)){ 
-										   $('#notebook').removeAttr('style');
-										   $('#enrichment').removeAttr('style');
-										   $('#notebook_msg').html('Maximum Notebook Marks: 5').css('display','block');
-										   $('#enrichment_msg').html('Maximum Enrichment Marks: 5').css('display','block');
-										   x=x+'<td><input type="text" id="notebook_'+std.std_id+'" data-max="5" value="'+std.notebook+'" name="notebook_marks[]" class="notebook_marks marks_entry_validation" style="width:50px;"></td>';
-											x=x+'<td><input type="text" id="enrichment_'+std.std_id+'" data-max="5" value="'+std.enrichment+'" name="enrichment_marks[]" class="enrichment_marks marks_entry_validation" style="width:50px;"></td>';
-										}else{
-											$('#notebook').css('display','none');
-											$('#enrichment').css('display','none');
-											$('#notebook_msg').css('display','none');
-											$('#enrichment_msg').css('display','none');
+										if(class_name < 12){
+											if(exam_type == 2 || exam_type == 4){
+												if(sub_type = 1){
+													//---------remove------------
+													$('#portfolio').css('display','none');
+													$('#multiple_assessment').css('display','none');
+													$('#portfolio_msg').css('display','none');
+													$('#multiple_assessment_msg').css('display','none');
+													//---------------------------------------------------
+													
+													$('#notebook').removeAttr('style');
+													   $('#enrichment').removeAttr('style');
+													   $('#notebook_msg').html('Maximum Notebook Marks: 5').css('display','block');
+													   $('#enrichment_msg').html('Maximum Enrichment Marks: 5').css('display','block');
+													   x=x+'<td><input type="text" id="notebook_'+std.std_id+'" data-max="5" value="'+std.notebook+'" name="notebook_marks[]" class="notebook_marks marks_entry_validation" style="width:50px;"></td>';
+													  x=x+'<td><input type="text" id="enrichment_'+std.std_id+'" data-max="5" value="'+std.enrichment+'" name="enrichment_marks[]" class="enrichment_marks marks_entry_validation" style="width:50px;"></td>';
+												}else{
+													$('#notebook').css('display','none');
+													$('#enrichment').css('display','none');
+													$('#notebook_msg').css('display','none');
+													$('#enrichment_msg').css('display','none');
+												}
+											}
 										}
-									   
-									   //-----------------CLASS 9TH------------------------------------
-									   if((class_name == 12 && exam_type == 2 && sub_type == 1) ||(class_name == 12 && exam_type == 2 && sub_type == 3) || (class_name == 12 && exam_type == 4 && sub_type == 1)|| (class_name == 12 && exam_type == 4 && sub_type == 3)){ 
-										   $('#portfolio').removeAttr('style');
-										   $('#multiple_assessment').removeAttr('style');
-										   $('#enrichment').removeAttr('style');
-										   $('#enrichment_msg').html('Maximum Enrichment Marks: 5').css('display','block');
-										   
-										   $('#portfolio_msg').html('Maximum Portfolio Marks: 5').css('display','block');
-										   $('#multiple_assessment_msg').html('Maximum Multiple Assessment Marks: 5').css('display','block');
-										   
-										   x=x+'<td><input type="text" id="portfolio_'+std.std_id+'" data-max="5" value="'+std.portfolio+'" name="portfolio_marks[]" class="portfolio_marks marks_entry_validation" style="width:50px;"></td>';
-										   x=x+'<td><input type="text" id="multiple_assessment_'+std.std_id+'" data-max="5" value="'+std.multiple_assessment+'" name="multiple_assessment_marks[]" class="multiple_assessment_marks marks_entry_validation" style="width:50px;"></td>';
-										   x=x+'<td><input type="text" id="enrichment_'+std.std_id+'" data-max="5" value="'+std.enrichment+'" name="enrichment_marks[]" class="enrichment_marks marks_entry_validation" style="width:50px;"></td>';
-										}else{
-											$('#portfolio').css('display','none');
-											$('#multiple_assessment').css('display','none');
-											$('#portfolio_msg').css('display','none');
-											$('#multiple_assessment_msg').css('display','none');
-											$('#enrichment').css('display','none');
-											$('#enrichment_msg').css('display','none');
+										else if(class_name == 12 || class_name == 13){
+										   if(exam_type == 2 || exam_type == 4){
+											   if(sub_type == 1){
+												   //-----------remove not book-------------
+												   $('#notebook').css('display','none');
+												   $('#notebook_msg').css('display','none');
+													
+												   $('#portfolio').removeAttr('style');
+												   $('#multiple_assessment').removeAttr('style');
+												   $('#enrichment').removeAttr('style');
+												   $('#enrichment_msg').html('Maximum Enrichment Marks: 5').css('display','block');
+												   
+												   $('#portfolio_msg').html('Maximum Portfolio Marks: 5').css('display','block');
+												   $('#multiple_assessment_msg').html('Maximum Multiple Assessment Marks: 5').css('display','block');
+												   
+												   x=x+'<td><input type="text" id="portfolio_'+std.std_id+'" data-max="5" value="'+std.portfolio+'" name="portfolio_marks[]" class="portfolio_marks marks_entry_validation" style="width:50px;"></td>';
+												   x=x+'<td><input type="text" id="multiple_assessment_'+std.std_id+'" data-max="5" value="'+std.multiple_assessment+'" name="multiple_assessment_marks[]" class="multiple_assessment_marks marks_entry_validation" style="width:50px;"></td>';
+												   x=x+'<td><input type="text" id="enrichment_'+std.std_id+'" data-max="5" value="'+std.enrichment+'" name="enrichment_marks[]" class="enrichment_marks marks_entry_validation" style="width:50px;"></td>';
+											   }else{
+													$('#portfolio').css('display','none');
+													$('#multiple_assessment').css('display','none');
+													$('#portfolio_msg').css('display','none');
+													$('#multiple_assessment_msg').css('display','none');
+													$('#enrichment').css('display','none');
+													$('#enrichment_msg').css('display','none');
+												}
+										   }
 										}
-									   
 										//--------------------practical marks-----------------------------
 									   if(response.max_marks[0].practical){
 										   if((class_name >= 14 && exam_type == 2 && sub_type != 2)||(class_name >= 14 && exam_type == 4 && sub_type != 2) || (class_name >= 12 && exam_type == 2 && sub_type == 4) || (class_name >= 12 && exam_type == 4 && sub_type == 4)){
+											   //---------------hide---------------------
+											   $('#notebook').css('display','none');
+											   $('#notebook_msg').css('display','none');
+											   $('#portfolio').css('display','none');
+												$('#multiple_assessment').css('display','none');
+												$('#portfolio_msg').css('display','none');
+												$('#multiple_assessment_msg').css('display','none');
+												$('#enrichment').css('display','none');
+												$('#enrichment_msg').css('display','none');
+											   //----------------------------------------------
+												
 												$('#practical').removeAttr('style');
 												$('#practical_msg').html('Maximum Practical Marks: '+response.max_marks[0].practical).css('display','block');
 												x=x+'<td><input type="text" id="practical_'+std.std_id+'" data-max="'+response.max_marks[0].practical+'" value="'+std.practical+'" name="practical_marks[]" class="practical_marks marks_entry_validation" style="width:50px;"></td>';
 											}else{
 												$('#practical').css('display','none');
 												$('#practical_msg').css('display','none');
-												} 
+											} 
 									   }else{
 											$('#practical').css('display','none');
 											$('#practical_msg').css('display','none');

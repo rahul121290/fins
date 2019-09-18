@@ -388,6 +388,17 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
+    function compartment_marks_entry(){
+        if(in_array(13, $this->permission)){
+            $this->data['page_name'] = 'Compartment Marks Entry';
+            $this->data['main'] = 'transaction/compartment_marks_entry';
+            $this->admin_teacher_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
     function marks_entry_check(){
         if(in_array(14, $this->permission)){
             $this->data['page_name'] = 'Marks Entry Check';
