@@ -266,8 +266,8 @@ class Hostel_students_ctrl extends CI_Controller {
         {
             $this->db->trans_commit();
             $sms = 'Increase hostel fee installment OTP is '.$data['otp'].' of adm no: '.$data['adm_no'].'.';
-            $mobile = '8817721954';
-           // $this->my_function->send_sms($mobile,$sms);
+            $mobile = '9131782047';
+           $this->my_function->send_sms($mobile,$sms);
             echo json_encode(array('msg'=>$this->lang->line('otp_success'),'status'=>200));
         }
         
