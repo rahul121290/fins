@@ -856,7 +856,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['page_name'] = 'Hostel Fee';
             $this->data['main'] = 'student_fee/hostel/hostel_fee';
             
-            $this->db->select('s.name,s.f_name,s.roll_no,s.adm_no,c.class_name,hs.std_status,s.medium,m.med_name,s.contact_no,hd.hostel_name,sch.school_name');
+            $this->db->select('s.name,s.f_name,s.roll_no,s.adm_no,c.class_name,hs.std_status,s.medium,m.med_name,s.contact_no,hd.hostel_name,sch.school_name,hs.fee_installment');
             $this->db->join('hostel_students hs','hs.adm_no = s.adm_no AND hs.ses_id = s.ses_id AND hs.sch_id = s.sch_id AND hs.status = 1');
             $this->db->join('hostel_details hd','hd.hd_id = hs.hd_id');
             $this->db->join('class c','c.c_id = s.class_id');

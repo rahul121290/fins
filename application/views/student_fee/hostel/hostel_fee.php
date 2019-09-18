@@ -96,17 +96,18 @@
 			
 			<div class="box-body">
 				<div class="col-md-6">
-				
 					<div class="form-group mb-3">
 						<label class="col-sm-6">Pay Month</label>
 						<div class="col-sm-6">
 							<select class="form-control" name="pay_month" id="pay_month">
 								<option value="">Select Month</option>
-								<option value="1">March/April <?php echo date('Y');?></option>
+								<?php if(count($paid_fee_details)  == 0 ){ ?>
+								   	<option value="1">March/April <?php echo date('Y');?></option>
+								<?php }else if(count($paid_fee_details)  == 1){?>
 								<option value="2">September <?php echo date('Y');?></option>
-								<?php if($student_details[0]['fee_installment'] > 2){?>
+								<?php }else if($student_details[0]['fee_installment'] > 2){?>
 								<option value="3">Pay Pending Fee</option>
-								<?php } ?>
+								<?php }?>
 							</select>
 							<div id="pay_month_err" class="text-danger" style="display:none;"></div>
 						</div>
