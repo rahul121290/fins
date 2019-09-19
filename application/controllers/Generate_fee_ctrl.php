@@ -5,7 +5,7 @@ class Generate_fee_ctrl extends CI_Controller {
     function __construct(){
         parent :: __construct();
         $this->load->library('My_function');
-        $this->server = $this->load->database('server',true);
+        //$this->server = $this->load->database('server',true);
     }
     
     function generate_fee(){
@@ -26,53 +26,53 @@ class Generate_fee_ctrl extends CI_Controller {
         if($current_month == 4 || $current_month == 5){
             $month_fee = 2;
             $bus_fee = 1;
-            $fee_month = '1';
+            $fee_month = 1;
         }else if($current_month == 6){
             $month_fee = 1;
             $bus_fee = 1;
-            $fee_month = '2';
+            $fee_month = 2;
         }else if($current_month == 7){
             $month_fee = 1;
             $bus_fee = 1;
-            $fee_month = '3';
+            $fee_month = 3;
         }else if($current_month == 8){
             $month_fee = 1;
             $bus_fee = 1;
-            $fee_month = '4';
+            $fee_month = 4;
         }else if($current_month == 9 || $current_month == 10){
             $month_fee = 2;
             $bus_fee = 2;
-            $fee_month = '5';
+            $fee_month = 5;
         }else if($current_month == 11){
             $month_fee = 1;
             $bus_fee = 1;
-            $fee_month = '6';
+            $fee_month = 6;
         }else if($current_month == 12){
             $month_fee = 1;
             $bus_fee = 1;
-            $fee_month = '7';
+            $fee_month = 7;
         }else if($current_month == 1){
             $month_fee = 1;
             $bus_fee = 1;
-            $fee_month = '8';
+            $fee_month = 8;
         }else if(($current_month == 2 && $class_id == 13) || ($current_month == 3 && $class_id == 15)){
             $month_fee = 2;
             $bus_fee = 1;
-            $fee_month = '9';
+            $fee_month = 9;
         }else if(($current_month == 2 && $class_id != 13) || ($current_month == 3 && $class_id != 15)){
             $month_fee = 2;
             $bus_fee = 2;
-            $fee_month = '9';
+            $fee_month = 9;
         }
         
         $this->db->trans_begin();
-        $this->server->select('*');
-        $this->server->limit(1);
-        $check = $this->server->get_where('student_fee',array('status'=>1,'ses_id'=>$ses_id,'sch_id'=>$sch_id,'month_ids'=>$fee_month))->result_array();
-        if(count($check) > 0){
-            echo json_encode(array('msg'=>'Already generated fee','status'=>500));
-            die;
-        }else{
+//         $this->server->select('*');
+//         $this->server->limit(1);
+//         $check = $this->server->get_where('student_fee',array('status'=>1,'ses_id'=>$ses_id,'sch_id'=>$sch_id,'month_ids'=>$fee_month))->result_array();
+//         if(count($check) > 0){
+//             echo json_encode(array('msg'=>'Already generated fee','status'=>500));
+//             die;
+//         }else{
         $this->db->select('s.ses_id,s.sch_id,s.medium,s.class_id,s.sec_id,s.adm_no,IFNULL(s.bus_id,"NULL") bus_id,IFNULL(s.bus,"No") bus,
                 MAX(IF(ft.ft_id = 1, cfs.amount, 0)) as admission_fee,
                 MAX(IF(ft.ft_id = 2, cfs.amount, 0)) as amalgamated_fund,
@@ -82,13 +82,13 @@ class Generate_fee_ctrl extends CI_Controller {
                 IFNULL(bs.price,0) bus_fee
         ');
         $this->db->join('bus_structure bs','bs.bs_id = s.bus_id AND bs.status = 1 AND s.bus = "Yes"','LEFT');
-        $this->db->join('class_fee_structure cfs','cfs.fc_id = s.fee_criteria AND cfs.staff_child  = s.staff_child OR cfs.staff_child  IS NULL AND  cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = '.$ses_id.' AND sch_id = '.$sch_id.' AND class_id = s.class_id AND status = 1 ORDER BY fs_id DESC LIMIT 1)');
+        $this->db->join('class_fee_structure cfs','cfs.fc_id = s.fee_criteria AND (cfs.staff_child  = s.staff_child OR cfs.staff_child  IS NULL) AND cfs.fsm_id = (SELECT fs_id FROM fee_structure_master WHERE ses_id = '.$ses_id.' AND sch_id = '.$sch_id.' AND class_id = s.class_id AND status = 1 ORDER BY fs_id DESC LIMIT 1)');
         $this->db->join('fee_type ft','ft.ft_id = cfs.ft_id');
         $this->db->where($condition);
         $this->db->group_by('s.adm_no');
         $this->db->order_by('s.class_id');
-        $result = $this->db->get_where('students s')->result_array();
-        //print_r($this->db->last_query());die;
+        $result = $this->db->get_where('students s',array('s.adm_no'=>4071))->result_array();
+       //print_r($this->db->last_query());die;
         $final = [];
         if(count($result) > 0){
             foreach($result as $data){
@@ -118,7 +118,6 @@ class Generate_fee_ctrl extends CI_Controller {
                 $temp['bus_fee'] = $data['bus_fee'];
                 $temp['late_fee'] = null;
                 $temp['fee_waiver'] = null;
-                
                 $temp['total_fee'] = $temp['admission_fee'] + 
                                      $temp['amalgamated_fund'] + 
                                      $temp['lab_fee'] + 
@@ -134,12 +133,12 @@ class Generate_fee_ctrl extends CI_Controller {
                 $temp['created_by'] = 1;
                 $final[] = $temp;
             }
-                $insert = $this->server->insert_batch(' student_fee',$final);
+            $insert = $this->server->insert_batch(' student_fee',$final);
         }else{
             echo json_encode(array('msg'=>'Record not found. fee structure not generated','status'=>500));
             die;
             }
-        }
+        //}
         if ($this->db->trans_status() === FALSE){
             $this->db->trans_rollback();
             echo json_encode(array('msg'=>'Something Error.','status'=>500));
