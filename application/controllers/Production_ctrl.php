@@ -393,11 +393,10 @@ class Production_ctrl extends CI_Controller{
             $table_id = null;
             $this->my_function->add_log($user,$event,$table_name,$table_id);
             //-----------*****--------------------
-            $baseUrl = base_url();
             if($data['school'] == 1){
-                $std_image_url = $baseUrl+'assets/images/shakuntala/students';
+                $std_image_url = 'assets/images/shakuntala/students';
             }else if($data['school'] == 2){
-                $std_image_url = $baseUrl+'assets/images/sharda/students';
+                $std_image_url = 'assets/images/sharda/students';
             }
             
             echo json_encode(array('result'=>$result,'imageUrl'=>$std_image_url,'status'=>200));
