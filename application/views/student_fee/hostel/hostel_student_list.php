@@ -78,7 +78,9 @@
 						</select>
 						<div id="student_status_err" style="display:none; color:red;"></div>
 					</div>
-					
+					<div class="col-sm-2 mb-3">
+						<input type="text" class="form-control" id="search_box" name="search_box" placeholder="Search Name / Adm No.">
+					</div>
 					<div class="col-md-2 mb-3">
 						<button type="button" id="search" class="btn btn-info pull-left">Search</button>	
 					</div>
@@ -174,6 +176,20 @@ var userUrl = $('#user_url').val();
 var session = $('#session').val();
 var school = $('#school').val();
 var hostel = $('#hostel').val();
+var search_box = '';
+
+$(document).on('change','#search_box',function(){
+	var session = $('#session').val();
+	var school = $('#school').val();
+	var medium = $('#medium').val();
+	var class_id = $('#class_name').val();
+	var hostel = $('#hostel').val();
+	var student_status = $('#student_status').val();
+	var search_box = $(this).val();
+
+	studentList(session,school,medium,class_id,hostel,student_status,search_box);
+});
+
 
 
 $(document).on('click','#search',function(){
@@ -183,50 +199,51 @@ $(document).on('click','#search',function(){
 	var class_id = $('#class_name').val();
 	var hostel = $('#hostel').val();
 	var student_status = $('#student_status').val();
-
-	studentList(session,school,medium,class_id,hostel,student_status);		
+	var search_box = '';
+	studentList(session,school,medium,class_id,hostel,student_status,search_box);	
 });
-function studentList(session,school,medium,class_id,hostel,student_status){
-		$.ajax({
-			type:'POST',
-			url:baseUrl+'hostel/Hostel_students_ctrl/studentList',
-			data:{'session':session,'school':school,'medium':medium,'class_id':class_id,'hostel':hostel,'student_status':student_status},
-			dataType:'json',
-			beforeSend:function(){},
-			success:function(response){
-				if(response.status == 200){
-					var x='';
-					$.each(response.data,function(key,value){
-						if(value.details_status == 'pending'){
-							var details_status = '<b style="color:red;">Pending</b>';
-						}else{
-							var details_status = '<b style="color:green;">Updated</b>';
-						}
-						x=x+'<tr>'+
-							'<td>'+parseInt(key+1)+'</td>'+
-							'<td>'+value.adm_no+'</td>'+
-							'<td>'+value.std_status+'</td>'+
-							'<td>'+value.name+'<br/>'+value.contact_no+'</td>'+
-							'<td>'+value.f_name+'<br/>'+value.f_contact_no+'</td>'+
-							'<td>'+value.hostel_fee+'</td>'+
-							'<td>'+value.paid_fee+'</td>'+
-							'<td>'+parseFloat(parseFloat(value.hostel_fee) - parseFloat(value.paid_fee)).toFixed(2)+'</td>'+
-							'<td>'+details_status+'</td>'+
-							'<td class="no-print"><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-success" id="pay_now">Pay Now</button></td>'+
-						  '</tr>';
-					});
-					$('#student_list').html(x);
-					$('#total_fee').html('<b>'+response.all_total_fee+'</b>');
-					$('#paid_fee').html('<b>'+response.all_paid_fee+'</b>');
-					$('#pending_fee').html('<b>'+response.all_pending_fee+'</b>');
-				}else{
-					$('#student_list').html('<tr><td colspan="9" style="text-align:center">Record not found.</td></tr>');
-					$('#total_fee').html('<b>0.00</b>');
-					$('#paid_fee').html('<b>0.00</b>');
-					$('#pending_fee').html('<b>0.00</b>');
-				}
-			},
-		});
+
+function studentList(session,school,medium,class_id,hostel,student_status,search_box){
+	$.ajax({
+		type:'POST',
+		url:baseUrl+'hostel/Hostel_students_ctrl/studentList',
+		data:{'session':session,'school':school,'medium':medium,'class_id':class_id,'hostel':hostel,'student_status':student_status,'search_box':search_box},
+		dataType:'json',
+		beforeSend:function(){},
+		success:function(response){
+			if(response.status == 200){
+				var x='';
+				$.each(response.data,function(key,value){
+					if(value.details_status == 'pending'){
+						var details_status = '<b style="color:red;">Pending</b>';
+					}else{
+						var details_status = '<b style="color:green;">Updated</b>';
+					}
+					x=x+'<tr>'+
+						'<td>'+parseInt(key+1)+'</td>'+
+						'<td>'+value.adm_no+'</td>'+
+						'<td>'+value.std_status+'</td>'+
+						'<td>'+value.name+'<br/>'+value.contact_no+'</td>'+
+						'<td>'+value.f_name+'<br/>'+value.f_contact_no+'</td>'+
+						'<td>'+value.hostel_fee+'</td>'+
+						'<td>'+value.paid_fee+'</td>'+
+						'<td>'+parseFloat(parseFloat(value.hostel_fee) - parseFloat(value.paid_fee)).toFixed(2)+'</td>'+
+						'<td>'+details_status+'</td>'+
+						'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-success" id="pay_now">Pay Now</button></td>'+
+					  '</tr>';
+				});
+				$('#student_list').html(x);
+				$('#total_fee').html('<b>'+response.all_total_fee+'</b>');
+				$('#paid_fee').html('<b>'+response.all_paid_fee+'</b>');
+				$('#pending_fee').html('<b>'+response.all_pending_fee+'</b>');
+			}else{
+				$('#student_list').html('<tr><td colspan="9" style="text-align:center">Record not found.</td></tr>');
+				$('#total_fee').html('<b>0.00</b>');
+				$('#paid_fee').html('<b>0.00</b>');
+				$('#pending_fee').html('<b>0.00</b>');
+			}
+		},
+	});
 }
 
 $(document).on('click','#pay_now',function(){
@@ -237,7 +254,4 @@ $(document).on('click','#pay_now',function(){
 	window.open(baseUrl+userUrl+'/hostel/fee-payment/'+ses_id+'/'+sch_id+'/'+adm_no);
 	
 });
-
-
 </script>
-

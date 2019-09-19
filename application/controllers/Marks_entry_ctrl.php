@@ -17,7 +17,104 @@ class Marks_entry_ctrl extends CI_Controller{
         }
     }
     
-    public function getSubjects(){
+    function compartment_student_records(){
+        $data['session'] = $this->session->userdata('session_id');
+        $data['school'] = $this->session->userdata('school_id');
+        $data['exam_type'] = $this->input->post('exam_type');
+        $data['medium'] = $this->input->post('medium');
+        $data['class_name'] = $this->input->post('class_name');
+        $data['sub_group'] = $this->input->post('sub_group');
+        $data['section'] = $this->input->post('section');
+        $data['sub_type'] = $this->input->post('sub_type');
+        $data['subject'] = $this->input->post('subject');
+       
+        
+        $sg_id = '';
+        if(!empty($data['sub_group'])){
+            $sg_id = ' AND sg_id = '.$data['sub_group'];
+        }
+        //----------------Compartment marks----------------------------
+        $this->db->select('s.std_id,s.name,s.adm_no,s.roll_no,c.class_name, sec.section_name,
+                            IFNULL(sm.sub_marks,"") as sub_marks,IFNULL(sm.practical,"") as practical');
+        $this->db->join('class c','c.c_id=s.class_id');
+        $this->db->join('section sec','sec.sec_id=s.sec_id');
+        $this->db->join('compartment_students cs','cs.adm_no = s.adm_no AND cs.ses_id = s.ses_id AND cs.sch_id = s.sch_id AND cs.sub_id = '.$data['subject'].' AND cs.status = 1');
+        $this->db->join('compartment_student_marks sm','sm.adm_no = s.adm_no AND sm.std_id = s.std_id
+                        AND sm.cmm_id = (SELECT cmm_id FROM compartment_marks_master WHERE ses_id = '.$data['session'].' AND sch_id = '.$data['school'].'
+                        AND et_id = '.$data['exam_type'].' AND med_id = '.$data['medium'].' AND class_id = '.$data['class_name'].' AND sec_id = '.$data['section'].'
+                        AND st_id = '.$data['sub_type'].' AND sub_id = '.$data['subject'].$sg_id.' AND status = 1 ORDER BY cmm_id DESC LIMIT 1)','LEFT');
+        if(!empty($data['sub_group'])){
+            $this->db->where('s.sub_group',$data['sub_group']);
+        }
+        if($data['class_name'] >= 14 && $data['sub_type'] == 3){
+            $this->db->where('s.elective',$data['subject']);
+        }
+        $this->db->order_by('s.roll_no','ASC');
+        $students = $this->db->get_where('students s',array('s.ses_id'=>$data['session'],
+            's.sch_id'=>$data['school'],
+            's.medium'=>$data['medium'],
+            's.class_id'=>$data['class_name'],
+            's.sec_id'=>$data['section'],'s.status'=>1))->result_array();
+       //------------get max marks------------------------------------------------------
+        $this->db->select('om.out_of as sub_marks,IFNULL(om.practical,"") as practical');
+        $this->db->join('out_of_marks om','om.sa_id=sa.sa_id');
+        if(!empty($data['sub_group'])){
+            $this->db->where('sa.sg_id',$data['sub_group']);
+        }
+        $this->db->where('om.et_id',$data['exam_type']);
+        $max_marks = $this->db->get_where('subject_allocation sa',array('sa.ses_id'=>$data['session'],'sa.sch_id'=>$data['school'],'sa.med_id'=>$data['medium'],'sa.class_id'=>$data['class_name'],'sa.st_id'=>$data['sub_type'],'sa.sub_id'=>$data['subject'],'sa.status'=>1))->result_array();
+        
+        if(count($max_marks) < 1){
+            echo json_encode(array('feedback'=>'This Class/Subject MAX marks not define.','status'=>500));
+            die;
+        }
+        
+        if(count($students) > 0){
+            echo json_encode(array('data'=>$students,'max_marks'=>$max_marks,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+        
+    }
+    
+    function CompartmentMarksEntry(){
+        $data['ses_id'] = $this->session->userdata('session_id');
+        $data['sch_id'] = $this->session->userdata('school_id');
+        $data['et_id'] = $this->input->post('exam_type');
+        $data['med_id'] = $this->input->post('medium');
+        $data['class_id'] = $this->input->post('class_name');
+        if($this->input->post('sub_group') != ''){
+            $data['sg_id'] = $this->input->post('sub_group');
+        }else{
+            $data['sg_id'] = null;
+        }
+        $data['sec_id'] = $this->input->post('section');
+        $data['st_id'] = $this->input->post('sub_type');
+        $data['sub_id'] = $this->input->post('subject');
+        $data['created_by'] = $this->session->userdata('user_id');
+        $data['created_at'] = date('Y-m-d H:i:s');
+        
+        $student_marks = json_decode($this->input->post('std_marks'),true);
+        
+        $final = [];
+        foreach($student_marks as $std_marks){
+            $temp = [];
+            $temp['std_id'] = $std_marks[0]['std_id'];
+            $temp['adm_no'] = $std_marks[1]['adm_no'];
+            $temp['sub_marks'] = $std_marks[2]['subject_marks'];
+            $temp['practical'] = $std_marks[3]['practical'];
+            $final[] = $temp;
+        }
+        
+        $result = $this->marks_entry_model->CompartmentMarksEntry($data,$final);
+        if($result){
+            echo json_encode(array('Compartment Marks Updated!','status'=>200));
+        }else{
+            echo json_encode(array('Something went wrong, Please try again.','status'=>500));
+        }
+    }
+    
+    function getSubjects(){
         $session = $this->session->userdata('session_id');
         $school = $this->session->userdata('school_id');
         $exam_type = $this->input->post('exam_type');
@@ -66,7 +163,7 @@ class Marks_entry_ctrl extends CI_Controller{
         }
     }
    
-    public function getStudentsRecords(){
+    function getStudentsRecords(){
         $session = $this->session->userdata('session_id');
         $school = $this->session->userdata('school_id');
         $exam_type = $this->input->post('exam_type');

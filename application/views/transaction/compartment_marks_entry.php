@@ -17,7 +17,7 @@
                   <h3 class="box-title">Studnets Compartment Marks Entry</h3>
                 </div>
             	<div class="box-body">
-            	<form role="form" method="POST" class="form-horizontal" id="marks_entry_form">
+            	<form role="form" method="POST" class="form-horizontal" id="compartment_marks_entry_form">
             		<input type="hidden" name="id" id="id">
             			
             			<div class="form-group">
@@ -25,9 +25,7 @@
 							<div class="col-sm-9">
 								<select name="exam_type" id="exam_type" class="form-control">
 									<option value="">Select Exam Type</option>
-									<?php foreach($exam_type as $et){?>
-									<option value="<?php echo $et['et_id'];?>"><?php echo $et['et_name'];?></option>
-									<?php }?>
+									<option value="<?php echo $exam_type[3]['et_id'];?>"><?php echo $exam_type[3]['et_name'];?></option>
 								</select>
 								<div id="exam_type_err" style="display:none; color:red;"></div>
 							</div>
@@ -110,7 +108,7 @@
        		<div class="col-md-7">	
               	<div class="box box-info">
                     <div class="box-header">
-                      <h3 class="box-title">Marks Entry <span id="type_and_sub"></span></h3>
+                      <h3 class="box-title">Compartment Marks Entry <span id="type_and_sub"></span></h3>
                       <div id="subject_msg"></div>
                       <div id="practical_msg"></div>
                       <div id="notebook_msg"></div>
@@ -131,17 +129,10 @@
                     				<th>Admission No.</th>
                     				<th>Roll No.</th>
                     				<th style="width: 50px;">Subject Marks</th>
-                    				<th id="notebook" style="display:none;">Notebook</th>
-                    				
-                    				<th id="multiple_assessment" style="display:none;">Multiple<br/>Assessment</th>
-                    				<th id="portfolio" style="display:none;">Portfolio</th>
-                    				
-                    				<th id="enrichment" style="display:none;width: 50px;">Subject<br/>Enrichment</th>
                     				<th id="practical" style="display:none;">Practical</th>
-                    				<th id="academic" style="display:none;">Academic</th>
             					</tr>
         					</thead>
-    						<tbody id="list_of_students"></tbody>
+    						<tbody id="student_list"></tbody>
     					</table>
               		</div>
                   	<div class="box-footer">

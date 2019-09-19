@@ -79,6 +79,10 @@
 						<div id="pay_status_err" style="display:none; color:red;"></div>
 					</div>
 					
+					<div class="col-sm-2 mb-3">
+						<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Seach Student Name / Adm No.">
+					</div>
+					
 					<div class="col-md-2 mb-3">
 						<button style="margin-right:10px;" type="button" id="search" class="btn btn-success pull-left">Search</button>&nbsp;&nbsp;
 						<button type="button" id="print" class="btn btn-info pull-left"  onclick='printDiv();'>Print</button>	
@@ -158,44 +162,62 @@ var session = $('#session').val();
 var school = $('#school').val();
 var installment = $('#installment').val();
 
+$('#class_wise_fee_details').validate({
+	rules:{
+		session:{required:true},
+		school:{required:true},
+		//medium:{required:true},
+		installment:{required:true},
+	},
+});
 
-$(document).on('click','#search',function(){
+
+$(document).on('change','#search_box',function(){
+	var formvalid = $('#class_wise_fee_details').valid();
 	var session = $('#session').val();
 	var school = $('#school').val();
 	var medium = $('#medium').val();
 	var class_id = $('#class_name').val();
 	var installment = $('#installment').val();
 	var pay_status = $('#pay_status').val();
-
-	studentList(session,school,medium,class_id,installment,pay_status);		
+	var search_box = $('#search_box').val();
+	if(formvalid){
+		studentList(session,school,medium,class_id,installment,pay_status,search_box);
+	}
 });
 
-function studentList(session,school,medium,class_id,installment,pay_status){
+$(document).on('click','#search',function(){
+	var formvalid = $('#class_wise_fee_details').valid();
+	var session = $('#session').val();
+	var school = $('#school').val();
+	var medium = $('#medium').val();
+	var installment = $('#installment').val();
+	var class_id = '';
+	var pay_status = '';
+	var search_box = '';
+	if(formvalid){
+		studentList(session,school,medium,class_id,installment,pay_status,search_box);
+	}
+});
+
+function studentList(session,school,medium,class_id,installment,pay_status,search_box){
 	$.ajax({
 		type:'POST',
 		url:baseUrl+'hostel/Hostel_students_ctrl/studentPrintList',
-		data:{'session':session,'school':school,'medium':medium,'class_id':class_id,'installment':installment,'pay_status':pay_status},
+		data:{'session':session,'school':school,'medium':medium,'class_id':class_id,'installment':installment,'pay_status':pay_status,search_box},
 		dataType:'json',
 		beforeSend:function(){},
 		success:function(response){
 			if(response.status == 200){
 				var x='';
-// 				 var school_name = $("#school option:selected").text();
-// 				 if($('#medium').val() != ''){
-// 					 var medium_name = $("#medium option:selected").text();
-// 				 }else{
-// 					var medium_name = '';
-// 				 }
-				 
 				 var installment_name = $("#installment option:selected").text();
-
 			     var titleMsg = 'Student List of Shakuntala Gurukul '+installment_name;
-			     $('#title').html(titleMsg); 
 
-				var grand_total = 0;
-				var paid_total = 0;
-				var gst_total = 0;
-				$.each(response.data,function(key,value){
+			     $('#title').html(titleMsg); 
+				 var grand_total = 0;
+				 var paid_total = 0;
+				 var gst_total = 0;
+				 $.each(response.data,function(key,value){
 					grand_total += parseFloat(value.total_fee);
 					paid_total += parseFloat(value.paid_fee);
 					gst_total +=parseFloat(value.paid_gst);

@@ -156,7 +156,76 @@ class Marks_entry_model extends CI_Model{
         }
     }
     
-    public function marks_csv_import($data){
+    
+    function CompartmentMarksEntry($data,$final){
+        $this->db->trans_begin();
+        
+        $this->db->select('cmm_id');
+        if(!empty($data['sg_id'])){
+            $this->db->where('sg_id',$data['sg_id']);
+        }
+        $check_result = $this->db->get_where('compartment_marks_master',array('ses_id'=>$data['ses_id'],
+            'sch_id'=>$data['sch_id'],
+            'et_id'=>$data['et_id'],
+            'med_id'=>$data['med_id'],
+            'class_id'=>$data['class_id'],
+            'sec_id'=>$data['sec_id'],
+            'st_id'=>$data['st_id'],
+            'sub_id'=>$data['sub_id']
+        ))->result_array();
+        
+        if(count($check_result) > 0){
+            $this->db->where(array('ses_id'=>$data['ses_id'],
+                'sch_id'=>$data['sch_id'],
+                'et_id'=>$data['et_id'],
+                'med_id'=>$data['med_id'],
+                'class_id'=>$data['class_id'],
+                'sec_id'=>$data['sec_id'],
+                'st_id'=>$data['st_id'],
+                'sub_id'=>$data['sub_id']));
+            $this->db->update('compartment_marks_master',array('status'=>0));
+            
+            
+            $this->db->insert('compartment_marks_master',$data);
+            
+            $cmm_id = $this->db->insert_id();
+            
+            $com_marks = [];
+            foreach($final as $key => $fnl){
+                $com_marks[] = $fnl;
+                $com_marks[$key]['cmm_id'] = $cmm_id;
+                $com_marks[$key]['created_by'] = $this->session->userdata('user_id');
+                $com_marks[$key]['created_at'] = date('Y-m-d H:i:s');
+            }
+            
+            $this->db->insert_batch('compartment_student_marks',$com_marks);
+            
+        }else{
+            $this->db->insert('compartment_marks_master',$data);
+            
+            $cmm_id = $this->db->insert_id();
+            
+            $com_marks = [];
+            foreach($final as $key => $fnl){
+                $com_marks[] = $fnl;
+                $com_marks[$key]['cmm_id'] = $cmm_id;
+                $com_marks[$key]['created_by'] = $this->session->userdata('user_id');
+                $com_marks[$key]['created_at'] = date('Y-m-d H:i:s');
+            }
+            $this->db->insert_batch('compartment_student_marks',$com_marks);
+        }
+        
+        if ($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+        }else{
+            $this->db->trans_commit();
+            return true;
+        }
+    }
+    
+    
+    function marks_csv_import($data){
         $this->db->select('std_id,adm_no,roll_no');
         if(!empty($data['sub_group'])){
             $this->db->where('sub_group',$data['sub_group']);

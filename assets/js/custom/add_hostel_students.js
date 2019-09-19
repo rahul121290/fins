@@ -50,6 +50,18 @@ $(document).ready(function(){
 					
 					$('#std_image_preview').html('<img style="border:1px solid #ddd;width:120px;height:120px;margin-bottom:20px;" src="'+response.img_path+response.data[0].photo+'" />');
 					$('#admission_no_err').css('display','none');
+					
+					$('#f_contact_no').val(response.data[0].f_contact_no);
+					$('#m_contact_no').val(response.data[0].m_contact_no);
+					$('#guardian_name').val(response.data[0].guardian_name);
+					$('#local_address').val(response.data[0].local_address);
+					$('#guardian_pin_code').val(response.data[0].guardian_pin_code);
+					$('#g_contact_no').val(response.data[0].guardian_contact_no);
+					$('#preSchool').val(response.data[0].previous_school);
+					$('#preClass').val(response.data[0].class_passed);
+					$('#per_of_marks').val(response.data[0].per_of_marks);
+					$('#f_acc_no').val(response.data[0].father_acc_no);
+					$('#std_acc_no').val(response.data[0].std_acc_no);
 				}else{
 					$('#admission_no_err').html(response.msg).css('display','block');
 					$('#student_name').val('');
@@ -68,6 +80,18 @@ $(document).ready(function(){
 					$('#aadhaar').val('');
 					$('#address').val('');
 					$('#contact_no').val('');
+					
+					$('#f_contact_no').val('');
+					$('#m_contact_no').val('');
+					$('#guardian_name').val('');
+					$('#local_address').val('');
+					$('#guardian_pin_code').val('');
+					$('#g_contact_no').val('');
+					$('#preSchool').val('');
+					$('#preClass').val('');
+					$('#per_of_marks').val('');
+					$('#f_acc_no').val('');
+					$('#std_acc_no').val('');
 				}
 			},
 		});

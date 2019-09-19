@@ -43,7 +43,7 @@ function getReceiptData(){
 				var total_gst =parseFloat(parseFloat(cgst_charge) +  parseFloat(cgst_charge)).toFixed(2);
 				var x='<table class="table h-hostel-bil-table">'+
 					'<tbody>'+
-				'<tr><td><b>Bill No.</b></td><td>: SG/19-20/ 073</td><td><b>Bill Date</b></td><td>: '+response.data[0].receipt_no+'</td></tr>'+
+				'<tr><td><b>Bill No.</b></td><td>: '+response.data[0].receipt_no+'</td><td><b>Bill Date</b></td><td>: '+response.data[0].pay_date+'</td></tr>'+
 				'<tr><td><b>Student Name</b></td><td>: '+response.data[0].name+'</td><td><b>Class</b></td><td>: '+response.data[0].class_name+'/'+response.data[0].section_name+'</td></tr>'+
 				'<tr><td><b>Board</b></td><td>: '+response.data[0].school_name+'</td><td><b>GST No.</b></td><td>: 22ADWFS8751K1Z9</td></tr>'+
 			'</tbody>'+

@@ -25,7 +25,8 @@ class Hostel_students_ctrl extends CI_Controller {
         $path = base_url().'assets/images/'.$school.'/students/';
         
         $this->db->select('*');
-        $result = $this->db->get_where('students',array('ses_id'=>$data['session'],'sch_id'=>$data['school'],'adm_no'=>$data['admission_no'],'status'=>1))->result_array();
+        $this->db->join('hostel_students hs','hs.adm_no = s.adm_no AND hs.ses_id = s.ses_id AND hs.sch_id = s.sch_id AND hs.med_id = s.medium AND hs.status = 1','LEFT');
+        $result = $this->db->get_where('students s',array('s.ses_id'=>$data['session'],'s.sch_id'=>$data['school'],'s.adm_no'=>$data['admission_no'],'s.status'=>1))->result_array();
 		//print_r($this->db->last_query());die;
         if(count($result) > 0){
             echo json_encode(array('data'=>$result,'img_path'=>$path,'status'=>200));
@@ -312,6 +313,7 @@ class Hostel_students_ctrl extends CI_Controller {
         $data['class_id'] = $this->input->post('class_id');
         $data['hostel'] = $this->input->post('hostel');
         $data['student_status'] = $this->input->post('student_status');
+        $data['search_box'] = $this->input->post('search_box');
         
         
         $condition = 's.status = 1';
@@ -332,6 +334,9 @@ class Hostel_students_ctrl extends CI_Controller {
         }
         if($data['student_status']){
             $condition .= ' AND hs.std_status = "'.$data['student_status'].'"';
+        }
+        if($data['search_box']){
+            $condition .= ' AND (s.adm_no = "'.$data['search_box'].'" OR s.name LIKE "'.$data['search_box'].'%")';
         }
         
         $this->db->select('s.ses_id,s.sch_id,s.adm_no,s.name,s.f_name,s.contact_no,IFNULL(hs.f_contact_no,"") f_contact_no,IFNULL(hs.m_contact_no,"") m_contact_no,
@@ -369,7 +374,7 @@ class Hostel_students_ctrl extends CI_Controller {
         $data['class_id'] = $this->input->post('class_id');
         $data['installment'] = $this->input->post('installment');
         $data['pay_status'] = $this->input->post('pay_status');
-        
+        $data['search_box'] = $this->input->post('search_box');
         $condition = 's.status = 1';
         if($data['session']){
             $condition .= ' AND s.ses_id = '.$data['session'];
@@ -384,12 +389,16 @@ class Hostel_students_ctrl extends CI_Controller {
             $condition .= ' AND s.class_id = '.$data['class_id'];
         }
         
+        if($data['search_box']){
+            $condition .= ' AND (s.adm_no = "'.$data['search_box'].'" OR s.name LIKE "'.$data['search_box'].'%")';
+        }
+        
         if($data['pay_status'] == 1){
             $condition .= ' AND hfp.hfp_id IS NOT NULL';
         }else if($data['pay_status'] == 0 && $data['pay_status'] != ''){
             $condition .= ' AND hfp.hfp_id IS NULL';
         }
-        
+       
         if($data['installment']){
             $condition1 = ' AND hfp.installment = '.$data['installment'];
         }
@@ -405,7 +414,7 @@ class Hostel_students_ctrl extends CI_Controller {
         $this->db->join('hostel_fee_structure hfs','hfs.ses_id = hs.ses_id AND hfs.sch_id = hs.sch_id AND hfs.student_status = hs.std_status');
         $this->db->join('school sch','sch.sch_id=s.sch_id');
         $this->db->join('class c','c.c_id = s.class_id');
-        $this->db->join('section sec','sec.sec_id = s.sec_id');
+        $this->db->join('section sec','sec.sec_id = s.sec_id','LEFT');
         $this->db->where($condition);
         if($data['installment'] == 3){
             $this->db->where('hfp.installment',$data['installment']);
@@ -424,7 +433,7 @@ class Hostel_students_ctrl extends CI_Controller {
     
     function fee_receipt(){
         $receipt_no = $this->input->post('receipt_no');    
-        $this->db->select('*,IFNULL(sec.section_name,"") section_name');
+        $this->db->select('*,DATE_FORMAT(hfp.pay_date,"%d-%m-%Y") pay_date,IFNULL(sec.section_name,"") section_name');
         $this->db->join('students s','s.adm_no = hfp.adm_no AND s.ses_id = hfp.ses_id AND s.sch_id = hfp.sch_id AND s.status = 1');
         $this->db->join('school sch','sch.sch_id=s.sch_id');
         $this->db->join('class c','c.c_id = s.class_id');
