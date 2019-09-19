@@ -87,7 +87,7 @@ class Generate_fee_ctrl extends CI_Controller {
         $this->db->where($condition);
         $this->db->group_by('s.adm_no');
         $this->db->order_by('s.class_id');
-        $result = $this->db->get_where('students s',array('s.adm_no'=>4071))->result_array();
+        $result = $this->db->get_where('students s')->result_array();
        //print_r($this->db->last_query());die;
         $final = [];
         if(count($result) > 0){
@@ -145,7 +145,7 @@ class Generate_fee_ctrl extends CI_Controller {
         }
         else{
             $this->db->trans_commit();
-            echo json_encode(array('msg'=>'Insert successfully','status'=>200));
+            echo json_encode(array('msg'=>'Students Fee Generated!','status'=>200));
         }
     }
  
