@@ -1,5 +1,6 @@
 <div class="content-wrapper">
 <section class="content-header">
+	<LINK src="">
       <h1>Student Classwise Fee</h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
@@ -105,7 +106,7 @@
     		</form>	
 		</div><!-- end box body -->
 		
-		 <div class="box-body form-horizontal">
+		 <div class="box-body form-horizontal row">
             <div class="col-sm-3 mb-3">
     			<input type="text" id="search_box" name="search_box" class="form-control" placeholder="Enter Adm No / Student Name" />
     			<div id="seach_box_err" style="display:none; color:red;"></div>
