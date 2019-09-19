@@ -5,7 +5,7 @@ class Generate_fee_ctrl extends CI_Controller {
     function __construct(){
         parent :: __construct();
         $this->load->library('My_function');
-        //$this->server = $this->load->database('server',true);
+        $this->server = $this->load->database('server',true);
     }
     
     function generate_fee(){
@@ -66,13 +66,13 @@ class Generate_fee_ctrl extends CI_Controller {
         }
         
         $this->db->trans_begin();
-//         $this->server->select('*');
-//         $this->server->limit(1);
-//         $check = $this->server->get_where('student_fee',array('status'=>1,'ses_id'=>$ses_id,'sch_id'=>$sch_id,'month_ids'=>$fee_month))->result_array();
-//         if(count($check) > 0){
-//             echo json_encode(array('msg'=>'Already generated fee','status'=>500));
-//             die;
-//         }else{
+        $this->server->select('*');
+        $this->server->limit(1);
+        $check = $this->server->get_where('student_fee',array('status'=>1,'ses_id'=>$ses_id,'sch_id'=>$sch_id,'month_ids'=>$fee_month))->result_array();
+        if(count($check) > 0){
+            echo json_encode(array('msg'=>'Already generated fee','status'=>500));
+            die;
+        }else{
         $this->db->select('s.ses_id,s.sch_id,s.medium,s.class_id,s.sec_id,s.adm_no,IFNULL(s.bus_id,"NULL") bus_id,IFNULL(s.bus,"No") bus,
                 MAX(IF(ft.ft_id = 1, cfs.amount, 0)) as admission_fee,
                 MAX(IF(ft.ft_id = 2, cfs.amount, 0)) as amalgamated_fund,
@@ -138,7 +138,7 @@ class Generate_fee_ctrl extends CI_Controller {
             echo json_encode(array('msg'=>'Record not found. fee structure not generated','status'=>500));
             die;
             }
-        //}
+        }
         if ($this->db->trans_status() === FALSE){
             $this->db->trans_rollback();
             echo json_encode(array('msg'=>'Something Error.','status'=>500));
