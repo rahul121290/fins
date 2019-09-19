@@ -188,7 +188,7 @@ $(document).ready(function(){
 						                     '</div>'+
 						                  '</div>'+
 						               '</div>'+
-						               '<div class="col-md-2 p-student-photo"><img class="student-photo" src="'+response.imageUrl+'/'+value.photo+'?'+Math.random()+'"></div>'+
+						               '<div class="col-md-2 p-student-photo"><img class="student-photo" src="'+base_url+response.imageUrl+'/'+value.photo+'?'+Math.random()+'"></div>'+
 						            '</div>'+
 						            '<div class="results-information p-results-information-a col-md-8">'+
 						               '<div class="academic-result-t"><b>ACADEMIC PERFORMANCE (Scholastic Areas)</b></div>'+
