@@ -311,12 +311,10 @@ class Hostel_students_ctrl extends CI_Controller {
         $data['school'] = $this->input->post('school');
         $data['medium'] = $this->input->post('medium');
         $data['class_id'] = $this->input->post('class_id');
-        $data['hostel'] = $this->input->post('hostel');
         $data['student_status'] = $this->input->post('student_status');
         $data['search_box'] = $this->input->post('search_box');
         
-        
-        $condition = 's.status = 1';
+        $condition = 's.status = 1 AND s.hostler = "Yes"';
         if($data['session']){
             $condition .= ' AND s.ses_id = '.$data['session'];
         }
@@ -328,9 +326,6 @@ class Hostel_students_ctrl extends CI_Controller {
         }
         if($data['class_id']){
             $condition .= ' AND s.class_id = '.$data['class_id'];
-        }
-        if($data['hostel']){
-            $condition .= ' AND s.hostler = "'.$data['hostel'].'"';
         }
         if($data['student_status']){
             $condition .= ' AND hs.std_status = "'.$data['student_status'].'"';
@@ -433,7 +428,7 @@ class Hostel_students_ctrl extends CI_Controller {
     
     function fee_receipt(){
         $receipt_no = $this->input->post('receipt_no');    
-        $this->db->select('*,DATE_FORMAT(hfp.pay_date,"%d-%m-%Y") pay_date,IFNULL(sec.section_name,"") section_name');
+        $this->db->select('*,DATE_FORMAT(hfp.pay_date,"%d-%M-%Y") pay_date,IFNULL(sec.section_name,"") section_name');
         $this->db->join('students s','s.adm_no = hfp.adm_no AND s.ses_id = hfp.ses_id AND s.sch_id = hfp.sch_id AND s.status = 1');
         $this->db->join('school sch','sch.sch_id=s.sch_id');
         $this->db->join('class c','c.c_id = s.class_id');
