@@ -117,7 +117,8 @@ $(document).ready(function(){
 						            '<div class="col-md-6 p-logo-sec text-center">'+
 						               '<div class="p-school-name-sec">'+
 						                  '<h2>'+response.result.org_details.school[0].school_name+'</h2>'+
-						                  '<p>Affiliated to CBSE, New Delhi No. '+response.result.org_details.school[0].affiliation_no+' | School No.: '+response.result.org_details.school[0].school_no+'<br>English &amp; Hindi Medium Senior Secondary School, <br>'+response.result.org_details.school[0].address+'</p>'+
+						                  '<p>Affiliated to CBSE, New Delhi No. '+response.result.org_details.school[0].affiliation_no+' | School No.: '+response.result.org_details.school[0].school_no+'<br>English &amp; Hindi Medium Senior Secondary School, '+response.result.org_details.school[0].address+'</p>'+
+										  '<b style="font-size: 12px;margin-top: -8px;float: left;margin-left: 2px;text-align:center;width:100%;">Mid Term Report Card 2019-20</b>'+
 						               '</div>'+
 						            '</div>'+
 						            '<div class="col-md-3 p-school-logo"><img class="p-logo pull-right" src="'+base_url+'assets/images/'+response.result.org_details.school[0].school_image+'"></div>'+
@@ -191,7 +192,7 @@ $(document).ready(function(){
 						               '<div class="col-md-2 p-student-photo"><img class="student-photo" src="'+base_url+response.imageUrl+'/'+value.photo+'?'+Math.random()+'"></div>'+
 						            '</div>'+
 						            '<div class="results-information p-results-information-a col-md-8">'+
-						               '<div class="academic-result-t"><b>ACADEMIC PERFORMANCE (Scholastic Areas)</b></div>'+
+									   '<div style="padding-left:2px !important;" class="academic-result-t"><b>ACADEMIC PERFORMANCE (Scholastic Areas)</b></div>'+
 						               '<table class="table">'+
 						                  '<thead>'+
 						                     '<tr>'+
@@ -428,13 +429,12 @@ $(document).ready(function(){
 						                     '</tr>'; 
 							              });
 						                  x=x+'</tbody>'+
-						               '</table>'+
-						            '</div>'+
-						         '</div>';
-						                  
-						         //----------class 9th and 10th extra subjects--------------------------
+						               '</table>';
+									     
+						            
+						          //----------class 9th and 10th extra subjects--------------------------
 								if(class_name == 12 || class_name == 13){
-	    							x=x+'<div class="results-information p-results-information-a col-md-8">'+
+	    							x=x+'<div class="results-information">'+
 	    					            '<div class="academic-result-t"><b>Computer Application</b></div>'+
 	    					            '<table class="table">'+
 	    					               '<thead>'+
@@ -456,15 +456,17 @@ $(document).ready(function(){
 	    					            '</table>'+
 	    					         '</div>';	
 								}
-								//---------------end of extra subjects show--------------------------
+								//---------------end of extra subjects show-------------------------- 
+						       x=x+'</div>'+
+						         '</div>';
 								
-						         x=x+'<div class="modal-footer p-footer-sec" style="margin-top:15px;border-top:0px solid #eee;">'+
+						         x=x+'<div class="modal-footer p-footer-sec" style="margin-top:0px;border-top:0px solid #eee;">'+
 						            '<div class="col-md-2 p-place-date"><b>Bhilai </b>'+currentDate+'</div>'+
 						            '<div class="col-md-2 col-md-offset-2 p-techer-sign"><b>Signature of Class Teacher </b></div>'+
 						            //'<div class="col-md-2 col-md-offset-4 p-techer-sign"><b>Class Teacher </b></div>'+
 						            //'<div class="col-md-2 col-md-offset-4 p-techer-sign"><b>Exam I/C </b></div>'+
 						            '<div class="col-md-2 col-md-offset-1 p-school-seal"><b>Seal of the School</b></div>'+
-						            '<div class="col-md-2 col-md-offset-1 text-center p-princi-sign"><img class="principle-sign" src="'+ base_url +'assets/images/'+response.result.org_details.school[0].principal_sign+'"><br>('+response.result.org_details.school[0].principal_name+')<br><b>Principal</b></div>'+
+						            '<div style="margin-top:-21px;" class="col-md-2 col-md-offset-1 text-center p-princi-sign"><img class="principle-sign" src="'+ base_url +'assets/images/'+response.result.org_details.school[0].principal_sign+'"><br>('+response.result.org_details.school[0].principal_name+')<br><b>Principal</b></div>'+
 						         '</div>'+
 						      '</div>';
 							});
