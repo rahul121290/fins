@@ -76,6 +76,7 @@ $(document).ready(function(){
 //					}
 					//--------------month fee-----------------------------------
 					var m ='';
+					var i = 1;
 					if(response.data.fee_month.length > 0){
 						$.each(response.data.fee_month,function(key,value){
 							var tution_and_bus_fee = parseFloat(parseFloat(value.fee)+parseFloat(value.bus_fee));
@@ -94,7 +95,7 @@ $(document).ready(function(){
 							}
 							
 							m=m+'<tr>'+
-								'<td class="pm-box"><input type="checkbox" '+check_box+' data-tution_fee="'+value.fee+'" data-bus_fee="'+value.bus_fee+'"  data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
+								'<td class="pm-box"><input type="checkbox" '+check_box+' data-tution_fee="'+value.fee+'" data-bus_fee="'+value.bus_fee+'"  data-month_id="'+value.fm_id+'" data-late_fee="'+value.late_fee+'" id="'+parseInt(i++)+'" value="'+tution_and_bus_fee+'" class="tution_fee month_fee_count fee_total" /> <span class="checkmark"></span></td>'+
 								'<td>'+value.name+'</td>'+
 								'<td>'+value.fee.toFixed(2)+'</td>'+
 								'<td>'+value.bus_fee.toFixed(2)+'</td>'+
@@ -143,7 +144,14 @@ $(document).ready(function(){
 			var main_amount = parseFloat(parseFloat(session_fee) + parseFloat(total_month_bus_fee));  
 			$('#fee_total').val(main_amount.toFixed(2));
 			
-			$('#discount_amount').html('5% Discount amount of Tuition Fee: <b>'+parseFloat(discount_five_per).toFixed(2)+'</b>').css('display','block');
+			var trns_charge = $('#trns_charge').val();
+			if(trns_charge == ''){
+				trns_charge = 0;
+			}
+			var grand_total = parseFloat(parseFloat(main_amount)+parseFloat(trns_charge));
+			$('#grand_total').val(grand_total.toFixed(2));
+			
+			$('#discount_amount').html('Discounted amount on all tuition fee payment: <b>'+parseFloat(discount_five_per).toFixed(2)+'</b>').css('display','block');
 			$('.month_fee_count').prop('disabled',true);
 			$('.month_fee_count').prop('checked',true);
 		}else{
@@ -156,7 +164,6 @@ $(document).ready(function(){
 					$(this).prop('disabled',false);
 				}
 				
-				
 				all_month_fee += $(this).data('tution_fee');
 				all_bus_fee += $(this).data('bus_fee');
 			});
@@ -168,6 +175,13 @@ $(document).ready(function(){
 			var fee_total = $('#fee_total').val();
 			var main_amount = parseFloat(parseFloat(fee_total) - parseFloat(total_month_bus_fee));  
 			$('#fee_total').val(main_amount.toFixed(2));
+			
+			var trns_charge = $('#trns_charge').val();
+			if(trns_charge == ''){
+				trns_charge = 0;
+			}
+			var grand_total = parseFloat(parseFloat(main_amount)+parseFloat(trns_charge));
+			$('#grand_total').val(grand_total.toFixed(2));
 			
 			$('#discount_amount').css('display','none');
 			$('.month_fee_count').prop('checked',false);
@@ -219,7 +233,7 @@ $(document).ready(function(){
 				success:function(response){
 					if(response.status == 200){
 						$('#loader').modal('hide');
-						alert('OTP Send in Director Mobile number');
+						alert('OTP has been successfully sent to Director Sir.');
 						$('#fee_waiver_amount').prop('disabled',true);
 						$('#fee_waiver_apply').prop('disabled',true);
 						$('#fee_waiver_remark').prop('disabled',true);
@@ -328,6 +342,31 @@ $(document).ready(function(){
 	
     //-------------calculate fee-----------------------------
 	$(document).on('click','.fee_total',function(){
+		var month_id = parseInt($(this).attr('id'));
+		var i;
+		for (i = 0; i < month_id; i++) {
+			  if($('#'+i).prop('checked') == false){
+				  $(this).prop('checked',false);
+				  alert('Please select previous month unpaid fee');
+				  return false;
+			  }
+		}
+		var previous = parseInt(parseInt(month_id) - parseInt(1));
+		var next = parseInt(parseInt(month_id) + parseInt(1));
+		
+		if(parseInt(month_id) == 1 && $('#'+next).prop('checked') == true){
+			$(this).prop('checked',true);
+			  alert('Invalid operation, Please remove last selected fee month');
+			  return false
+		}
+		else if(parseInt(month_id) > 1 && $('#'+previous).prop('checked') == true && $('#'+next).prop('checked') == true){
+			$(this).prop('checked',true);
+			  alert('Can\'t Remove');
+			  return false
+		}
+		
+		
+		
 		if($(this).prop("checked") == true){
 			var main_fee = $(this).val();
 			var late_fee = $(this).data('late_fee');
@@ -528,8 +567,8 @@ $(document).ready(function(){
 	  	if(parseFloat(val) == parseFloat(max)){
 	  		$('#pay_method_amount').html('Currect amount <b>' +parseFloat(val)+'</b>');
 	  	}
-	  	
 	});
+	
 //-----------------submit-----------------------------
 	$(document).on('click','#submit',function(){
 		var ses_id = $('#ses_id').val();
