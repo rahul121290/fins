@@ -185,6 +185,7 @@ class Admin_ctrl extends CI_Controller {
         $this->_load_view();
     }
 
+    
     function session_master(){
         if(in_array(1, $this->permission)){
             $this->data['page_name'] = 'Session Master';
@@ -328,6 +329,17 @@ class Admin_ctrl extends CI_Controller {
             $this->data['fee_criteria'] = $this->db->get_where('fee_criteria',array('status'=>1))->result_array();
             $this->data['staff_child'] = $this->db->get_where('staff_child',array('status'=>1))->result_array();
             
+            $this->_admin_class_teacher_access();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->data['main'] = 'error_page';
+        }
+    }
+    
+    function academic_report(){
+        if(in_array(35, $this->permission)){
+            $this->data['page_name'] = 'Academic Report';
+            $this->data['main'] = 'report/academic_report';
             $this->_admin_class_teacher_access();
         }else{
             $this->data['page_name'] = 'Error';
