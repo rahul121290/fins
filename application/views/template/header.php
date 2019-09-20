@@ -224,6 +224,33 @@ $permission = $this->my_function->user_permission();
     					</li>
 					<?php } ?>
 					
+					<?php if(in_array(36, $permission)){ ?>
+    					<li class="dropdown">
+        				<a class="dropdown-toggle" data-toggle="dropdown"  href="#">PAYROLL MASTER<span class="caret"></span></a>
+        				<ul class="dropdown-menu">
+        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/payroll-master/payroll-master-entry"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Payroll Master Entry</a></li>
+        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/payroll-master/new-employee-payroll"><i class="fa fa-user text-blue" aria-hidden="true"></i>New Employee Payroll</a></li>
+        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/payroll-master/employee-salary-records"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Employee Salary Records </a></li>
+        					
+        				</ul>
+        			</li>
+        			<li class="dropdown">
+        				<a class="dropdown-toggle" data-toggle="dropdown"  href="#">SALARY<span class="caret"></span></a>
+        				<ul class="dropdown-menu">
+        					
+        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/salary/salary-data-entry"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Salary Data Entry</a></li>
+        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/salary/salary-generation"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Salary Generation</a></li>
+        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/salary/salary-history"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Salary History</a></li>
+        				</ul>
+        			</li>
+        			<li class="dropdown">
+        				<a class="dropdown-toggle" data-toggle="dropdown"  href="#">REPORT<span class="caret"></span></a>
+        				<ul class="dropdown-menu">
+        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/salary-data-sheet"> <i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Salary Data Sheet</a></li>
+        				</ul>
+        			</li>
+					
+					<?php } ?>
 					
 					<?php if(in_array(24, $permission)){ ?>
 						<li class="dropdown"><a href="<?php echo base_url();?>Backup_ctrl">BackUp</a></li>

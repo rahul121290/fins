@@ -984,6 +984,88 @@ class Admin_ctrl extends CI_Controller {
     }
     
     
+    //----------------------------payroll---------------------------------
+    
+    function payroll_master_entry(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Payroll Master Entry';
+            $this->data['main'] = 'payroll/payroll_master_entry';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function new_employee_payroll(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Payroll Master Entry';
+            $this->data['main'] = 'payroll/payroll_new_employee';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function employee_salary_records(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Payroll Master Entry';
+            $this->data['main'] = 'payroll/payroll_employee_records';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function salary_data_entry(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Payroll Master Entry';
+            $this->data['main'] = 'payroll/payroll_data_entry';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function salary_generation(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Payroll Master Entry';
+            $this->data['main'] = 'payroll/payroll_salary_generation';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function salary_history(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Payroll Master Entry';
+            $this->data['main'] = 'payroll/payroll_salary_history';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function salary_data_sheet(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Salary Data Sheet';
+            $this->data['main'] = 'payroll/payroll_salary_sheet';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    
+    
+    
     function error_page(){
         $this->data['page_name'] = 'Error';
         $this->load->view("error_page", $this->data);
