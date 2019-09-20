@@ -30,12 +30,11 @@
 					</div>
 					<div class="col-sm-2 mb-3">
 						<select name="school" id="school" class="form-control">
-							<option value="">Select Board</option>
 							<?php if($this->session->userdata('school_id') == 1){?>
-							<option value="1" selected>Shakuntala CBSE</option>
-							<option value="3">CG State Board</option>
-							<?php }else{?>
-							<option value="2" selected>Sharda</option>
+							<option value="1" selected>CBSE</option>
+							<option value="3">CG Board</option>
+							<?php }else if($this->session->userdata('school_id') == 2){?>
+							<option value="2" selected>CBSE</option>
 							<?php } ?>
 						</select>
 						<div id="school_err" style="display:none; color:red;"></div>

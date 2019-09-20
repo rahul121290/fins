@@ -101,8 +101,12 @@
 						<div class="col-sm-6">
 							<select class="form-control" name="school" id="school">
 								<option value="">Select Board</option>
+								<?php if($this->session->userdata('school_id') == 1){?>
 								<option value="1">CBSE</option>
 								<option value="3">CG State Board</option>
+								<?php } else if($this->session->userdata('school_id') == 2){?>
+								<option value="2">CBSE</option>
+								<?php }?>
 							</select>
 							<div id="school_err" class="text-danger" style="display:none;"></div>
 						</div>

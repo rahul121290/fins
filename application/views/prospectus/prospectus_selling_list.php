@@ -17,9 +17,12 @@
 			<div class="col-sm-2">
 						<div class="form-group">
 							<select class="form-control" name="seach_school" id="seach_school">
-								<option value="">Select Board</option>
+								<?php if($this->session->userdata('school_id') == 1){?>
 								<option value="1" selected>CBSE</option>
 								<option value="3">State Board</option>
+								<?php } else if($this->session->userdata('school_id') == 2){?>
+								<option value="2" selected>CBSE</option>
+								<?php }?>
 							</select>
 							<div id="seach_school_err" class="text-danger" style="display:none;"></div>
 						</div>

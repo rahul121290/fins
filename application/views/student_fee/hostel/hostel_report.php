@@ -32,11 +32,11 @@
 						<label>Select Board</label>
 						<select name="school" id="school" class="form-control">
 							<option value="">Select Board</option>
-							<?php if($this->session->userdata('school_id')){?>
-							<option value="1" selected>Shakuntala CBSE</option>
+							<?php if($this->session->userdata('school_id') == 1){?>
+							<option value="1" selected>CBSE</option>
 							<option value="3">CG State Board</option>
-							<?php }else{?>
-							<option value="2">Sharda</option>
+							<?php }else if($this->session->userdata('school_id') == 2){?>
+							<option value="2" selected>CBSE</option>
 							<?php } ?>
 						</select>
 						<div id="school_err" style="display:none; color:red;"></div>

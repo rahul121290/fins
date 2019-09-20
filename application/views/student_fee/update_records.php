@@ -26,9 +26,13 @@
           			<div class="form-group" style="margin-bottom:0px;">
 						<div class="col-sm-2 mb-3">
 							<select name="school" id="school" class="form-control">
-								<option value="">Select Board</option>
-								<option value="1" selected>CBSE</option>
-								<option value="3">CG State Board</option>
+								<?php if($this->session->userdata('school_id') == 1){?>
+    							<option value="">Select Board</option>
+    							<option value="1" selected>Shakuntala CBSE</option>
+    							<option value="3">CG State Board</option>
+    							<?php }else if($this->session->userdata('school_id') == 2){?>
+    							<option value="2" selected>CBSE</option>
+    							<?php }?>
 							</select>
 							<div id="school_err" style="display:none; color:red;"></div>
 						</div>
@@ -257,6 +261,16 @@
 var baseUrl = $('#base_url').val();
 
 
+$(document).on('click','#search',function(){
+	var school = $('#school').val();
+	var medium = $('#medium').val();
+	var class_name = $('#class_name').val();
+	var section = $('#section').val();
+	var search_box = '';
+	list(school,medium,class_name,section,search_box);	
+});
+
+
 $(document).on('change','#search_box',function(){
 	var school = $('#school').val();
 	var medium = $('#medium').val();
@@ -264,29 +278,6 @@ $(document).on('change','#search_box',function(){
 	var section = $('#section').val();
 	var search_box = $(this).val();
 	list(school,medium,class_name,section,search_box);
-});
-
-
-
-$('#update_details').validate({
-	rules:{
-		school:{required:true},
-		medium:{required:true},
-		class_name:{required:true},
-		section:{required:true},
-	},
-});
-
-$(document).on('click','#search',function(){
-	var formvalidate = $('#update_details').valid();
-	if(formvalidate){
-		var school = $('#school').val();
-		var medium = $('#medium').val();
-		var class_name = $('#class_name').val();
-		var section = $('#section').val();
-		var search_box = '';
-		list(school,medium,class_name,section,search_box);
-	}		
 });
 
 function list(school,medium,class_name,section,search_box){

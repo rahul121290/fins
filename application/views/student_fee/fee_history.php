@@ -80,10 +80,13 @@
 					</div>
 					<div class="col-sm-2 mb-3">
 						<select name="school" id="school" class="form-control">
+							<?php if($this->session->userdata('school_id') == 1){?>
 							<option value="">Select Board</option>
 							<option value="1" selected>Shakuntala CBSE</option>
 							<option value="3">CG State Board</option>
-							<option value="2">Sharda CBSE</option>
+							<?php }else if($this->session->userdata('school_id') == 2){?>
+							<option value="2" selected>CBSE</option>
+							<?php }?>
 						</select>
 						<div id="school_err" style="display:none; color:red;"></div>
 					</div>
