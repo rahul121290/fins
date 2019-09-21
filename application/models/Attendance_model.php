@@ -3,8 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Attendance_model extends CI_Model{
     
     public function class_attendance($data){
-        $final = array();
+        
         foreach($data['class_name'] as $class){
+            
             $temp = array();
             $temp['ses_id'] = $data['session'];
             $temp['sch_id'] = $data['school'];
@@ -14,10 +15,24 @@ class Attendance_model extends CI_Model{
             $temp['total_days'] = $data['class_attendace'];
             $temp['created_by'] = $this->session->userdata('user_id');
             $temp['created_at'] = date('Y-m-d H:i:s');
-            $final[] = $temp;
+            
+            $this->db->select('*');
+            $this->db->where(array('ses_id'=>$data['session'],
+                'sch_id'=>$data['school'],
+                'med_id'=>$data['medium'],
+                'et_id'=>$data['exam_type'],
+                'class_id'=>$class
+            ));
+            $check = $this->db->get_where('attendance_master')->result_array();
+            
+            if(count($check) > 0){
+                $this->db->where('am_id',$check[0]['am_id']);
+                $this->db->update('attendance_master',$temp);
+            }else{
+                $this->db->insert('attendance_master',$temp);
+            }
         }
-         $this->db->insert_batch('attendance_master',$final);
-         
+        
          //-----------log report---------------
          $event = 'Add Attendance Master';
          $user = $this->session->userdata('user_id');
