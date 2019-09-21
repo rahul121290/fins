@@ -244,7 +244,7 @@ $(document).ready(function(){
 									 //---------------notebook marks & enrichment marks-----------------------
 										if(class_name < 12){
 											if(exam_type == 2 || exam_type == 4){
-												if(sub_type = 1){
+												if(sub_type == 1){
 													//---------remove------------
 													$('#portfolio').css('display','none');
 													$('#multiple_assessment').css('display','none');

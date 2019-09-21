@@ -486,13 +486,13 @@ class Production_ctrl extends CI_Controller{
                             $temp['pre_mid_percentage'] = round((($premarks['percentage'] + $midmarks['percentage']) / 2),2) ;
                             if($temp['pre_mid_percentage'] >= 90){
                                 $temp['performance'] = 'Excellent';
-                            }else if($temp['pre_mid_percentage'] >= 80 && $temp['pre_mid_percentage'] <= 89){
+                            }else if($temp['pre_mid_percentage'] >= 80 && $temp['pre_mid_percentage'] < 90){
                                 $temp['performance'] = 'Very Good';
-                            }else if($temp['pre_mid_percentage'] >= 60 && $temp['pre_mid_percentage'] <= 79){
+                            }else if($temp['pre_mid_percentage'] >= 60 && $temp['pre_mid_percentage'] < 80){
                                 $temp['performance'] = 'Good';
-                            }else if($temp['pre_mid_percentage'] >= 35 && $temp['pre_mid_percentage'] <= 59){
+                            }else if($temp['pre_mid_percentage'] >= 35 && $temp['pre_mid_percentage'] < 60){
                                 $temp['performance'] = 'Average';
-                            }else if($temp['pre_mid_percentage'] <= 34){
+                            }else if($temp['pre_mid_percentage'] < 35){
                                 $temp['performance'] = 'Needs Improvements';
                             }
                             

@@ -399,25 +399,26 @@ $(document).ready(function(){
 						                  '<tbody>';
 						                  $.each(response.result.co_scholistic_sub,function(key,co_sch){
 						                	  if(class_name < 12){
-						                		  if(value[co_sch['sub_name']] == 3){
+												  console.log(parseInt(value[co_sch['sub_name']]));
+						                		  if(parseInt(value[co_sch['sub_name']]) == 3){
 							                		  var co_marks = 'A';
-							                	  }else if(value[co_sch['sub_name']] == 2){
+							                	  }else if(parseInt(value[co_sch['sub_name']])== 2){
 							                		  var co_marks = 'B';
-							                	  }else if(value[co_sch['sub_name']] == 1){
+							                	  }else if(parseInt(value[co_sch['sub_name']]) == 1){
 							                		  var co_marks = 'C';
 							                	  }else{
 							                		  var co_marks = '-';
 							                	  }
 						                	  }else{
-						                		  if(value[co_sch['sub_name']] == 5){
+						                		  if(parseInt(value[co_sch['sub_name']]) == 5){
 							                		  var co_marks = 'A';
-							                	  }else if(value[co_sch['sub_name']] == 4){
+							                	  }else if(parseInt(value[co_sch['sub_name']])== 4){
 							                		  var co_marks = 'B';
-							                	  }else if(value[co_sch['sub_name']] == 3){
+							                	  }else if(parseInt(value[co_sch['sub_name']]) == 3){
 							                		  var co_marks = 'C';
-							                	  }else if(value[co_sch['sub_name']] == 2){
+							                	  }else if(parseInt(value[co_sch['sub_name']]) == 2){
 							                		  var co_marks = 'C';
-							                	  }else if(value[co_sch['sub_name']] == 1){
+							                	  }else if(parseInt(value[co_sch['sub_name']]) == 1){
 							                		  var co_marks = 'C';
 							                	  }else{
 							                		  var co_marks = '-';
