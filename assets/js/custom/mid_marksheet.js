@@ -133,17 +133,17 @@ $(document).ready(function(){
 						                           '<tbody>'+
 						                              '<tr>'+
 						                                 '<td style="width:35%;">Student\'s Name</td>'+
-						                                 '<td>: <b>'+value.name+'</b></td>'+
+						                                 '<td>: <b>'+value.name.toUpperCase()+'</b></td>'+
 						                              '</tr>'+
 						                              '<tr></tr>'+
 						                              '<tr>'+
 						                                 '<td>Mother\'s Name</td>'+
-						                                 '<td>: '+value.m_name+'</td>'+
+						                                 '<td>: '+value.m_name.toUpperCase()+'</td>'+
 						                              '</tr>'+
 						                              '<tr></tr>'+
 						                              '<tr>'+
 						                                 '<td>Father\'s Name</td>'+
-						                                 '<td>: '+value.f_name+'</td>'+
+						                                 '<td>: '+value.f_name.toUpperCase()+'</td>'+
 						                              '</tr>'+
 						                              '<tr></tr>'+
 						                              '<tr>'+
