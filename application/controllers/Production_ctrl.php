@@ -292,7 +292,6 @@ class Production_ctrl extends CI_Controller{
         $pre_result = $this->Mid_marksheet_model->preResult($data);
         $mid_result = $this->Mid_marksheet_model->midResult($data);
         $co_scholistic = $this->Mid_marksheet_model->midCoScholistic($data);
-        
         $result = array();
         //---------9th,10th IT or Computer application--------------------
         if($data['class'] == 12 || $data['class'] == 13){
@@ -367,22 +366,17 @@ class Production_ctrl extends CI_Controller{
                         
                         
                     }
-                    
                     //-----------get co-scholistic subject in temp------------------
-                    $flag = 1;
-                    foreach($co_scholistic['subjects'] as $co_sch_sub){
-                        foreach($co_scholistic['co_scholistc'] as $co_scholistc){
-                            if(($pre['adm_no'] == $co_scholistc['adm_no']) && ($co_sch_sub['sub_id'] == $co_scholistc['sub_id'])){
-                                $temp[$co_sch_sub['sub_name']] = $co_scholistc['sub_marks'];
-                                $flag = 0;
-                            }else{
-                                if($flag){
-                                    $temp[$co_sch_sub['sub_name']] = '';
-                                }
-                                
+                    foreach($co_scholistic['co_scholistc'] as $co_scholistc){
+                        if($pre['adm_no'] == $co_scholistc['adm_no']){
+                            foreach($co_scholistic['subjects'] as $co_sch_sub){
+                                if($co_scholistc['sub_id'] == $co_sch_sub['sub_id']){
+                                    $temp[$co_sch_sub['sub_name']] = $co_scholistc['sub_marks'];
+                                }   
                             }
                         }
                     }
+                    
                     
                     //------------get attendance in temp------------------
                     if($mid_result['attendance']){
@@ -405,7 +399,6 @@ class Production_ctrl extends CI_Controller{
                             }
                         }
                     }
-                    
                     $final[] = $temp;
                     $result['final'] = $final;
                 }
