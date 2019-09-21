@@ -547,11 +547,13 @@
           </div>
         </div> <!-- End of Modal -->
         <?php
-        $path = base_url().'assets/images/sharda/students/';
-        
         $school = $this->session->userdata('school_id');
         if($school == 1){
             $path = base_url().'assets/images/shakuntala/students/';
+        }else if($school == 2){
+            $path = base_url().'assets/images/sharda/students/';
+        }else if($school == 3){
+            $path = base_url().'assets/images/cgboard/students/';
         }
         ?>
         <input type="hidden" id="path" value="<?php echo $path;?>">
