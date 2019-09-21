@@ -399,7 +399,6 @@ $(document).ready(function(){
 						                  '<tbody>';
 						                  $.each(response.result.co_scholistic_sub,function(key,co_sch){
 						                	  if(class_name < 12){
-												  console.log(parseInt(value[co_sch['sub_name']]));
 						                		  if(parseInt(value[co_sch['sub_name']]) == 3){
 							                		  var co_marks = 'A';
 							                	  }else if(parseInt(value[co_sch['sub_name']])== 2){

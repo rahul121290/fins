@@ -23,6 +23,19 @@
                 <div class="row">
 				<div class="col-md-6">
 				<div class="form-group">
+					<label class="col-sm-3 control-label">Employee Type: <span style="color:red;">*</span></label>
+					<div class="col-sm-8">
+						<select class="form-control" name="" id="">
+							<option value="">Select Type</option>
+							<option value="1">Teacher</option>
+							<option value="3">Peon + Helper + Driver</option>
+							<option value="3">Shakuntala Group</option>
+						</select>
+						<div id="" class="text-danger" style="display:none;"></div>
+					</div>
+				</div>
+				
+				<div class="form-group">
 					<label class="col-sm-3 control-label">Employee Name: <span style="color:red;">*</span></label>
 						<div class="col-sm-8">
 							<select class="form-control" name="school" id="school">
@@ -64,18 +77,7 @@
 							<div id="" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Employee Type: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
-						<select class="form-control" name="" id="">
-							<option value="">Select Type</option>
-							<option value="1">Teacher</option>
-							<option value="3">Peon + Helper + Driver</option>
-							<option value="3">Shakuntala Group</option>
-						</select>
-						<div id="" class="text-danger" style="display:none;"></div>
-					</div>
-				</div>
+				
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Session: <span style="color:red;">*</span></label>
 					<div class="col-sm-8">
@@ -202,7 +204,7 @@
 				<h5 style="    background-color: #888;    padding: 10px;    color: #fff;    margin: 30px 15px;">Bank Details</h5>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Basic Sallary: <span style="color:red;">*</span></label>
+					<label class="col-sm-3 control-label">Basic Salary: <span style="color:red;">*</span></label>
 						<div class="col-sm-8">
 							<input type="text" name="" id="" class="form-control only_text" placeholder="Enter Amount">
 							<div id="" class="text-danger" style="display:none;"></div>
@@ -251,7 +253,6 @@
 							<div id="" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
-				
 				
 				</div>
 				<div class="col-md-12">
