@@ -136,31 +136,32 @@ class Auth extends CI_Controller{
 	 */
 	public function logout()
 	{
-		$this->data['title'] = "Logout";
-
-		$path ='';
-		if($this->session->userdata('school_id') == 1){
-		    $path = 'shakuntala/login';
-		}else if($this->session->userdata('school_id') == 2){
-		    $path = 'sharda/login';
+		if($this->session->userdata('user_id') != null){
+		    $this->data['title'] = "Logout";
+		    
+		    $path ='';
+		    if($this->session->userdata('school_id') == 1){
+		        
+		        $path = 'shakuntala/login';
+		    }else if($this->session->userdata('school_id') == 2){
+		        $path = 'sharda/login';
+		    }else{
+		        $path = 'cg-board/login';
+		    }
+		    
+		    $event = 'Logout';
+		    $user = $this->session->userdata('user_id');
+		    $table_name = null;
+		    $table_id = null;
+		    $this->my_function->add_log($user,$event,$table_name,$table_id);
+		    // log the user out
+		    $logout = $this->ion_auth->logout();
+		    // redirect them to the login page
+		    $this->session->set_flashdata('message', $this->ion_auth->messages());
+		    redirect($path);
 		}else{
-		    $path = 'cg-board/login';
+		    redirect(base_url());
 		}
-		
-		$event = 'Logout';
-		$user = $this->session->userdata('user_id');
-		$table_name = null;
-		$table_id = null;
-		$this->my_function->add_log($user,$event,$table_name,$table_id);
-		
-		// log the user out
-		$logout = $this->ion_auth->logout();
-
-		// redirect them to the login page
-		$this->session->set_flashdata('message', $this->ion_auth->messages());
-		
-		redirect($path);
-		
 	}
 
 	/**
