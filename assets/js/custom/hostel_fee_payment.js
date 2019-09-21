@@ -76,7 +76,6 @@ $(document).ready(function(){
 					success:function(response){
 						if(response.status == 200){
 							$('#otp_div').html('<input type="text" id="otp" name="otp" class="form-control" placeholder="Enter OTP"><div id="otp_err" class="error"></div><button id="submit_otp" class="btn btn-sm btn-success">Submit OTP</button>');
-							alert(response.msg);
 						}else{
 							alert(response.msg);
 						}

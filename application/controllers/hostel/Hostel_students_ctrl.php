@@ -169,13 +169,13 @@ class Hostel_students_ctrl extends CI_Controller {
             $this->db->join('hostel_fee_structure hfs','hfs.ses_id = hs.ses_id AND hfs.sch_id = hs.sch_id AND hfs.student_status = hs.std_status AND hfs.status = 1');
             $student_fee = $this->db->get_where('hostel_students hs',array('hs.ses_id'=>$ses_id,'hs.sch_id'=>$sch_id,'hs.adm_no'=>$adm_no,'hs.status'=>1))->result_array();
             
-            $this->db->select('SUM(paid_amount) paid_amount');
+            $this->db->select('SUM(hostel_amount) hostel_amount');
             $result = $this->db->get_where('hostel_fee_payment',array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no,'status'=>1))->result_array();
             //print_r($this->db->last_query());die;;
             if(count($result) > 0){
                 $result[0]['total'] = $student_fee[0]['total'];
-                $result[0]['previous_paid'] = $result[0]['paid_amount'];
-                $result[0]['pay_amount'] = $student_fee[0]['total'] - $result[0]['paid_amount'];
+                $result[0]['previous_paid'] = $result[0]['hostel_amount'];
+                $result[0]['pay_amount'] = $student_fee[0]['total'] - $result[0]['hostel_amount'];
                 $result[0]['pending_amount'] = 0.00;
                 echo json_encode(array('data'=>$result,'status'=>200));
             }else{

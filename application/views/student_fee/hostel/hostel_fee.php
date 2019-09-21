@@ -64,6 +64,7 @@
 								<th>Pay Date</th>
 								<th>Installment</th>
 								<th>Paid Amount</th>
+								<th>Paid GST</th>
 								<th>Pending Amount</th>
 							</tr>
 						</thead>
@@ -75,7 +76,8 @@
 								<td><?php echo $paid_fee['receipt_no'];?></td>
 								<td><?php echo $paid_fee['pay_date'];?></td>
 								<td><?php echo $paid_fee['installment'];?></td>
-								<td><?php echo $paid_fee['paid_amount'];?></td>
+								<td><?php echo $paid_fee['hostel_amount'];?></td>
+								<td><?php echo $paid_fee['cgst'] + $paid_fee['sgst'];?></td>
 								<td><?php if($paid_fee['pending_amount'] > 0){echo $paid_fee['pending_amount'];}else{ echo "NIL";}?></td>
 							</tr>
 							<?php } }?>

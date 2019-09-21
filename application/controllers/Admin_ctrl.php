@@ -879,7 +879,7 @@ class Admin_ctrl extends CI_Controller {
             $this->data['student_details'] = $this->db->get_where('students s',array('s.status'=>1))->result_array();
             //print_r($this->db->last_query());die;
 			
-            $this->db->select('receipt_no,DATE_FORMAT(pay_date,"%d-%M-%Y") pay_date,installment,paid_amount,pending_amount');
+            $this->db->select('receipt_no,DATE_FORMAT(pay_date,"%d-%M-%Y") pay_date,installment,hostel_amount,taxable_amount,cgst,sgst,paid_amount,pending_amount');
             $this->db->where(array('ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no));
             $this->data['paid_fee_details'] = $this->db->get_where('hostel_fee_payment',array('status'=>1))->result_array();
             
@@ -1001,6 +1001,7 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(36, $this->permission)){
             $this->data['page_name'] = 'Payroll Master Entry';
             $this->data['main'] = 'payroll/payroll_new_employee';
+            $this->data['post'] = $this->db->select('*')->get_where('payroll_employee_post',array('status'=>1))->result_array();
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
@@ -1062,9 +1063,6 @@ class Admin_ctrl extends CI_Controller {
             $this->_load_view('error_page');
         }
     }
-    
-    
-    
     
     function error_page(){
         $this->data['page_name'] = 'Error';
