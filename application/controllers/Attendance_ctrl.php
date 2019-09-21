@@ -125,7 +125,7 @@ class Attendance_ctrl extends CI_Controller {
         
         
         $this->db->select('s.std_id,s.adm_no,s.roll_no,s.name,IFNULL(sa.present_days,"") as present_days,IFNULL(sa.absent_days,"") as absent_days');
-        $this->db->join('std_attendance sa','s.std_id=sa.std_id AND sa.am_id = (Select am_id FROM attendance_master WHERE ses_id = '.$session.' AND sch_id = '.$school.' AND med_id = '.$medium.' AND class_id = '.$class_name.' AND et_id = '.$exam_type.$sg_con.' AND status = 1)','left');
+        $this->db->join('std_attendance sa','s.std_id=sa.std_id AND sa.am_id = (Select am_id FROM attendance_master WHERE ses_id = '.$session.' AND sch_id = '.$school.' AND med_id = '.$medium.' AND class_id = '.$class_name.' AND et_id = '.$exam_type.' AND status = 1)','left');
         if(!empty($sub_group)){
             $this->db->where('sub_group',$sub_group);
         }
