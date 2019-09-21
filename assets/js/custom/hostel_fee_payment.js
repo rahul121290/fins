@@ -21,7 +21,7 @@ $(document).ready(function(){
 					}
 					if(pay_month == 2){
 						$('#check_box_row').css('display','block');
-						$('#check_box_div').html('<input type="checkbox" id="enable_pay_amount"> Enable Pay Amount');
+						$('#check_box_div').html('<input type="checkbox" id="enable_pay_amount"> Extend Hostel Fee Installment');
 					}
 					$('#total_fee').val(parseFloat(response.data[0].total).toFixed(2));
 					$('#previous_paid').val(parseFloat(response.data[0].previous_paid).toFixed(2));
@@ -62,7 +62,7 @@ $(document).ready(function(){
 	//--------------------********--------------------------
 	$(document).on('click','#enable_pay_amount',function(){
 		if($(this).prop('checked') == true){
-			if(confirm('Are you sure!')){
+			if(confirm('This will send SMS to Director for permission.')){
 				var pay_month = $('#pay_month').val();
 				var ses_id = $('#ses_id').val();
 				var sch_id = $('#sch_id').val();

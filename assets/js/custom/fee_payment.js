@@ -347,7 +347,7 @@ $(document).ready(function(){
 		for (i = 0; i < month_id; i++) {
 			  if($('#'+i).prop('checked') == false){
 				  $(this).prop('checked',false);
-				  alert('Please select previous month unpaid fee');
+				  alert('Please select previous month unpaid fee.');
 				  return false;
 			  }
 		}
@@ -356,16 +356,14 @@ $(document).ready(function(){
 		
 		if(parseInt(month_id) == 1 && $('#'+next).prop('checked') == true){
 			$(this).prop('checked',true);
-			  alert('Invalid operation, Please remove last selected fee month');
+			  alert('Invalid operation, Please remove last selected fee month.');
 			  return false
 		}
 		else if(parseInt(month_id) > 1 && $('#'+previous).prop('checked') == true && $('#'+next).prop('checked') == true){
 			$(this).prop('checked',true);
-			  alert('Can\'t Remove');
+			  alert('Invalid operation, Please remove last selected fee month.');
 			  return false
 		}
-		
-		
 		
 		if($(this).prop("checked") == true){
 			var main_fee = $(this).val();
