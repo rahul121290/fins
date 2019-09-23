@@ -990,6 +990,7 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(36, $this->permission)){
             $this->data['page_name'] = 'Payroll Master Entry';
             $this->data['main'] = 'payroll/payroll_master_entry';
+            $this->data['master_data'] = $this->db->select('*')->get_where('payroll_master',array('status'=>1))->result_array();
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
@@ -1013,6 +1014,7 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(36, $this->permission)){
             $this->data['page_name'] = 'Payroll Master Entry';
             $this->data['main'] = 'payroll/payroll_employee_records';
+            $this->data['post'] = $this->db->select('*')->get_where('payroll_employee_post',array('status'=>1))->result_array();
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
@@ -1020,16 +1022,29 @@ class Admin_ctrl extends CI_Controller {
         }
     }
     
-    function salary_data_entry(){
+    function payroll_attendance(){
         if(in_array(36, $this->permission)){
             $this->data['page_name'] = 'Payroll Master Entry';
-            $this->data['main'] = 'payroll/payroll_data_entry';
+            $this->data['main'] = 'payroll/payroll_attendance';
+            $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
             $this->_load_view('error_page');
         }
     }
+    function payroll_advance(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Payroll Master Entry';
+            $this->data['main'] = 'payroll/payroll_advance';
+            $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
     
     function salary_generation(){
         if(in_array(36, $this->permission)){

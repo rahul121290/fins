@@ -84,7 +84,10 @@ $route['(:any)/(:any)/hostel/student-report'] = 'Admin_ctrl/hostel_student_repor
 $route['(:any)/(:any)/payroll-master/payroll-master-entry'] = 'Admin_ctrl/payroll_master_entry';
 $route['(:any)/(:any)/payroll-master/new-employee-payroll'] = 'Admin_ctrl/new_employee_payroll';
 $route['(:any)/(:any)/payroll-master/employee-salary-records'] = 'Admin_ctrl/employee_salary_records';
-$route['(:any)/(:any)/salary/salary-data-entry'] = 'Admin_ctrl/salary_data_entry';
+$route['(:any)/(:any)/salary/employee-attendance'] = 'Admin_ctrl/payroll_attendance';
+$route['(:any)/(:any)/salary/employee-advance'] = 'Admin_ctrl/payroll_advance';
+
+
 $route['(:any)/(:any)/salary/salary-generation'] = 'Admin_ctrl/salary_generation';
 $route['(:any)/(:any)/salary/salary-history'] = 'Admin_ctrl/salary_history';
 $route['(:any)/(:any)/report/salary-data-sheet'] = 'Admin_ctrl/salary_data_sheet';

@@ -513,6 +513,8 @@ class Student_ctrl extends CI_Controller{
 	                $school = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
 	                if($school == 'shakuntala'){
 	                    $school = 1;
+	                }else if($school == 'sharda'){
+	                    $school = 2;
 	                }
 	                $medium = $worksheet->getCellByColumnAndRow($col++, $row)->getValue();
 	                if($medium == 'English'){

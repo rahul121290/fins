@@ -461,7 +461,7 @@ class Production_ctrl extends CI_Controller{
         $students = $this->db->get_where('students s')->result_array();
         
         $this->db->select('sm.std_id,mm.sub_id,SUM(sm.sub_marks) sub_marks,SUM(om.out_of) out_of,(SUM(sm.sub_marks) * 100 / SUM(om.out_of)) percentage');
-        $this->db->join('marks_master mm','mm.mm_id = sm.mm_id '.$condition.' AND et_id = 1 AND mm.st_id = 1');
+        $this->db->join('marks_master mm','mm.mm_id = sm.mm_id '.$condition.' AND et_id = 1 AND mm.st_id IN(1,3)');
         $this->db->join('subject_allocation sa','sa.sub_id = mm.sub_id '.$sa_condition.' AND sa.st_id = mm.st_id AND sa.status = 1');
         $this->db->join('out_of_marks om','om.sa_id = sa.sa_id AND om.et_id = mm.et_id AND om.status = 1');
         $this->db->group_by('sm.std_id');
@@ -471,8 +471,8 @@ class Production_ctrl extends CI_Controller{
                             SUM(sm.practical) practical, 
                             SUM(om.out_of) out_of,
                             SUM(om.practical) out_of_practical,
-                            ((SUM(sm.sub_marks) + IFNULL(SUM(sm.practical),0)) * 100 / (SUM(om.out_of) + IFNULL(SUM(om.practical),0))) percentage');
-        $this->db->join('marks_master mm','mm.mm_id = sm.mm_id '.$condition.' AND et_id = 2 AND mm.st_id = 1');
+                            SUM(om.out_of) out_of,(SUM(sm.sub_marks) * 100 / SUM(om.out_of)) percentage');
+        $this->db->join('marks_master mm','mm.mm_id = sm.mm_id '.$condition.' AND et_id = 2 AND mm.st_id IN(1,3)');
         $this->db->join('subject_allocation sa','sa.sub_id = mm.sub_id '.$sa_condition.' AND sa.st_id = mm.st_id AND sa.status = 1');
         $this->db->join('out_of_marks om','om.sa_id = sa.sa_id AND om.et_id = mm.et_id AND om.status = 1');
         $this->db->group_by('sm.std_id');
@@ -504,7 +504,6 @@ class Production_ctrl extends CI_Controller{
                             $temp['adm_no'] = $std['adm_no'];
                             $temp['roll_no'] = $std['roll_no'];
                             
-                           
                             $final[] = $temp;
                         }
                     }

@@ -215,7 +215,7 @@ $(document).ready(function(){
 							      				}else if(class_name == 14 || class_name == 15){
 							      					x=x+'<th>Pre Mid</th>'+
 							      						'<th>Out of 5 (Pre Mid)</th>'+
-							      						'<th colspan="2">Mid</th>'+
+							      						'<th colspan="2">Mid.Term</th>'+
 							      						'<th>20% of Mid</th>';
 							      				}
 						                     x=x+'</tr>'+
@@ -326,7 +326,7 @@ $(document).ready(function(){
 													}
 		                                            else{
 		                                            	var grade = '-';
-		                                            }												           	  	
+		                                            }											           	  	
 							                    	x=x+'<tr>'+
 							                    	 	'<td style="text-align:left;">'+mid_sub.sub_name+'</td>';
 								                        if(class_name < 12){
