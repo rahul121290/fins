@@ -8,15 +8,42 @@
     </section>
 	
 	<div class="col-md-8 col-md-offset-2 mt-3">
+		<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;margin-bottom:10px;">
+				<div class="text-center" style="float:left;">
+					<?php if($this->session->userdata('school_id') == 1){ $school = 'shakuntala';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>SHAKUNTALA GURUKUL</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+      	<?php } else if($this->session->userdata('school_id') == 2){ $school = 'sharda';?>
+      	<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/sharda/sharda_logo.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Sharda Vidyalaya</b></h4>
+			<p>Risali Bhilai(C.G.)</p>
+		</div>
+		<?php }else{ $school = 'cg-board';?>
+		<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />
+		<div class="print-s-name" >
+			<h4><b>Shakuntala Vidyalaya No. 2</b></h4>
+			<p>Ram Nagar Bhilai(C.G.)</p>
+		</div>
+		<?php }?>
+				</div>
+				<div class="text-right">
+					<h4 style="margin-bottom:0px;"><b>Hostel Fee</b></h4>
+				</div>
+		</div>
 		<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
-			<div class="box-header ui-sortable-handle text-center" style="cursor: move;">
+			<div class="box-header ui-sortable-handle text-center no-print" style="cursor: move;">
 			  <h2 class="box-title "><b>SHAKUNTALA GURUKUL</b></h2>
-			  <p>Bhilai(C.G.) 490023</p>
+			  <p>Ram Nagar Bhilai(C.G.) 490023</p>
 			</div>
-			<div class="box-body" style="padding-top:0px;" id="fee_receipt"></div>
+			<div class="box-body hostel-bil-table" style="padding-top:0px;" id="fee_receipt"></div>
 			
 		</div>
 	</div>
+	
 </div>
 <input type="hidden" id="receipt_no" value="<?php echo $this->uri->segment(5);?>" />
 
@@ -49,7 +76,7 @@ function getReceiptData(){
 			'</tbody>'+
 		'</table>'+
 		
-		'<table class="table hostel-bil-table" style="border:2px solid #000;">'+
+		'<table class="table  " style="border:2px solid #000;">'+
 			'<thead>'+
 				'<tr><th>S.NO.</th><th>PARTICULARS</th><th>SAC CODE</th><th>QTY</th><th>RATE</th><th>AMOUNT</th></tr>'+
 			'</thead>'+
@@ -68,7 +95,7 @@ function getReceiptData(){
 				'<tr><td colspan="2"></td><td><b>TOTAL</b></td><td><b>'+cgst_charge+'</b></td><td><b>'+sgst_charge+'</b></td><td><b>'+total_gst+'</b></td></tr>'+
 			'</tbody>'+
 		'</table>'+
-		'<table class="table">'+
+		'<table class="table h-hostel-bil-table">'+
 			'<tbody>'+
 				'<tr><td></td></tr>'+
 				'<tr><td colspan="" style="text-align:right;"><b>Authorised Sign</b></td></tr>'+

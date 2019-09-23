@@ -92,7 +92,7 @@ $(document).ready(function(){
 							'<td>'+value.name+'</td>'+
 							'<td>'+value.f_name+'</td>'+
 							'<td>'+value.bus+'</td>'+
-							'<td>'+value.pending_month+'</td>'+
+							'<td style="width:25%;">'+value.pending_month+'</td>'+
 							'<td>'+value.fc_name+'</td>'+
 							'<td>'+value.staff_child+'</td>'+
 							'<td>'+total+'</td>'+
@@ -101,7 +101,7 @@ $(document).ready(function(){
 							if(value.fc_name == 'RTE'){
 								x=x+'<td colspan="2"><button class="btn btn-warning">RTE</button>&nbsp;';
 							}else{
-								x=x+'<td><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-med_id="'+value.medium+'" data-adm_no="'+value.adm_no+'" class="btn btn-success payment"><span class="glyphicon glyphicon-check"></span></button>&nbsp;'+
+								x=x+'<td class="no-print"><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-med_id="'+value.medium+'" data-adm_no="'+value.adm_no+'" class="btn btn-success payment"><span class="glyphicon glyphicon-check"></span></button>&nbsp;'+
 								'<button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-primary view_details"><span class="glyphicon glyphicon-eye-open"></span></button>&nbsp;';
 							}
 							x=x+'<button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-danger discontinue"><span class="glyphicon glyphicon-trash"></span></button></td>';

@@ -142,6 +142,7 @@
 					<div class="form-group mb-3" id="check_box_row" style="display: none;">
 						<label class="col-sm-6"></label>
     					<div class="col-sm-6" id="check_box_div"></div>
+    					<div class="col-sm-6"></div>
     					<div class="col-sm-6" id="otp_div"></div>
 					</div>
 					

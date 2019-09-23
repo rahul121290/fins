@@ -148,7 +148,15 @@ background-color: #d6cbcb;}
 .p-table-bg-head table thead tr th{padding:5px !important;font-size:12px !important;background-color:#f3f3f3 !important;}
 .p-table-body table tbody tr td{padding:5px !important;font-size:12px !important;}
 .p-table-bg-head table {border:2px solid #888 !important;}
+.h-hostel-bil-table tr td{padding:3px !important;font-size:12px !important;}
+.hostel-bil-table table tr td{padding:3px !important;font-size:12px !important;border:1px solid #ddd !important;}
+
+
+
 }
+.h-hostel-bil-table tr td{padding:5px !important;}
+.hostel-bil-table table tr td{border:1px solid #ddd;padding:5px !important;}
+
 .p-sibling-report table{border:0px solid #ddd;}
 .print-s-logo{display:none;}
 .print-s-name{float:left;margin-left:10px;text-align:left;}
@@ -342,8 +350,7 @@ input [type="file"]{border:1px solid #eee;padding:2px;}
 }
 .btn-space{padding:6px 40px;}
 /*custom respo*/
-.h-hostel-bil-table tr td{border:1px solid #f4f4f4;}
-.hostel-bil-table tr td{border:1px solid #ddd;}
+
 .content-wrapper{margin-top:25px;}
 	.p-p-box{    background-color: #d4d4d4;
     padding: 5px;
