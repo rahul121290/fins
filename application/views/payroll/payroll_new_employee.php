@@ -129,7 +129,6 @@
 					</div>
 				</div>
 				
-				               
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Date Of Birth: <span style="color:red;">*</span></label>
 					<div class="col-sm-8">
@@ -205,10 +204,19 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">DA: <span style="color:red;">*</span></label>
 						<div class="col-sm-8">
-							<input type="text" name="da_amount" id="da_amount" class="form-control only_text" placeholder="Enter Amount">
-							<div id="da_amount_err" class="text-danger" style="display:none;"></div>
+							<input type="text" name="da_percentange" id="da_percentange" class="form-control only_text" placeholder="DA Percentange">
+							<div id="da_percentange_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-3 control-label">PA: <span style="color:red;">*</span></label>
+						<div class="col-sm-8">
+							<input type="text" name="pa_amount" id="pa_amount" class="form-control only_text" placeholder="Enter Amount">
+							<div id="pa_amount_err" class="text-danger" style="display:none;"></div>
+						</div>
+				</div>
+				
 				<div class="form-group">
 					<label class="col-sm-3 control-label">PF No.: <span style="color:red;">*</span></label>
 						<div class="col-sm-8">
@@ -265,31 +273,32 @@ var userUrl = $('#user_url').val();
 
 $('#new_employee_form').validate({
 	rules:{
-// 		emp_type:{required:true},
-// 		emp_sub_type:{required:true},
-// 		emp_name:{required:true},
-// 		emp_generated_id:{required:true},
-// 		school:{required:true},
-// 		session:{required:true},
-// 		emp_post:{required:true},
-// 		doj:{required:true},
-// 		f_or_h_name:{required:true},
-// 		gender:{required:true},
-// 		dob:{required:true},
-// 		//aadhaar_no:{required:true},
-// 		prmt_add:{required:true},
-// 		//local_add:{required:true},
-// 		phone_no:{required:true},
-// 		//other_no:{required:true},
-// 		email:{email:true},
-// 		emp_image:{extension:"jpg|png|jpeg"},
-// 		basic_salary:{required:true},
-// 		da_amount:{required:true},
-// 		pf_no:{required:true},
-// 		esic_no:{required:true},
-// 		bank_name:{required:true},
-// 		bank_acc_no:{required:true},
-// 		bank_ifsc_code:{required:true}
+		emp_type:{required:true},
+		emp_sub_type:{required:true},
+		emp_name:{required:true},
+		emp_generated_id:{required:true},
+		school:{required:true},
+		session:{required:true},
+		emp_post:{required:true},
+		doj:{required:true},
+		f_or_h_name:{required:true},
+		gender:{required:true},
+		dob:{required:true},
+		//aadhaar_no:{required:true},
+		prmt_add:{required:true},
+		//local_add:{required:true},
+		phone_no:{required:true},
+		//other_no:{required:true},
+		email:{email:true},
+		emp_image:{extension:"jpg|png|jpeg"},
+		basic_salary:{required:true},
+		da_percentange:{required:true},
+		pa_amount:{required:true},
+		pf_no:{required:true},
+		esic_no:{required:true},
+		bank_name:{required:true},
+		bank_acc_no:{required:true},
+		bank_ifsc_code:{required:true}
 		
 	},
 });
@@ -321,7 +330,10 @@ $(document).on('click','#submit_emp_details',function(){
 		formdata.append('emp_image',$('#emp_image')[0].files[0]);
 		
 		formdata.append('basic_salary',$('#basic_salary').val());
-		formdata.append('da_amount',$('#da_amount').val());
+		
+		formdata.append('da_percentange',$('#da_percentange').val());
+		formdata.append('pa_amount',$('#pa_amount').val());
+		
 		formdata.append('pf_no',$('#pf_no').val());
 		formdata.append('esic_no',$('#esic_no').val());
 		formdata.append('bank_name',$('#bank_name').val());

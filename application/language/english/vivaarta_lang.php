@@ -27,6 +27,8 @@ $lang['advance_added_success'] = 'advance_added_success';
 $lang['advance_added_failed'] = 'advance_added_failed';
 $lang['record_delete_success'] = 'record_delete_success';
 $lang['record_delete_failed'] = 'record_delete_failed';
+$lang['emp_delete_success'] = 'emp_delete_success';
+$lang['emp_delete_failed'] = 'emp_delete_failed';
 
 
 

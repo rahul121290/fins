@@ -288,12 +288,20 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">DA: <span style="color:red;">*</span></label>
+					<label class="col-sm-3 control-label">DA Percentange: <span style="color:red;">*</span></label>
 						<div class="col-sm-8">
-							<input type="text" name="da_amount" id="da_amount" class="form-control only_text" placeholder="Enter Amount">
-							<div id="da_amount_err" class="text-danger" style="display:none;"></div>
+							<input type="text" name="da_percentange" id="da_percentange" class="form-control only_text" placeholder="DA Percentange">
+							<div id="da_percentange_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">PA: <span style="color:red;">*</span></label>
+						<div class="col-sm-8">
+							<input type="text" name="pa_amount" id="pa_amount" class="form-control only_text" placeholder="Enter Amount">
+							<div id="pa_amount_err" class="text-danger" style="display:none;"></div>
+						</div>
+				</div>
+				
 				<div class="form-group">
 					<label class="col-sm-3 control-label">PF No.: <span style="color:red;">*</span></label>
 						<div class="col-sm-8">
@@ -423,7 +431,8 @@ function emp_list(ses_id,sch_id,emp_type,emp_sub_type,gender){
 						'<td>'+value.emp_generated_id+'</td>'+
 						'<td>'+value.gender+'</td>'+
 						'<td>'+value.basic_salary+'</td>'+
-						'<td><button id="'+value.emp_id+'" class="btn btn-success edit">Edit</button></td>'+
+						'<td><button id="'+value.emp_id+'" class="btn btn-success edit">Edit</button> '+
+						'<button id="'+value.emp_id+'" class="btn btn-danger delete">Delete</button></td>'+
 					'</tr>';
 				});
 				$('#employees_list').html(x);
@@ -433,9 +442,28 @@ function emp_list(ses_id,sch_id,emp_type,emp_sub_type,gender){
 		},
 	});
 }
-
-
-
+//-----------------**------------------------
+$(document).on('click','.delete',function(){
+	var delete_id = $(this).attr('id');
+	if(confirm('Are you sure!')){
+		$.ajax({
+			type:'POST',
+			url:baseUrl+'payroll/Payroll_ctrl/delete_employee',
+			data:{'delete_id':delete_id},
+			dataType:'json',
+			beforeSend:function(){},
+			success:function(response){
+				if(response.status == 200){
+					alert(response.msg);
+					location.reload();
+				}else{
+					alert(response.msg);
+				}
+			},
+		});
+	}
+});
+//-----------------**------------------------------
 $(document).on('click','.edit',function(){
 	var edit_id = $(this).attr('id');
 	$.ajax({
@@ -481,7 +509,10 @@ $(document).on('click','.edit',function(){
 					$('#old_emp_image').val(response.data[0]['emp_image']);
 				}
 				$('#basic_salary').val(response.data[0]['basic_salary']);
-				$('#da_amount').val(response.data[0]['da_amount']);
+
+				$('#da_percentange').val(response.data[0]['da_percentange']);
+				$('#pa_amount').val(response.data[0]['pa_amount']);
+				
 				$('#pf_no').val(response.data[0]['pf_no']);
 				$('#esic_no').val(response.data[0]['esic_no']);
 				$('#bank_name').val(response.data[0]['bank_name']);
@@ -493,6 +524,7 @@ $(document).on('click','.edit',function(){
 		},
 	});
 });
+
 
 
 $('#update_employee_form').validate({
@@ -553,7 +585,10 @@ $(document).on('click','#submit_emp_details',function(){
 		formdata.append('emp_image',$('#emp_image')[0].files[0]);
 		
 		formdata.append('basic_salary',$('#basic_salary').val());
-		formdata.append('da_amount',$('#da_amount').val());
+
+		formdata.append('da_percentange',$('#da_percentange').val());
+		formdata.append('pa_amount',$('#pa_amount').val());
+		
 		formdata.append('pf_no',$('#pf_no').val());
 		formdata.append('esic_no',$('#esic_no').val());
 		formdata.append('bank_name',$('#bank_name').val());

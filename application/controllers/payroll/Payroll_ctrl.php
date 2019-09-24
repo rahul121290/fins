@@ -239,6 +239,16 @@ class Payroll_ctrl extends CI_Controller {
         }
     }
     
+    function delete_employee(){
+        $delete_id = $this->input->post('delete_id');
+        $this->db->where('emp_id',$delete_id);
+        $result = $this->db->update('payroll_employee_details',array('status'=>0));
+        if($result){
+            echo json_encode(array('msg'=>$this->lang->line('emp_delete_success'),'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>$this->lang->line('emp_delete_failed'),'status'=>500));
+        }
+    }
     
     function submit_new_employee(){
         $data = $this->input->post();
