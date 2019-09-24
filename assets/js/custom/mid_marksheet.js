@@ -239,7 +239,7 @@ $(document).ready(function(){
 									                     }else{
 									                    	 var pre_marks = value["pre_"+mid_sub.sub_name];
 									                    	 if(class_name < 12){
-									                    		 var pre_marks_obt = parseFloat(parseFloat(value["pre_"+mid_sub.sub_name])/parseFloat(20)*parseFloat(5));	 
+									                    		 var pre_marks_obt = parseFloat(parseFloat(value["pre_"+mid_sub.sub_name])/parseFloat(20)*parseFloat(10));	 
 									                    	 }else if(class_name == 12 || class_name == 13){
 									                    		 var pre_marks_obt = parseFloat(parseFloat(value["pre_"+mid_sub.sub_name])/parseFloat(20)*parseFloat(5));
 									                    	 }else if(class_name == 14 || class_name == 15){
