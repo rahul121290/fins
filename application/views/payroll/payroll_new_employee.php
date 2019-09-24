@@ -3,7 +3,7 @@
     <section class="content-header">
       <h1>New Employee Payroll</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/reception/dashbord"></i>Home</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/payroll/dashbord"></i>Home</a></li>
         <li class="active">New Employee Payroll</li>
       </ol>
     </section>
@@ -24,10 +24,10 @@
                 <div class="row">
 				<div class="col-md-6">
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Employee Type: <span style="color:red;">*</span></label>
+					<label class="col-sm-3 control-label">Employee Grade: <span style="color:red;">*</span></label>
 					<div class="col-sm-8">
 						<select class="form-control" name="emp_type" id="emp_type">
-							<option value="">Select Type</option>
+							<option value="">Select Grade</option>
 							<option value="1">Permanent</option>
 							<option value="2">Adhoc</option>
 						</select>
@@ -36,10 +36,10 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Employee Sub Type: <span style="color:red;">*</span></label>
+					<label class="col-sm-3 control-label">Employee Sub Grade: <span style="color:red;">*</span></label>
 					<div class="col-sm-8">
 						<select class="form-control" name="emp_sub_type" id="emp_sub_type">
-							<option value="">Select Sub Type</option>
+							<option value="">Select Sub Grade</option>
 						</select>
 						<div id="emp_sub_type_err" class="text-danger" style="display:none;"></div>
 					</div>

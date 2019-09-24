@@ -2,7 +2,7 @@
     <section class="content-header">
       <h1>Employee Advance<small>Entry</small></h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>admin/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/payroll"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="">Salary</li>
         <li class="active">Advance Entry</li>
       </ol>

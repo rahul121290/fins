@@ -1,3 +1,12 @@
+<div class="content-wrapper">
+<section class="content-header" style="margin-bottom:10px;">
+      <h1>Employee Salary Records </h1>
+      <ol class="breadcrumb">
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/payroll/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Employee Salary Records </li>
+      </ol>
+    </section>
+	
 <input type="hidden" id="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>"/>
 <div class="col-md-12">	
   	<div class="box box-danger no-print">
@@ -356,6 +365,7 @@
     </div>
 
   </div>
+</div>
 </div>
 	
 <script type="text/javascript">

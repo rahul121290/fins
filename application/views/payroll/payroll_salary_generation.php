@@ -2,7 +2,7 @@
 <section class="content-header" style="margin-bottom:10px;">
       <h1>Salary Generation</h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>shakuntala/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/payroll/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Salary Generation</li>
       </ol>
     </section>
