@@ -240,7 +240,7 @@ $permission = $this->my_function->user_permission();
         					
         					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/salary/employee-attendance"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Employee Attendance</a></li>
         					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/salary/employee-advance"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Employee Advance</a></li>
-        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/salary/salary-generation"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Salary Generation</a></li>
+        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/salary/employee-list"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Salary Generation</a></li>
         					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/salary/salary-history"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Salary History</a></li>
         				</ul>
         			</li>

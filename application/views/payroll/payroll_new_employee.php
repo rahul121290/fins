@@ -307,7 +307,7 @@ $(document).on('click','#submit_emp_details',function(){
 	var formvalidate = $('#new_employee_form').valid();
 	if(formvalidate){
 		var formdata = new FormData();
-		formdata.append('emp_id',$('#emp_id').val());
+		formdata.append('emp_id','');
 		formdata.append('emp_type',$('#emp_type').val());
 		formdata.append('emp_sub_type',$('#emp_sub_type').val());
 		formdata.append('emp_name',$('#emp_name').val());

@@ -1044,12 +1044,32 @@ class Admin_ctrl extends CI_Controller {
             $this->_load_view('error_page');
         }
     }
+        
+    function salary_emp_list(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Payroll Master Entry';
+            $this->data['main'] = 'payroll/payroll_emp_list';
+            $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
     
-    
-    function salary_generation(){
+    function salary_generation($month,$emp_id){
         if(in_array(36, $this->permission)){
             $this->data['page_name'] = 'Payroll Master Entry';
             $this->data['main'] = 'payroll/payroll_salary_generation';
+            $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
+            
+            $this->db->select('*');
+            $this->db->join('payroll_attendance a','a.emp_id = e.emp_id AND pam_id = (SELECT pam_id FROM payroll_attendance_master am WHERE am.ses_id = e.ses_id AND am.sch_id = e.sch_id AND am.emp_type = e.emp_type AND am.emp_sub_type = e.emp_sub_type AND month = '.$month.' AND am.status = 1)');
+            $this->db->join('payroll_advance ad','ad.emp_id = e.emp_id AND ad.ses_id = e.ses_id AND ad.sch_id = e.sch_id AND month = '.$month.'','LEFT');
+            $this->data['emp_details'] = $this->db->get_where('payroll_employee_details e',array('e.status'=>1))->result_array();
+            
+            print_r($this->db->last_query());die;
+            
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';

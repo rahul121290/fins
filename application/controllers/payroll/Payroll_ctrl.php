@@ -69,6 +69,39 @@ class Payroll_ctrl extends CI_Controller {
         }
     }
     
+    function salary_employee_list(){
+     $data['ses_id'] = $this->session->userdata('session_id');
+     $data['sch_id']  = $this->input->post('sch_id');
+     $data['emp_type']  = $this->input->post('emp_type');
+     $data['emp_sub_type']  = $this->input->post('emp_sub_type');
+     
+      $condition = 'emp.status = 1';
+      if($data['ses_id']){
+          $condition .= ' AND emp.ses_id = '.$data['ses_id'];
+      }
+      if($data['sch_id']){
+         $condition .= ' AND emp.sch_id = '.$data['sch_id'];
+      }
+      if($data['emp_type']){
+          $condition .= ' AND emp.emp_type = '.$data['emp_type'];
+      }
+      if($data['emp_sub_type']){
+          $condition .= ' AND emp.emp_sub_type = '.$data['emp_sub_type'];
+      }
+     
+     $this->db->select('emp.*,p.name post_name');
+     $this->db->join('payroll_employee_post p','p.ep_id = emp.post_id');
+     $this->db->where($condition);
+     $result = $this->db->get_where('payroll_employee_details emp')->result_array();
+     
+     if(count($result) > 0){
+         echo json_encode(array('data'=>$result,'status'=>200));
+     }else{
+         echo json_encode(array('msg'=>'Record not found.','status'=>500));
+     }
+     
+    }
+    
     function school_employee_list(){
         $data['ses_id'] = $this->session->userdata('session_id');
         $data['sch_id'] = $this->input->post('sch_id');

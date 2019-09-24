@@ -79,7 +79,7 @@ class Payroll_model extends CI_Model {
     function submit_new_employee($id,$data){
         $this->db->trans_begin();
         
-        if(isset($id)){
+        if(!empty($id)){
             $this->db->where('emp_id',$id);
             $this->db->update('payroll_employee_details',$data);
         }else{
