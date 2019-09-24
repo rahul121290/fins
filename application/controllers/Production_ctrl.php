@@ -452,6 +452,7 @@ class Production_ctrl extends CI_Controller{
             $condition .= ' AND mm.sec_id = '.$data['section'];
             $std_condition .= ' AND s.sec_id = '.$data['section'];
         }
+        $condition .= ' AND et_id = 1';
         
         $this->db->select('*');
         $this->db->join('class c','c.c_id = s.class_id');
@@ -461,63 +462,59 @@ class Production_ctrl extends CI_Controller{
         $students = $this->db->get_where('students s')->result_array();
         
         $this->db->select('sm.std_id,mm.sub_id,SUM(sm.sub_marks) sub_marks,SUM(om.out_of) out_of,(SUM(sm.sub_marks) * 100 / SUM(om.out_of)) percentage');
-        $this->db->join('marks_master mm','mm.mm_id = sm.mm_id '.$condition.' AND et_id = 1 AND mm.st_id IN(1,3)');
+        $this->db->join('marks_master mm','mm.mm_id = sm.mm_id '.$condition.' AND mm.st_id IN(1)');
         $this->db->join('subject_allocation sa','sa.sub_id = mm.sub_id '.$sa_condition.' AND sa.st_id = mm.st_id AND sa.status = 1');
         $this->db->join('out_of_marks om','om.sa_id = sa.sa_id AND om.et_id = mm.et_id AND om.status = 1');
+        $this->db->join('sub_teacher st','st.sa_id = sa.sa_id AND st.sec_id = mm.sec_id AND st.status = 1');
         $this->db->group_by('sm.std_id');
-        $pre_marks = $this->db->get_where('student_marks sm',array('sm.status'=>1))->result_array();
-        
-        $this->db->select('sm.std_id,mm.sub_id,SUM(sm.sub_marks) sub_marks,
-                            SUM(sm.practical) practical, 
-                            SUM(om.out_of) out_of,
-                            SUM(om.practical) out_of_practical,
-                            SUM(om.out_of) out_of,(SUM(sm.sub_marks) * 100 / SUM(om.out_of)) percentage');
-        $this->db->join('marks_master mm','mm.mm_id = sm.mm_id '.$condition.' AND et_id = 2 AND mm.st_id IN(1,3)');
-        $this->db->join('subject_allocation sa','sa.sub_id = mm.sub_id '.$sa_condition.' AND sa.st_id = mm.st_id AND sa.status = 1');
-        $this->db->join('out_of_marks om','om.sa_id = sa.sa_id AND om.et_id = mm.et_id AND om.status = 1');
-        $this->db->group_by('sm.std_id');
-        $mid_marks = $this->db->get_where('student_marks sm',array('sm.status'=>1))->result_array();
+        $student_marks = $this->db->get_where('student_marks sm',array('sm.status'=>1))->result_array();
         
         $final = [];
-        if(count($mid_marks) > 0){
+        if($data['class'] <= 14){
+            $this->db->select('sm.std_id,mm.sub_id,SUM(sm.sub_marks) sub_marks,SUM(om.out_of) out_of,(SUM(sm.sub_marks) * 100 / SUM(om.out_of)) percentage');
+            $this->db->join('marks_master mm','mm.mm_id = sm.mm_id '.$condition.' AND mm.st_id IN(3)');
+            $this->db->join('subject_allocation sa','sa.sub_id = mm.sub_id '.$sa_condition.' AND sa.st_id = mm.st_id AND sa.status = 1');
+            $this->db->join('out_of_marks om','om.sa_id = sa.sa_id AND om.et_id = mm.et_id AND om.status = 1');
+            $this->db->join('students s','s.std_id = sm.std_id AND s.elective = mm.sub_id');
+            $this->db->join('sub_teacher st','st.sa_id = sa.sa_id AND st.sec_id = mm.sec_id AND st.status = 1');
+            $this->db->group_by('sm.std_id');
+            $elective_marks = $this->db->get_where('student_marks sm',array('sm.status'=>1))->result_array();
+           
+        }else{
             foreach($students as $std){
-                foreach($pre_marks as $premarks){
-                    foreach($mid_marks as $midmarks){
-                        if($std['std_id'] == $premarks['std_id'] && $std['std_id'] == $midmarks['std_id']){
-                            $temp = [];
-                            $temp['pre_mid_percentage'] = round((($premarks['percentage'] + $midmarks['percentage']) / 2),2) ;
-                            if($temp['pre_mid_percentage'] >= 90){
-                                $temp['performance'] = 'Excellent';
-                            }else if($temp['pre_mid_percentage'] >= 80 && $temp['pre_mid_percentage'] < 90){
-                                $temp['performance'] = 'Very Good';
-                            }else if($temp['pre_mid_percentage'] >= 60 && $temp['pre_mid_percentage'] < 80){
-                                $temp['performance'] = 'Good';
-                            }else if($temp['pre_mid_percentage'] >= 35 && $temp['pre_mid_percentage'] < 60){
-                                $temp['performance'] = 'Average';
-                            }else if($temp['pre_mid_percentage'] < 35){
-                                $temp['performance'] = 'Needs Improvements';
-                            }
-                            
-                            $temp['name'] = $std['name'];
-                            $temp['class'] = $std['class_name'];
-                            $temp['section'] = $std['section_name'];
-                            $temp['adm_no'] = $std['adm_no'];
-                            $temp['roll_no'] = $std['roll_no'];
-                            
-                            $final[] = $temp;
+                foreach($student_marks as $studentmarks){
+                    if($std['std_id'] == $studentmarks['std_id']){
+                        $temp = [];
+                        if($studentmarks['percentage'] >= 90){
+                            $temp['performance'] = 'Excellent';
+                        }else if($studentmarks['percentage'] >= 80 && $studentmarks['percentage'] < 90){
+                            $temp['performance'] = 'Very Good';
+                        }else if($studentmarks['percentage'] >= 60 && $studentmarks['percentage'] < 80){
+                            $temp['performance'] = 'Good';
+                        }else if($studentmarks['percentage'] >= 35 && $studentmarks['percentage'] < 60){
+                            $temp['performance'] = 'Average';
+                        }else if($studentmarks['percentage'] < 35){
+                            $temp['performance'] = 'Needs Improvements';
                         }
+                        
+                        $temp['name'] = $std['name'];
+                        $temp['class'] = $std['class_name'];
+                        $temp['section'] = $std['section_name'];
+                        $temp['adm_no'] = $std['adm_no'];
+                        $temp['roll_no'] = $std['roll_no'];
+                        
+                        $final[] = $temp;
                     }
                 }
             }
-           
-            if(count($final) > 0){
+        }
+        print_r($final);die;
+        if(count($final) > 0){
                 echo json_encode(array('data'=>$final,'status'=>200));
             }else{
                 echo json_encode(array('msg'=>'Something went wrong.','status'=>500));
             }
-            
-        }
-        
+         
         
     }
     

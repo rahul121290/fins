@@ -147,8 +147,6 @@
 					<th>Post</th>
 					<th>Basic</th>
 					<th>Absent</th>
-					
-
 					<th>DA</th>
 					<th>Gross Basic</th>
 					<th>PF(S)</th>
@@ -192,9 +190,7 @@
 						<td><button class="btn btn-sm btn-success">Print</button></td>						
 					</tr>
 				</tbody>
-				</table>
-				
-				
+				</table>	
 			</div>
  		</div>
 
