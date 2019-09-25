@@ -29,18 +29,13 @@ $lang['record_delete_success'] = 'record_delete_success';
 $lang['record_delete_failed'] = 'record_delete_failed';
 $lang['emp_delete_success'] = 'emp_delete_success';
 $lang['emp_delete_failed'] = 'emp_delete_failed';
+$lang['salary_generated_successfull'] = 'salary_generated_successfull';
+$lang['salary_generate_failed'] = 'salary_generate_failed';
 
-
-
-
-
-
-
-
-
-
-
-
+$lang['post_added_success'] = 'post_added_success';
+$lang['post_added_failed'] = 'post_added_failed';
+$lang['post_delete_success'] = 'post_delete_success';
+$lang['post_delete_failed'] = 'post_delete_failed';
 
 
 

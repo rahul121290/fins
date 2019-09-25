@@ -18,7 +18,6 @@
 					  <h3 class="box-title"><b>PF(Provident Fund) Above</b></h3>
 					</div>
 					<div class="box-body">
-						
 						<div class="form-group row">
 							<label class="col-sm-3 control-label">Above Basic Salary<span style="color:red;">*</span></label>
 							<div class="col-sm-9">
@@ -31,7 +30,7 @@
 							<label class="col-sm-3 control-label">Samiti PF<span style="color:red;">*</span></label>
 							<div class="col-sm-9">
 							
-								<input value="<?php if(isset($master_data[0]['samiti_pf'])){echo $master_data[0]['samiti_pf'];}?>" type="number" name="samiti_pf" id="samiti_pf" class="form-control only_text" placeholder="Type Amout in %">
+								<input value="" type="number" name="samiti_pf" id="samiti_pf" class="form-control only_text" placeholder="Type Amout in %">
 								<div id="samiti_pf_err" class="text-danger" style="display:none;"></div>
 							</div>
 						</div>
@@ -39,7 +38,7 @@
 							<label class="col-sm-3 control-label">Employee PF<span style="color:red;">*</span></label>
 							<div class="col-sm-9">
 							
-								<input value="<?php if(isset($master_data[0]['emp_pf'])){echo $master_data[0]['emp_pf'];}?>" type="number" name="emp_pf" id="emp_pf" class="form-control only_text" placeholder="Type Amout in %">
+								<input value="" type="number" name="emp_pf" id="emp_pf" class="form-control only_text" placeholder="Type Amout in %">
 								<div id="emp_pf_err" class="text-danger" style="display:none;"></div>
 							</div>
 						</div>
@@ -64,7 +63,7 @@
 							<label class="col-sm-3 control-label">Samiti ESIC<span style="color:red;">*</span></label>
 							<div class="col-sm-9">
 							
-								<input type="number" value="<?php if(isset($master_data[0]['samiti_esic'])){echo $master_data[0]['samiti_esic'];}?>" name="samiti_esic" id="samiti_esic" class="form-control only_text" placeholder="Type Amout in %">
+								<input type="number" value="" name="samiti_esic" id="samiti_esic" class="form-control only_text" placeholder="Type Amout in %">
 								<div id="samiti_esic_err" class="text-danger" style="display:none;"></div>
 							</div>
 						</div>
@@ -72,7 +71,7 @@
 							<label class="col-sm-3 control-label">Employee ESIC<span style="color:red;">*</span></label>
 							<div class="col-sm-9">
 							
-								<input type="number" value="<?php if(isset($master_data[0]['emp_esic'])){echo $master_data[0]['emp_esic'];}?>" name="emp_esic" id="emp_esic" class="form-control only_text" placeholder="Type Amout in %">
+								<input type="number" value="" name="emp_esic" id="emp_esic" class="form-control only_text" placeholder="Type Amout in %">
 								<div id="emp_esic_err" class="text-danger" style="display:none;"></div>
 							</div>
 						</div>
@@ -96,7 +95,7 @@
 							<label class="col-sm-3 control-label">Samiti PF<span style="color:red;">*</span></label>
 							<div class="col-sm-9">
 							
-								<input value="<?php if(isset($master_data[0]['samiti_pf'])){echo $master_data[0]['samiti_pf'];}?>" type="number" name="samiti_pf" id="samiti_pf" class="form-control only_text" placeholder="Type Amout in %">
+								<input value="" type="number" name="samiti_pf" id="samiti_pf" class="form-control only_text" placeholder="Type Amout in %">
 								<div id="samiti_pf_err" class="text-danger" style="display:none;"></div>
 							</div>
 						</div>
@@ -104,7 +103,7 @@
 							<label class="col-sm-3 control-label">Employee PF<span style="color:red;">*</span></label>
 							<div class="col-sm-9">
 							
-								<input value="<?php if(isset($master_data[0]['emp_pf'])){echo $master_data[0]['emp_pf'];}?>" type="number" name="emp_pf" id="emp_pf" class="form-control only_text" placeholder="Type Amout in %">
+								<input value="" type="number" name="emp_pf" id="emp_pf" class="form-control only_text" placeholder="Type Amout in %">
 								<div id="emp_pf_err" class="text-danger" style="display:none;"></div>
 							</div>
 						</div>
@@ -128,7 +127,7 @@
 							<label class="col-sm-3 control-label">Samiti ESIC<span style="color:red;">*</span></label>
 							<div class="col-sm-9">
 							
-								<input type="number" value="<?php if(isset($master_data[0]['samiti_esic'])){echo $master_data[0]['samiti_esic'];}?>" name="samiti_esic" id="samiti_esic" class="form-control only_text" placeholder="Type Amout in %">
+								<input type="number" value="" name="samiti_esic" id="samiti_esic" class="form-control only_text" placeholder="Type Amout in %">
 								<div id="samiti_esic_err" class="text-danger" style="display:none;"></div>
 							</div>
 						</div>
@@ -136,7 +135,7 @@
 							<label class="col-sm-3 control-label">Employee ESIC<span style="color:red;">*</span></label>
 							<div class="col-sm-9">
 							
-								<input type="number" value="<?php if(isset($master_data[0]['emp_esic'])){echo $master_data[0]['emp_esic'];}?>" name="emp_esic" id="emp_esic" class="form-control only_text" placeholder="Type Amout in %">
+								<input type="number" value="" name="emp_esic" id="emp_esic" class="form-control only_text" placeholder="Type Amout in %">
 								<div id="emp_esic_err" class="text-danger" style="display:none;"></div>
 							</div>
 						</div>

@@ -264,13 +264,11 @@ class Production_model extends CI_Model {
             $this->db->join('section sec','sec.sec_id=s.sec_id');
             $this->db->join('subject_allocation sa','sa.sub_id = t1.sub_id AND sa.ses_id ='.$session.' AND sa.sch_id = '.$school.' AND sa.med_id = '.$medium.' AND sa.class_id ='.$class_name.' AND sa.status = 1');
             $this->db->join('out_of_marks om','om.sa_id = sa.sa_id AND om.status = 1 AND om.et_id = '.$exam_type);
-            if($sub_group){
-                $this->db->last_query('sa.sg_id',$sub_group);
-            }
-            $this->db->group_by('s.std_id');
             if(!empty($sub_group)){
                 $this->db->where('s.sub_group',$sub_group);
+                $this->db->where('sa.sg_id',$sub_group);
             }
+            $this->db->group_by('s.std_id');
             $this->db->order_by('percentage','DESC');
             $students_report = $this->db->get_where('students s',array('s.ses_id'=>$session,'s.sch_id'=>$school,'s.medium'=>$medium,'s.class_id'=>$class_name,'s.sec_id'=>$section,'s.status'=>1))->result_array();
             //print_r($this->db->last_query());die;

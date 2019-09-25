@@ -19,6 +19,17 @@
     	<input type="hidden" id="user_url" value="<?php echo $this->uri->segment(1).'/'.$this->uri->segment(2);?>">
     	
       			<div class="form-group" style="margin-bottom:0px;">
+      			
+      			<div class="col-sm-2 mb-3">
+						<select class="form-control" name="month" id="month">
+							<option value="">Select Month</option>
+							<?php foreach($month as $months){?>
+								<option value="<?php echo $months['m_id'];?>" <?php if($months['m_id'] == (int)date('m')){echo "selected";}?>><?php echo $months['m_name'];?></option>	
+							<?php }?>
+						</select>
+						<div id="month_err" style="display:none; color:red;"></div>
+					</div>	
+					
       				<div class="col-sm-2 mb-3">
 						<select name="school" id="school" class="form-control">
 							<option value="">Select School</option>
@@ -68,7 +79,7 @@
 					<th>Action</th>
 					</tr>
 					</thead>
-					<tbody id="employee_details"></tbody>
+					<tbody id="employee_details"><tr><td colspan="4">Record not found.</td></tr></tbody>
 				</table>	
 			</div>
  		</div>
@@ -81,8 +92,10 @@ var userUrl = $('#user_url').val();
 $('#search_employee_form').validate({
 	rules:{
 		school:{required:true},
-		emp_type:{required:true},
-		emp_sub_type:{required:true}
+		month:{required:true}
+		//emp_type:{required:true},
+		//emp_sub_type:{required:true},
+		
 	},
 });
 
@@ -92,11 +105,12 @@ $(document).on('click','#search',function(){
 		var school = $('#school').val();
 		var emp_type = $('#emp_type').val();
 		var emp_sub_type = $('#emp_sub_type').val();
-
+		var month = $('#month').val();
+		
 		$.ajax({
 			type:'POST',
 			url:baseUrl+'payroll/Payroll_ctrl/salary_employee_list',
-			data:{'sch_id':school,'emp_type':emp_type,'emp_sub_type':emp_sub_type},
+			data:{'sch_id':school,'emp_type':emp_type,'emp_sub_type':emp_sub_type,'month':month},
 			dataType:'json',
 			beforeSend:function(){},
 			success:function(response){
@@ -107,9 +121,14 @@ $(document).on('click','#search',function(){
 							'<td>'+parseInt(key+1)+'</td>'+
 							'<td>'+value.emp_name+'</td>'+
 							'<td>'+value.emp_generated_id+'</td>'+
-							'<td>'+value.post_name+'</td>'+
-							'<td><button data-emp_id="'+value.emp_id+'" class="btn btn-info salary_generate">Salary Generate</button></td>'+
-						'</tr>';
+							'<td>'+value.post_name+'</td>';
+							if(value.generate_status == 1){
+								x=x+'<td><button disabled data-emp_id="'+value.emp_id+'" class="btn btn-info salary_generate">Salary Generated</button></td>';
+							}else{
+								x=x+'<td><button data-emp_id="'+value.emp_id+'" class="btn btn-success salary_generate">Salary Generate</button></td>';
+							}
+							
+						x=x+'</tr>';
 					});	
 					$('#employee_details').html(x);
 				}else{
@@ -121,9 +140,9 @@ $(document).on('click','#search',function(){
 });
 
 $(document).on('click','.salary_generate',function(){
-	var month_id = 1;
+	var month = $('#month').val();
 	var emp_id = $(this).data('emp_id');
-	window.open(baseUrl+userUrl+'/salary/salary-generation/'+month_id+'/'+emp_id);
+	window.open(baseUrl+userUrl+'/salary/salary-generation/'+month+'/'+emp_id);
 });
 
 

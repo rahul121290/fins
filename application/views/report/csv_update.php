@@ -84,11 +84,6 @@ $(document).on('click','#csv_submit',function(){
 			contentType:false
 		});	
 	}
-
-	
-	
-	
-	
 });
 
 

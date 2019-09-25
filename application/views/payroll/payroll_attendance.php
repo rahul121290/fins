@@ -91,14 +91,13 @@
 					<th>Absent Day</th>
 					</tr>
 					</thead>
-					<tbody id="employee_list"></tbody>
+					<tbody id="employee_list"><tr><td colspan="7" class="text-center">Record not found.</td></tr></tbody>
 				</table>
       		</div>
  		</div>
 		<div class="">
 			<div class="text-center">
     			<button class="btn btn-space btn-success no-print" id="attendance_submit" style="margin-bottom:50px;">Submit</button> 
-    			<button class="btn btn-space btn-primary no-print" style="margin-bottom:50px;" onclick="printDiv()">Print this page</button>
 			</div>
 		</div>
 	</div>
@@ -155,7 +154,7 @@ $(document).on('click','#search',function(){
 					});
 					$('#employee_list').html(x);
 				}else{
-					$('#employee_list').html('<tr><td colspan="7">Record not found.</td></tr>');
+					$('#employee_list').html('<tr><td colspan="7" class="text-center">Record not found.</td></tr>');
 				}
 			},
 		});

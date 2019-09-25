@@ -1063,13 +1063,21 @@ class Admin_ctrl extends CI_Controller {
             $this->data['main'] = 'payroll/payroll_salary_generation';
             $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
             
-            $this->db->select('*');
-            $this->db->join('payroll_attendance a','a.emp_id = e.emp_id AND pam_id = (SELECT pam_id FROM payroll_attendance_master am WHERE am.ses_id = e.ses_id AND am.sch_id = e.sch_id AND am.emp_type = e.emp_type AND am.emp_sub_type = e.emp_sub_type AND month = '.$month.' AND am.status = 1)');
-            $this->db->join('payroll_advance ad','ad.emp_id = e.emp_id AND ad.ses_id = e.ses_id AND ad.sch_id = e.sch_id AND month = '.$month.'','LEFT');
-            $this->data['emp_details'] = $this->db->get_where('payroll_employee_details e',array('e.status'=>1))->result_array();
-            
-            print_r($this->db->last_query());die;
-            
+            $this->db->select('e.*,IFNULL(a.present,0) present,IFNULL(a.absent,0) absent,IFNULL(SUM(ad.advance_amount),0) advance_amount,et.name emp_type,est.sub_type_name,p.name post_name');
+            $this->db->join('payroll_attendance a','a.emp_id = e.emp_id AND pam_id = (SELECT pam_id FROM payroll_attendance_master am WHERE am.ses_id = e.ses_id AND am.sch_id = e.sch_id AND am.emp_type = e.emp_type AND am.emp_sub_type = e.emp_sub_type AND month = '.$month.' AND am.status = 1)','LEFT');
+            $this->db->join('payroll_advance ad','ad.emp_id = e.emp_id AND ad.ses_id = e.ses_id AND ad.sch_id = e.sch_id AND month = '.$month.' AND ad.status = 1','LEFT');
+            $this->db->join('payroll_employee_type et','et.pet_id = e.emp_type');
+            $this->db->join('payroll_employee_sub_type est','est.est_id = e.emp_sub_type');
+            $this->db->join('payroll_employee_post p','p.ep_id = e.post_id');
+            $this->data['emp_details'] = $this->db->get_where('payroll_employee_details e',array('e.status'=>1,'e.emp_id'=>$emp_id))->result_array();
+            //print_r($this->db->last_query());die;
+            $this->data['receipt_no'] = 1;
+            $this->db->select('MAX(receipt_no) receipt_no');
+            $receipt_no = $this->db->get_where('payroll_salary_details')->result_array();
+            if($receipt_no[0]['receipt_no'] != null && $receipt_no[0]['receipt_no'] > 0){
+                $this->data['receipt_no'] = $receipt_no[0]['receipt_no']+1;
+            }
+            //print_r($this->db->last_query());die;
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
@@ -1081,6 +1089,32 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(36, $this->permission)){
             $this->data['page_name'] = 'Payroll Master Entry';
             $this->data['main'] = 'payroll/payroll_salary_history';
+            $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
+            $this->db->select('IFNULL(SUM(net_salary),0) net_salary');
+            $this->data['total_generated_amount'] = $this->db->get_where('payroll_salary_details',array('status'=>1,'month_id'=>(int)date('m')))->result_array();
+            
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function employee_post_entry(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Employee Post Entry';
+            $this->data['main'] = 'payroll/payroll_employee_post_entry';
+            $this->_load_view();
+        }else{
+            $this->data['page_name'] = 'Error';
+            $this->_load_view('error_page');
+        }
+    }
+    
+    function salary_generation_slip(){
+        if(in_array(36, $this->permission)){
+            $this->data['page_name'] = 'Payroll Master Entry';
+            $this->data['main'] = 'payroll/payroll_salary_generation_slip';
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';
@@ -1092,6 +1126,7 @@ class Admin_ctrl extends CI_Controller {
         if(in_array(36, $this->permission)){
             $this->data['page_name'] = 'Salary Data Sheet';
             $this->data['main'] = 'payroll/payroll_salary_sheet';
+            $this->data['month'] = $this->db->select('*')->get_where('month',array('status'=>1))->result_array();
             $this->_load_view();
         }else{
             $this->data['page_name'] = 'Error';

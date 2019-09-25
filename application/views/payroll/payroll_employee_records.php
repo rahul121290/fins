@@ -39,7 +39,7 @@
 						<select class="form-control" name="search_emp_type" id="search_emp_type">
 							<option value="">Select Employee Type</option>
 							<option value="1">Permanent</option>
-							<option value="3">Adhoc</option>
+							<option value="2">Adhoc</option>
 						</select>
 						<div id="search_emp_type_err" style="display:none; color:red;"></div>
 					</div>
@@ -92,7 +92,6 @@
 				</table>
       		</div>
  		</div>
-		<div class="text-center"><button class="btn btn-space btn-primary no-print" style="margin-bottom:50px;" onclick="printDiv()">Print this page</button></div>
 	</div>
 	
 	<div id="update_record_modal" class="modal fade" role="dialog">

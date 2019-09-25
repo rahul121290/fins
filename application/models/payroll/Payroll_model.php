@@ -86,7 +86,6 @@ class Payroll_model extends CI_Model {
             $this->db->insert('payroll_employee_details',$data);
         }
         
-        
         if ($this->db->trans_status() === FALSE)
         {
             $this->db->trans_rollback();

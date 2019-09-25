@@ -58,20 +58,8 @@ class Production_ctrl extends CI_Controller{
         $data['sub_group'] = $this->input->post('sub_group');
         $data['section'] = $this->input->post('section');
         
-//         $not_entry_sub_name = '';
-//         $enty_check = $this->production_model->marks_entry_check($data);
-//         foreach($enty_check as $check){
-//             if($check['entry'] == 'no'){
-//                 $not_entry_sub_name .=$check['sub_name'].',';
-//             }
-//         }
-        
-//         if($not_entry_sub_name != ''){
-//             echo json_encode(array('feedback'=>'Marks Entry pending on this subjects '.$not_entry_sub_name,'status'=>500));
-//             die;
-//         }
-        
         $furd_report = $this->production_model->students_report($data);
+        
         if(empty($furd_report)){
             echo json_encode(array('feedback'=>'Please check Entry','status'=>500));
             die;

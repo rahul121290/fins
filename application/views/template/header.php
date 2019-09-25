@@ -228,10 +228,10 @@ $permission = $this->my_function->user_permission();
     					<li class="dropdown">
         				<a class="dropdown-toggle" data-toggle="dropdown"  href="#">PAYROLL MASTER<span class="caret"></span></a>
         				<ul class="dropdown-menu">
-        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/payroll-master/payroll-master-entry"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Payroll Master Entry</a></li>
+        					<!-- >li><a href="<?=base_url().$school.'/'.$permission_link;?>/payroll-master/payroll-master-entry"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Payroll Master Entry</a></li -->
+        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/payroll-master/employee-post-entry"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Employee Post Entry</a></li>
         					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/payroll-master/new-employee-payroll"><i class="fa fa-user text-blue" aria-hidden="true"></i>New Employee Payroll</a></li>
         					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/payroll-master/employee-salary-records"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Employee Salary Records </a></li>
-        					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/payroll-master/employee-salary-records"><i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Employee Post Entry</a></li>
         				</ul>
         			</li>
         			<li class="dropdown">
@@ -250,7 +250,6 @@ $permission = $this->my_function->user_permission();
         					<li><a href="<?=base_url().$school.'/'.$permission_link;?>/report/salary-data-sheet"> <i class="fa fa-id-badge text-blue" aria-hidden="true"></i>Salary Data Sheet</a></li>
         				</ul>
         			</li>
-					
 					<?php } ?>
 					<!------------------------salary------------------------>
 					<?php if(in_array(24, $permission)){ ?>

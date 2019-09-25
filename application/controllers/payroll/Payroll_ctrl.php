@@ -74,6 +74,7 @@ class Payroll_ctrl extends CI_Controller {
      $data['sch_id']  = $this->input->post('sch_id');
      $data['emp_type']  = $this->input->post('emp_type');
      $data['emp_sub_type']  = $this->input->post('emp_sub_type');
+     $data['month'] = $this->input->post('month');
      
       $condition = 'emp.status = 1';
       if($data['ses_id']){
@@ -89,8 +90,9 @@ class Payroll_ctrl extends CI_Controller {
           $condition .= ' AND emp.emp_sub_type = '.$data['emp_sub_type'];
       }
      
-     $this->db->select('emp.*,p.name post_name');
+     $this->db->select('emp.*,p.name post_name,IF(esd.es_id IS NULL,0,1) generate_status');
      $this->db->join('payroll_employee_post p','p.ep_id = emp.post_id');
+     $this->db->join('payroll_salary_details esd','esd.emp_id = emp.emp_id AND esd.month_id = '.$data['month'].'','LEFT');
      $this->db->where($condition);
      $result = $this->db->get_where('payroll_employee_details emp')->result_array();
      
@@ -217,8 +219,8 @@ class Payroll_ctrl extends CI_Controller {
         foreach($emp_attendance as $emp_atten){
             $temp = [];
             $temp['emp_id'] = $emp_atten[0]['emp_id'];
-            $temp['present'] = $emp_atten[1]['attendance'];
-            $temp['absent'] = 30 - $emp_atten[1]['attendance'];
+            $temp['absent'] = $emp_atten[1]['attendance'];
+            $temp['present'] = 30 - $emp_atten[1]['attendance'];
             $temp['created_by'] = $this->session->userdata('user_id');
             $temp['created_at'] = date('Y-m-d H:i:s');
             $final[] = $temp;
@@ -231,7 +233,6 @@ class Payroll_ctrl extends CI_Controller {
         }else{
             echo json_encode(array('msg'=>$this->lang->line('atten_submit_failed'),'status'=>500));
         }
-        
     }
     
     
@@ -308,7 +309,6 @@ class Payroll_ctrl extends CI_Controller {
         else{
             $data['emp_image'] = $data['old_emp_image'];
         }
-        
         unset($data['old_emp_image']);
         unset($data['emp_id']);
         //print_r($data);die;
@@ -320,5 +320,166 @@ class Payroll_ctrl extends CI_Controller {
         }
     }
     
+    function generate_salary(){
+        $data = $this->input->post();
+        $data['pay_status'] = 1;
+        $data['generated_at'] = date('Y-m-d H:i:s');
+        $data['generated_by'] = $this->session->userdata('user_id');
+        
+        $this->db->trans_begin();
+        
+        $this->db->select('es_id');
+        $this->db->where(array('status'=>1,'ses_id'=>$data['ses_id'],'sch_id'=>$data['sch_id'],'month_id'=>$data['month_id'],'emp_id'=>$data['emp_id']));
+        $check = $this->db->get_where('payroll_salary_details')->result_array();
+        if(count($check) > 0){
+            //-----------update---------------
+            $this->db->where('es_id',$check[0]['es_id']);
+            $result = $this->db->update('payroll_salary_details',$data);
+        }else{
+            //---------insert---------------
+            $result = $this->db->insert('payroll_salary_details',$data);
+        }
+        
+        if ($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            echo json_encode(array('msg'=>$this->lang->line('salary_generate_failed'),'status'=>500));
+        }
+        else{
+            $this->db->trans_commit();
+            echo json_encode(array('msg'=>$this->lang->line('salary_generated_successfull'),'status'=>200));
+        }
+        
+    }
+    
+    
+    function salary_history(){
+        $data['ses_id'] = $this->session->userdata('session_id');
+        $data['sch_id'] = $this->input->post('sch_id');
+        $data['month'] = $this->input->post('month');
+        $data['emp_type'] = $this->input->post('emp_type');
+        $data['emp_sub_type'] = $this->input->post('emp_sub_type');
+        $data['pay_mode'] = $this->input->post('pay_mode');
+        $data['receipt_no'] = $this->input->post('receipt_no');
+        
+        
+        $condition = 'sd.status = 1';
+        if($data['ses_id']){
+           $condition .= ' AND sd.ses_id ='.$data['ses_id']; 
+        }
+        if($data['sch_id']){
+            $condition .= ' AND sd.sch_id ='.$data['sch_id'];
+        }
+        if($data['month']){
+            $condition .= ' AND sd.month_id ='.$data['month'];
+        }
+        if($data['emp_type']){
+            $condition .= ' AND ed.emp_type ='.$data['emp_type'];
+        }
+        if($data['emp_sub_type']){
+            $condition .= ' AND ed.emp_sub_type ='.$data['emp_sub_type'];
+        }
+        if($data['pay_mode']){
+            $condition .= ' AND sd.pay_mode = "'.$data['pay_mode'].'"';
+        }
+        if($data['receipt_no']){
+            $condition .= ' AND sd.receipt_no = "'.$data['receipt_no'].'"';
+        }
+        
+        $this->db->select('sd.*,ed.pf_no,ed.bank_acc_no,ed.esic_no,m.m_name');
+        $this->db->join('payroll_employee_details ed','ed.emp_id = sd.emp_id AND ed.status = 1');
+        $this->db->join('month m','m.m_id = sd.month_id');
+        $this->db->where($condition);
+        $result = $this->db->get_where('payroll_salary_details sd')->result_array();
+        
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('data'=>'Record not found.','status'=>500));
+        }
+    }
+    
+    function post_list(){
+        $this->db->select('*');
+        $result = $this->db->get_where('payroll_employee_post',array('status'=>1))->result_array();
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Record not found.','status'=>500));
+        }
+    }
+    
+    function post_delete(){
+        $p_id = $this->input->post('p_id');
+        $this->db->where('ep_id',$p_id);
+        $result = $this->db->update('payroll_employee_post',array('status'=>0));
+        if($result){
+            echo json_encode(array('msg'=>$this->lang->line('post_delete_success'),'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>$this->lang->line('post_delete_failed'),'status'=>500));
+            }
+    }
+    
+    function post_submit(){
+        $p_id = $this->input->post('p_id');
+        $data['name'] = $this->input->post('post');
+        $data['created_at'] = date('Y-m-d H:i:s');
+        $data['created_by'] = $this->session->userdata('user_id');
+        
+        $this->db->trans_begin();
+        if(!empty($p_id)){
+            //----------update-----------------
+            $this->db->where('ep_id',$p_id);
+            $this->db->update('payroll_employee_post',$data);
+        }else{
+            //----------insert----------------
+            $this->db->insert('payroll_employee_post',$data);
+        }
+        
+        if ($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            echo json_encode(array('msg'=>$this->lang->line('post_added_failed'),'status'=>500));
+        }
+        else{
+            $this->db->trans_commit();
+            echo json_encode(array('msg'=>$this->lang->line('post_added_success'),'status'=>200));
+        }
+    }
+    
+    function salary_data_sheet(){
+        $data['ses_id'] = $this->input->post('session');
+        $data['sch_id'] = $this->input->post('school');
+        $data['month'] = $this->input->post('month');
+        $data['emp_type'] = $this->input->post('emp_type');
+        $data['emp_sub_type'] = $this->input->post('emp_sub_type');
+        
+        $condition = 'sd.status = 1';
+        if($data['ses_id']){
+            $condition .= ' AND sd.ses_id ='.$data['ses_id'];
+        }
+        if($data['sch_id']){
+            $condition .= ' AND sd.sch_id ='.$data['sch_id'];
+        }
+        if($data['month']){
+            $condition .= ' AND sd.month_id ='.$data['month'];
+        }
+        if($data['emp_type']){
+            $condition .= ' AND ed.emp_type ='.$data['emp_type'];
+        }
+        if($data['emp_sub_type']){
+            $condition .= ' AND ed.emp_sub_type ='.$data['emp_sub_type'];
+        }
+        
+        $this->db->select('sd.*,ed.emp_generated_id,ed.pf_no,ed.bank_acc_no,ed.esic_no,m.m_name');
+        $this->db->join('payroll_employee_details ed','ed.emp_id = sd.emp_id AND ed.status = 1');
+        $this->db->join('month m','m.m_id = sd.month_id');
+        $this->db->where($condition);
+        $result = $this->db->get_where('payroll_salary_details sd')->result_array();
+        if(count($result) > 0){
+            echo json_encode(array('data'=>$result,'status'=>200));
+        }else{
+            echo json_encode(array('msg'=>'Reocrd not found.','status'=>500));
+        }
+        
+    }
     
 }
