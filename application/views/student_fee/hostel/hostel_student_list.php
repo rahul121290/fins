@@ -111,17 +111,22 @@
 		
 		<div class="box box-primary">
 			<div class="box-body text-center" style="font-size:18px;color:#e24e08;border:1px solid #ddd;float:left;width:100%;background-color:#fff;margin-bottom:20px;">
-				<div class="col-md-4" style="border-right:1px solid #ddd;width:33%;float:left;font-size:17px;">
+				<div class="col-md-3" style="border-right:1px solid #ddd;float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Total Fee</b><br>
 					<b>Rs. </b><span id="total_fee"><b>0.00</b></span>/-
 				</div>
 				
-				<div class="col-md-4" style="border-right:1px solid #ddd;width:33%;float:left;font-size:17px;">
+				<div class="col-md-3" style="border-right:1px solid #ddd;float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Received Fee</b><br>
 					<b>Rs. </b><span id="paid_fee"><b>0.00</b></span>/-
 				</div>
 				
-				<div class="col-md-4" style="width:33%;float:left;font-size:17px;">
+				<div class="col-md-3" style="border-right:1px solid #ddd;float:left;font-size:17px;">
+					<b style="color:#5d5c5c;">Received GST</b><br>
+					<b>Rs. </b><span id="paid_gst"><b>0.00</b></span>/-
+				</div>
+				
+				<div class="col-md-3" style="float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Pending Fee</b><br>
 					<b>Rs. </b><span id="pending_fee"><b>0.00</b></span>/-
 				</div>
@@ -143,6 +148,7 @@
                           <th>Father's Name</th>
                           <th>Total Fee</th>
                           <th>Received Fee</th>
+                          <th>Received GST</th>
                           <th>Pending Fee</th>
                           <th>Hostel Details</th>
                           <th class="no-print">Action</th>
@@ -217,14 +223,17 @@ function studentList(session,school,medium,class_id,student_status,search_box){
 						'<td>'+value.f_name+'<br/>'+value.f_contact_no+'</td>'+
 						'<td>'+value.hostel_fee+'</td>'+
 						'<td>'+value.paid_fee+'</td>'+
+						'<td>'+value.paid_gst+'</td>'+
 						'<td>'+parseFloat(parseFloat(value.hostel_fee) - parseFloat(value.paid_fee)).toFixed(2)+'</td>'+
 						'<td>'+details_status+'</td>'+
-						'<td class="no-print"><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-success" id="pay_now">Pay Now</button></td>'+
+						'<td class="no-print"><button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-success pay_now">Pay Now</button>  '+
+						'<button data-ses_id="'+value.ses_id+'" data-sch_id="'+value.sch_id+'" data-adm_no="'+value.adm_no+'" class="btn btn-info update_std">Update</button></td>'+
 					  '</tr>';
 				});
 				$('#student_list').html(x);
 				$('#total_fee').html('<b>'+response.all_total_fee+'</b>');
 				$('#paid_fee').html('<b>'+response.all_paid_fee+'</b>');
+				$('#paid_gst').html('<b>'+response.all_paid_gst+'</b>');
 				$('#pending_fee').html('<b>'+response.all_pending_fee+'</b>');
 			}else{
 				$('#student_list').html('<tr><td colspan="9" style="text-align:center">Record not found.</td></tr>');
@@ -236,7 +245,14 @@ function studentList(session,school,medium,class_id,student_status,search_box){
 	});
 }
 
-$(document).on('click','#pay_now',function(){
+$(document).on('click','.update_std',function(){
+	var ses_id = $(this).data('ses_id');
+	var sch_id = $(this).data('sch_id');
+	var adm_no = $(this).data('adm_no');
+	window.open(baseUrl+userUrl+'/hostel/add-hostel-details/'+ses_id+'/'+sch_id+'/'+adm_no);
+});
+
+$(document).on('click','.pay_now',function(){
 	var ses_id = $(this).data('ses_id');
 	var sch_id = $(this).data('sch_id');
 	var adm_no = $(this).data('adm_no');

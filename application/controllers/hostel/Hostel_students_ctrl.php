@@ -338,7 +338,8 @@ class Hostel_students_ctrl extends CI_Controller {
         $this->db->select('s.ses_id,s.sch_id,s.adm_no,s.name,s.f_name,s.contact_no,IFNULL(hs.f_contact_no,"") f_contact_no,IFNULL(hs.m_contact_no,"") m_contact_no,
                           IF(hs.hs_id IS null,"pending","updated") details_status,hs.std_status,
                           IFNULL(hfs.total,0) hostel_fee,
-                          IFNULL((SELECT SUM(paid_amount) FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND status = 1),0) paid_fee
+                          IFNULL((SELECT SUM(hostel_amount) FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND status = 1),0) paid_fee,
+                          IFNULL((SELECT SUM(cgst + sgst) FROM hostel_fee_payment WHERE ses_id = s.ses_id AND sch_id = s.sch_id AND adm_no = s.adm_no AND status = 1),0) paid_gst,
                         ');
         $this->db->join('hostel_students hs','hs.adm_no = s.adm_no AND hs.ses_id = s.ses_id AND hs.sch_id = s.sch_id AND hs.status = 1','LEFT');
         $this->db->join('hostel_fee_structure hfs','hfs.ses_id = s.ses_id AND hfs.sch_id = s.sch_id AND hfs.student_status = hs.std_status AND hfs.status = 1','LEFT');
@@ -347,6 +348,7 @@ class Hostel_students_ctrl extends CI_Controller {
         
         $all_total_fee = 0;
         $all_paid_fee = 0;
+        $all_paid_gst = 0;
         $all_pending_fee = 0;
         
         if(count($result) > 0){
@@ -354,10 +356,11 @@ class Hostel_students_ctrl extends CI_Controller {
             foreach($result as $res){
                 $all_total_fee += $res['hostel_fee'];
                 $all_paid_fee += $res['paid_fee'];
+                $all_paid_gst += $res['paid_gst'];
             }
             $all_pending_fee = $all_total_fee - $all_paid_fee;
             
-            echo json_encode(array('data'=>$result,'all_total_fee'=>$all_total_fee,'all_paid_fee'=>$all_paid_fee,'all_pending_fee'=>$all_pending_fee,'status'=>200));
+            echo json_encode(array('data'=>$result,'all_total_fee'=>$all_total_fee,'all_paid_fee'=>$all_paid_fee,'all_paid_gst'=>$all_paid_gst,'all_pending_fee'=>$all_pending_fee,'status'=>200));
         }else{
             echo json_encode(array('data'=>$this->lang->line('hostel_record_not_found'),'status'=>500));
         }

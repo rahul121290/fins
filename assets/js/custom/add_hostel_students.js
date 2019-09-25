@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var baseUrl = $('#base_url').val();
 	var userUrl = $('#user_url').val();
+	
 	$(document).on('change','#admission_no',function(){
 		var admission_no = $(this).val();
 		var school = $('#school').val();

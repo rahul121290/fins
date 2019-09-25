@@ -1,3 +1,12 @@
+<?php 
+$ses_id = $this->uri->segment(5);
+$sch_id = $this->uri->segment(6);
+$adm_no = $this->uri->segment(7);
+$this->db->select('*');
+$result = $this->db->get_where('students',array('status'=>1,'ses_id'=>$ses_id,'sch_id'=>$sch_id,'adm_no'=>$adm_no))->result_array();
+?>
+
+
 <div class="content-wrapper">
     <section class="content-header">
       <h1>Hostel<small>Add Student Details</small></h1>
@@ -18,33 +27,31 @@
 			
 			<div class="box-body">
                 <div class="col-md-6">
-                <div class="form-group">
-					<label class="col-sm-3 control-label">Student Hostel Status<span style="color:red;">*</span></label>
-						<div class="col-sm-6">
-							<select class="form-control" name="std_status" id="std_status">
-								<option value="">Select Status</option>
-								<option value="New">New</option>
-								<option value="Old">Old</option>
-							</select>
-							<div id="school_err" class="text-danger" style="display:none;"></div>
-						</div>
-				</div>
-				
+               
                 <div class="form-group">
 					<label class="col-sm-3 control-label">Board <span style="color:red;">*</span></label>
 						<div class="col-sm-6">
 							<select class="form-control" name="school" id="school">
 								<option value="">Select Board</option>
 								<?php if($this->session->userdata('school_id') == 1){?>
-								<option value="1">CBSE</option>
-								<option value="3">CG Board</option>
+								<option value="1" <?php if(isset($sch_id) && $sch_id == 1){echo "selected";}?>>CBSE</option>
+								<option value="3" <?php if(isset($sch_id) && $sch_id == 3){echo "selected";}?>>CG Board</option>
 								<?php }else{ ?>
-								<option value="2">CBSE</option>
+								<option value="2" <?php if(isset($sch_id) && $sch_id == 2){echo "selected";}?>>CBSE</option>
 								<?php } ?>
 							</select>
 							<div id="school_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
+				
+				 <div class="form-group">
+                  <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>
+                  <div class="col-sm-6">
+					<input type="number" name="admission_no" id="admission_no" value="<?php if(isset($result[0]['adm_no'])){echo $result[0]['adm_no'];}?>" class="form-control" placeholder="Enter admission no." />
+					<div id="admission_no_err" style="display:none;color:red;"></div>
+				</div>
+                </div>
+				
 				
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Allotted Hostel <span style="color:red;">*</span></label>
@@ -59,25 +66,29 @@
 						</div>
 				</div>
 
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Admission No. <span style="color:red;">*</span></label>
-                  <div class="col-sm-6">
-					<input type="number" name="admission_no" id="admission_no" class="form-control" placeholder="Enter admission no." />
-					<div id="admission_no_err" style="display:none;color:red;"></div>
+                 <div class="form-group">
+					<label class="col-sm-3 control-label">Student Hostel Status<span style="color:red;">*</span></label>
+						<div class="col-sm-6">
+							<select class="form-control" name="std_status" id="std_status">
+								<option value="">Select Status</option>
+								<option value="New">New</option>
+								<option value="Old">Old</option>
+							</select>
+							<div id="school_err" class="text-danger" style="display:none;"></div>
+						</div>
 				</div>
-                </div>
-				
+               
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Student Name <span style="color:red;">*</span></label>
 						<div class="col-sm-6">
-							<input type="text" name="student_name" id="student_name" class="form-control only_text" placeholder="Enter student name" disabled="disabled"/>
+							<input type="text" name="student_name" id="student_name" value="<?php if(isset($result[0]['name'])){echo $result[0]['name'];}?>" class="form-control only_text" placeholder="Enter student name" disabled="disabled"/>
 							<div id="student_name_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Roll No.</label>
                   <div class="col-sm-6">
-					<input type="text" name="roll_no" id="roll_no" class="form-control only_int" placeholder="Enter roll no." disabled="disabled"/>
+					<input type="text" name="roll_no" id="roll_no" value="<?php if(isset($result[0]['roll_no'])){echo $result[0]['roll_no'];}?>" class="form-control only_int" placeholder="Enter roll no." disabled="disabled"/>
 					<div id="roll_no_err"	 style="display:none;color:red;"></div>
 				  </div>
                 </div>
@@ -88,7 +99,7 @@
 							<select class="form-control" name="medium" id="medium" disabled="disabled">
 								<option value="">Select Medium</option>
 								<?php foreach($medium as $med){?>
-								    <option value="<?php echo $med['med_id'];?>"><?php echo $med['med_name'];?></option>
+								    <option value="<?php echo $med['med_id'];?>" <?php if(isset($result[0]['medium']) && $result[0]['medium'] == $med['med_id']){echo "selected";}?>><?php echo $med['med_name'];?></option>
 								<?php }?>
 							</select>
 							<div id="medium_err" class="text-danger" style="display:none;"></div>
@@ -101,7 +112,7 @@
 						<select class="form-control" name="class_id" id="class_id" disabled="disabled">
 							<option value="">Select Class</option>
 							<?php foreach($class as $classes){?>
-								<option value="<?php echo $classes['c_id'];?>"><?php echo $classes['class_name'];?></option>
+								<option value="<?php echo $classes['c_id'];?>" <?php if(isset($result[0]['class_id']) && $result[0]['class_id'] == $classes['c_id']){echo "selected";}?>><?php echo $classes['class_name'];?></option>
 							<?php } ?>
 						</select>
 						<div id="class_err" class="text-danger" style="display:none;"></div>
@@ -114,7 +125,7 @@
 					<select class="form-control" name="section" id="section" disabled="disabled">
 						<option value="">Select Section</option>
 						<?php foreach($section as $sec){?>
-						<option value="<?php echo $sec['sec_id'];?>"><?php echo $sec['section_name'];?></option>
+						<option value="<?php echo $sec['sec_id'];?>"<?php if(isset($result[0]['sec_id']) && $result[0]['sec_id'] == $sec['sec_id']){echo "selected";}?>><?php echo $sec['section_name'];?></option>
 						<?php }?>
 					</select>
 					<div id="section_err" class="text-danger" style="display:none;"></div>
@@ -129,7 +140,7 @@
 					<select class="form-control" name="subject_group" id="subject_group" disabled="disabled">
 						<option value="" >Select Subject Group</option>
 						<?php foreach($sub_group as $group){?>
-						<option value="<?php echo $group['sg_id'];?>"><?php echo $group['sg_name'];?></option>
+						<option value="<?php echo $group['sg_id'];?>" <?php if(isset($result[0]['sub_group']) && $result[0]['sub_group'] == $group['sg_id']){echo "selected";}?>><?php echo $group['sg_name'];?></option>
 						<?php } ?>
 					</select>
 					<div id="subject_group_err" style="display:none; color:red;"></div>
@@ -139,7 +150,7 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Father's Name <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="father_name" id="father_name" class="form-control only_text" placeholder="Enter father's name" disabled="disabled"/>
+						<input type="text" name="father_name" id="father_name" value="<?php if(isset($result[0]['f_name'])){echo $result[0]['f_name'];}?>" class="form-control only_text" placeholder="Enter father's name" disabled="disabled"/>
 						<div id="father_name_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -147,7 +158,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Mother's Name <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="mother_name" id="mother_name" class="form-control only_text" placeholder="Enter mother's name" disabled="disabled"/>
+						<input type="text" name="mother_name" id="mother_name" value="<?php if(isset($result[0]['m_name'])){echo $result[0]['m_name'];}?>" class="form-control only_text" placeholder="Enter mother's name" disabled="disabled"/>
 						<div id="mother_name_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
@@ -155,7 +166,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Date Of Birth <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-					  <input type="date"max="<?php echo date('Y-m-d')?>" class="form-control" id="dob" name="dob" placeholder="dd/mm/yyyy" disabled="disabled"/> 
+					  <input type="date"max="<?php echo date('Y-m-d')?>" value="<?php if(isset($result[0]['dob'])){echo $result[0]['dob'];}?>" class="form-control" id="dob" name="dob" placeholder="dd/mm/yyyy" disabled="disabled"/> 
 					<div id="dob_err" class="text-danger" style="display:none;"></div> 
 					</div>
 					<!-- /.input group -->
@@ -166,8 +177,8 @@
 					<div class="col-sm-6">
 					<select class="form-control" id="gender" name="gender" disabled="disabled">
 						<option value="">Select Gender</option>
-						<option value="Male">Male</option>
-						<option value="Female">Female</option>
+						<option value="Male"<?php if(isset($result[0]['gender']) && $result[0]['gender'] == 'Male'){echo "selected";}?>>Male</option>
+						<option value="Female" <?php if(isset($result[0]['gender']) && $result[0]['gender'] == 'Female'){echo "selected";}?>>Female</option>
 					</select>
 					 <div id="gender_err" class="text-danger" style="display:none;"></div>
 					</div>
@@ -176,21 +187,21 @@
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Aadhaar Card Number</label>
 					<div class="col-sm-6">
-						<input type="text" name="aadhar_no" id="aadhar_no" class="form-control only_int" placeholder="Enter aadhaar card no." maxlength="12" disabled="disabled"/>
+						<input type="text" name="aadhar_no" id="aadhar_no" value="<?php if(isset($result[0]['aadhar_no'])){echo $result[0]['aadhar_no'];}?>" class="form-control only_int" placeholder="Enter aadhaar card no." maxlength="12" disabled="disabled"/>
 						<div id="aadhar_no_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
 				<div class="form-group">
                   <label class="col-sm-3 control-label">Permanent Address <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<textarea name="address" id="address" class="form-control" rows="3" placeholder="Enter permanent address" disabled="disabled"></textarea>
+						<textarea name="address" id="address" class="form-control" rows="3" placeholder="Enter permanent address" disabled="disabled"><?php if(isset($result[0]['address'])){echo $result[0]['address'];}?></textarea>
 						<div id="address_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
                <div class="form-group">
                   <label class="col-sm-3 control-label">Contact No. <span style="color:red;">*</span></label>
 					<div class="col-sm-6">
-						<input type="text" name="contact_no" id="contact_no" class="form-control only_int" placeholder="Enter contact no." disabled="disabled"/>
+						<input type="text" name="contact_no" id="contact_no" value="<?php if(isset($result[0]['contact_no'])){echo $result[0]['contact_no'];}?>" class="form-control only_int" placeholder="Enter contact no." disabled="disabled"/>
 						<div id="contact_no_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>

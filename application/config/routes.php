@@ -74,6 +74,7 @@ $route['(:any)/(:any)/students/recycle-bin'] = 'Admin_ctrl/recycle_bin';
 
 //----------hostel fee--------------------------------
 $route['(:any)/(:any)/hostel/add-hostel-details'] = 'Admin_ctrl/add_hostel_details';
+$route['(:any)/(:any)/hostel/add-hostel-details/(:num)/(:num)/(:num)'] = 'Admin_ctrl/add_hostel_details/$3/$4/$5';
 $route['(:any)/(:any)/hostel/fee-payment/(:num)/(:num)/(:num)'] = 'Admin_ctrl/hostel_fee/$3/$4/$5';
 $route['(:any)/(:any)/hostel/fee-payment'] = 'Admin_ctrl/hostel_student_list';
 $route['(:any)/(:any)/hostel/receipt/(:num)'] = 'Admin_ctrl/hostel_receipt/$3';
