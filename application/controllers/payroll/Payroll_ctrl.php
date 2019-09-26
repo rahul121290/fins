@@ -257,7 +257,7 @@ class Payroll_ctrl extends CI_Controller {
             $condtion .= ' AND ped.emp_sub_type = '.$data['emp_sub_type'];
         }
         if($data['gender']){
-            $condtion .= ' AND ped.gender = '.$data['gender'];
+            $condtion .= ' AND ped.gender = "'.$data['gender'].'"';
         }
         
         

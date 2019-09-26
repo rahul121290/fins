@@ -57,8 +57,8 @@
 					<div class="col-sm-2 mb-3">
 						<select class="form-control" name="search_gender" id="search_gender">
 							<option value="">Select Gender</option>
-							<option value="1">Female</option>
-							<option value="3">Male</option>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
 						</select>
 						<div id="search_gender_err" style="display:none; color:red;"></div>
 					</div>
