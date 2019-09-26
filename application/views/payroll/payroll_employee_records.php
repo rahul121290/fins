@@ -279,7 +279,7 @@
                 
 				<div class="form-group">
 				  <div id="display_emp_image"></div>
-				  <input type="text" id="old_emp_image">
+				  <input type="hidden" id="old_emp_image">
                   <label class="col-sm-3 control-label" for="exampleInputFile">Profile Image:</label>
                   <div class="col-sm-8"><input type="file" name="emp_image" id="emp_image"></div>
                   <div id="emp_image_err"></div>

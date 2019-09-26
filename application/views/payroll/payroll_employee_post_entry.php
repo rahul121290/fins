@@ -83,7 +83,7 @@ function post_list(){
 				});
 				$('#post_lists').html(x);
 			}else{
-				$('#post_lists').html('<tr><td colspan="3" class="text-center;">Record not found.</td></tr>');
+				$('#post_lists').html('<tr><td colspan="3" class="text-center">Record not found.</td></tr>');
 			}
 		},
 	});

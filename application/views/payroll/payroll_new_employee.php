@@ -202,7 +202,7 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">DA: <span style="color:red;">*</span></label>
+					<label class="col-sm-3 control-label">DA (%): <span style="color:red;">*</span></label>
 						<div class="col-sm-8">
 							<input type="text" name="da_percentange" id="da_percentange" class="form-control only_text" placeholder="DA Percentange">
 							<div id="da_percentange_err" class="text-danger" style="display:none;"></div>
