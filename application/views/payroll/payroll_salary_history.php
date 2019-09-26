@@ -223,7 +223,7 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 						'<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/custom-style.css">'+
 						'<div class="modal-content p-head-sec" ><style>@media print {.table tr td{padding:3px !important;font-size:13px !important;}.payroll-box-sec{border:2px solid #ddd !important;}}</style>';
 			$.each(response.data,function(key,value){
-				x=x+'<div class="payroll-box" style="float:left;width:100%;padding:0px 30px 10px 30px;">'+
+				x=x+'<div class="payroll-box" style="float:left;width:100%;padding:0px 30px 25px 30px;">'+
 				'<div class="payroll-header" style="float:left;width:100%;">';
 				if(value.sch_id == 1){
 					x=x+'<div class="float-left" style="float:left;width:50%;"><img style="width:50px;margin-right:10px;float:left;" src="<?php echo base_url();?>assets/images/shakuntala/shakuntala.png" /><div style="float:left;font-size:15px;"><h4 style="margin-top:0px;margin-bottom:0px;"><b>Shakuntala Vidyalaya CBSE</b></h4><span>Ram Nagar Bhilai</span></div></div>';
@@ -245,7 +245,7 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 						'<div style="float:left;width:50%;text-align:right;"><b>Entry No.:</b> '+value.receipt_no+' </div>'+
 					'</div>'+
 					'<div style="float:left;width:100%;">'+
-						'<table class="table" style="width:33%;float:left;margin-bottom:10px;">'+
+						'<table class="table" style="width:33%;float:left;">'+
 							'<tbody>'+
 								'<tr><td style="width:50%;"><b>Month:</b></td><td>'+value.m_name+'</td></tr>'+
 								'<tr><td><b>Basic  Salary:</b></td><td>'+value.basic_salary+'</td></tr>'+
@@ -255,7 +255,7 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 								'<tr><td><b>Gross Basic:</b></td><td>'+value.gross_basic+'</td></tr>'+
 							'</tbody>'+
 						'</table>'+
-						'<table class="table" style="width:33%;float:left;margin-bottom:10px;">'+
+						'<table class="table" style="width:33%;float:left;">'+
 							'<tbody>'+
 								'<tr><td style="width:50%;"><b>PF No.:</b></td><td>'+value.pf_no+'</td></tr>'+
 								'<tr><td><b>PF Samiti:</b></td><td>'+value.samiti_pf+'</td></tr>'+
@@ -265,7 +265,7 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 								'<tr><td><b>ESIC Samiti:</b></td><td>'+value.samiti_esic+'</td></tr>'+
 							'</tbody>'+
 						'</table>'+
-						'<table class="table" style="width:33%;float:left;margin-bottom:10px;">'+
+						'<table class="table" style="width:33%;float:left;">'+
 							'<tbody>'+
 								'<tr><td><b>ESIC Employee:</b></td><td>'+value.emp_esic+'</td></tr>'+
 								'<tr><td style="width:60%;"><b>ESIC No.:</b></td><td>'+value.esic_no+'</td></tr>'+
