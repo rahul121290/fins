@@ -79,7 +79,7 @@
 					<th>Action</th>
 					</tr>
 					</thead>
-					<tbody id="employee_details"><tr><td colspan="4">Record not found.</td></tr></tbody>
+					<tbody id="employee_details"><tr><td colspan="4" class="text-center">Record not found.</td></tr></tbody>
 				</table>	
 			</div>
  		</div>
@@ -132,7 +132,7 @@ $(document).on('click','#search',function(){
 					});	
 					$('#employee_details').html(x);
 				}else{
-					$('#employee_details').html('<tr><td colspan="4">Record not found.</td></tr>');
+					$('#employee_details').html('<tr><td colspan="4" class="text-center">Record not found.</td></tr>');
 				}
 			},
 		});

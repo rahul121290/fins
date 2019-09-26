@@ -108,7 +108,7 @@
                 <div class="row">
 				<div class="col-md-6">
 				
-				<input type="text" id="emp_id" value="">
+				<input type="hidden" id="emp_id" value="">
 				
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Employee Type: <span style="color:red;">*</span></label>
