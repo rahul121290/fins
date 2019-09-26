@@ -446,7 +446,7 @@ function emp_list(ses_id,sch_id,emp_type,emp_sub_type,gender){
 				});
 				$('#employees_list').html(x);
 			}else{
-				$('#employees_list').html('<tr><td colspan="6" class="text-center">Record not found</td></tr>');
+				$('#employees_list').html('<tr><td colspan="8" class="text-center">Record not found</td></tr>');
 			}
 		},
 	});
