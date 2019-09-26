@@ -104,7 +104,7 @@
             <div class="box-header">
               <h3 class="box-title"><b>Select filters </b></h3>
             </div>
-      		<div class="box-body table-responsive" id="DivIdToPrint">
+      		<div class="box-body table-responsive p-sibling-report" id="DivIdToPrint">
 				<table class="table">
 					<thead><tr>
 					<th>S.No.</th>
@@ -240,7 +240,16 @@ function printDiv(){
 	  var divToPrint=document.getElementById('DivIdToPrint');
 	  var newWin=window.open('','Print-Window');
 	  newWin.document.open();
-	  newWin.document.write('<html><head><style>#in {display:none}</style><body   onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+	  newWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css"><link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/custom-style.css"><style>#in {display:none} .p-sibling-report table thead tr th{padding:3px !important;font-size:11px !important;background-color:#f3f3f3 !important;}'+
+'.p-sibling-report table tbody tr td{padding:3px !important;font-size:11px !important;}</style><body   onload="window.print()"><div class="print-s-logo" style="float:left;padding:0px 0px 5px 0;width:100%;">'+
+				'<div class="text-center" style="float:left;">'+
+		'<img class="pull-left" alt="" src="<?php echo base_url()?>assets/images/shakuntala/shakuntala.png" height="40" />'+
+		'<div class="print-s-name" >'+
+			'<h4><b>Shakuntala Vidyalaya</b></h4>'+
+			'<p>Ram Nagar Bhilai(C.G.)</p>'+
+		'</div></div><div class="text-right">'+
+					'<h4><b>Employee Salary Sheet</b></h4>'+
+				'</div></div>'+divToPrint.innerHTML+'</body></html>');
 	  newWin.document.close();
 	  setTimeout(function(){newWin.close();},10);
 	}

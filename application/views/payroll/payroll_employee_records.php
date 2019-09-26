@@ -37,7 +37,7 @@
 					
 					<div class="col-sm-2 mb-3">
 						<select class="form-control" name="search_emp_type" id="search_emp_type">
-							<option value="">Select Employee Type</option>
+							<option value="">Select Employee Grade</option>
 							<option value="1">Permanent</option>
 							<option value="2">Adhoc</option>
 						</select>
@@ -46,7 +46,7 @@
 										
 					<div class="col-sm-2 mb-3">
 						<select class="form-control" name="search_emp_sub_type" id="search_emp_sub_type">
-							<option value="">Employee Sub Type</option>
+							<option value="">Employee Sub Grade</option>
 							<option value="1">Teacher</option>
 							<option value="2">Peon + Helper + Driver</option>
 							<option value="3">Shakuntala Gurukul</option>
@@ -73,14 +73,14 @@
 	
 		<div class="box box-info">
             <div class="box-header">
-              <h3 class="box-title no-print"><b>Shakuntala Employee </b></h3>
+              <h3 class="box-title no-print"><b>Employee List</b></h3>
             </div>
       		<div class="box-body table-responsive p-table-bg-head p-table-body">
 				<table class="table">
 					<thead><tr>
 					<th>S.No.</th>
 					<th>School</th>
-					<th>Employee Type</th>
+					<th>Employee Grade</th>
 					<th>Employee Name</th>
 					<th>Employee ID</th>
 					<th>Gender</th>

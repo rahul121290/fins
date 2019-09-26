@@ -239,7 +239,7 @@
 						</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Bank A/C No: <span style="color:red;">*</span></label>
+					<label class="col-sm-3 control-label">Bank A/C No.: <span style="color:red;">*</span></label>
 						<div class="col-sm-8">
 							<input type="text" name="bank_acc_no" id="bank_acc_no" class="form-control only_text" placeholder="Bank A/C No.">
 							<div id="bank_acc_no_err" class="text-danger" style="display:none;"></div>

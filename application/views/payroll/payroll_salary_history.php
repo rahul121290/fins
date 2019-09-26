@@ -219,11 +219,11 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 		success:function(response){
 			if(response.status == 200){
 				var win = window.open('', "myWindowName", "scrollbars=1,width=1200, height=600");
-				var x = '<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/bootstrap.min.css">'+
-						'<link rel="stylesheet" type="text/css" href="'+ base_url +'assets/css/marksheet-result.css">'+
-						'<div class="modal-content p-head-sec" style="height:640px;"><style>@media print {.table tr td{padding:3px !important;font-size:13px !important;}.payroll-box-sec{border:2px solid #ddd !important;}}</style>';
+				var x = '<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css">'+
+						'<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/custom-style.css">'+
+						'<div class="modal-content p-head-sec" ><style>@media print {.table tr td{padding:3px !important;font-size:13px !important;}.payroll-box-sec{border:2px solid #ddd !important;}}</style>';
 			$.each(response.data,function(key,value){
-				x=x+'<div class="payroll-box" style="float:left;width:100%;padding:0px 30px 25px 30px;">'+
+				x=x+'<div class="payroll-box" style="float:left;width:100%;padding:0px 30px 10px 30px;">'+
 				'<div class="payroll-header" style="float:left;width:100%;">';
 				if(value.sch_id == 1){
 					x=x+'<div class="float-left" style="float:left;width:50%;"><img style="width:50px;margin-right:10px;float:left;" src="<?php echo base_url();?>assets/images/shakuntala/shakuntala.png" /><div style="float:left;font-size:15px;"><h4 style="margin-top:0px;margin-bottom:0px;"><b>Shakuntala Vidyalaya CBSE</b></h4><span>Ram Nagar Bhilai</span></div></div>';
@@ -245,7 +245,7 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 						'<div style="float:left;width:50%;text-align:right;"><b>Entry No.:</b> '+value.receipt_no+' </div>'+
 					'</div>'+
 					'<div style="float:left;width:100%;">'+
-						'<table class="table" style="width:33%;float:left;">'+
+						'<table class="table" style="width:33%;float:left;margin-bottom:10px;">'+
 							'<tbody>'+
 								'<tr><td style="width:50%;"><b>Month:</b></td><td>'+value.m_name+'</td></tr>'+
 								'<tr><td><b>Basic  Salary:</b></td><td>'+value.basic_salary+'</td></tr>'+
@@ -255,7 +255,7 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 								'<tr><td><b>Gross Basic:</b></td><td>'+value.gross_basic+'</td></tr>'+
 							'</tbody>'+
 						'</table>'+
-						'<table class="table" style="width:33%;float:left;">'+
+						'<table class="table" style="width:33%;float:left;margin-bottom:10px;">'+
 							'<tbody>'+
 								'<tr><td style="width:50%;"><b>PF No.:</b></td><td>'+value.pf_no+'</td></tr>'+
 								'<tr><td><b>PF Samiti:</b></td><td>'+value.samiti_pf+'</td></tr>'+
@@ -263,11 +263,11 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 								'<tr><td><b>PA:</b></td><td>'+value.pa_amount+'</td></tr>'+
 								'<tr><td><b>Gross Salary:</b></td><td>'+value.gross_salary+'</td></tr>'+
 								'<tr><td><b>ESIC Samiti:</b></td><td>'+value.samiti_esic+'</td></tr>'+
-								'<tr><td><b>ESIC Employee:</b></td><td>'+value.emp_esic+'</td></tr>'+
 							'</tbody>'+
 						'</table>'+
-						'<table class="table" style="width:33%;float:left;">'+
+						'<table class="table" style="width:33%;float:left;margin-bottom:10px;">'+
 							'<tbody>'+
+								'<tr><td><b>ESIC Employee:</b></td><td>'+value.emp_esic+'</td></tr>'+
 								'<tr><td style="width:60%;"><b>ESIC No.:</b></td><td>'+value.esic_no+'</td></tr>'+
 								'<tr><td><b>Advance:</b></td><td>'+value.advance_amount+'</td></tr>'+
 								'<tr><td><b>Total Ded Emp:</b></td><td>'+value.emp_t_ded+'</td></tr>'+
@@ -275,20 +275,20 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 								'<tr><td><b>TDS:</b></td><td>'+value.tds+'</td></tr>'+
 							'</tbody>'+
 						'</table>'+
-						'<table class="table">'+
+						'<table class="table" style="margin-bottom:5px;">'+
 							'<tbody>'+
 								'<tr><td style="text-align:right;background-color: #f2f2f2;font-size: 17px;padding-right:30px;"><b>Net Salary: '+value.net_salary+'/-</b></td></tr>'+
 							'</tbody>'+
 						'</table>'+
 						'<div style="float-right;text-align:right;">';
 						if(value.sch_id == 1){
-							x=x+'<img style="width:80px;margin-right:20px;" src="<?php echo base_url();?>assets/images/shakuntala/principle_image.png" />';
+							x=x+'<img style="width:80px;margin-right:20px;" src="'+ baseUrl +'assets/images/shakuntala/principle_image.png" />';
 						}else if(value.sch_id == 2){
-							x=x+'<img style="width:80px;margin-right:20px;" src="<?php echo base_url();?>assets/images/sharda/principle_image.png" />';
+							x=x+'<img style="width:80px;margin-right:20px;" src="'+ baseUrl +'assets/images/sharda/principle_image.png" />';
 						}else if(value.sch_id == 3){
-							x=x+'<img style="width:80px;margin-right:20px;" src="<?php echo base_url();?>assets/images/shakuntala/principle_image.png" />';
+							x=x+'<img style="width:80px;margin-right:20px;" src="'+ baseUrl +'assets/images/shakuntala/principle_image.png" />';
 						}else if(value.sch_id == 4){
-							x=x+'<img style="width:80px;margin-right:20px;" src="<?php echo base_url();?>assets/images/sharda/principle_image.png" />';
+							x=x+'<img style="width:80px;margin-right:20px;" src="'+ baseUrl +'assets/images/sharda/principle_image.png" />';
 						}
 						x=x+'</div>'+
 					'</div>'+
