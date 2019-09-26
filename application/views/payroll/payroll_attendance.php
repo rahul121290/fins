@@ -149,7 +149,7 @@ $(document).on('click','#search',function(){
 							'<td>'+value.et_name+' / '+value.sub_type_name+'</td>'+
 							'<td>'+value.emp_name+'</td>'+
 							'<td>'+month+'</td>'+
-							'<td><input type="text" data-max="30" data-emp_id="'+value.emp_id+'" value="'+value.present+'" class="emp_attendance max_validation"></td>'+
+							'<td><input type="text" data-max="<?php echo date('t');?>" data-emp_id="'+value.emp_id+'" value="'+value.absent+'" class="emp_attendance max_validation"></td>'+
 							'</tr>';
 					});
 					$('#employee_list').html(x);
