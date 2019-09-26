@@ -1,8 +1,8 @@
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>Employee Advance<small>Entry</small></h1>
+      <h1>Employee Advance Entry</h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/payroll"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/payroll/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="">Salary</li>
         <li class="active">Advance Entry</li>
       </ol>
@@ -19,7 +19,7 @@
             	<form role="form" method="POST" class="form-horizontal" id="advance_form">
             		<input type="hidden" id="e_ad_id" value="">
             			<div class="form-group">
-							<label class="control-label col-md-2">School</label>
+							<label class="control-label col-md-2">Month</label>
 							<div class="col-sm-9">
 								<select name="month" id="month" class="form-control">
 									<option value="">Select Month</option>
@@ -75,14 +75,14 @@
        		<div class="col-md-7">	
               	<div class="box box-info">
                     <div class="box-header">
-                      <h3 class="box-title">Advance List</h3>
+                      <h3 class="box-title"><b>Employee Advance List</b></h3>
                     </div>
               		     <div class="box-body">
           					<table class="table table-responsive">
     						<thead>
             					<tr>
                     				<th>S.No.</th>
-                    				<th>Employe Name</th>
+                    				<th>Employee Name</th>
                     				<th>Advance Date</th>
                     				<th>Advance Amount</th>
             					</tr>

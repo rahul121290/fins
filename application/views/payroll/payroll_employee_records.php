@@ -111,10 +111,10 @@
 				<input type="hidden" id="emp_id" value="">
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Employee Type: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Employee Grade: <span style="color:red;">*</span></label>
+					<div class="col-sm-10">
 						<select class="form-control" name="emp_type" id="emp_type">
-							<option value="">Select Type</option>
+							<option value="">Select Grade</option>
 							<option value="1">Permanent</option>
 							<option value="2">Adhoc</option>
 						</select>
@@ -123,8 +123,8 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Employee Sub Type: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Employee Sub Grade: <span style="color:red;">*</span></label>
+					<div class="col-sm-10">
 						<select class="form-control" name="emp_sub_type" id="emp_sub_type">
 							<option value="">Select Sub Type</option>
 							<?php foreach($emp_sub_type as $sub_type){?>
@@ -136,24 +136,24 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Employee Name: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Employee Name: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="emp_name" id="emp_name" class="form-control only_text" placeholder="Employee Name">
 							<div id="emp_name_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Employee ID: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Employee ID: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="emp_generated_id" id="emp_generated_id" class="form-control only_text" placeholder="Employee ID">
 							<div id="emp_generated_id_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">School: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">School: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<select name="school" id="school" class="form-control">
 							<option value="">Select School</option>
 							<option value="1" selected>Shakuntala Vidyalaya (CBSE) Records</option>
@@ -166,8 +166,8 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Session: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Session: <span style="color:red;">*</span></label>
+					<div class="col-sm-10">
 						<select class="form-control" name="session" id="session">
 							<option value="">Select Session</option>
 							<option value="3" selected>2019-20</option>
@@ -177,8 +177,8 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Post: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Post: <span style="color:red;">*</span></label>
+					<div class="col-sm-10">
 						<select class="form-control" name="emp_post" id="emp_post">
 							<option value="">Select Post</option>
 							<?php foreach($post as $posts){?>
@@ -191,8 +191,8 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Date of Join: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Date of Join: <span style="color:red;">*</span></label>
+					<div class="col-sm-10">
 					  <input type="date" max="<?php echo date('Y-m-d')?>" value="<?php echo date('Y-m-d');?>" class="form-control" id="doj" name="doj" placeholder="Date of Joining">
 					<div id="doj_err" style="display:none; color:red;"></div>
 					</div>
@@ -201,16 +201,16 @@
 				
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Father/Hashband Name: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Father/Hashband Name: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="f_or_h_name" id="f_or_h_name" class="form-control only_text" placeholder="Enter name">
 							<div id="f_or_h_name_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-                    <label class="col-sm-3 control-label">Gender: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
+                    <label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Gender: <span style="color:red;">*</span></label>
+					<div class="col-sm-10">
 					<select class="form-control" id="gender" name="gender">
 						<option value="">Select Gender</option>
 						<option value="Male">Male</option>
@@ -222,8 +222,8 @@
 				
 				               
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Date Of Birth: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Date Of Birth: <span style="color:red;">*</span></label>
+					<div class="col-sm-10">
 					  <input type="date"max="<?php echo date('Y-m-d')?>" class="form-control" id="dob" name="dob" placeholder="Date of Birth"> 
 					<div id="dob_err" class="text-danger" style="display:none;"></div> 
 					</div>
@@ -231,22 +231,22 @@
 				</div>
 				
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Aadhaar Card Number:</label>
-					<div class="col-sm-8">
+                  <label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Aadhaar Card Number:</label>
+					<div class="col-sm-10">
 						<input type="text" name="aadhaar_no" id="aadhaar_no" class="form-control" placeholder="Enter aadhaar card no." maxlength="12">
 						<div id="aadhaar_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Permanent Address: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
+                  <label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Permanent Address: <span style="color:red;">*</span></label>
+					<div class="col-sm-10">
 						<textarea name="prmt_add" id="prmt_add" class="form-control" rows="3" placeholder="Enter permanent address"></textarea>
 						<div id="prmt_add_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Local Address: </label>
-					<div class="col-sm-8">
+                  <label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Local Address: </label>
+					<div class="col-sm-10">
 						<textarea name="local_add" id="local_add" class="form-control" rows="3" placeholder="Enter local address"></textarea>
 						<div id="local_add_err" class="text-danger" style="display:none;"></div>
 					</div>
@@ -255,92 +255,92 @@
 				
 				<div class="col-md-6">
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Contact No.: <span style="color:red;">*</span></label>
-					<div class="col-sm-8">
+                  <label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Contact No.: <span style="color:red;">*</span></label>
+					<div class="col-sm-10">
 						<input type="text" name="phone_no" id="phone_no" class="form-control only_int" placeholder="Enter contact no.">
 						<div id="phone_no_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Other Contact No.:</label>
-					<div class="col-sm-8">
+                  <label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Other Contact No.:</label>
+					<div class="col-sm-10">
 						<input type="text" name="other_no" id="other_no" class="form-control only_int" placeholder="Enter contact no.">
 						<div id="other_no_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
                 
 				<div class="form-group">
-                  <label class="col-sm-3 control-label">Email ID:</label>
-					<div class="col-sm-8">
+                  <label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Email ID:</label>
+					<div class="col-sm-10">
 						<input type="text" name="email" id="email" class="form-control" placeholder="Enter email id">
 						<div id="email_err" class="text-danger" style="display:none;"></div>
 					</div>
                 </div>
                 
 				<div class="form-group">
-				  <div id="display_emp_image"></div>
+				  <div style="margin-left:15px;" id="display_emp_image"></div>
 				  <input type="hidden" id="old_emp_image">
-                  <label class="col-sm-3 control-label" for="exampleInputFile">Profile Image:</label>
-                  <div class="col-sm-8"><input type="file" name="emp_image" id="emp_image"></div>
+                  <label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label" for="exampleInputFile">Profile Image:</label>
+                  <div class="col-sm-10"><input type="file" name="emp_image" id="emp_image"></div>
                   <div id="emp_image_err"></div>
                 </div>
 				
-				<h5 style="    background-color: #888;    padding: 10px;    color: #fff;    margin: 30px 15px;">Bank Details</h5>
+				<h5 style="    background-color: #888;    padding: 10px;    color: #fff;    margin: 30px 0px;">Bank Details</h5>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Basic Salary: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Basic Salary: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="basic_salary" id="basic_salary" class="form-control only_text" placeholder="Enter Amount">
 							<div id="basic_salary_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">DA Percentange: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label  style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">DA Percentange: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="da_percentange" id="da_percentange" class="form-control only_text" placeholder="DA Percentange">
 							<div id="da_percentange_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">PA: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label  style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">PA: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="pa_amount" id="pa_amount" class="form-control only_text" placeholder="Enter Amount">
 							<div id="pa_amount_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-sm-3 control-label">PF No.: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label  style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">PF No.: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="pf_no" id="pf_no" class="form-control only_text" placeholder="Enter PF No.">
 							<div id="pf_no_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">ESIC No.: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label  style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">ESIC No.: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="esic_no" id="esic_no" class="form-control only_text" placeholder="Enter ESIC No.">
 							<div id="esic_no_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Bank Name: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label  style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Bank Name: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="bank_name" id="bank_name" class="form-control only_text" placeholder="Bank Name">
 							<div id="bank_name_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Bank A/C No: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label  style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Bank A/C No: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="bank_acc_no" id="bank_acc_no" class="form-control only_text" placeholder="Bank A/C No.">
 							<div id="bank_acc_no_err" class="text-danger" style="display:none;"></div>
 						</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Bank IFSC CODE: <span style="color:red;">*</span></label>
-						<div class="col-sm-8">
+					<label  style="margin-bottom:5px;text-align:left;" class="col-sm-12 control-label">Bank IFSC CODE: <span style="color:red;">*</span></label>
+						<div class="col-sm-10">
 							<input type="text" name="bank_ifsc_code" id="bank_ifsc_code" class="form-control only_text" placeholder="Bank IFSC CODE">
 							<div id="bank_ifsc_code_err" class="text-danger" style="display:none;"></div>
 						</div>
@@ -514,7 +514,7 @@ $(document).on('click','.edit',function(){
 				$('#other_no').val(response.data[0]['other_no']);
 				$('#email').val(response.data[0]['email']);
 				if(response.data[0]['emp_image'] != ''){
-					$('#display_emp_image').html('<img src="'+baseUrl+'assets/images/payroll/employees/'+response.data[0]['emp_image']+'"  width="150" height="80">').css('display','block');
+					$('#display_emp_image').html('<img src="'+baseUrl+'assets/images/payroll/employees/'+response.data[0]['emp_image']+'"  width="80" height="80">').css('display','block');
 					$('#old_emp_image').val(response.data[0]['emp_image']);
 				}
 				$('#basic_salary').val(response.data[0]['basic_salary']);

@@ -49,7 +49,7 @@
 										
 					<div class="col-sm-2 mb-3">
 						<select class="form-control" name="emp_sub_type" id="emp_sub_type">
-							<option value="">Employee Sub Type</option>
+							<option value="">Employee Sub Grade</option>
 						</select>
 						<div id="emp_sub_type_err" style="display:none; color:red;"></div>
 					</div>
@@ -61,21 +61,7 @@
 			    </form>
 		</div><!-- end box body -->
 		</div>
-		<div class="print-s-logo" style="float:left;padding:0px 0px 5px 0px;width:100%;margin-bottom:10px;">
-				<div class="text-center" style="float:left;">
-					<img class="pull-left" alt="" src="../images/shakuntala/shakuntala.png" height="40" />
-					<div class="print-s-name" >
-						<h4><b>Shakuntala Vidyalaya</b></h4>
-						<p>Ram Nagar Bhilai(C.G.)</p>
-					</div>
-					
-				</div>
-				<div class="text-right">
-					<h4 style="margin-bottom:0px;"><b>Enter salary data employee wise</b></h4>
-				</div>
-		</div>
-		
-	
+
 		<div class="box box-info">
             <div class="box-header no-print">
               <h3 class="box-title"><b>Enter salary data employee wise</b></h3>
@@ -85,7 +71,7 @@
 					<thead><tr>
 					<th>S.No.</th>
 					<th>School Name</th>
-					<th>Employee Type</th>
+					<th>Employee Grade</th>
 					<th>Employee Name</th>
 					<th>Month</th>
 					<th>Absent Day</th>
@@ -149,7 +135,7 @@ $(document).on('click','#search',function(){
 							'<td>'+value.et_name+' / '+value.sub_type_name+'</td>'+
 							'<td>'+value.emp_name+'</td>'+
 							'<td>'+month+'</td>'+
-							'<td><input type="text" data-max="<?php echo date('t');?>" data-emp_id="'+value.emp_id+'" value="'+value.absent+'" class="emp_attendance max_validation"></td>'+
+							'<td><input type="text" data-max="<?php echo date('t');?>" data-emp_id="'+value.emp_id+'" value="'+value.absent+'" class="emp_attendance max_validation form-control"></td>'+
 							'</tr>';
 					});
 					$('#employee_list').html(x);

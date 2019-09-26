@@ -1,6 +1,6 @@
 <div class="content-wrapper">
-<section class="content-header">
-      <h1>Employee Salary <small>Generate</small></h1>
+<section class="content-header" style="margin-bottom:10px;">
+      <h1>Employee Salary Generate</h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url().$this->uri->segment(1);?>/payroll/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Employee Salary</li>
@@ -23,8 +23,8 @@
 						<td><b>F/H Name</b></td><td>: <?php echo ucfirst($emp_details[0]['f_or_h_name']);?></td>
 						</tr>
 						<tr>
-						<td><b>Employeee ID</b></td><td>: <?php echo $emp_details[0]['emp_generated_id'];?></td>
-						<td><b>Employee Type</b></td><td>: <?php echo $emp_details[0]['emp_type'] .' / '.$emp_details[0]['sub_type_name'];?></td>
+						<td><b>Employee ID</b></td><td>: <?php echo $emp_details[0]['emp_generated_id'];?></td>
+						<td><b>Employee Grade</b></td><td>: <?php echo $emp_details[0]['emp_type'] .' / '.$emp_details[0]['sub_type_name'];?></td>
 						</tr>
 						<tr>
 						<td><b>POST</b></td><td>: <?php echo $emp_details[0]['post_name'];?></td>
@@ -97,10 +97,10 @@
 ?>   
  <form role="form" action="javascript:void(0);" class="form-horizontal" id="hostel_fee_form" method="POST">
     <div class="col-md-12">
-	<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">		
+	<div class="box box-success" style="position: relative; left: 0px; top: 0px;">		
 			<div class="box-header ui-sortable-handle" style="cursor: move;">
 			  <h3 class="box-title">Salary Generate</h3><hr></div>
-			<div class="box-body">
+			<div class="box-body" style="margin-top:-25px;">
 				<table class="table">
 					<thead>
 						<tr>

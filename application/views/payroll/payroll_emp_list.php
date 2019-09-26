@@ -2,7 +2,7 @@
 <section class="content-header" style="margin-bottom:10px;">
       <h1>Salary Generation</h1>
       <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>shakuntala/reception/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li><a href="<?php echo base_url().$this->uri->segment(1);?>/payroll/dashbord"><i class="fa fa-dashboard"></i>Home</a></li>
         <li class="active">Salary Generation</li>
       </ol>
     </section>
@@ -52,7 +52,7 @@
 					
 					<div class="col-sm-2 mb-3">
 						<select class="form-control" name="emp_sub_type" id="emp_sub_type">
-							<option value="">Select Employee Type</option>
+							<option value="">Select Employee Grade</option>
 						</select>
 						<div id="emp_sub_type_err" style="display:none; color:red;"></div>
 					</div>	
@@ -72,14 +72,14 @@
       		<div class="box-body">				
 				<table class="table">
 					<thead><tr>
-					<th>Sr. No.</th>
+					<th>S.No.</th>
 					<th>Employee Name</th>
 					<th>Employee ID</th>
 					<th>Post</th>
 					<th>Action</th>
 					</tr>
 					</thead>
-					<tbody id="employee_details"><tr><td colspan="4" class="text-center">Record not found.</td></tr></tbody>
+					<tbody id="employee_details"><tr><td colspan="5" class="text-center">Record not found.</td></tr></tbody>
 				</table>	
 			</div>
  		</div>

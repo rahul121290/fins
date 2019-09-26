@@ -51,7 +51,7 @@
 					
 						<div class="col-sm-2 mb-3">
 						<select class="form-control" name="emp_sub_type" id="emp_sub_type">
-							<option value="">Select Sub Type</option>
+							<option value="">Select Sub Grade</option>
 						</select>
 						<div id="emp_sub_type_err" style="display:none; color:red;"></div>
 					</div>
@@ -79,7 +79,7 @@
 			<div class="col-md-4" style="border-right:1px solid #ddd;width:33%;float:left;font-size:17px;">
 				</div>
 				
-				<div class="col-md-4" style="border-right:1px solid #ddd;width:33%;float:left;font-size:17px;">
+				<div class="col-md-4" style="width:33%;float:left;font-size:17px;">
 					<b style="color:#5d5c5c;">Total Generated Salary on <?php echo date('M')?>. Month</b><br>
 					<b>Rs. <?php echo $total_generated_amount[0]['net_salary'];?></b><b id="received_fee"></b>/-
 				</div>
@@ -111,8 +111,8 @@
 					<thead><tr>
 					<th>S.No.</th>
 					<th>Employee Name</th>
-					<th>Employee Type</th>
-					<th>POST</th>
+					<th>Employee Grade</th>
+					<th>Post</th>
 					<th>Payment Mode</th>
 					<th>Account Detail</th>
 					<th>Net Salary</th>
@@ -221,7 +221,7 @@ function salary_receipt(school,month,emp_type,emp_sub_type,pay_mode,receipt_no){
 				var win = window.open('', "myWindowName", "scrollbars=1,width=1200, height=600");
 				var x = '<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/bootstrap.min.css">'+
 						'<link rel="stylesheet" type="text/css" href="'+ baseUrl +'assets/css/custom-style.css">'+
-						'<div class="modal-content p-head-sec" ><style>@media print {.table tr td{padding:3px !important;font-size:13px !important;}.payroll-box-sec{border:2px solid #ddd !important;}}</style>';
+						'<div class="modal-content p-head-sec" style="border:0px;box-shadow:none;"><style>@media print {.table tr td{padding:3px !important;font-size:13px !important;}.payroll-box-sec{border:2px solid #ddd !important;}}</style>';
 			$.each(response.data,function(key,value){
 				x=x+'<div class="payroll-box" style="float:left;width:100%;padding:0px 30px 25px 30px;">'+
 				'<div class="payroll-header" style="float:left;width:100%;">';

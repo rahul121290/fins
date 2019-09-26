@@ -102,7 +102,7 @@
 	
 		<div class="box box-info">
             <div class="box-header">
-              <h3 class="box-title"><b>Select filters </b></h3>
+              <h3 class="box-title"><b>Shakuntala Vidyalaya (CBSE) Salary Data Sheet - September 2019-20</b></h3>
             </div>
       		<div class="box-body table-responsive p-sibling-report" id="DivIdToPrint">
 				<table class="table">
@@ -113,7 +113,7 @@
 					<th>Post</th>
 					<th>Basic</th>
 					<th>Abs</th>
-					<th>DA.%</th>
+					<th>DA%</th>
 					<th>DA</th>
 					<th>Gross Basic</th>
 					<th>PF(S)</th>
@@ -248,7 +248,7 @@ function printDiv(){
 			'<h4><b>Shakuntala Vidyalaya</b></h4>'+
 			'<p>Ram Nagar Bhilai(C.G.)</p>'+
 		'</div></div><div class="text-right">'+
-					'<h4><b>Employee Salary Sheet</b></h4>'+
+					'<h4><b>Shakuntala Vidyalaya (CBSE) Salary Data Sheet - September 2019-20</b></h4>'+
 				'</div></div>'+divToPrint.innerHTML+'</body></html>');
 	  newWin.document.close();
 	  setTimeout(function(){newWin.close();},10);
